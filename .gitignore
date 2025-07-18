@@ -1,0 +1,34 @@
+# Hugo output folder (generated site)
+public/
+resources/
+
+# Hugo cache files
+.cache/
+hugo_cache/
+hugo_stats.json
+.hugo_build.lock
+
+# Mac system files
+.DS_Store
+
+# Editor and IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Blogdown cache and RStudio files
+.Rhistory
+.RData
+.Rproj.user/
+
+# RStudio project files
+data-science-site.Rproj
+
+# Logs and temp files
+*.log
+*.tmp
+*.temp
+
+# R custom script files
+R/

@@ -1,0 +1,82 @@
+<table class="table schedule" style="max-width:100%">
+  <tbody>
+    {{- range .Site.Data.schedule.lessons }}
+    <tr>
+      {{- if .header }}
+
+      <td style="width:5%;text-align:center" class="mid-table-header">Week</td>
+      <td style="width:10%;text-align:left" class="mid-table-header">Date</td>
+      <td style="width:15%;text-align:left" class="mid-table-header">Title</td>
+      <td style="width:15%;text-align:left" class="mid-table-header">Goal</td>
+      <td style="width:10%;text-align:center" class="mid-table-header">
+        <a href="/assignments/problem-sets/">Assignment</a>
+      </td>
+      <td style="width:10%;text-align:center" class="mid-table-header">Due Date</td>
+      <td style="width:15%;text-align:left" class="mid-table-header">Homeworks</td>
+      <td style="width:10%;text-align:center" class="mid-table-header">
+        <a href="/weeks">Materials</a>
+      </td>
+
+      {{- else }}
+
+      <!-- Week -->
+      <td align="center" style="text-align:right">{{ .weeknum }}</td>
+
+      <!-- Date -->
+      <td align="left">{{ dateFormat "Jan 2" .date }}</td>
+
+      <!-- Title -->
+      <td style="text-align:left">{{ .title | markdownify }}</td>
+
+      <!-- Goal -->
+      <td style="text-align:left">{{ .goal }}</td>
+
+      <!-- Assignment -->
+      <td align="center">
+        {{- with .assignment.link }}
+        <a href="{{ $.Site.BaseURL }}/assignments/{{ . }}/">
+          <i class="fas fa-file"></i> {{ . }}
+        </a>
+        {{- else }}
+        <font color="f1f1f1"><i class="fas fa-file"></i></font>
+        {{- end }}
+      </td>
+
+      <!-- Due Date -->
+      <td align="center">
+        {{- with .assignment.due }}
+        {{ dateFormat "Jan 2" . }}
+        {{- else }}
+        <font color="f1f1f1">—</font>
+        {{- end }}
+      </td>
+
+      <!-- Homework -->
+      <td style="text-align:left">
+        {{- with .materials.homework }}
+        <a href="{{ $.Site.BaseURL }}/homeworks/{{ . }}/">
+          <i class="fas fa-file"></i> {{ . }}
+        </a>
+        <br>
+        {{- end }}
+        {{- with .materials.extra }}
+        <small>{{ . | markdownify }}</small>
+        {{- end }}
+      </td>
+
+      <!-- Material link -->
+      <td align="center">
+        {{- if .week }}
+        <a href="{{ $.Site.BaseURL }}/weeks/{{ .week }}/" title="Class Materials">
+          <i class="fas fa-chalkboard-teacher fa-lg"></i>
+        </a>
+        {{- else }}
+        <font color="f1f1f1"><i class="fas fa-chalkboard-teacher fa-lg"></i></font>
+        {{- end }}
+      </td>
+
+      {{- end }}
+    </tr>
+    {{- end }}
+  </tbody>
+</table>

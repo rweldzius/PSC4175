@@ -1,0 +1,8 @@
+---
+title: "Schedule"
+slug: schedule
+summary: "Schedule of the PSC 4175 semester with readings, due dates, and links to materials."
+---
+
+You can find the schedule for the semester here. Below is the complete list of titles, assignemts & due dates, homeworks and links to the "Materials" for each week - the videos and slides of the lectures included.
+`r blogdown::shortcode("schedule")`
