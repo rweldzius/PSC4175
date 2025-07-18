@@ -26,6 +26,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev
 
+      - name: Cache R packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.local/share/R
+          key: r-${{ runner.os }}-${{ hashFiles('**/*.R', '**/*.Rmd', '**/DESCRIPTION') }}
       - name: Install R packages
         run: |
           install.packages("remotes")
@@ -39,7 +44,7 @@ jobs:
 
       - name: Build the site with blogdown
         run: |
-          blogdown::build_site(render_rmd = TRUE)
+          blogdown::build_site(build_rmd = TRUE)
         shell: Rscript {0}
 
       - name: Upload public dir as artifact
