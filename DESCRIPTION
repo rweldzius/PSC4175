@@ -1,0 +1,22 @@
+Package: data-science-site
+Version: 1.0
+Imports:
+  rmarkdown,
+  knitr,
+  tidyverse,
+  plotly,
+  scales,
+  tidymodels,
+  modelr,
+  lubridate,
+  readr,
+  wordcloud,
+  tidytext,
+  broom,
+  textdata,
+  blogdown,
+  xaringan,
+  metathis,
+  fontawesome,
+  xaringanExtra,
+  magick
