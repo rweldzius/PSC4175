@@ -1,0 +1,230 @@
+---
+title: "Binary Predictors and Multiple Regression"
+subtitle: "Homework 11"
+author: "Prof. Weldzius"
+institute: "Villanova University"
+date: 2025-07-24
+Due_Date: "2026-06-02 by 11:59PM"
+output: html_document
+---
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>In this section we’re going to continue fitting regressions to the training data and
+testing the predictions against the testing data. We’ll include additional continuous variables. We’re also going to add some new elements. In particular, We’ll be using independent variables or predictor variables that are binary or categorical.</p>
+<p>We’ll need the same libraries as last week:</p>
+<pre class="r"><code>library(tidyverse)
+library(plotly)
+library(scales)</code></pre>
+<p>And the same dataset, which includes data on movies released since 1980.</p>
+<pre class="r"><code>mv&lt;-readRDS(&quot;../Data/mv.Rds&quot;)%&gt;%
+  filter(!is.na(budget))%&gt;%
+  mutate(log_gross=log(gross),
+         log_budget = log(budget))%&gt;%
+  mutate(bechdel_bin=ifelse(bechdel_score==3,1,0))%&gt;%
+  mutate(bechdel_factor=recode_factor(bechdel_bin,
+                                      `1`=&quot;Pass&quot;,
+                                      `0`=&quot;Fail&quot;,
+                                      ))</code></pre>
+<pre><code>## Error in gzfile(file, &quot;rb&quot;): cannot open the connection</code></pre>
+</div>
+<div id="a-brief-digression-the-bechdel-test" class="section level2">
+<h2>A Brief Digression: The Bechdel Test</h2>
+<p>The <a href="https://en.wikipedia.org/wiki/Bechdel_test">Bechdel test</a> was first made famous by Alison Bechdel in 1985– Bechdel credited the idea to Liz Wallace and her reading of Virginia Woolf. It asks three questions about a movie:</p>
+<ol style="list-style-type: decimal">
+<li>Does it have two women in it?</li>
+<li>Who talk to each other?</li>
+<li>About something other than a man?</li>
+</ol>
+<p>The test sets an unbelievably low bar, and yet a remarkable number of movies don’t pass it. One excuse sometimes used by filmmakers is that movie audiences tend to be young and male, and so favor movies that don’t necessarily pass this test. However, a study by CAA and shift7 called this logic into question:</p>
+<p><a href="https://www.nytimes.com/2018/12/11/movies/creative-artists-agency-study.html?smtyp=cur&amp;smid=tw-nytimesarts">A study indicates that female-led movies make more money thatn those that are not.</a></p>
+<p><a href="https://shift7.com/media-research">And here’s the study</a>.</p>
+<p>Let’s see if we can replicate their results in this data. First of all, what proportion of these movies made since 2000 pass the Bechdel test?</p>
+<pre class="r"><code>mv%&gt;%
+  group_by(bechdel_bin)%&gt;%
+  count()</code></pre>
+<pre><code>## Error: object &#39;mv&#39; not found</code></pre>
+<p>A majority, but 873 (873!!) movies did not have two female characters that spoke to each other about anything other than a man.</p>
+<p>Let’s see if the contention of movie execs about earning power holds up.</p>
+<pre class="r"><code>mv%&gt;%
+  mutate(budget_level=ntile(budget,n=5))%&gt;%
+  group_by(budget_level,bechdel_factor)%&gt;%
+  summarize(mean_gross=mean(gross,na.rm=TRUE))%&gt;%
+  drop_na()%&gt;%
+  ggplot(aes(x=budget_level,y=mean_gross,fill=bechdel_factor))+
+  geom_col(position=&quot;dodge&quot;)+
+  scale_y_continuous(labels=dollar_format())+
+  ylab(&quot;Gross Earnings&quot;)+xlab(&quot;Size of Movie Budget&quot;)+
+  scale_fill_discrete(name=&quot;Passed Bechdel Test&quot;)+
+  theme_minimal()+
+  theme(legend.position = &quot;bottom&quot;)</code></pre>
+<pre><code>## Error: object &#39;mv&#39; not found</code></pre>
+<p>Nope. At every budget level, movies that pass the Bechdel test make more money, not less.</p>
+</div>
+<div id="regression-with-a-binary-variable" class="section level2">
+<h2>Regression with a binary variable</h2>
+<p>Let’s see if we can use regression to obtain a similar result. The next variable I want to include is the Bechdel variable, which is a binary variable set to “1” if the movie passes the Bechdel test.</p>
+<pre class="r"><code>mv%&gt;%
+  group_by(bechdel_bin)%&gt;%
+  summarize(count=n())%&gt;%
+  mutate(`Proportion`=count/sum(count))%&gt;%
+  arrange(-Proportion)</code></pre>
+<pre><code>## Error: object &#39;mv&#39; not found</code></pre>
+</div>
+<div id="regression" class="section level2">
+<h2>Regression</h2>
+<p>Next, I add the variable <code>bechdel_factor</code> to the formula. Recall from the previous lecture that we ended with a multiple regression model in which we predicted gross by the budget and the IMDB score.</p>
+<pre class="r"><code>mBech &lt;- lm(log_gross ~ log_budget + score + bechdel_factor,mv)</code></pre>
+<pre><code>## Error in eval(mf, parent.frame()): object &#39;mv&#39; not found</code></pre>
+<pre class="r"><code>summary(mBech)</code></pre>
+<pre><code>## Error: object &#39;mBech&#39; not found</code></pre>
+<p>The variable <code>bechdel_factor</code> is now added to our formula. Note that, because it is a binary categorical variable, we only have one value for it. This is because the regression is comparing a movie that fails the Bechdel test to one that passes it. Thus we can think of the coefficient -0.219 as the difference between a movie that passes and fails the test – i.e., movies that fail the test gross less than those that pass it. Note that this relationship holds even AFTER controlling for budget and IMDB score.</p>
+</div>
+<div id="calculating-model-fit-with-rmse" class="section level2">
+<h2>Calculating model fit with RMSE</h2>
+<p>Recall how to calculate the root mean square error (RMSE). We:
+1. Estimate our model
+2. Calculate predicted outcomes
+3. Calculate errors (predicted - true values)
+4. Square the errors
+5. Take the average of the squared errors
+6. Take the square root of this average</p>
+<pre class="r"><code>e &lt;- resid(mBech)</code></pre>
+<pre><code>## Error: object &#39;mBech&#39; not found</code></pre>
+<pre class="r"><code>se &lt;- e^2</code></pre>
+<pre><code>## Error: object &#39;e&#39; not found</code></pre>
+<pre class="r"><code>mse &lt;- mean(se)</code></pre>
+<pre><code>## Error: object &#39;se&#39; not found</code></pre>
+<pre class="r"><code>rmse &lt;- sqrt(mse)</code></pre>
+<pre><code>## Error: object &#39;mse&#39; not found</code></pre>
+<pre class="r"><code>rmse</code></pre>
+<pre><code>## Error: object &#39;rmse&#39; not found</code></pre>
+<p>But we don’t want to calculate this on the full data. Instead, we rely on cross validation to get a more accurate measure of our model’s fit. Also! Remember that we are interested in comparing how good our model performs with different combinations of predictors. Does the Bechdel data actually help us?</p>
+<pre class="r"><code>set.seed(123)
+mvAnalysis &lt;- mv %&gt;%
+  select(bechdel_factor,score,log_budget,log_gross) %&gt;%
+  drop_na()</code></pre>
+<pre><code>## Error: object &#39;mv&#39; not found</code></pre>
+<pre class="r"><code>cvRes &lt;- NULL
+
+for(i in 1:100) {
+  inds &lt;- sample(1:nrow(mvAnalysis),size = round(nrow(mvAnalysis)*.75),replace = F) # Set training to 75% of the data
+  train &lt;- mvAnalysis %&gt;% slice(inds)
+  test &lt;- mvAnalysis %&gt;% slice(-inds)
+  
+  # Three models of increasing complexity
+  m1 &lt;- lm(log_gross ~ log_budget,train)
+  m2 &lt;- lm(log_gross ~ log_budget + score,train)
+  m3 &lt;- lm(log_gross ~ log_budget + score + bechdel_factor,train)
+  
+  # Calculate RMSE for each
+  cvRes &lt;- test %&gt;%
+    mutate(pred1 = predict(m1,newdata = test),
+           pred2 = predict(m2,newdata = test),
+           pred3 = predict(m3,newdata = test)) %&gt;%
+    summarise(rmse1 = sqrt(mean((log_gross - pred1)^2,na.rm=T)),
+              rmse2 = sqrt(mean((log_gross - pred2)^2,na.rm=T)),
+              rmse3 = sqrt(mean((log_gross - pred3)^2,na.rm=T))) %&gt;%
+    mutate(cvIndex = i) %&gt;%
+    bind_rows(cvRes)
+  
+}</code></pre>
+<pre><code>## Error: object &#39;mvAnalysis&#39; not found</code></pre>
+<pre class="r"><code>cvRes %&gt;%
+  select(-cvIndex) %&gt;%
+  summarise_all(mean) %&gt;%
+  gather(model,rmse) %&gt;%
+  ggplot(aes(x = rmse,y = reorder(model,rmse))) + 
+  geom_bar(stat = &#39;identity&#39;)</code></pre>
+<pre><code>## Error in UseMethod(&quot;select&quot;): no applicable method for &#39;select&#39; applied to an object of class &quot;NULL&quot;</code></pre>
+<pre class="r"><code>cvRes %&gt;%
+  select(-cvIndex) %&gt;%
+  gather(model,rmse) %&gt;%
+  ggplot(aes(x = rmse,fill = model)) + 
+  geom_density(alpha = .3)</code></pre>
+<pre><code>## Error in UseMethod(&quot;select&quot;): no applicable method for &#39;select&#39; applied to an object of class &quot;NULL&quot;</code></pre>
+<pre class="r"><code>cvRes %&gt;%
+  summarise(diff12 = round(mean(rmse1 &gt; rmse2),3),
+            diff13 = round(mean(rmse1 &gt; rmse3),3),
+            diff23 = round(mean(rmse2 &gt; rmse3),3)) %&gt;%
+  as.data.frame()</code></pre>
+<pre><code>## Error in UseMethod(&quot;summarise&quot;): no applicable method for &#39;summarise&#39; applied to an object of class &quot;NULL&quot;</code></pre>
+<p>So we improve the model fit by adding the Bechdel test scores. We are 99.9% certain that model 2 is an improvement over model 1, 99.9% sure that model 3 is an improvement over model 1, and 87% sure that model 3 is an improvement over model 2.</p>
+</div>
+<div id="regression-with-a-categorical-variable" class="section level2">
+<h2>Regression with a categorical variable</h2>
+<p>We can also include categorical variables (not just binary variables) in our model using much the same process. Let’s see if a movie’s <a href="https://www.the-numbers.com/market/mpaa-ratings">MPAA Rating</a> is related to its gross.</p>
+<p>What numbers of movies have different ratings?</p>
+<pre class="r"><code>mv%&gt;%
+  group_by(rating)%&gt;%
+  count()</code></pre>
+<pre><code>## Error: object &#39;mv&#39; not found</code></pre>
+</div>
+<div id="regressing-model-test" class="section level2">
+<h2>Regressing + Model Test</h2>
+<p>Let’s analyze!</p>
+<pre class="r"><code>summary(m2 &lt;- lm(log_gross ~ log_budget + score + rating,mv))</code></pre>
+<pre><code>## Error in eval(mf, parent.frame()): object &#39;mv&#39; not found</code></pre>
+<p>How to interpret this output? Again, we want to be aware of which category is not being included, which is the <em>reference</em> to the rest of the rating categories. As you can see, this is the “G” movie rating (i.e., general audiences). As we can see, G-rated movies earn more than EVERY OTHER TYPE OF MOVIE.</p>
+<p>Note that we might want to drop certain rarely occurring categories. For example, we know from above that there are only 6 NC-17 movies, 2 TV-MA movies, and 7 Unrated movies. Furthermore, we can change the reference category to something different with the <code>factor()</code> command. Let’s do this now:</p>
+<pre class="r"><code>mvAnalysis &lt;- mv %&gt;%
+  select(log_gross,log_budget,score,rating) %&gt;%
+  filter(!rating %in% c(&#39;NC-17&#39;,&#39;TV-MA&#39;,&#39;Unrated&#39;)) %&gt;%
+  drop_na() %&gt;%
+  mutate(rating = factor(rating,levels = c(&#39;R&#39;,&#39;PC-13&#39;,&#39;PG&#39;,&#39;G&#39;,&#39;Not Rated&#39;)))</code></pre>
+<pre><code>## Error: object &#39;mv&#39; not found</code></pre>
+<pre class="r"><code>summary(m3 &lt;- lm(log_gross ~ log_budget + score + rating,mvAnalysis))</code></pre>
+<pre><code>## Error in eval(mf, parent.frame()): object &#39;mvAnalysis&#39; not found</code></pre>
+<p>As we can see, every type of movie earns <strong>more</strong> than rated-R movies with the exception of Not Rated movies, which earn less.</p>
+<p>Let’s evaluate RMSE again via cross validation.</p>
+<pre class="r"><code>cvRes2 &lt;- NULL
+
+for(i in 1:100) {
+  inds &lt;- sample(1:nrow(mvAnalysis),size = round(nrow(mvAnalysis)*.75),replace = F) # Set training to 75% of the data
+  train &lt;- mvAnalysis %&gt;% slice(inds)
+  test &lt;- mvAnalysis %&gt;% slice(-inds)
+  
+  # Three models of increasing complexity
+  m1 &lt;- lm(log_gross ~ log_budget,train)
+  m2 &lt;- lm(log_gross ~ log_budget + score,train)
+  m3 &lt;- lm(log_gross ~ log_budget + score + rating,train)
+  
+  # Calculate RMSE for each
+  cvRes2 &lt;- test %&gt;%
+    mutate(pred1 = predict(m1,newdata = test),
+           pred2 = predict(m2,newdata = test),
+           pred3 = predict(m3,newdata = test)) %&gt;%
+    summarise(rmse1 = sqrt(mean((log_gross - pred1)^2,na.rm=T)),
+              rmse2 = sqrt(mean((log_gross - pred2)^2,na.rm=T)),
+              rmse3 = sqrt(mean((log_gross - pred3)^2,na.rm=T))) %&gt;%
+    mutate(cvIndex = i) %&gt;%
+    bind_rows(cvRes2)
+  
+}</code></pre>
+<pre><code>## Error: object &#39;mvAnalysis&#39; not found</code></pre>
+<pre class="r"><code>cvRes2 %&gt;%
+  select(-cvIndex) %&gt;%
+  summarise_all(mean) %&gt;%
+  gather(model,rmse) %&gt;%
+  ggplot(aes(x = rmse,y = reorder(model,rmse))) + 
+  geom_bar(stat = &#39;identity&#39;)</code></pre>
+<pre><code>## Error in UseMethod(&quot;select&quot;): no applicable method for &#39;select&#39; applied to an object of class &quot;NULL&quot;</code></pre>
+<pre class="r"><code>cvRes2 %&gt;%
+  select(-cvIndex) %&gt;%
+  gather(model,rmse) %&gt;%
+  ggplot(aes(x = rmse,fill = model)) + 
+  geom_density(alpha = .3)</code></pre>
+<pre><code>## Error in UseMethod(&quot;select&quot;): no applicable method for &#39;select&#39; applied to an object of class &quot;NULL&quot;</code></pre>
+<pre class="r"><code>cvRes2 %&gt;%
+  summarise(diff12 = mean(rmse1 &gt; rmse2),
+            diff13 = mean(rmse1 &gt; rmse3),
+            diff23 = mean(rmse2 &gt; rmse3))</code></pre>
+<pre><code>## Error in UseMethod(&quot;summarise&quot;): no applicable method for &#39;summarise&#39; applied to an object of class &quot;NULL&quot;</code></pre>
+<p>We are now finding that adding the rating <em>reduces</em> the fit of our model, as evidence by a higher RMSE! Why might this be the case?</p>
+</div>
+<div id="last-note" class="section level2">
+<h2>Last Note</h2>
+<p>Remember that we need to carefully distinguish between categorical variables and continuous variables when including them in our models. If we’re using categorical variables we’ll need to pre-process the data in order to let the model know that these variables should be included as categorical variables, with an excluded reference category.</p>
+</div>

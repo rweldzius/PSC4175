@@ -39,9 +39,24 @@ pagination:
 enableEmoji: true
 footnotereturnlinkcontents: <sup>^</sup>
 
+
+
+module:
+  mounts:
+    - source: 'assets'
+      target: 'assets'
+    - source: 'static'
+      target: 'assets'
+
+
+
 # ----------------
 # Output options
 # ----------------
+
+
+
+
 outputs:
   home:
     - HTML

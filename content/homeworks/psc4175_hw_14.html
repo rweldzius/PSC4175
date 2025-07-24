@@ -1,0 +1,630 @@
+---
+title: "Clustering Part 1"
+subtitle: "Homework 14"
+author: "Prof. Weldzius"
+institute: "Villanova University"
+date: 2025-07-24
+Due_Date: "2026-06-02 by 11:59PM"
+output: html_document
+---
+
+<link href="/data-science-site/rmarkdown-libs/htmltools-fill/fill.css" rel="stylesheet" />
+<script src="/data-science-site/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/data-science-site/rmarkdown-libs/plotly-binding/plotly.js"></script>
+<script src="/data-science-site/rmarkdown-libs/typedarray/typedarray.min.js"></script>
+<script src="/data-science-site/rmarkdown-libs/jquery/jquery.min.js"></script>
+<link href="/data-science-site/rmarkdown-libs/crosstalk/css/crosstalk.min.css" rel="stylesheet" />
+<script src="/data-science-site/rmarkdown-libs/crosstalk/js/crosstalk.min.js"></script>
+<link href="/data-science-site/rmarkdown-libs/plotly-htmlwidgets-css/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="/data-science-site/rmarkdown-libs/plotly-main/plotly-latest.min.js"></script>
+
+
+<p>The last few times we have been talking about using a regression to characterize a relationship between variables. As we saw, by making a few assumptions, we can use either linear or logistic regression to summarize not only how variables are related to one another, but also how to use that relationship to predict out-of-sample (or future) observations.</p>
+<p>We are now going to introduce a different algorithm - the <code>kmeans</code> algorithm. This specific algorithm is part of a larger class of algorithms/models that have been designed to identify relationships within the data. This is sometimes called “clustering” or “segmentation”. The goal is to figure out clusters/segments of data that are “similar” based on observable features.</p>
+<p>The goal is to therefore try to figure out an underlying structure in our data. That is, we want to use the data to learn about which observations are more or less similar. Because I do not know what the true relationship is, what we are doing is sometimes called “Unsupervised” learning. In contrast, “supervised” learning is when we are actively bringing information in and “supervising” the characterization being done. We will see an example of this in a few lectures, but for now we are going to start with an unsupervised approach.</p>
+<p>Efforts to characterize the relationship within data to determine which observations cluster together (or are segmented) is often an important first step for determining the empirical regularity of interest.</p>
+<p>This is what dating sites (e.g., e-harmony) do when they try to figure out which individuals are more or less similar. This is what Facebook and Tik-Tok does when it tries to determine what to show you in your feed. This is what Netflix does when recommending your next series to watch. Personality tests and profiles are another example of this. These tools are also used in marketing to identify likely consumers and by political campaigns to figure out which voters should be targeted and perhaps even how. What they actually do is obviously more complicated, but the basic idea is very, very similar to what we are going to learn today.</p>
+<div id="measurement-is-sometimes-discovery" class="section level1">
+<h1>Measurement is Sometimes Discovery</h1>
+<p>One thing that will become quickly apparent is that how we measure something can have profound implications on what it means - especially if we have no theory to guide us in the organization/analysis of data. Sometimes data exploration = measurement = discovery.</p>
+<p>It is also important to note that nothing we are doing is causal – the algorithm is silent as to why the relationships exist. It is equally important to note that the analysis is descriptive, not predictive. This is a critical point with profound implications – if you identify segments in your data and they take proactive steps using that information, the steps you take may affect how future data is clustered.</p>
+<ul>
+<li>Clustering algorithm: discover groups of observations ``similar” to each other.</li>
+<li>Unsupervised learning vs. Supervised learning.</li>
+<li>Descriptive and exploratory data analysis.</li>
+</ul>
+<p>The algorithm we are going to use is one of the earliest implementations of clustering and it is very simple in what it does. There are many more complicated procedures and models, but for the purposes of illustrating the general idea (and also the generic limitations of this kind of “unsupervised learning”) it is easiest to start with what is perhaps one of the simplest clustering methods.</p>
+<p>The procedure used by the k-means clustering algorithm consists of several steps”</p>
+<ol style="list-style-type: decimal">
+<li>The data scientist chooses the number of clusters/segments they wish to identify in the data of interest. The number of clusters is given by <code>K</code> – hence the name <code>kmeans</code>.</li>
+<li>The computer randomly chooses initial centroids of <code>K</code> clusters in the multidimensional space (where the number of dimensions is the number of variables).</li>
+<li>Given the choice of <code>K</code> centroids, the computer assigns each observation to the cluster whose centroid is the closest (in terms of Euclidian distance).<br />
+</li>
+<li>Given that assignment, the computer computes a new centroid for each cluster using the within-cluster mean of the corresponding variable.</li>
+<li>Repeat Steps 3 and 4 until the cluster assignments no longer change.</li>
+</ol>
+<p>So, if there are two variables, say <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> and we are fitting 2 centroids, the computer will begin by randomly choosing a “centroid” for each cluster – which is simply a point in <span class="math inline">\((x,y)\)</span>. Say <span class="math inline">\((x_1,y_1)\)</span> for cluster 1 and <span class="math inline">\((x_2,y_2)\)</span> for cluster 2. Then given this choice, the computer figures out which centroid is “closest” to each data point. So for data point <span class="math inline">\(i\)</span> that is located at <span class="math inline">\((x_i,y_i\)</span>) the computer computes the distance from each.</p>
+<p>Given this, the Euclidean distance to cluster 1 is simply:
+<span class="math display">\[ (x_1 -x_i)^2 + (y_1 - y_i)^2 \]</span>
+And the Euclidean distance to cluster 2:
+<span class="math display">\[ (x_2 -x_i)^2 + (y_2 - y_i)^2 \]</span>
+(Note that if we have more variables we just include them in a similar fashion.) Having calculcated the distance to each of the <span class="math inline">\(K\)</span> centroids – here 2 – we now assign each datapoint to either cluster “1” or “2” depending on which is smaller. After doing this for every data point, we then calculate a new centroid by taking the average of all of the points in each cluster in each variable. So if there are <span class="math inline">\(n_1\)</span> observations allocated to cluster 1 and <span class="math inline">\(n_2\)</span> observations allocated to cluster 2 we would compute the new centroids using:</p>
+<p><span class="math display">\[x_1 = \sum_i^{n_1} \frac{x_i}{n_1}\]</span>
+<span class="math display">\[y_1 = \sum_i^{n_1} \frac{y_i}{n_1}\]</span>
+<span class="math display">\[x_2 = \sum_i^{n_2} \frac{x_i}{n_2}\]</span>
+<span class="math display">\[y_2 = \sum_i^{n_2} \frac{y_i}{n_2}\]</span></p>
+<p>Now, using these new values for <span class="math inline">\((x_1,y_1)\)</span> for the centroid of cluster 1 and <span class="math inline">\((x_2,y_2)\)</span> for the centroid of cluster 2 we reclassify all the observations to allocate each observation to the cluster with the closest centroid. We then recalculate the centroid for each cluster after this reallocation and then we iterate over these two steps until no data points change their cluster assignment.</p>
+<p>Given this, how sensitive is this to the scale of the variables? What does that imply?</p>
+</div>
+<div id="applications-to-elections-and-election-night" class="section level1">
+<h1>Applications to Elections and Election Night</h1>
+<p>Predicting elections requires using votes that are counted to make predictions for “similar counties.” There are lots of ways to determine similarity based on past voting behavior (and demographics).</p>
+<p>Entire books have been written that try to determine how many “Americas” there are. For example…</p>
+<p><img src="https://m.media-amazon.com/images/I/51XYE1wP3OL.jpg" style="width:30.0%" /></p>
+<p>And many “quizzes” are produced to determine what type of voter you are (more on this later!). For example:
+<a href="https://www.nytimes.com/interactive/2021/09/08/opinion/republicans-democrats-parties.html">quiz from the NY Times</a>.</p>
+<p>These are all products that are based on various types of clustering analyses that try to detect pattern in data.</p>
+<p>So let’s start simple and think about the task of predicting what is going to happen in a state on Election Night. To do so we want to segment the state into different politically relevant regions so that we can track how well candidates are doing. Or, if you are working for a candidate, which counties should be targeted in get-out-the-vote efforts.</p>
+<p>We are going to be working with two datasets. A dataset of votes cast in Florida counties in the 2016 election (<code>FloridaCountyData.Rds</code>) and also a dataset of the percentage of votes cast for Democratic and Republican presidential candidates in counties (or towns) for the 2004, 2008, 2012, 2016, and 2020 elections (<code>CountyVote2004_2020.Rds</code>).</p>
+<p>To begin, let’s start with Florida in 2016.</p>
+<pre class="r"><code>library(tidyverse)
+library(tidymodels)
+library(plotly)
+
+dat &lt;- read_rds(file=&quot;https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/FloridaCountyData.Rds&quot;)
+glimpse(dat)</code></pre>
+<pre><code>## Rows: 67
+## Columns: 15
+## $ fips_code          &lt;int&gt; 12001, 12003, 12005, 12007, 12009, 12011, 12013, 12…
+## $ county_name        &lt;chr&gt; &quot;Alachua&quot;, &quot;Baker&quot;, &quot;Bay&quot;, &quot;Bradford&quot;, &quot;Brevard&quot;, &quot;…
+## $ eligible_voters    &lt;int&gt; 173993, 15092, 118344, 16163, 411191, 1141360, 8620…
+## $ party_stratum      &lt;int&gt; 2, 5, 5, 5, 4, 1, 5, 5, 5, 5, 5, 5, 1, 5, 5, 3, 4, …
+## $ party_stratum_name &lt;chr&gt; &quot;Mod Democrat&quot;, &quot;High Republican&quot;, &quot;High Republican…
+## $ geo_stratum_name   &lt;chr&gt; &quot;North/Panhandle&quot;, &quot;North/Panhandle&quot;, &quot;North/Panhan…
+## $ Trump              &lt;int&gt; 46834, 10294, 62194, 8913, 181848, 260951, 4655, 60…
+## $ Clinton            &lt;int&gt; 75820, 2112, 21797, 2924, 119679, 553320, 1241, 334…
+## $ Johnson            &lt;int&gt; 4059, 169, 2652, 177, 9451, 11078, 124, 1946, 1724,…
+## $ Stein              &lt;int&gt; 1507, 30, 562, 47, 2708, 5094, 25, 567, 480, 571, 7…
+## $ geo_strata         &lt;fct&gt; North/Panhandle, North/Panhandle, North/Panhandle, …
+## $ Total2012          &lt;int&gt; 128569, 12634, 87449, 12098, 314744, 831950, 6081, …
+## $ Total2016          &lt;int&gt; 128220, 12605, 87205, 12061, 313686, 830443, 6045, …
+## $ PctTrump           &lt;dbl&gt; 0.3652628, 0.8166601, 0.7131931, 0.7389934, 0.57971…
+## $ PctClinton         &lt;dbl&gt; 0.5913274, 0.1675526, 0.2499513, 0.2424343, 0.38152…</code></pre>
+<p>The first task that we face as data scientists is to determine which variables are relevant for clustering. Put differently, which variables define the groups we are trying to find. <code>kmeans</code> is a very simple algorithm and it assumes that every included variable is equally important for the clustering that is recovered. As a result, if you include only garbage/irrelevant data the relationships you find will also be garbage. The alogorithm is unsupervised in that it has no idea which variables are more or less valuable to what you are trying to find. It is simply trying to find how the data clusters together given the data you have given it! It cannot evaluate the quality of the data you provide.</p>
+<p>As a result, when doing <code>kmeans</code> we often start with simple visualization around data that we think is likely to be of interest. To make it interactive we can again use <code>plotly</code> package and include some <code>text</code> information in the <code>ggplot</code> <code>aes</code>thetic. We will also clean up the labels and override the default of scientific notation. We will also change the name of the legend to make it descriptive and interpretable.</p>
+<pre class="r"><code>gg&lt;- dat %&gt;%
+    ggplot(aes(x = Trump, y = Clinton, color = geo_strata,
+               text=paste(county_name))) +
+  geom_point(alpha = 0.3) +
+  scale_x_continuous(labels=comma) +
+  scale_y_continuous(labels=comma) +
+  labs(x=&quot;Number of Trump Votes&quot;,
+       y=&quot;Number of Clinton Votes&quot;,
+       title=&quot;Florida County Votes in 2016&quot;,
+       color = &quot;Region&quot;)
+  
+ggplotly(gg,tooltip = &quot;text&quot;)</code></pre>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-1" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"data":[{"x":[60218,54456,105423,6778,2996,5242,6195,58970,29565,102188,191551,13775,107833,9356,157430,124438,52730],"y":[33445,22789,61085,3781,1271,2149,4615,31795,14937,62838,124908,5101,62041,3959,117433,97870,22638],"text":["Charlotte","Citrus","Collier","DeSoto","Glades","Hardee","Hendry","Hernando","Highlands","Lake","Lee","Levy","Marion","Okeechobee","Polk","Sarasota","Sumter"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":0.29999999999999999,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(248,118,109,1)"}},"hoveron":"points","name":"Gulf Cst/Mid FL","legendgroup":"Gulf Cst/Mid FL","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[260951,333999,21904,272402],"y":[553320,624146,18971,374673],"text":["Broward","Miami-Dade","Monroe","Palm Beach"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(163,165,0,1)","opacity":0.29999999999999999,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(163,165,0,1)"}},"hoveron":"points","name":"Miami/Gold Coast","legendgroup":"Miami/Gold Coast","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[46834,10294,62194,8913,4655,74963,20368,5822,211672,88808,33850,4125,6728,6740,5329,3443,7483,14257,3930,2809,53821,2543,4851,34266,71893,22138,88684,65339,14287,6930,4568,10512,25756,8637],"y":[75820,2112,21797,2924,1241,27822,7601,1270,205704,57461,22026,1744,15020,1458,1720,1904,853,6397,3541,518,92068,651,3526,10869,23780,10094,43099,18464,3964,2152,1014,4348,6876,2264],"text":["Alachua","Baker","Bay","Bradford","Calhoun","Clay","Columbia","Dixie","Duval","Escambia","Flagler","Franklin","Gadsden","Gilchrist","Gulf","Hamilton","Holmes","Jackson","Jefferson","Lafayette","Leon","Liberty","Madison","Nassau","Okaloosa","Putnam","St. Johns","Santa Rosa","Suwannee","Taylor","Union","Wakulla","Walton","Washington"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,191,125,1)","opacity":0.29999999999999999,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,191,125,1)"}},"hoveron":"points","name":"North/Panhandle","legendgroup":"North/Panhandle","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[181848,48620,53204,195216,50301,70289,109443,143007],"y":[119679,29043,30185,329894,85458,66881,105914,109091],"text":["Brevard","Indian River","Martin","Orange","Osceola","St. Lucie","Seminole","Volusia"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,176,246,1)","opacity":0.29999999999999999,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,176,246,1)"}},"hoveron":"points","name":"Orlando/Cent Atl","legendgroup":"Orlando/Cent Atl","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[266870,101944,142101,239201],"y":[307896,71224,90142,233701],"text":["Hillsborough","Manatee","Pasco","Pinellas"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(231,107,243,1)","opacity":0.29999999999999999,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(231,107,243,1)"}},"hoveron":"points","name":"Tampa Bay Area","legendgroup":"Tampa Bay Area","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.762557077625573,"r":7.3059360730593621,"b":40.182648401826498,"l":66.484018264840202},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Florida County Votes in 2016","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-14029.799999999999,350571.79999999999],"tickmode":"array","ticktext":["0","100,000","200,000","300,000"],"tickvals":[0,100000,200000,300000],"categoryorder":"array","categoryarray":["0","100,000","200,000","300,000"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Number of Trump Votes","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-30663.400000000001,655327.40000000002],"tickmode":"array","ticktext":["0","200,000","400,000","600,000"],"tickvals":[0,200000,400000.00000000006,600000],"categoryorder":"array","categoryarray":["0","200,000","400,000","600,000"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Number of Clinton Votes","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"Region","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"10db735e777f7":{"x":{},"y":{},"colour":{},"text":{},"type":"scatter"}},"cur_data":"10db735e777f7","visdat":{"10db735e777f7":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>So this suggests that counties with more Clinton votes tend to covary with counties with more Trump voters. Obviously. So we have discovered that there are more votes for both candidates in larger counties. So if we were to cluster based on this we would essentially find groups based on population size. Not useful.</p>
+<p>So maybe we should look at the percentage of votes rather than the number of votes. Let’s see. Again let’s improve the labels and axes and make it interactive using <code>plotly</code> to show how the code differs from the default syntax above.</p>
+<pre class="r"><code>gg &lt;- dat %&gt;% 
+  ggplot(aes(PctTrump, PctClinton, color = geo_strata,
+               text=paste(county_name))) +
+  geom_point(alpha = 0.3) +
+  scale_y_continuous(limits = c(0,1),labels = scales::percent_format(accuracy = 1)) + 
+  scale_x_continuous(limits = c(0,1),labels = scales::percent_format(accuracy = 1)) + 
+  labs(x=&quot;Pct of Trump Votes&quot;,
+       y=&quot;Pct of Clinton Votes&quot;,
+       title=&quot;Florida County Vote Share in 2016&quot;,
+       color = &quot;Region&quot;)
+
+ggplotly(gg,tooltip = &quot;text&quot;)</code></pre>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-2" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-2">{"x":{"data":[{"x":[0.62612294127433044,0.68542083600800519,0.61825144559518641,0.62887363147151609,0.69048167780594605,0.69384513567174055,0.55967115367241849,0.63051985544126765,0.64918097580255585,0.60115538926735146,0.58835942107332417,0.71240173769135295,0.61897928374212885,0.68784002352595208,0.55566144289143016,0.54430296694500457,0.68892082571204594],"y":[0.34774787888870407,0.28683809739581367,0.35823197550991687,0.35080719985154946,0.29292463701313665,0.28444738583719392,0.41693016532658778,0.3399589418985095,0.32798296078345263,0.36966573717835588,0.38366178494200903,0.26380844021514271,0.35612561778532931,0.2910601382149684,0.41448891712551178,0.42809215332059014,0.29576691925790438],"text":["Charlotte","Citrus","Collier","DeSoto","Glades","Hardee","Hendry","Hernando","Highlands","Lake","Lee","Levy","Marion","Okeechobee","Polk","Sarasota","Sumter"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":0.29999999999999999,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(248,118,109,1)"}},"hoveron":"points","name":"Gulf Cst/Mid FL","legendgroup":"Gulf Cst/Mid FL","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.31423107907466258,0.34173974700951248,0.51655504197717195,0.41200118578031603],"y":[0.66629497749996092,0.63861118188078159,0.44738703895858883,0.56668350555380775],"text":["Broward","Miami-Dade","Monroe","Palm Beach"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(163,165,0,1)","opacity":0.29999999999999999,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(163,165,0,1)"}},"hoveron":"points","name":"Miami/Gold Coast","legendgroup":"Miami/Gold Coast","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.36526282951177663,0.81666005553351839,0.71319305085717566,0.73899344996268967,0.77005789909015721,0.706118950283529,0.71112352489351305,0.8097357440890125,0.49042877068437418,0.58450926705981465,0.5899473665864966,0.68784392196098054,0.30505554296077986,0.80276322058122918,0.73291156649704303,0.6325555759691347,0.88159754948162106,0.67955195424213533,0.51554506099960651,0.83008274231678492,0.35488401535032771,0.7736537876483115,0.57110901813044501,0.73661808332258483,0.71567368473445825,0.66987412248850153,0.65084875127514508,0.74715837621497994,0.76642883965452502,0.74789553205266568,0.80365939479239967,0.68687924725561944,0.76752987454182431,0.77705802968960869],"y":[0.59132740602090161,0.16755255850852835,0.24995126426237027,0.2424342923472349,0.20529363110008272,0.26207117424313786,0.26537951260386844,0.17663421418636996,0.47660134474497573,0.37819213352990733,0.38387535292272301,0.29081207270301818,0.68102471094989803,0.17365412101000477,0.23655618209324714,0.34980709167738377,0.10049481621112158,0.30490943755958055,0.46451528269710091,0.15307328605200946,0.60707644832451968,0.1980529358077274,0.41511655286084292,0.2336514897459048,0.23672291075605992,0.30543451948680705,0.31630204243389426,0.21113779302458549,0.21264953596910038,0.23224692423915388,0.17839549612948627,0.28410872974385781,0.20490508686712161,0.20368870895186686],"text":["Alachua","Baker","Bay","Bradford","Calhoun","Clay","Columbia","Dixie","Duval","Escambia","Flagler","Franklin","Gadsden","Gilchrist","Gulf","Hamilton","Holmes","Jackson","Jefferson","Lafayette","Leon","Liberty","Madison","Nassau","Okaloosa","Putnam","St. Johns","Santa Rosa","Suwannee","Taylor","Union","Wakulla","Walton","Washington"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,191,125,1)","opacity":0.29999999999999999,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,191,125,1)"}},"hoveron":"points","name":"North/Panhandle","legendgroup":"North/Panhandle","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.57971347143321661,0.60923501033769811,0.62105594919864127,0.35860903429652624,0.360392052904215,0.50023485538601686,0.48827528977166262,0.54957880497440548],"y":[0.3815248369388497,0.36392456612994173,0.35235271458087714,0.6060106177783493,0.61228174503664745,0.47598069915736735,0.47253080636382294,0.4192389282584969],"text":["Brevard","Indian River","Martin","Orange","Osceola","St. Lucie","Seminole","Volusia"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,176,246,1)","opacity":0.29999999999999999,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,176,246,1)"}},"hoveron":"points","name":"Orlando/Cent Atl","legendgroup":"Orlando/Cent Atl","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.44814366390652577,0.57113404372135756,0.59139753620775759,0.48703221077493181],"y":[0.51703691513532302,0.39902741828856991,0.37515398701514902,0.47583377448385389],"text":["Hillsborough","Manatee","Pasco","Pinellas"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(231,107,243,1)","opacity":0.29999999999999999,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(231,107,243,1)"}},"hoveron":"points","name":"Tampa Bay Area","legendgroup":"Tampa Bay Area","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.762557077625573,"r":7.3059360730593621,"b":40.182648401826498,"l":48.949771689497723},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Florida County Vote Share in 2016","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.050000000000000003,1.05],"tickmode":"array","ticktext":["0%","25%","50%","75%","100%"],"tickvals":[0,0.25,0.5,0.75,1],"categoryorder":"array","categoryarray":["0%","25%","50%","75%","100%"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Pct of Trump Votes","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.050000000000000003,1.05],"tickmode":"array","ticktext":["0%","25%","50%","75%","100%"],"tickvals":[0,0.25,0.5,0.75,1],"categoryorder":"array","categoryarray":["0%","25%","50%","75%","100%"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Pct of Clinton Votes","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"Region","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"10db754b640d":{"x":{},"y":{},"colour":{},"text":{},"type":"scatter"}},"cur_data":"10db754b640d","visdat":{"10db754b640d":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>So now we see that places with a higher percentage of support for Clinton have a lower support for Trump. That seems useful if we are interested in characterizing the political context of a county.</p>
+<p>But those are highly correlated? Do we need both percentage that support Clinton and also the percentage that support Trump? It seems like that is the same information being “double-counted.” What if we include something like the number of eligible voters?</p>
+<pre class="r"><code>gg &lt;- dat %&gt;% 
+  ggplot(aes(PctTrump, eligible_voters, color = geo_strata,
+               text=paste(county_name))) +
+  geom_point(alpha = 0.3) +
+  scale_y_continuous(label=comma, breaks=seq(0,2000000,by=125000)) + 
+  scale_x_continuous(limits = c(0,1),labels = scales::percent_format(accuracy = 1)) + 
+  labs(x=&quot;Pct of Trump Votes&quot;,
+       y=&quot;Number of Eligible Voters&quot;,
+       main=&quot;Florida County Election Results in 2016&quot;,
+       color = &quot;Region&quot;)
+
+ggplotly(gg,tooltip = &quot;text&quot;)</code></pre>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-3" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-3">{"x":{"data":[{"x":[0.62612294127433044,0.68542083600800519,0.61825144559518641,0.62887363147151609,0.69048167780594605,0.69384513567174055,0.55967115367241849,0.63051985544126765,0.64918097580255585,0.60115538926735146,0.58835942107332417,0.71240173769135295,0.61897928374212885,0.68784002352595208,0.55566144289143016,0.54430296694500457,0.68892082571204594],"y":[131734,106972,206438,16550,6710,12087,17509,131049,57988,228459,432416,27302,236784,20133,403653,311152,94104],"text":["Charlotte","Citrus","Collier","DeSoto","Glades","Hardee","Hendry","Hernando","Highlands","Lake","Lee","Levy","Marion","Okeechobee","Polk","Sarasota","Sumter"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":0.29999999999999999,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(248,118,109,1)"}},"hoveron":"points","name":"Gulf Cst/Mid FL","legendgroup":"Gulf Cst/Mid FL","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.31423107907466258,0.34173974700951248,0.51655504197717195,0.41200118578031603],"y":[1141360,1387264,52792,910976],"text":["Broward","Miami-Dade","Monroe","Palm Beach"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(163,165,0,1)","opacity":0.29999999999999999,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(163,165,0,1)"}},"hoveron":"points","name":"Miami/Gold Coast","legendgroup":"Miami/Gold Coast","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.36526282951177663,0.81666005553351839,0.71319305085717566,0.73899344996268967,0.77005789909015721,0.706118950283529,0.71112352489351305,0.8097357440890125,0.49042877068437418,0.58450926705981465,0.5899473665864966,0.68784392196098054,0.30505554296077986,0.80276322058122918,0.73291156649704303,0.6325555759691347,0.88159754948162106,0.67955195424213533,0.51554506099960651,0.83008274231678492,0.35488401535032771,0.7736537876483115,0.57110901813044501,0.73661808332258483,0.71567368473445825,0.66987412248850153,0.65084875127514508,0.74715837621497994,0.76642883965452502,0.74789553205266568,0.80365939479239967,0.68687924725561944,0.76752987454182431,0.77705802968960869],"y":[173993,15092,118344,16163,8620,150234,39359,9550,584997,206847,80796,7563,29858,11553,9990,7624,10566,27508,9642,4299,205898,4332,11766,65025,132022,46753,181146,129051,25509,11930,7205,20326,48751,15604],"text":["Alachua","Baker","Bay","Bradford","Calhoun","Clay","Columbia","Dixie","Duval","Escambia","Flagler","Franklin","Gadsden","Gilchrist","Gulf","Hamilton","Holmes","Jackson","Jefferson","Lafayette","Leon","Liberty","Madison","Nassau","Okaloosa","Putnam","St. Johns","Santa Rosa","Suwannee","Taylor","Union","Wakulla","Walton","Washington"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,191,125,1)","opacity":0.29999999999999999,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,191,125,1)"}},"hoveron":"points","name":"North/Panhandle","legendgroup":"North/Panhandle","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.57971347143321661,0.60923501033769811,0.62105594919864127,0.35860903429652624,0.360392052904215,0.50023485538601686,0.48827528977166262,0.54957880497440548],"y":[411191,110556,112540,758967,208009,198071,290356,371271],"text":["Brevard","Indian River","Martin","Orange","Osceola","St. Lucie","Seminole","Volusia"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,176,246,1)","opacity":0.29999999999999999,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,176,246,1)"}},"hoveron":"points","name":"Orlando/Cent Atl","legendgroup":"Orlando/Cent Atl","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.44814366390652577,0.57113404372135756,0.59139753620775759,0.48703221077493181],"y":[826228,237890,341640,647858],"text":["Hillsborough","Manatee","Pasco","Pinellas"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(231,107,243,1)","opacity":0.29999999999999999,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(231,107,243,1)"}},"hoveron":"points","name":"Tampa Bay Area","legendgroup":"Tampa Bay Area","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.228310502283108,"r":7.3059360730593621,"b":40.182648401826498,"l":78.173515981735179},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.050000000000000003,1.05],"tickmode":"array","ticktext":["0%","25%","50%","75%","100%"],"tickvals":[0,0.25,0.5,0.75,1],"categoryorder":"array","categoryarray":["0%","25%","50%","75%","100%"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Pct of Trump Votes","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-64849.25,1456412.25],"tickmode":"array","ticktext":["0","125,000","250,000","375,000","500,000","625,000","750,000","875,000","1,000,000","1,125,000","1,250,000","1,375,000"],"tickvals":[7.2759576141834259e-12,125000,250000,374999.99999999994,500000,625000,750000,875000,1000000,1125000,1250000,1375000],"categoryorder":"array","categoryarray":["0","125,000","250,000","375,000","500,000","625,000","750,000","875,000","1,000,000","1,125,000","1,250,000","1,375,000"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Number of Eligible Voters","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"Region","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"10db7321d3534":{"x":{},"y":{},"colour":{},"text":{},"type":"scatter"}},"cur_data":"10db7321d3534","visdat":{"10db7321d3534":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>Now things get trickier. Do we want to segment based on the number of eligible voters? Or is it more useful to focus on support for Clinton and Trump? This decision is hugely consequential for the groups <code>kmeans</code> will recover. This again highlights the role of the data scientist – <em>you</em> need to make a decision and justify it because the decision will be consequential!</p>
+<p>To start let’s characterize counties by support for Clinton and Trump.</p>
+<pre class="r"><code>rawvote &lt;- dat %&gt;%
+  select(c(PctTrump,PctClinton)) %&gt;%
+  drop_na()</code></pre>
+<p>Now we run by providing the data frame of all numeric data and the number of clusters – here <code>centers</code> that we want the algorithm to find for us.</p>
+<pre class="r"><code>fl.cluster1 &lt;- kmeans(rawvote, centers=2)</code></pre>
+<p>Now call the object to see what we have just created and all of the objects that we can now work with.</p>
+<pre class="r"><code>fl.cluster1</code></pre>
+<pre><code>## K-means clustering with 2 clusters of sizes 25, 42
+## 
+## Cluster means:
+##    PctTrump PctClinton
+## 1 0.4780951  0.4927738
+## 2 0.7073845  0.2679218
+## 
+## Clustering vector:
+##  [1] 1 2 2 2 1 1 2 2 2 2 2 2 1 2 2 1 1 1 2 1 2 2 2 2 2 1 2 2 1 2 2 2 1 2 2 1 1 2
+## [39] 2 1 1 2 2 1 2 2 2 1 1 1 2 1 1 2 2 1 2 1 1 2 2 2 2 1 2 2 2
+## 
+## Within cluster sum of squares by cluster:
+## [1] 0.4586045 0.4019281
+##  (between_SS / total_SS =  65.3 %)
+## 
+## Available components:
+## 
+## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;     &quot;tot.withinss&quot;
+## [6] &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;         &quot;ifault&quot;</code></pre>
+<p>Alternatively, we can also call the <code>tidy</code> function to produce a tibble of the overall fit:</p>
+<pre class="r"><code>clusters &lt;- tidy(fl.cluster1)
+clusters</code></pre>
+<pre><code>## # A tibble: 2 × 5
+##   PctTrump PctClinton  size withinss cluster
+##      &lt;dbl&gt;      &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;fct&gt;  
+## 1    0.478      0.493    25    0.459 1      
+## 2    0.707      0.268    42    0.402 2</code></pre>
+<p>In this object you can see the mean value for each variable in each cluster – i.e., the centroid – as well as the number of observations (here counties) belonging to each cluster, and also the within sum of squares for each cluster. Recall that the centroid for each cluster is simply the average value of the variable for all counties that are assigned to that cluster. (This is the same as the <span class="math inline">\(x_1\)</span>, <span class="math inline">\(y_1\)</span>, <span class="math inline">\(x_2\)</span>, and <span class="math inline">\(y_2\)</span> defined above.)</p>
+<p>The values associated with <code>withinss</code> are the within sum of squares for all observations in a cluster. This is the sum of the squared distances between each data point in the cluster and the centorid of that cluster. So if <span class="math inline">\(T_i\)</span> denotes the value of <code>PctTrump</code> for county <span class="math inline">\(i\)</span> and <span class="math inline">\(C_i\)</span> denotes the value of <code>PctClinton</code> for county <span class="math inline">\(i\)</span> the within sum of squares for the <span class="math inline">\(n_1\)</span> counties that belong to cluster <span class="math inline">\(1\)</span> is given by:</p>
+<p><span class="math display">\[\sum_i^{n_1} (\bar{T}_1 - T_i)^2 + (\bar{C}_1 - C_i)^2\]</span></p>
+<p>if we use <span class="math inline">\(\bar{T}_1\)</span> to denote the mean of support for Trump in the <span class="math inline">\(n_1\)</span> counties allocated to cluster 1 and <span class="math inline">\(\bar{C}_1\)</span> to denote the mean support for Clinton in those <span class="math inline">\(n_1\)</span> counties. We will return to this later.</p>
+<p>One important thing to note is that <code>kmeans</code> starts the algorithm by randomly choosing a centroid for each cluster and then iterating until no classifications change cluster. As a result, the clusters we identify can depend on the initial choices and there is nothing to ensure that this results in an “optimal” in a global sense. The classification is conditional on the initial start and the optimization is “local” and relative to that initial choice. So make sure you always set a seed!</p>
+<p><strong>Quick Exercise</strong> Do a new clustering with 4 centroids called <code>florida.me</code> and look at the contests of each cluster using tidy:</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<p>Because <code>kmeans</code> is choosing random start values to start the classification the start values will matter, especially when you are fitting a lot of clusters to a high dimensional dataset (i.e., lots of variables). Even when you are fitting a model with few clusters and few variables the start values may impact the clustering that is found.</p>
+<p>To illustrate this lets analyze the same data using the same number of clusters using a different seed value.</p>
+<pre class="r"><code>set.seed(13469) # set new seed value
+fl.cluster2 &lt;- kmeans(rawvote,centers=2) # new clustering</code></pre>
+<p>Now lets compare how the clusters found in <code>fl.cluster1</code> compare to the clusters found in the new clustering (<code>fl.cluster2</code>) using the<code>table</code> function.</p>
+<pre class="r"><code>table(fl.cluster1$cluster,fl.cluster2$cluster) # compare clusters</code></pre>
+<pre><code>##    
+##      1  2
+##   1 25  0
+##   2  0 42</code></pre>
+<p>So we can see the classification is exactly flipped. The observations are still largely clustered into the same clustering, but the labels of those clusters is changed. Even though the same information is recovered in both clusterings, the labels of the clusters has changed. This point is essential for replication!</p>
+<p>Typically the information we are most interested in is how the observations are clustered – i.e., the labels contained in the <code>cluster</code> variable. So how do we get this information back to our original tibble? Thankfully there is a function for that. The <code>augment</code> function will add the <code>cluster</code> variable from the kmeans clustering onto a tibble containing the data used in the clustering.</p>
+<pre class="r"><code>dat.cluster &lt;- augment(fl.cluster1,dat)</code></pre>
+<p>With this new augmented tibble – <code>dat.cluster</code> – we can now visualize how well the recovered clusters correspond with the underlying data. While this can be more challenging when we are working with high-dimensional data (i.e.., lots of variables) in this case we can visualize the relationship because we have used only two variables in the clustering to characterize the political leanings of counties in Florida.</p>
+<p>If I want to plot the points using the cluster label, I can use the <code>geom_text</code> code to include the <code>label</code> passed to the <code>ggplot</code> <code>aes</code>thetic.</p>
+<pre class="r"><code>dat.cluster %&gt;%
+  ggplot(aes(x = PctTrump, y = PctClinton, label = .cluster)) +
+  geom_text() + 
+  scale_y_continuous(limits = c(0,1),labels = scales::percent_format(accuracy = 1)) + 
+  scale_x_continuous(limits = c(0,1),labels = scales::percent_format(accuracy = 1)) + 
+  labs(title = &quot;Florida Counties: 2016&quot;,
+       x = &quot;% Trump in 2016&quot;,
+       y = &quot;% Clinton in 2016&quot;)</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_14_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>But maybe that is too messy. The overlapping numbers is a bit distracting.</p>
+<p>So let’s switch to colored points and add in the location of the centroids. This is useful for reminding us of what <code>kmeans</code> is actually doing. Let us pull this information from the <code>clusters</code> object we created using the <code>tidy()</code> function applied to our <code>kmeans</code> object. Recall that the location of the centroid is just the average of every variable being analyzed. NOTE: what happens if we replace <code>color</code> with <code>fill</code>?</p>
+<pre class="r"><code>gg &lt;- ggplot() +
+  geom_point(data=dat.cluster, aes(x = PctTrump, y = PctClinton, color = .cluster,
+                                   text=paste(county_name))) + 
+  geom_point(data=clusters, aes(x = PctTrump, y = PctClinton), size = 10, shape = &quot;+&quot;) + 
+  labs(color = &quot;Cluster&quot;,
+    title = &quot;Florida Counties: 2016&quot;,
+       x = &quot;% Trump in 2016&quot;,
+       y = &quot;% Clinton in 2016&quot;) +
+  scale_y_continuous(limits = c(0,1),labels = scales::percent_format(accuracy = 1)) + 
+  scale_x_continuous(limits = c(0,1),labels = scales::percent_format(accuracy = 1)) 
+
+ggplotly(gg,tooltip = &quot;text&quot;)</code></pre>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-4" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-4">{"x":{"data":[{"x":[0.36526282951177663,0.57971347143321661,0.31423107907466258,0.34173974700951248,0.49042877068437418,0.58450926705981465,0.5899473665864966,0.30505554296077986,0.55967115367241849,0.44814366390652577,0.51554506099960651,0.58835942107332417,0.35488401535032771,0.57110901813044501,0.57113404372135756,0.51655504197717195,0.35860903429652624,0.360392052904215,0.41200118578031603,0.48703221077493181,0.55566144289143016,0.50023485538601686,0.54430296694500457,0.48827528977166262,0.54957880497440548],"y":[0.59132740602090161,0.3815248369388497,0.66629497749996092,0.63861118188078159,0.47660134474497573,0.37819213352990733,0.38387535292272301,0.68102471094989803,0.41693016532658778,0.51703691513532302,0.46451528269710091,0.38366178494200903,0.60707644832451968,0.41511655286084292,0.39902741828856991,0.44738703895858883,0.6060106177783493,0.61228174503664745,0.56668350555380775,0.47583377448385389,0.41448891712551178,0.47598069915736735,0.42809215332059014,0.47253080636382294,0.4192389282584969],"text":["Alachua","Brevard","Broward","Miami-Dade","Duval","Escambia","Flagler","Gadsden","Hendry","Hillsborough","Jefferson","Lee","Leon","Madison","Manatee","Monroe","Orange","Osceola","Palm Beach","Pinellas","Polk","St. Lucie","Sarasota","Seminole","Volusia"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(248,118,109,1)"}},"hoveron":"points","name":"1","legendgroup":"1","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.81666005553351839,0.71319305085717566,0.73899344996268967,0.77005789909015721,0.62612294127433044,0.68542083600800519,0.706118950283529,0.61825144559518641,0.71112352489351305,0.62887363147151609,0.8097357440890125,0.68784392196098054,0.80276322058122918,0.69048167780594605,0.73291156649704303,0.6325555759691347,0.69384513567174055,0.63051985544126765,0.64918097580255585,0.88159754948162106,0.60923501033769811,0.67955195424213533,0.83008274231678492,0.60115538926735146,0.71240173769135295,0.7736537876483115,0.61897928374212885,0.62105594919864127,0.73661808332258483,0.71567368473445825,0.68784002352595208,0.59139753620775759,0.66987412248850153,0.65084875127514508,0.74715837621497994,0.68892082571204594,0.76642883965452502,0.74789553205266568,0.80365939479239967,0.68687924725561944,0.76752987454182431,0.77705802968960869],"y":[0.16755255850852835,0.24995126426237027,0.2424342923472349,0.20529363110008272,0.34774787888870407,0.28683809739581367,0.26207117424313786,0.35823197550991687,0.26537951260386844,0.35080719985154946,0.17663421418636996,0.29081207270301818,0.17365412101000477,0.29292463701313665,0.23655618209324714,0.34980709167738377,0.28444738583719392,0.3399589418985095,0.32798296078345263,0.10049481621112158,0.36392456612994173,0.30490943755958055,0.15307328605200946,0.36966573717835588,0.26380844021514271,0.1980529358077274,0.35612561778532931,0.35235271458087714,0.2336514897459048,0.23672291075605992,0.2910601382149684,0.37515398701514902,0.30543451948680705,0.31630204243389426,0.21113779302458549,0.29576691925790438,0.21264953596910038,0.23224692423915388,0.17839549612948627,0.28410872974385781,0.20490508686712161,0.20368870895186686],"text":["Baker","Bay","Bradford","Calhoun","Charlotte","Citrus","Clay","Collier","Columbia","DeSoto","Dixie","Franklin","Gilchrist","Glades","Gulf","Hamilton","Hardee","Hernando","Highlands","Holmes","Indian River","Jackson","Lafayette","Lake","Levy","Liberty","Marion","Martin","Nassau","Okaloosa","Okeechobee","Pasco","Putnam","St. Johns","Santa Rosa","Sumter","Suwannee","Taylor","Union","Wakulla","Walton","Washington"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,191,196,1)"}},"hoveron":"points","name":"2","legendgroup":"2","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.47809509347505275,0.70738450438530065],"y":[0.49277378792399951,0.26792183393498742],"text":"","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":37.795275590551185,"symbol":"cross-thin-open","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.762557077625573,"r":7.3059360730593621,"b":40.182648401826498,"l":48.949771689497723},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Florida Counties: 2016","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.050000000000000003,1.05],"tickmode":"array","ticktext":["0%","25%","50%","75%","100%"],"tickvals":[0,0.25,0.5,0.75,1],"categoryorder":"array","categoryarray":["0%","25%","50%","75%","100%"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"% Trump in 2016","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.050000000000000003,1.05],"tickmode":"array","ticktext":["0%","25%","50%","75%","100%"],"tickvals":[0,0.25,0.5,0.75,1],"categoryorder":"array","categoryarray":["0%","25%","50%","75%","100%"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"% Clinton in 2016","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"Cluster","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"10db72df60962":{"x":{},"y":{},"colour":{},"text":{},"type":"scatter"},"10db773e21880":{"x":{},"y":{}}},"cur_data":"10db72df60962","visdat":{"10db72df60962":["function (y) ","x"],"10db773e21880":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>Recall that there is no global minimization being done in this algorithm – all we are doing is starting with a randomly chosen centroid and then doing a (local) minimization given those start values. As a result, you can get different classifications with different start values. Here is a simple example that again shows the sensitivity to start values.</p>
+<pre class="r"><code>set.seed(42)
+fl.cluster1 &lt;- kmeans(rawvote,centers=2)
+
+set.seed(13469)
+fl.cluster2 &lt;- kmeans(rawvote,centers=2)
+
+table(fl.cluster1$cluster,fl.cluster2$cluster)</code></pre>
+<pre><code>##    
+##      1  2
+##   1 21  0
+##   2  4 42</code></pre>
+<p>But we can use <code>nstart</code> to try multiple initial configurations and use the one that produces the best total within sum of squares given the number of centers being chosen. Given that we are only classifying based on two variables let’s try 25 different start values.</p>
+<pre class="r"><code>set.seed(42)
+fl.cluster1 &lt;- kmeans(rawvote,centers=2,nstart=25)
+
+set.seed(13469)
+fl.cluster2 &lt;- kmeans(rawvote,centers=2,nstart=25)
+
+table(fl.cluster1$cluster,fl.cluster2$cluster)</code></pre>
+<pre><code>##    
+##      1  2
+##   1  0 21
+##   2 46  0</code></pre>
+<p>So now you can see that using multiple start values eliminates the classification differences based on the initial start value! Now the clusters have the same counties in each – although with different names. What <code>nstart</code> is doing is having the algorithm try a bunch of different start values and then choose the centroid that has the lowest within sum of squares as the starting value. So while this is not doing a search over every possible start value, it chooses the “best” start value among the set of values it generates.</p>
+<p>Now think about doing a <code>kmeans</code> for three clusters. Based on the figure we just created, where do you think the three clusters will be located.</p>
+<p><strong>Quick Exercise</strong> Now implement this! What do you observe? Were you correct?</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="the-variables-you-use-matter" class="section level1">
+<h1>The variables you use matter!</h1>
+<p>So what if we did cluster based on the number of votes cast? How would that affect the conclusions we get? Instead of clustering based on <code>PctTrump</code> and <code>PctClinton</code> do the clustering using <code>Trump</code> and <code>Clinton</code>. Can you predict what will happen before you do it?</p>
+<pre class="r"><code>rawvote &lt;- dat %&gt;%
+  select(c(Trump,Clinton)) %&gt;%
+  drop_na()
+
+fl.cluster1.count &lt;- kmeans(rawvote, centers=2)
+
+dat.cluster2 &lt;- augment(fl.cluster1.count,dat)
+clusters &lt;- tidy(fl.cluster1.count)
+
+clusters</code></pre>
+<pre><code>## # A tibble: 2 × 5
+##     Trump Clinton  size      withinss cluster
+##     &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;         &lt;dbl&gt; &lt;fct&gt;  
+## 1 254330. 375619.     7 161451108936. 1      
+## 2  47293.  31261.    60 226694181010. 2</code></pre>
+<p>Now graph the new clusters, labeling the county names.</p>
+<pre class="r"><code>gg &lt;- ggplot() +
+  geom_point(data=dat.cluster2, aes(x = Trump, y = Clinton, color = .cluster,
+                                   text=paste(county_name))) + 
+  geom_point(data=clusters, aes(x = Trump, y= Clinton), size = 10, shape = &quot;+&quot;) + 
+  labs(color = &quot;Cluster&quot;,
+       title = &quot;Florida Counties&quot;,
+       x = &quot;Votes for Trump&quot;,
+       y = &quot;Votes for Clinton&quot;) +
+  scale_y_continuous(label=comma) + 
+  scale_x_continuous(label=comma) 
+
+ggplotly(gg,tooltip = &quot;text&quot;)</code></pre>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-5" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-5">{"x":{"data":[{"x":[260951,333999,211672,266870,195216,272402,239201],"y":[553320,624146,205704,307896,329894,374673,233701],"text":["Broward","Miami-Dade","Duval","Hillsborough","Orange","Palm Beach","Pinellas"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(248,118,109,1)"}},"hoveron":"points","name":"1","legendgroup":"1","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[46834,10294,62194,8913,181848,4655,60218,54456,74963,105423,20368,6778,5822,88808,33850,4125,6728,6740,2996,5329,3443,5242,6195,58970,29565,7483,48620,14257,3930,2809,102188,191551,53821,13775,2543,4851,101944,107833,53204,21904,34266,71893,9356,50301,142101,157430,22138,88684,70289,65339,124438,109443,52730,14287,6930,4568,143007,10512,25756,8637],"y":[75820,2112,21797,2924,119679,1241,33445,22789,27822,61085,7601,3781,1270,57461,22026,1744,15020,1458,1271,1720,1904,2149,4615,31795,14937,853,29043,6397,3541,518,62838,124908,92068,5101,651,3526,71224,62041,30185,18971,10869,23780,3959,85458,90142,117433,10094,43099,66881,18464,97870,105914,22638,3964,2152,1014,109091,4348,6876,2264],"text":["Alachua","Baker","Bay","Bradford","Brevard","Calhoun","Charlotte","Citrus","Clay","Collier","Columbia","DeSoto","Dixie","Escambia","Flagler","Franklin","Gadsden","Gilchrist","Glades","Gulf","Hamilton","Hardee","Hendry","Hernando","Highlands","Holmes","Indian River","Jackson","Jefferson","Lafayette","Lake","Lee","Leon","Levy","Liberty","Madison","Manatee","Marion","Martin","Monroe","Nassau","Okaloosa","Okeechobee","Osceola","Pasco","Polk","Putnam","St. Johns","St. Lucie","Santa Rosa","Sarasota","Seminole","Sumter","Suwannee","Taylor","Union","Volusia","Wakulla","Walton","Washington"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,191,196,1)"}},"hoveron":"points","name":"2","legendgroup":"2","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[254330.14285714287,47292.916666666664],"y":[375619.14285714284,31260.683333333334],"text":"","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":37.795275590551185,"symbol":"cross-thin-open","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.762557077625573,"r":7.3059360730593621,"b":40.182648401826498,"l":66.484018264840202},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Florida Counties","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-14029.799999999999,350571.79999999999],"tickmode":"array","ticktext":["0","100,000","200,000","300,000"],"tickvals":[0,100000,200000,300000],"categoryorder":"array","categoryarray":["0","100,000","200,000","300,000"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Votes for Trump","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-30663.400000000001,655327.40000000002],"tickmode":"array","ticktext":["0","200,000","400,000","600,000"],"tickvals":[0,200000,400000.00000000006,600000],"categoryorder":"array","categoryarray":["0","200,000","400,000","600,000"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Votes for Clinton","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"Cluster","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"10db71290bf9a":{"x":{},"y":{},"colour":{},"text":{},"type":"scatter"},"10db75d1320fb":{"x":{},"y":{}}},"cur_data":"10db71290bf9a","visdat":{"10db71290bf9a":["function (y) ","x"],"10db75d1320fb":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>And finally, how do the clusters compare to one another? If you do a table of the clusters against one another what do you observe?</p>
+<pre class="r"><code>table(ByPct = fl.cluster1$cluster,
+      ByVote= fl.cluster1.count$cluster)</code></pre>
+<pre><code>##      ByVote
+## ByPct  1  2
+##     1  7 14
+##     2  0 46</code></pre>
+<p>The scale matters. What if we do a clustering using <code>eligible voters</code>, <code>PctTrump</code> and <code>PctClinton</code>. What do you observe for a clustering of these variables using <code>k=2</code> clusters?</p>
+<pre class="r"><code>rawvote3 &lt;- dat %&gt;%
+  select(c(eligible_voters,PctClinton,PctTrump))
+
+cluster.mix &lt;- kmeans(rawvote3,centers=2,nstart=25)
+tidy(cluster.mix)</code></pre>
+<pre><code>## # A tibble: 2 × 6
+##   eligible_voters PctClinton PctTrump  size      withinss cluster
+##             &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;         &lt;dbl&gt; &lt;fct&gt;  
+## 1         110305.      0.327    0.647    60 842735627916. 1      
+## 2         893950       0.564    0.407     7 483680203618. 2</code></pre>
+<p>Now rescale the data being fit using the <code>scale</code> function to normalize the data to have mean 0 and variance 1. (Note that <code>scale</code> just normalizes a data.frame object.) Why is this important given the alogorithm being used? Now cluster the rescaled data. How do the resulting clusters compare to the unrescaled clusters and also our original scaling based on the percentages – <code>fl.cluster1</code>?</p>
+<pre class="r"><code>rawvote3.scale &lt;- scale(rawvote3)
+summary(rawvote3.scale)</code></pre>
+<pre><code>##  eligible_voters      PctClinton          PctTrump       
+##  Min.   :-0.67089   Min.   :-1.84762   Min.   :-2.29670  
+##  1st Qu.:-0.62953   1st Qu.:-0.77653   1st Qu.:-0.50178  
+##  Median :-0.35021   Median :-0.02995   Median : 0.06301  
+##  Mean   : 0.00000   Mean   : 0.00000   Mean   : 0.00000  
+##  3rd Qu.: 0.09304   3rd Qu.: 0.48713   3rd Qu.: 0.67141  
+##  Max.   : 4.26751   Max.   : 2.42012   Max.   : 1.88340</code></pre>
+<pre class="r"><code>cluster.mix2 &lt;- kmeans(rawvote3.scale,centers=2,nstart=25)
+tidy(cluster.mix2)</code></pre>
+<pre><code>## # A tibble: 2 × 6
+##   eligible_voters PctClinton PctTrump  size withinss cluster
+##             &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;fct&gt;  
+## 1           0.984      1.21    -1.22     20     52.7 1      
+## 2          -0.419     -0.515    0.518    47     33.7 2</code></pre>
+<p>How to compare? Start with the normalized vs. unnormalized clustering (i.e., same variables but different scale).</p>
+<pre class="r"><code>table(Normalized = cluster.mix2$cluster, 
+      Unnormalized = cluster.mix$cluster)</code></pre>
+<pre><code>##           Unnormalized
+## Normalized  1  2
+##          1 13  7
+##          2 47  0</code></pre>
+<p>Now compare to the original clustering we did using vote share (i.e., different variables and different scale).</p>
+<pre class="r"><code>table(Normalized = cluster.mix2$cluster, 
+      ByPct = fl.cluster1$cluster)</code></pre>
+<pre><code>##           ByPct
+## Normalized  1  2
+##          1 18  2
+##          2  3 44</code></pre>
+<p>This means…</p>
+</div>
+<div id="more-data-more-clusters" class="section level1">
+<h1>More Data! More Clusters?</h1>
+<p>Perhaps we need more data. Lets get all of the county (or town) level data from 2004 up through 2020. Let’s focus on Florida again.</p>
+<pre class="r"><code>dat.all &lt;- read_rds(file=&quot;https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/CountyVote2004_2020.Rds&quot;)
+
+dat.fl &lt;- dat.all %&gt;%
+  filter(state==&quot;FL&quot;)</code></pre>
+<p>For now, let us work with <code>pct_rep_2016</code> and <code>pct_rep_2020</code> – but try replicating the results using a different choice to see what happens. Note that <code>kmeans</code> takes a data frame with all numeric columns so let’s start by creating a new tibble with just numeric data and no missingness.</p>
+<pre class="r"><code>rawvote &lt;- dat.fl %&gt;%
+  select(c(pct_rep_2004,pct_rep_2008,pct_rep_2012,pct_rep_2016,pct_rep_2020)) %&gt;%
+  drop_na()</code></pre>
+<p>Again we can start by visualizing the relationship. Since we can only think in 2 dimensions, let’s look at some.</p>
+<pre class="r"><code>rawvote %&gt;%
+  ggplot(aes(x=pct_rep_2016, y=pct_rep_2020)) +
+  geom_point() +
+  labs(x=&quot;% Trump 2016&quot;, 
+       y = &quot;% Trump 2020&quot;, 
+       title = &quot;Trump Support in Florida Counties: 2016 &amp; 2020&quot;) +
+  geom_abline(intercept=0,slope=1) +
+  scale_x_continuous(limits = c(0,1),labels = scales::percent_format(accuracy = 1)) + 
+  scale_y_continuous(limits = c(0,1),labels = scales::percent_format(accuracy = 1)) </code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_14_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p>What if we compare Republican vote share in 2004 and 2020. What does that show?</p>
+<pre class="r"><code>rawvote %&gt;%
+  ggplot(aes(x=pct_rep_2004, y=pct_rep_2020)) +
+  geom_point() +
+  labs(x=&quot;% Republican 2004&quot;, 
+       y = &quot;% Republican 2020&quot;, 
+       title = &quot;Republican Support in Florida Counties: 2004 &amp; 2020&quot;) +
+  geom_abline(intercept=0,slope=1) +
+  scale_x_continuous(limits = c(0,1),labels = scales::percent_format(accuracy = 1)) + 
+  scale_y_continuous(limits = c(0,1),labels = scales::percent_format(accuracy = 1)) </code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_14_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+</div>
+<div id="how-many-clusters" class="section level1">
+<h1>How many clusters?</h1>
+<p>So a critical question is always – how many clusters should I use? An issue with answering this question is that there really isn’t a statistical theory to guide this determination. More clusters will always “explain” more variation, and if we choose the number of clusters equal to the number of data points we will perfectly “fit/explain” the data. But it will be a trivial explanation and not give us any real information. Recall that one of the goals is to use the clustering to reduce the dimensionality of the data in a way that recovers a “meaningful” representation of the underlying data.</p>
+<p>So let us explore how the clustering changes for different numbers of centers. What we are going to do is to create a tibble called <code>kcluster.fl</code> that is going to contain the results of a <code>kmeans</code> clustering for 10 different choices of <code>K</code> that varies from 1 to 10.</p>
+<pre class="r"><code>kcluster.fl &lt;- 
+  tibble(K = 1:10) %&gt;%   # define a sequence that we will use to denote k
+  mutate(   # now we are going to create new variables in this tibble
+    kcluster = map(K, ~kmeans(rawvote, .x, nstart = 25)),   # run a kmeans clustering using k
+    tidysummary = map(kcluster, tidy), # run the tidy() function on the kcluster object
+    augmented = map(kcluster, augment, rawvote), # save the cluster to the data
+  )</code></pre>
+<p>The above code uses the <code>map</code> function which is how we can apply a function across an index. So in line 418 we are going to take <code>map</code> to apply the sequence of <code>K</code> values we defined running from 1 to 10 the <code>kmeans()</code> algorithm applied to the <code>rawvotes</code> tibble. The <code>.x</code> in the line reveals where we are going to substitute the value being mapped. So the object <code>kcluster</code> is going to be a list of 10 elements – each list element being a <code>kmeans</code> object associated with the choice of <code>K</code> centers.</p>
+<p>We then map the <code>tidy</code> function to the list of <code>kcluster</code> we just created – creating a list called <code>tidysummary</code> where each element is the summary associated with the kth clustering. We next create a tibble that augments the original data being clustered – <code>rawvotes</code> with the cluster label associated with the kth clustering. (But remember that the meaning of those labels is not fixed!)</p>
+<p>So let’s give in to see what we have just done. If we take a look at the first row of <code>kcluster.fl</code> we can see that it consists of a vector of the sequence of k’s we defined, and then the three list objects we created – <code>kcluster</code>, <code>tidysummary</code>, and <code>augmented</code>.</p>
+<pre class="r"><code>kcluster.fl[1,]</code></pre>
+<pre><code>## # A tibble: 1 × 4
+##       K kcluster tidysummary      augmented        
+##   &lt;int&gt; &lt;list&gt;   &lt;list&gt;           &lt;list&gt;           
+## 1     1 &lt;kmeans&gt; &lt;tibble [1 × 8]&gt; &lt;tibble [67 × 6]&gt;</code></pre>
+<p>But to work with these objects we need to extract these lists. Lists are a pain in R – especially when you are starting out – so do not think too hard about the following. What we are going to essentially do is to extract each of the list objects in <code>kcluster.fl</code> to a separate tibble.</p>
+<pre class="r"><code>clusters &lt;- kcluster.fl %&gt;%
+  unnest(cols=c(tidysummary))
+
+clusters</code></pre>
+<pre><code>## # A tibble: 55 × 11
+##        K kcluster pct_rep_2004 pct_rep_2008 pct_rep_2012 pct_rep_2016
+##    &lt;int&gt; &lt;list&gt;          &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;
+##  1     1 &lt;kmeans&gt;        0.595        0.581        0.595        0.620
+##  2     2 &lt;kmeans&gt;        0.674        0.680        0.695        0.730
+##  3     2 &lt;kmeans&gt;        0.519        0.484        0.499        0.514
+##  4     3 &lt;kmeans&gt;        0.580        0.562        0.584        0.620
+##  5     3 &lt;kmeans&gt;        0.462        0.420        0.425        0.416
+##  6     3 &lt;kmeans&gt;        0.707        0.716        0.727        0.759
+##  7     4 &lt;kmeans&gt;        0.531        0.495        0.511        0.533
+##  8     4 &lt;kmeans&gt;        0.416        0.374        0.371        0.351
+##  9     4 &lt;kmeans&gt;        0.712        0.724        0.734        0.765
+## 10     4 &lt;kmeans&gt;        0.601        0.588        0.611        0.648
+## # ℹ 45 more rows
+## # ℹ 5 more variables: pct_rep_2020 &lt;dbl&gt;, size &lt;int&gt;, withinss &lt;dbl&gt;,
+## #   cluster &lt;fct&gt;, augmented &lt;list&gt;</code></pre>
+<p>So clusters is a tibble that consists of the centroids associated with each of the centroids in each of the <code>K</code> clusterings we did.</p>
+<p>We can also extract the clusters associated with each of the observations by doing a similar operation on the <code>augmented</code> list we created.</p>
+<pre class="r"><code>points &lt;- kcluster.fl %&gt;%
+  unnest(cols=c(augmented))
+
+points</code></pre>
+<pre><code>## # A tibble: 670 × 9
+##        K kcluster tidysummary      pct_rep_2004 pct_rep_2008 pct_rep_2012
+##    &lt;int&gt; &lt;list&gt;   &lt;list&gt;                  &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;
+##  1     1 &lt;kmeans&gt; &lt;tibble [1 × 8]&gt;        0.429        0.386        0.405
+##  2     1 &lt;kmeans&gt; &lt;tibble [1 × 8]&gt;        0.777        0.784        0.789
+##  3     1 &lt;kmeans&gt; &lt;tibble [1 × 8]&gt;        0.712        0.699        0.712
+##  4     1 &lt;kmeans&gt; &lt;tibble [1 × 8]&gt;        0.696        0.697        0.706
+##  5     1 &lt;kmeans&gt; &lt;tibble [1 × 8]&gt;        0.577        0.547        0.558
+##  6     1 &lt;kmeans&gt; &lt;tibble [1 × 8]&gt;        0.346        0.324        0.323
+##  7     1 &lt;kmeans&gt; &lt;tibble [1 × 8]&gt;        0.634        0.696        0.710
+##  8     1 &lt;kmeans&gt; &lt;tibble [1 × 8]&gt;        0.557        0.531        0.567
+##  9     1 &lt;kmeans&gt; &lt;tibble [1 × 8]&gt;        0.569        0.574        0.604
+## 10     1 &lt;kmeans&gt; &lt;tibble [1 × 8]&gt;        0.762        0.711        0.725
+## # ℹ 660 more rows
+## # ℹ 3 more variables: pct_rep_2016 &lt;dbl&gt;, pct_rep_2020 &lt;dbl&gt;, .cluster &lt;fct&gt;</code></pre>
+<p>So now we can plot the results. To do so we are going to produce multiple plots by “facet-wrapping” using values <code>K</code>.</p>
+<pre class="r"><code>p1 &lt;- 
+  ggplot(points, aes(x = pct_rep_2004, y = pct_rep_2020)) +
+  geom_point(aes(color = .cluster), alpha = 0.8) + 
+  labs(x = &quot;% Republican Vote 2004&quot;,
+       y = &quot;% Republican Vote 2020&quot;,
+       color = &quot;Cluster&quot;,
+       title = &quot;Clusters for Various Choices of K&quot;) + 
+  facet_wrap(~ K) + 
+  scale_x_continuous(limits = c(.25,1),labels = scales::percent_format(accuracy = 1)) + 
+  scale_y_continuous(limits = c(.25,1),labels = scales::percent_format(accuracy = 1)) 
+
+p1</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_14_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<p>Now let’s add in the centroids!</p>
+<pre class="r"><code>p1 + geom_point(data = clusters, size = 4, shape = &quot;+&quot;)</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_14_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<p>How does Total Within Sum of squares change as clusters increase? Recall that the within sum of squares for each cluster is simply how far each data point in a cluster is from the centroid according to squared Euclidean distance. Thus, if <span class="math inline">\(T\)</span> denotes <code>PctTrump</code> and <span class="math inline">\(C\)</span> denotes <code>PctClinton</code> the within sum of squares for cluster <span class="math inline">\(k\)</span> using the <span class="math inline">\(n\)</span> counties that are allocated in cluster <span class="math inline">\(k\)</span> is given by:</p>
+<p><span class="math display">\[WSS_k=\sum_i^n (\bar{T}_k - T_i)^2 + (\bar{C}_k - C_i)^2\]</span></p>
+<p>Given this, the total within sum of squares is simply the sum of the within sum of squares across the k clusters. In other words, if we fit <span class="math inline">\(K\)</span> clusters, the total within sum of squares is:</p>
+<p><span class="math display">\[ TSS = \sum_k^K WSS_k\]</span></p>
+<p>Note that the total sum of squares will usually decrease as the number of clusters increase, Why? Because more clusters means more centroids which will mean smaller squared distances. If, for example, we fit a model with as many centroids as there are observations – i.e., <span class="math inline">\(K==N\)</span> – then the within sum of squares for every observation would be <span class="math inline">\(0\)</span> and the total sum of squares would also be <span class="math inline">\(0\)</span>! Note that the total sum of squares will not always decrease depending on number of clusters because of the dependence on start values. Especially when analyzing many variables, the results become more sensitive it is to start values!</p>
+<p>Too see what we have created, let us take a look within the tibble <code>kcluster.fl</code> and extract the second list item – which is the set of tibbles summarizing the overall fit.</p>
+<pre class="r"><code>fits &lt;- kcluster.fl[[2]]</code></pre>
+<p>To extract the total within sum-of-squares from this we can write a loop to extract the information. Note that we are using <code>[[]]</code> to select an element from a list. Then we can plot the relationship.</p>
+<pre class="r"><code>tot.withinss &lt;- NULL
+
+for(i in 1:10){
+  tot.withinss[i] &lt;- fits[[i]]$tot.withinss
+}
+
+fit &lt;- bind_cols(k = seq(1,10), tot.withinss = tot.withinss)
+
+ggplot(fit, aes(x=k,y=tot.withinss)) + 
+  geom_line() +
+  scale_x_continuous(breaks=seq(1,10)) + 
+  labs(x=&quot;Number of Clusters&quot;, y =&quot;Total Within Sum of Squares&quot;)</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_14_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+</div>
+<div id="identifying-the-meaning-of-clusters" class="section level1">
+<h1>Identifying the meaning of clusters</h1>
+<p>OK, so how do we interpret what this means? Or label the clusters sensibly? This again requires the data scientist to examine and mutate the data.</p>
+<pre class="r"><code>set.seed(13469)
+fl.cluster &lt;- kmeans(rawvote, centers=5, nstart = 25)
+dat.cluster &lt;- augment(fl.cluster,dat.fl)</code></pre>
+<pre class="r"><code>tidy(fl.cluster) %&gt;%
+  arrange(-pct_rep_2020)</code></pre>
+<pre><code>## # A tibble: 5 × 8
+##   pct_rep_2004 pct_rep_2008 pct_rep_2012 pct_rep_2016 pct_rep_2020  size
+##          &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt; &lt;int&gt;
+## 1        0.714        0.727        0.737        0.768        0.779    19
+## 2        0.619        0.617        0.638        0.678        0.692    14
+## 3        0.570        0.541        0.562        0.596        0.607    17
+## 4        0.513        0.475        0.493        0.503        0.510     9
+## 5        0.416        0.374        0.371        0.351        0.384     8
+## # ℹ 2 more variables: withinss &lt;dbl&gt;, cluster &lt;fct&gt;</code></pre>
+<p>Now change the order of the factor so that it is ordered from most Trump supporting to most Clinton supporting. To do so we need to use the <code>factor</code> function to re-define the order of the levels.</p>
+<pre class="r"><code>dat.cluster &lt;- dat.cluster %&gt;%
+  mutate(cluster = factor(.cluster, 
+                          levels=c(3,5,2,4,1)))</code></pre>
+<p>Now let’s check that we did this correctly. Let’s see if the clusters are arranged by average Trump support.</p>
+<pre class="r"><code>dat.cluster %&gt;%
+  group_by(cluster) %&gt;%
+  summarize(PctTrump = mean(pct_rep_2020))</code></pre>
+<pre><code>## # A tibble: 5 × 2
+##   cluster PctTrump
+##   &lt;fct&gt;      &lt;dbl&gt;
+## 1 3          0.779
+## 2 5          0.692
+## 3 2          0.607
+## 4 4          0.510
+## 5 1          0.384</code></pre>
+<p>Yes, but the labels are weird and unintuitive. Let’s fix this by using the <code>factor</code> function to change the <code>labels</code> associated with each factor value.</p>
+<pre class="r"><code>dat.cluster &lt;- dat.cluster %&gt;%
+  mutate(cluster = factor(cluster, 
+                          labels=c(&quot;Very Strong Rep&quot;,&quot;Strong Rep&quot;,&quot;Rep&quot;,&quot;Toss Up&quot;,&quot;Strong Dem&quot;)))</code></pre>
+<p>Now confirm that we did not screw that up.</p>
+<pre class="r"><code>dat.cluster %&gt;%
+  group_by(cluster) %&gt;%
+  summarize(PctTrump = mean(pct_rep_2020))</code></pre>
+<pre><code>## # A tibble: 5 × 2
+##   cluster         PctTrump
+##   &lt;fct&gt;              &lt;dbl&gt;
+## 1 Very Strong Rep    0.779
+## 2 Strong Rep         0.692
+## 3 Rep                0.607
+## 4 Toss Up            0.510
+## 5 Strong Dem         0.384</code></pre>
+<p>This seems good to go.</p>
+<pre class="r"><code>fl.centers &lt;- as.data.frame(fl.cluster$centers)
+
+gg &lt;- ggplot() +
+  geom_point(data=dat.cluster, aes(x = pct_rep_2020, y = pct_rep_2004, color = cluster,
+                                   text=paste(county.name)), alpha = 0.8) + 
+  geom_point(data=fl.centers, aes(x = pct_rep_2020, y = pct_rep_2004), size = 6, shape = &quot;+&quot;) + 
+  labs(color = &quot;Cluster&quot;,
+       title = &quot;Florida Counties&quot;,
+       x = &quot;Percentage Vote for Trump&quot;,
+       y = &quot;Percentage Vote for Clinton&quot;) +
+  scale_y_continuous(limits = c(0,1),labels = scales::percent_format(accuracy = 1)) + 
+  scale_x_continuous(limits = c(0,1),labels = scales::percent_format(accuracy = 1)) 
+
+ggplotly(gg,tooltip = &quot;text&quot;)</code></pre>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-6" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-6">{"x":{"data":[{"x":[0.84721530692083402,0.71053706570347397,0.75806924882629101,0.80815200735519499,0.67907238455046004,0.82759887351536698,0.81517811048012401,0.74886683817224098,0.89104543449492701,0.855112083105522,0.799213704015726,0.72377616432300096,0.68570888436321098,0.72371128235822202,0.77931329249180803,0.765379678088279,0.82193755004003199,0.753746196609549,0.80116816743733299],"y":[0.77729784028126603,0.71182554915760299,0.69617687701520004,0.63424450779808805,0.76173998404810095,0.68829556038497397,0.70363506771204598,0.66029957400027495,0.77253012048192804,0.73984962406014998,0.63786825554452198,0.72635372446018998,0.776471767904096,0.773455955546971,0.70579673459055803,0.63710523249038598,0.72641711229946504,0.73219052385719097,0.71088172872853606],"text":["Baker","Bay","Bradford","Calhoun","Clay","Dixie","Gilchrist","Gulf","Holmes","Lafayette","Liberty","Nassau","Okaloosa","Santa Rosa","Suwannee","Taylor","Union","Walton","Washington"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":0.80000000000000004,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(248,118,109,1)"}},"hoveron":"points","name":"Very Strong Rep","legendgroup":"Very Strong Rep","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.70114153291562997,0.62049485607598998,0.72138490406149702,0.68258139874434198,0.72828808010783797,0.72150854449027702,0.66844930036419403,0.69084258887550698,0.72365521710952696,0.71894195812962303,0.70145437549830902,0.62815504297312896,0.67860734173109105,0.69952184307759202],"y":[0.56861531374609497,0.64989936510650204,0.67056140210475801,0.58539875231832705,0.58333333333333304,0.69650986342943899,0.62362637362637396,0.61200585651537298,0.62515013211626203,0.57243642329778499,0.59119232880250505,0.68601228415807203,0.62182023742227199,0.57612853863810298],"text":["Citrus","Collier","Columbia","Franklin","Glades","Hardee","Highlands","Jackson","Levy","Okeechobee","Putnam","St. Johns","Sumter","Wakulla"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(163,165,0,1)","opacity":0.80000000000000004,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(163,165,0,1)"}},"hoveron":"points","name":"Strong Rep","legendgroup":"Strong Rep","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.57622988990032298,0.62955991060684202,0.656686942096532,0.56742892024511105,0.60018684812315204,0.65437392795883398,0.61097372488407997,0.64644424450524196,0.60391448853145102,0.59560180584343703,0.59214925653530504,0.59445628997867805,0.57608845951750998,0.62544525776020699,0.61957336466584301,0.59483061231248102,0.56688302607966101],"y":[0.57660983492929296,0.55683954578497497,0.58086225026288096,0.65303814961124496,0.51021309771309797,0.54971451073045896,0.58895140664961598,0.52931828621798405,0.60145895072784705,0.60015328761597397,0.59906842234290503,0.50469653179190799,0.56619853642573204,0.58193546539516205,0.57088043283231904,0.54070900291227597,0.58605985865389199],"text":["Brevard","Charlotte","DeSoto","Escambia","Flagler","Hamilton","Hendry","Hernando","Indian River","Lake","Lee","Madison","Manatee","Marion","Martin","Pasco","Polk"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,191,125,1)","opacity":0.80000000000000004,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,191,125,1)"}},"hoveron":"points","name":"Rep","legendgroup":"Rep","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.47433545716488801,0.45978796819944301,0.52999645012424601,0.53494763580336901,0.49348150397970397,0.50433585604841802,0.54835073454679895,0.48019093993827,0.565383702132781],"y":[0.57783399508215205,0.53014753185297803,0.44102701257020599,0.49239914000252899,0.49562431235272503,0.47562035917372097,0.53509292008259601,0.58096082064502297,0.48888131773092403],"text":["Duval","Hillsborough","Jefferson","Monroe","Pinellas","St. Lucie","Sarasota","Seminole","Volusia"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,176,246,1)","opacity":0.80000000000000004,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,176,246,1)"}},"hoveron":"points","name":"Toss Up","legendgroup":"Toss Up","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.35743737903565098,0.34814529400462801,0.46060306911384402,0.314157057486744,0.35262599046210302,0.37904983449258001,0.42612911457004299,0.43291410035206301],"y":[0.42902055188272498,0.34613621702373298,0.466093818975999,0.29798894395730102,0.37846735934418102,0.49617826844378499,0.52451218918787401,0.39052406990536598],"text":["Alachua","Broward","Miami-Dade","Gadsden","Leon","Orange","Osceola","Palm Beach"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(231,107,243,1)","opacity":0.80000000000000004,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(231,107,243,1)"}},"hoveron":"points","name":"Strong Dem","legendgroup":"Strong Dem","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.38388272993970696,0.60651923350262871,0.77867380383429441,0.51009002754865751,0.6917876417253247],"y":[0.41611517734012049,0.57039456297632751,0.7143387231769236,0.51306526772142824,0.61876358604394288],"text":"","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":22.677165354330711,"symbol":"cross-thin-open","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.762557077625573,"r":7.3059360730593621,"b":40.182648401826498,"l":48.949771689497723},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Florida Counties","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.050000000000000003,1.05],"tickmode":"array","ticktext":["0%","25%","50%","75%","100%"],"tickvals":[0,0.25,0.5,0.75,1],"categoryorder":"array","categoryarray":["0%","25%","50%","75%","100%"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Percentage Vote for Trump","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.050000000000000003,1.05],"tickmode":"array","ticktext":["0%","25%","50%","75%","100%"],"tickvals":[0,0.25,0.5,0.75,1],"categoryorder":"array","categoryarray":["0%","25%","50%","75%","100%"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Percentage Vote for Clinton","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"Cluster","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"10db741ab086a":{"x":{},"y":{},"colour":{},"text":{},"type":"scatter"},"10db743b588d4":{"x":{},"y":{}}},"cur_data":"10db741ab086a","visdat":{"10db741ab086a":["function (y) ","x"],"10db743b588d4":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>So how well does our classification compare to the one that was used by the networks on Election Night?</p>
+<pre class="r"><code>table(dat.cluster$cluster,dat.cluster$party.strata)</code></pre>
+<pre><code>##                  
+##                   1--High Democrat 2--Mod Democrat 3--Middle 4--Mod Republican
+##   Very Strong Rep                0               0         0                 0
+##   Strong Rep                     0               0         0                 0
+##   Rep                            0               0         0                 9
+##   Toss Up                        0               0         7                 2
+##   Strong Dem                     3               5         0                 0
+##                  
+##                   5--High Republican
+##   Very Strong Rep                 19
+##   Strong Rep                      14
+##   Rep                              8
+##   Toss Up                          0
+##   Strong Dem                       0</code></pre>
+<p>Interesting….</p>
+<p>It is often also useful to summarize the distribution of key variables by the clusters we have found to try to interpret their meaning. Here we can use a boxplot to describe how the county clusters vary in terms of the average support for President Trump.</p>
+<pre class="r"><code>dat.cluster %&gt;%
+  ggplot(aes(x=cluster, y=pct_rep_2020)) +
+  geom_boxplot() + 
+  labs(x=&quot;Cluster&quot;,
+       y=&quot;Pct Trump&quot;,
+       title=&quot;Support for Trump Across Counties in FL&quot;)</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_14_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
+<p>We could also merge in county-level demographic data (using Census <code>fips_code</code>) and see how things change if we cluster counties based on their demographic features. But the important thing to remember is that because this is an unsupervised method there is no way to determine if the clustering is what you want it to be. Also recall that the scale matters. The computer will always find the number of clusters you ask for, but whether those clusters mean anything is up to you, the data analyst to determine. This is where critical thinking is essential – what variables are appropriate to include? And how do you interpret the meaning of the clusters given the distribution of data within those clusters?</p>
+</div>
+<div id="even-more-data-even-more-clusters" class="section level1">
+<h1>Even More Data! Even More Clusters?</h1>
+<p>What if we looked at all counties? Note we are going to drop some states that do not record vote by counties (e.g., Maine) as well as others for which we are lacking data for some years (e.g., Alaska). Let’s create a tibble containing just the data called <code>rawdata</code> and drop all missing data.</p>
+<p>Do we need to standardize? Why or why not?</p>
+<pre class="r"><code>rawvote &lt;- dat.all %&gt;%
+  select(c(pct_rep_2004,pct_rep_2008,pct_rep_2012,pct_rep_2016,pct_rep_2020)) %&gt;%
+  drop_na()</code></pre>
+<p>What if we compare Republican vote share in 2004 and 2020. What does that show? Let’s plot and see.</p>
+<pre class="r"><code>rawvote %&gt;%
+  ggplot(aes(x=pct_rep_2004, y=pct_rep_2020)) +
+  geom_point(alpha=0.3) +
+  labs(x=&quot;% Republican 2004&quot;, 
+       y = &quot;% Republican 2020&quot;, 
+       title = &quot;Republican Support in Counties: 2004 &amp; 2020&quot;) +
+  geom_abline(intercept=0,slope=1) +
+  scale_x_continuous(limits = c(0,1),labels = scales::percent_format(accuracy = 1)) + 
+  scale_y_continuous(limits = c(0,1),labels = scales::percent_format(accuracy = 1)) </code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_14_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
+<p>We begin by setting a seed to ensure replicability and then we fit <code>K</code> different clusters – one for each choice of <code>K</code>.</p>
+<pre class="r"><code>set.seed(42)
+kcluster.us &lt;- 
+  tibble(K = 1:10) %&gt;%   # define a sequence that we will use to denote k
+  mutate(   # now we are going to create new variables in this tibble
+    kcluster = map(K, ~kmeans(rawvote, .x, iter.max = 100)),   # run a kmeans clustering using k
+    tidysummary = map(kcluster, tidy), # run the tidy() function on the kcluster object
+    augmented = map(kcluster, augment, rawvote) # save the cluster to the data
+  )</code></pre>
+<p>To plot this we want to extract the data points from <code>kcluster.us</code> using the <code>unnest</code> function to the tibble <code>points.us</code> and we want to extract the centroids of the clusters from the tidysummary for each cluster into the new tibble <code>clusters.us</code> by <code>unnest</code>ing the summaries of each fit.</p>
+<pre class="r"><code>points.us &lt;- kcluster.us %&gt;%
+  unnest(cols=c(augmented))
+
+clusters.us &lt;- kcluster.us %&gt;%
+  unnest(cols=c(tidysummary))</code></pre>
+<p>Now we can use these two new tibbles to plot.</p>
+<pre class="r"><code>points.us %&gt;%
+  ggplot(aes(x = pct_rep_2004, y = pct_rep_2020)) +
+  geom_point(aes(color = .cluster), alpha = 0.8) + 
+  labs(x = &quot;% Republican Vote 2004&quot;,
+       y = &quot;% Republican Vote 2020&quot;,
+       color = &quot;Cluster&quot;,
+       title = &quot;Clusters for Various Choices of K&quot;) + 
+  facet_wrap(~ K) + 
+  scale_x_continuous(limits = c(.25,1),labels = scales::percent_format(accuracy = 1)) + 
+  scale_y_continuous(limits = c(.25,1),labels = scales::percent_format(accuracy = 1)) + 
+  geom_point(data = clusters.us, size = 4, shape = &quot;+&quot;) </code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_14_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
+<p>So how many clusters? Here we can see what the total within sum of squares is for each set of clusters that we find for the various choices of k. To determine how many, we want to choose a value of k such that there is very little change from adding additional clusters. Note that more clusters will always do better, so the issue is to find out the point at which the improvement seems small. This is a judgment call.</p>
+<p>So let’s extract the fits from the <code>kcluster.us</code> list and then loop over the <code>k</code> different fits to extract the total within sum of squares (<code>tot.withinss</code>) and then create a new tibble <code>fit</code> that contains the vector of cluster sizes and vector of total within sum of squares that we used the loop to extract (i.e., <code>tot.withinss</code>).</p>
+<pre class="r"><code>fits &lt;- kcluster.us[[2]]
+tot.withinss &lt;- NULL
+
+for(i in 1:10){
+  tot.withinss[i] &lt;- fits[[i]]$tot.withinss
+}
+
+fit &lt;- bind_cols(k = seq(1,10), tot.withinss = tot.withinss)</code></pre>
+<p>Now plot to see where the line “bends”.</p>
+<pre class="r"><code>fit %&gt;%
+  ggplot(aes(x=k,y=tot.withinss)) + 
+  geom_line() +
+  scale_x_continuous(breaks=seq(1,10)) + 
+  labs(x=&quot;Number of Clusters&quot;, 
+       y =&quot;Total Within Sum of Squares&quot;,
+       title = &quot;Fit by Number of Clusters&quot;)</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_14_files/figure-html/unnamed-chunk-52-1.png" width="672" /></p>
+<p>So it seems like there are 4 or maybe 5 clusters that seem relevant?</p>
+</div>

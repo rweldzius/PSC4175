@@ -1,0 +1,693 @@
+---
+title: "College Admissions, Part 2"
+subtitle: "Homework 13"
+author: "Prof. Ryan Weldzius"
+institute: "Villanova University"
+date: 2025-07-24
+Due_Date: "2026-06-02 by 11:59PM"
+output: html_document
+---
+
+
+
+<div id="college-admissions-from-the-colleges-view-recap" class="section level1">
+<h1>College Admissions: From the College’s View [Recap]</h1>
+<p>All of you have quite recently gone through the stressful process of figuring out which college to attend. You most likely selected colleges you thought might be a good fit, sent off applications, heard back from them, and then weighed your options. Those around you probably emphasized what an important decision this is for you and for your future.</p>
+<p>Colleges see this process from an entirely different point of view. A college needs students to enroll first of all in order to collect enough tuition revenues in order to keep the lights on and the faculty paid. Almost all private colleges receive most of their revenues from tuition, and public colleges receive about equal amounts of funding from tuition and state funds, with state funds based on how many students they enroll. Second, colleges want to enroll certain types of students– colleges based their reputation based on which students enroll, with greater prestige associated with enrolling students with better demonstrated academic qualifications. The job of enrolling a class that provides enough revenue AND has certain characteristics falls to the Enrollment Management office on a campus. This office typically includes the admissions office as well as the financial aid office.</p>
+<div id="the-college-admissions-funnel" class="section level2">
+<h2>The College Admissions “Funnel”</h2>
+<p>The <a href="https://www.curacubby.com/blog/admissions-funnel">admissions funnel</a> is a well-established metaphor for understanding the enrollment process from the college’s perspective. It begins with colleges identifying prospective students: those who might be interested in enrolling. This proceeds to “interested” students, who engage with the college via registering on the college website, sending test scores, visiting campus, or requesting other information. Some portion of these interested students will then apply. Applicants are then considered, and admissions decisions are made. From this group of admitted students a certain proportion will actually enroll. Here’s live data from UC Santa Cruz (go Banana Slugs!) on their <a href="https://iraps.ucsc.edu/iraps-public-dashboards/student-demand/admissions-funnel.html">enrollment funnel</a>.</p>
+<p>Each stage in this process involves modeling and prediction: how can we predict which prospective students will end up being interested students? How many interested students will turn into applicants? And, most importantly, how many admitted students will actually show up in the fall?</p>
+<p>Colleges aren’t powerless in this process. Instead, they execute a careful strategy to intervene at each stage to get both the number and type of students they want to convert to the next stage. These are the core functions of enrollment management. Why did you receive so many emails, brochures and maybe even text messages? Some model somewhere said that the intervention could convert you from a prospect to an interest, or from an interest to an applicant.</p>
+<p>We’re going to focus on the very last step: from admitted students to what’s called a yield: a student who actually shows up and sits down for classes in the fall.</p>
+<p>The stakes are large: if too few students show up, then the institutions will not have enough revenues to operate. If too many show up the institution will not have capacity for all of them. On top of this, enrollment managers are also tasked with the combined goals of increasing academic prestige (usually through test scores and GPA) and increasing the socioeconomic diversity of the entering class. As we’ll see, these are not easy tasks.</p>
+</div>
+<div id="the-data" class="section level2">
+<h2>The Data</h2>
+<p>We’re going to be using a dataset that was constructed to resemble a typical admissions dataset. To be clear: this is not real data, but instead is based on the relationships we see in actual datasets. Using real data in this case would be a violation of privacy.</p>
+<pre class="r"><code>library(tidyverse)
+library(tidymodels)
+library(scales)</code></pre>
+<pre class="r"><code>ad&lt;-read_rds(&quot;https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/admit_data.rds&quot;)%&gt;%ungroup()</code></pre>
+<p>Codebook for <code>admit_data.rds</code>:</p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Variable Name</td>
+<td>Description</td>
+</tr>
+<tr class="even">
+<td>ID</td>
+<td>Student id</td>
+</tr>
+<tr class="odd">
+<td>income</td>
+<td>Family income (AGI)</td>
+</tr>
+<tr class="even">
+<td>sat</td>
+<td>SAT/ACT score (ACT scores converted to SAT scale)</td>
+</tr>
+<tr class="odd">
+<td>gpa</td>
+<td>HS GPA, four point scale</td>
+</tr>
+<tr class="even">
+<td>visit</td>
+<td>Did student visit campus?</td>
+</tr>
+<tr class="odd">
+<td>legacy</td>
+<td>Did student parent go to this college?</td>
+</tr>
+<tr class="even">
+<td>registered</td>
+<td>Did student register on the website?</td>
+</tr>
+<tr class="odd">
+<td>sent_scores</td>
+<td>Did student send scores prior to applying?</td>
+</tr>
+<tr class="even">
+<td>distance</td>
+<td>Distance from student home address to campus</td>
+</tr>
+<tr class="odd">
+<td>tuition</td>
+<td>Stated tuition: $45,000</td>
+</tr>
+<tr class="even">
+<td>need_aid</td>
+<td>Need-based aid offered</td>
+</tr>
+<tr class="odd">
+<td>merit_aid</td>
+<td>Merit-based aid offered</td>
+</tr>
+<tr class="even">
+<td>net_price</td>
+<td>Net Price: Tuition less aid received</td>
+</tr>
+<tr class="odd">
+<td>yield</td>
+<td>Student enrolled in classes in fall after admission</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="logistic-regression" class="section level2">
+<h2>Logistic Regression</h2>
+<p>So far, we’ve been using tools we know for classification. While we <em>can</em> use
+conditional means or linear regression for classification, it’s better to use a
+tool that was created specifically for binary outcomes.</p>
+<p>Logistic regression is set up to handle binary outcomes as the dependent
+variable. The downside to logistic regression is that it is modeling the log
+odds of the outcome, which means all of the coefficients are expressed as log
+odds, which (almost) no one understands intuitively.</p>
+<p>Let’s take a look at a simple plot of our dependent variable as a function of
+one independent variable: SAT scores. I’m using <code>geom_jitter</code> to allow the points
+to “bounce” around a bit on the y axis so we can actually see them, but it’s
+important to note that they can only be 0s or 1s.</p>
+</div>
+<div id="yield-as-a-function-of-sat-scores" class="section level2">
+<h2>Yield as a Function of SAT Scores</h2>
+<pre class="r"><code>ad%&gt;%
+  ggplot(aes(x=sat,y=yield))+
+  geom_jitter(width=.01,height=.05,alpha=.25,color=&quot;blue&quot;)</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_13_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>We can see there are more higher SAT students than lower SAT students that ended
+up enrolling. A linear model in this case would look like this:</p>
+</div>
+<div id="predicted-probabilities-from-a-linear-model" class="section level2">
+<h2>Predicted “Probabilities” from a Linear Model</h2>
+<pre class="r"><code>ad%&gt;%
+  ggplot(aes(x=sat,y=yield))+
+  geom_jitter(width=.01,height=.05,alpha=.25,color=&quot;blue&quot;)+
+  geom_smooth(method=&quot;lm&quot;,se = FALSE,color=&quot;black&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_13_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>We can see the issue we identified last time: we CAN fit a model, but it doesn’t
+make a ton of sense. In particular, it doesn’t follow the data very well and it
+ends up with probabilities outside 0,1.</p>
+</div>
+<div id="generalized-linear-models" class="section level2">
+<h2>Generalized Linear Models</h2>
+<p>What we need is a better function that connects <span class="math inline">\(y\)</span> to <span class="math inline">\(x\)</span>. The idea of
+connecting <span class="math inline">\(y\)</span> to <span class="math inline">\(x\)</span> with a function other than a simple line is called a
+generalized linear model.</p>
+<p>A posits that the probability that <span class="math inline">\(y\)</span> is
+equal to some value is a function of the independent variables and the
+coefficients or other parameters via a <em>link function</em>:</p>
+<p><span class="math inline">\(P(y|\mathbf{x})=G(\beta_0 + \mathbf{x_i\beta})\)</span></p>
+<p>In our case, we’re interested in the probability that <span class="math inline">\(y=1\)</span></p>
+<p><span class="math inline">\(P(y=1|\mathbf{x})=G(\beta_0 + \mathbf{x_i\beta})\)</span></p>
+<p>There are several functions that “map” onto a 0,1 continuum. The most commonly
+used is the logistic function, which gives us the <em>logit model</em>.</p>
+<p>The logistic function is given by:</p>
+<p><span class="math inline">\(f(x)=\frac{1}{1+exp^{-k(x-x_0)}}\)</span></p>
+</div>
+<div id="the-logistic-function-pry-as-a-function-of-x" class="section level2">
+<h2>The Logistic Function: Pr(Y) as a Function of X</h2>
+<pre class="r"><code>x&lt;-runif(100,-3,3)
+pr_y=1/(1+exp(-x))
+as_tibble(pr_y = pr_y,x = x)%&gt;%
+  ggplot(aes(x=x,y=pr_y))+
+  geom_smooth()</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_13_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Mapped onto our GLM, this gives us:</p>
+<p><span class="math inline">\(P(y=1|\mathbf{x})=\frac{exp(\beta_0 + \mathbf{x_i\beta})}{1+exp(\beta_0 +\mathbf{x_i\beta})}\)</span></p>
+<p>The critical thing to note about the above is that the link function maps the
+entire result of estimation <span class="math inline">\((\beta_0 + \mathbf{x_i\beta})\)</span> onto the 0,1
+continuum. Thus, the change in the <span class="math inline">\(P(y=1|\mathbf{x})\)</span> is a function of <em>all</em> of
+the independent variables and coefficients together, one at a time.</p>
+<p>What does this mean? It means that the coefficients can only be interpreted on
+the <em>logit</em> scale, and don’t have the normal interpretation we would use for OLS
+regression. Instead, to understand what the logistic regression coefficients
+mean, you’re going to have to convert the entire term
+<span class="math inline">\((\beta_0 + \mathbf{x_i\beta})\)</span> to the probability scale, using the inverse of
+the function. Luckily we have computers to do this for us . . .</p>
+<p>If we use this link function on our data, it would look like this: <code>glm(formula,family,data)</code>. Notice that it looks very similar to the linear regression function: <code>lm(formula,data)</code>.
+The only difference is the <strong>name</strong> of the function (<code>glm()</code> versus <code>lm()</code>) and the additional
+input <code>family</code>. This input can take on many different values, but for this class, we only want the <strong>logit</strong>, which requires <code>family = binomial(link = "logit")</code>.</p>
+<p>Putting it all together:</p>
+</div>
+<div id="plotting-predictions-from-logistic-regression" class="section level2">
+<h2>Plotting Predictions from Logistic Regression</h2>
+<pre class="r"><code>ad_analysis &lt;- ad %&gt;%
+  ungroup() %&gt;%
+  select(yield,sat,net_price,legacy) %&gt;%
+  drop_na()
+
+m &lt;- glm(yield ~ sat, family = binomial(link = &quot;logit&quot;), data = ad_analysis)# %&gt;% ## Run a glm
+summary(m)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = yield ~ sat, family = binomial(link = &quot;logit&quot;), 
+##     data = ad_analysis)
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -1.077e+01  6.965e-01  -15.46   &lt;2e-16 ***
+## sat          9.730e-03  5.926e-04   16.42   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 2689.5  on 2149  degrees of freedom
+## Residual deviance: 2353.7  on 2148  degrees of freedom
+## AIC: 2357.7
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<p>How to interpret? It is more complicated than a linear regression model, and beyond what you are expected to know in an intro to data science class. We <strong>cannot</strong> say that each additional SAT score point corresponds to a 0.000973 increase in <code>yield</code>. However, we can conclude that there is a (1) positive and (2) statistically significant association between SAT scores and attending.</p>
+<p>In this class…just focus on the <strong>sign</strong> of the coefficient and the <strong>p-value</strong>.</p>
+<p><em>Quick Exercise: Replicate the above model using distance as a predictor and
+comment on what it tells you</em></p>
+<pre class="r"><code>## INSERT CODE HERE</code></pre>
+<p>As you’re getting started, this is what we recommend with these models:</p>
+<ul>
+<li>Use coefficient estimates for sign and significance only–don’t try and come
+up with a substantive interpretation.</li>
+<li>Generate probability estimates based on characteristics for substantive
+interpretations.</li>
+</ul>
+</div>
+<div id="evaluating" class="section level2">
+<h2>Evaluating</h2>
+<p>Since the outcome is binary, we want to evaluate our model on the basis of <strong>sensitivity</strong>, <strong>specificity</strong>, and <strong>accuracy</strong>. To get started, let’s generate predictions again.</p>
+<p>NOTE: when predicting a <code>glm()</code> model, set <code>type = "response"</code>!</p>
+<pre class="r"><code>m &lt;- glm(yield ~ sat, family = binomial(link = &quot;logit&quot;), data = ad_analysis)# %&gt;% ## Run a glm
+summary(m)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = yield ~ sat, family = binomial(link = &quot;logit&quot;), 
+##     data = ad_analysis)
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -1.077e+01  6.965e-01  -15.46   &lt;2e-16 ***
+## sat          9.730e-03  5.926e-04   16.42   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 2689.5  on 2149  degrees of freedom
+## Residual deviance: 2353.7  on 2148  degrees of freedom
+## AIC: 2357.7
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<pre class="r"><code>ad_analysis%&gt;%
+  mutate(preds = predict(m,type = &#39;response&#39;)) %&gt;% # Predicting our new model
+  mutate(pred_attend = ifelse(preds &gt; .5,1,0)) %&gt;% # Converting predicted probabilities into 1s and 0s
+  group_by(yield)%&gt;%
+  mutate(total_attend=n())%&gt;%
+  group_by(yield,pred_attend)%&gt;%
+  summarize(n(),`Actual Group`=mean(total_attend))%&gt;%
+  mutate(Proportion=`n()`/`Actual Group`)%&gt;%
+  rename(`Actually Attended`=yield,
+         `Predicted to Attend`=pred_attend,
+         `Number of Students`=`n()`)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;yield&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 4 × 5
+## # Groups:   Actually Attended [2]
+##   `Actually Attended` `Predicted to Attend` `Number of Students` `Actual Group`
+##                 &lt;int&gt;                 &lt;dbl&gt;                &lt;int&gt;          &lt;dbl&gt;
+## 1                   0                     0                  220            684
+## 2                   0                     1                  464            684
+## 3                   1                     0                  173           1466
+## 4                   1                     1                 1293           1466
+## # ℹ 1 more variable: Proportion &lt;dbl&gt;</code></pre>
+<p>Our <strong>sensitivity</strong> is 0.88 or 88%, our <strong>specificity</strong> is 0.32 or 32%, and our overall <strong>accuracy</strong> is <code>(220 + 1293) / 2150</code> or 0.70 (70%).</p>
+</div>
+<div id="the-thresholds" class="section level2">
+<h2>The Thresholds</h2>
+<p>Note that we required a “threshold” to come up with these measures of sensitivity, specificity, and accuracy. Specifically, we relied on a coin toss. If the predicted probability of attending was greater than 50%, we assumed that the student would attend, otherwise they wouldn’t. But this choice doesn’t always have to be 50%. We can choose a number of different thresholds.</p>
+<pre class="r"><code>ad_analysis%&gt;%
+  mutate(preds = predict(m,type = &#39;response&#39;)) %&gt;% # Predicting our new model
+  mutate(pred_attend = ifelse(preds &gt; .35,1,0)) %&gt;% # A lower threshold of 0.35 means that more students are predicted to attend
+  group_by(yield)%&gt;%
+  mutate(total_attend=n())%&gt;%
+  group_by(yield,pred_attend)%&gt;%
+  summarize(n(),`Actual Group`=mean(total_attend))%&gt;%
+  mutate(Proportion=`n()`/`Actual Group`)%&gt;%
+  rename(`Actually Attended`=yield,
+         `Predicted to Attend`=pred_attend,
+         `Number of Students`=`n()`)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;yield&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 4 × 5
+## # Groups:   Actually Attended [2]
+##   `Actually Attended` `Predicted to Attend` `Number of Students` `Actual Group`
+##                 &lt;int&gt;                 &lt;dbl&gt;                &lt;int&gt;          &lt;dbl&gt;
+## 1                   0                     0                   73            684
+## 2                   0                     1                  611            684
+## 3                   1                     0                   51           1466
+## 4                   1                     1                 1415           1466
+## # ℹ 1 more variable: Proportion &lt;dbl&gt;</code></pre>
+<pre class="r"><code>ad_analysis%&gt;%
+  mutate(preds = predict(m,type = &#39;response&#39;)) %&gt;% # Predicting our new model
+  mutate(pred_attend = ifelse(preds &gt; .75,1,0)) %&gt;% # A higher threshold of 0.75 means that fewer students are predicted to attend
+  group_by(yield)%&gt;%
+  mutate(total_attend=n())%&gt;%
+  group_by(yield,pred_attend)%&gt;%
+  summarize(n(),`Actual Group`=mean(total_attend))%&gt;%
+  mutate(Proportion=`n()`/`Actual Group`)%&gt;%
+  rename(`Actually Attended`=yield,
+         `Predicted to Attend`=pred_attend,
+         `Number of Students`=`n()`)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;yield&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 4 × 5
+## # Groups:   Actually Attended [2]
+##   `Actually Attended` `Predicted to Attend` `Number of Students` `Actual Group`
+##                 &lt;int&gt;                 &lt;dbl&gt;                &lt;int&gt;          &lt;dbl&gt;
+## 1                   0                     0                  566            684
+## 2                   0                     1                  118            684
+## 3                   1                     0                  661           1466
+## 4                   1                     1                  805           1466
+## # ℹ 1 more variable: Proportion &lt;dbl&gt;</code></pre>
+<p>So how do we determine the optimal threshold? Loop over different choices!</p>
+<pre class="r"><code>threshRes &lt;- NULL
+
+for(thresh in seq(0,1,by = .05)) { # Loop over values between zero and one, increasing by 0.05
+  tmp &lt;- ad_analysis%&gt;%
+  mutate(preds = predict(m,type = &#39;response&#39;)) %&gt;% # Predicting our new model
+  mutate(pred_attend = ifelse(preds &gt; thresh,1,0)) %&gt;% # Plug in our threshold value
+  group_by(yield)%&gt;%
+  mutate(total_attend=n())%&gt;%
+  group_by(yield,pred_attend)%&gt;%
+  summarize(n(),`Actual Group`=mean(total_attend),.groups = &#39;drop&#39;)%&gt;%
+  mutate(Proportion=`n()`/`Actual Group`)%&gt;%
+  rename(`Actually Attended`=yield,
+         `Predicted to Attend`=pred_attend,
+         `Number of Students`=`n()`) %&gt;%
+    mutate(threshold = thresh)
+  
+  threshRes &lt;- threshRes %&gt;% bind_rows(tmp)
+}
+
+threshRes %&gt;%
+  mutate(metric = ifelse(`Actually Attended` == 1 &amp; `Predicted to Attend` == 1,&#39;Sensitivity&#39;,
+                         ifelse(`Actually Attended` == 0 &amp; `Predicted to Attend` == 0,&#39;Specificity&#39;,NA))) %&gt;%
+  drop_na() %&gt;%
+  ggplot(aes(x = threshold,y = Proportion,color = metric)) + 
+  geom_line() + 
+  geom_vline(xintercept = .67)</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_13_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>The optimal threshold is the one that maximizes Sensitivity and Specificity! (Although this is use-case dependent. You might prefer to do better on accurately predicting those who do attend than you do about predicting those who don’t.) In this case it is about 0.67.</p>
+</div>
+<div id="the-roc-curve" class="section level2">
+<h2>The ROC curve</h2>
+<p>As the preceding plot makes clear, there is a <strong>trade-off</strong> between sensitivity and specificity. We can visualize this trade-off by putting <code>1-specificity</code> on the x-axis, and <code>sensitivity</code> on the y-axis, to create the “Receiver-Operator Characteristic (ROC) Curve”.</p>
+<pre class="r"><code>threshRes %&gt;%
+  mutate(metric = ifelse(`Actually Attended` == 1 &amp; `Predicted to Attend` == 1,&#39;Sensitivity&#39;,
+                         ifelse(`Actually Attended` == 0 &amp; `Predicted to Attend` == 0,&#39;Specificity&#39;,NA))) %&gt;%
+  drop_na() %&gt;%
+  select(Proportion,metric,threshold) %&gt;%
+  spread(metric,Proportion) %&gt;% # Create two columns, one for spec, the other for sens
+  ggplot(aes(x = 1-Specificity,y = Sensitivity)) + # X-axis is 1-Specificity
+  geom_line() + 
+  xlim(c(0,1)) + ylim(c(0,1)) + 
+  geom_abline(slope = 1,intercept = 0,linetype = &#39;dotted&#39;) # The curve is always evaluated in reference to the diagonal line.</code></pre>
+<pre><code>## Warning: Removed 7 rows containing missing values or values outside the scale range
+## (`geom_line()`).</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_13_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>The idea is that a model that is very predictive will have high levels of sensitivity AND high levels of specificity at EVERY threshold. Such a model will cover most of the available area above the baseline of .5. A model with low levels of sensitivity and low levels of specificity at every threshold will cover almost none of the available area above the baseline of .5.</p>
+<p>As such, we can extract a single number that captures the quality of our model from this plot: the “Area Under the Curve” (AUC). The further away from the diagonal line is our ROC curve, the better our model performs, and the higher is the AUC. But how to calculate the AUC? Thankfully, there is a helpful <code>R</code> package that will do this for us: <code>tidymodels</code>.</p>
+<pre class="r"><code>require(tidymodels)
+roc_auc(data = ad_analysis %&gt;%
+  mutate(pred_attend = predict(m,type = &#39;response&#39;), 
+         truth = factor(yield,levels = c(&#39;1&#39;,&#39;0&#39;))) %&gt;% # Make sure the outcome is converted to factors with &#39;1&#39; first and &#39;0&#39; second!
+  select(truth,pred_attend),truth,pred_attend)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 roc_auc binary         0.742</code></pre>
+<p>Our curve covers almost 75% of the total area above the diagonal line. Is this good?</p>
+<p>Just like with RMSE, you are primarily interested in the AUC measure to compare different models against each other.</p>
+<p>But if you HAVE to, it turns out that – in general – interpreting AUC is just like interpreting academic grades:</p>
+<p>Below .6= bad (F)</p>
+<p>.6-.7= still not great (D)</p>
+<p>.7-.8= Ok . .. (C)</p>
+<p>.8-.9= Pretty good (B)</p>
+<p>.9-1= Very good fit (A)</p>
+<p><em>Quick Exercise: Rerun the model with sent_scores added: does it improve model fit?</em></p>
+</div>
+<div id="cross-validation" class="section level2">
+<h2>Cross Validation</h2>
+<p>Just like RMSE calculated on the full data risks overfitting, AUC does also.</p>
+<p>How to overcome? Cross validation!</p>
+<pre class="r"><code>set.seed(123)
+cvRes &lt;- NULL
+for(i in 1:100) {
+  # Cross validation prep
+  inds &lt;- sample(1:nrow(ad_analysis),size = round(nrow(ad_analysis)*.8),replace = F)
+  train &lt;- ad_analysis %&gt;% slice(inds)
+  test &lt;- ad_analysis %&gt;% slice(-inds)
+
+  # Training models
+  m1 &lt;- glm(yield ~ sat,family = binomial(link = &quot;logit&quot;),train)
+  
+  # Predicting models
+  toEval &lt;- test %&gt;%
+    mutate(m1Preds = predict(m1,newdata = test,type = &#39;response&#39;),
+           truth = factor(yield,levels = c(&#39;1&#39;,&#39;0&#39;)))
+
+  # Evaluating models
+  rocRes &lt;- roc_auc(data = toEval,truth = truth,m1Preds)
+  cvRes &lt;- rocRes %&gt;%
+    mutate(bsInd = i) %&gt;%
+    bind_rows(cvRes)
+}
+
+mean(cvRes$.estimate)</code></pre>
+<pre><code>## [1] 0.7404506</code></pre>
+</div>
+</div>
+<div id="thinking-about-policy-change-in-admissions" class="section level1">
+<h1>Thinking About Policy Change in Admissions</h1>
+<p>Once we have a model that can predict an outcome, we can also run some simulations using
+our existing data to understand what would happen if we implemented different policies. In this class we’re going
+to go over how to generate predictions using hypothetical data at different levels of complexity. This is helpful
+to understand the implications of different models. It’s particularly helpful in the context of logistic regression, as
+the coefficients from a logistic regression are difficult to understand on their own. Once we feel like we have a handle on the relationship between the variables and the outcome, we can try changing policies to see what the new predictions might look like.</p>
+<p>We’ll start by loading in our standard libraries, plus the <code>modelr</code> library, and getting the data set up.</p>
+<pre class="r"><code>library(modelr)
+library(tidyverse)
+library(tidymodels)</code></pre>
+<pre class="r"><code>ad&lt;-read_rds(&quot;https://github.com/rweldzius/PSC4175_F2024/raw/main/Data/admit_data.rds&quot;)</code></pre>
+<div id="data-wrangling" class="section level2">
+<h2>Data Wrangling</h2>
+<pre class="r"><code>ad&lt;-ad%&gt;%
+  mutate(yield_f=as_factor(ifelse(yield==1,&quot;Yes&quot;,&quot;No&quot;)))%&gt;%
+  mutate(yield_f=relevel(yield_f,ref=&quot;No&quot;))%&gt;%
+    mutate(sat=sat/100,
+         income=income/1000,
+         distance=distance/1000,
+         net_price=net_price/1000)</code></pre>
+</div>
+<div id="settting-the-model" class="section level2">
+<h2>Settting the Model</h2>
+<p>Today I’m going to use a more fully specified logit model. We’ll include most of the variables in the dataset, then fit the model and take a look at the coefficients.</p>
+<pre class="r"><code>admit_formula &lt;- as.formula(
+                  &quot;yield_f~
+                          legacy+
+                          visit+
+                          registered+
+                          sent_scores+
+                          sat+
+                          income+
+                          gpa+
+                          distance+
+                          net_price&quot;)</code></pre>
+</div>
+<div id="fit-the-model" class="section level2">
+<h2>Fit the Model</h2>
+<pre class="r"><code>m &lt;- glm(formula = admit_formula,
+         family = binomial(link = &#39;logit&#39;),
+         data = ad)</code></pre>
+<pre><code>## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred</code></pre>
+<pre class="r"><code>tidy(m) # Easier to read regression output (same as summary(m))</code></pre>
+<pre><code>## # A tibble: 10 × 5
+##    term        estimate std.error statistic  p.value
+##    &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+##  1 (Intercept)  -8.96     1.52       -5.89  3.87e- 9
+##  2 legacy        0.514    0.153       3.35  8.11e- 4
+##  3 visit         0.285    0.135       2.11  3.53e- 2
+##  4 registered    0.461    0.132       3.50  4.64e- 4
+##  5 sent_scores   0.730    0.179       4.08  4.48e- 5
+##  6 sat          -0.0444   0.126      -0.352 7.25e- 1
+##  7 income        0.0513   0.00311    16.5   3.10e-61
+##  8 gpa           1.77     0.337       5.26  1.41e- 7
+##  9 distance     -1.53     0.346      -4.41  1.04e- 5
+## 10 net_price    -0.0559   0.00761    -7.35  1.93e-13</code></pre>
+</div>
+<div id="current-institutional-policies" class="section level2">
+<h2>Current Institutional Policies</h2>
+<p>(This is a recap from lecture 1)</p>
+<p>Essentially every private college engages heavily in tuition discounting. This has two basic forms: need-based aid and merit-based aid. Need-based aid is provided on the basis of income, typically with some kind of income cap. Merit-based aid is based on demonstrated academic qualifications, again usually with some kind of minimum. Here’s this institution’s current policies.</p>
+<p>The institution is currently awarding need-based aid for families making less than $100,0000 on the following formula:</p>
+<p><span class="math inline">\(need_aid=500+(income/1000-100)\*-425\)</span></p>
+<p>Translated, this means for every $1,000 the family makes less than $100,000 the student receives an additional 425 dollars. So for a family making $50,000, need-based aid will be <span class="math inline">\(500+(50,000/1000-100)*-425= 500+ (-50*-425)\)</span>=$21,750. Need based aid is capped at total tuition.</p>
+<pre class="r"><code>ad%&gt;%
+  ggplot(aes(x=income,y=need_aid))+
+  geom_point()</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_13_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>The institution is currently awarding merit-based aid for students with SAT scores above 1250 on the following formula:</p>
+<p><span class="math inline">\(merit_aid=500+(sat/10\*250)\)</span></p>
+<p>Translated, this means that for every 10 points in SAT scores above 1250, the student will receive an additional $250. So for a student with 1400 SAT, merit based aid will be : <span class="math inline">\(500+ (1400/10 *250)= 500+140*250\)</span></p>
+<pre class="r"><code>ad%&gt;%
+  ggplot(aes(x=sat,y=merit_aid))+
+  geom_point()</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_13_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+</div>
+<div id="probability-for-a-specific-case" class="section level2">
+<h2>Probability for a Specific Case</h2>
+<p>The first thing we’ll do is to generate a predicted probability of yield for a particular type of case. Let’s take a look at the predicted probability of enrolling for an individual who:</p>
+<ul>
+<li>Is not a legacy (legacy=0)</li>
+<li>Visited Campus (visit=1)</li>
+<li>Registered on the college website (register=1)</li>
+<li>Did not send scores in advance of applying (sent_scores=1)</li>
+<li>Has an SAT score of 1400 (sat=14)</li>
+<li>Has a family income of $95,000 (income=95)</li>
+<li>Has a GPA of 3.9 (gpa=3.9)<br />
+</li>
+<li>Lives 100 miles from campus (distance=.1)</li>
+<li>Net Price of 6,875</li>
+</ul>
+<p>According to our policy, someone with this set of characteristics would receive</p>
+<p><span class="math inline">\(need_aid=500+(income/1000-100)\*-425\)</span>= 2625 in need-based aid, and</p>
+<p><span class="math inline">\(merit_aid=500+(sat/10\*250)\)</span>= 35,500 in merit based aid, so their net price would be:</p>
+<p>45000-2625-35,500= 6,875</p>
+<p>We will use the <code>data_grid</code> command. This command allows us to specify values of the
+covariates in a model so that we can then use these to get a predicted probability from the model.</p>
+<pre class="r"><code>hypo_data &lt;- ad %&gt;%
+  data_grid(legacy=0,
+            visit=1,
+            registered=1,
+            sent_scores=1,
+            sat=14,
+            income=95,
+            gpa=3.9,
+            distance=.1,
+            net_price=6.875
+            )</code></pre>
+<pre class="r"><code>data.frame(prob_attend = predict(m,newdata = hypo_data,type=&quot;response&quot;)) %&gt;%
+  bind_cols(hypo_data)</code></pre>
+<pre><code>##   prob_attend legacy visit registered sent_scores sat income gpa distance
+## 1   0.9587473      0     1          1           1  14     95 3.9      0.1
+##   net_price
+## 1     6.875</code></pre>
+<p><em>Quick Exercise:</em> What’s the probability that the same student would attend if we increased their net price by 10k?</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="change-in-probability-for-two-cases" class="section level2">
+<h2>Change in Probability for Two Cases</h2>
+<p>With the data_grid command, we can ask for results back for many combinations of values. Let’s check to see what happens in the above case if we compare individuals who did and did not send their scores.</p>
+<pre class="r"><code>hypo_data &lt;- ad %&gt;%
+  data_grid(legacy=0,
+            visit=1,
+            registered=1,
+            sent_scores=c(0,1),
+            sat=14,
+            income=95,
+            gpa=3.9,
+            distance=.1,
+            net_price=6.875
+            )</code></pre>
+<pre class="r"><code>data.frame(prob_attend = predict(m,newdata = hypo_data,type=&quot;response&quot;)) %&gt;%
+  bind_cols(hypo_data)</code></pre>
+<pre><code>##   prob_attend legacy visit registered sent_scores sat income gpa distance
+## 1   0.9180167      0     1          1           0  14     95 3.9      0.1
+## 2   0.9587473      0     1          1           1  14     95 3.9      0.1
+##   net_price
+## 1     6.875
+## 2     6.875</code></pre>
+<p><em>Quick Exercise:</em> What’s the difference in probability for students who did and didn’t visit campus</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="using-default-values" class="section level2">
+<h2>Using Default Values</h2>
+<p>One really powerful aspect of <code>data_grid</code> is that we don’t have to specify the value of every variable. Instead, we can use supply the model to data_grid and it will use the default values. Let’s say we just want a prediction for someone with mean or modal value for all of the characteristics. We can use data_grid with the model argument to get this:</p>
+<pre class="r"><code>hypo_data &lt;- ad %&gt;%
+  data_grid(.model=m)</code></pre>
+<pre class="r"><code>data.frame(prob_attend = predict(m,newdata = hypo_data,type=&quot;response&quot;)) %&gt;%
+  bind_cols(hypo_data)</code></pre>
+<pre><code>##   prob_attend legacy visit registered sent_scores      sat   income      gpa
+## 1   0.8655441      0     0          1           0 12.00089 99.71213 3.790439
+##    distance net_price
+## 1 0.1002338  14.10675</code></pre>
+<p><em>Quick Exercise:</em> generate probabilities for individuals who are both at the mean or mode of all variables, but have a gpa of 3.5 and 3.9.</p>
+<pre class="r"><code>hypo_data &lt;- ad %&gt;%
+  data_grid(.model=m,
+            gpa=c(3.5,3.9))
+
+data.frame(prob_attend = predict(m,newdata = hypo_data,type=&quot;response&quot;)) %&gt;%
+  bind_cols(hypo_data)</code></pre>
+<pre><code>##   prob_attend gpa legacy visit registered sent_scores      sat   income
+## 1   0.7936923 3.5      0     0          1           0 12.00089 99.71213
+## 2   0.8865843 3.9      0     0          1           0 12.00089 99.71213
+##    distance net_price
+## 1 0.1002338  14.10675
+## 2 0.1002338  14.10675</code></pre>
+</div>
+<div id="probabilities-across-a-range-of-cases" class="section level2">
+<h2>Probabilities Across a Range of Cases</h2>
+<p>The other thing we can do is to generate probabilities for a range of a continuous variable. The <code>seq_range</code> variable allows us to go from the minimum to the maximum of a given variable in a specified number of steps. Below I go from the minimum gpa to the maximum gpa in 100 steps, for both legacy and non-legacy students, with all other values held at their mean or mode.</p>
+<pre class="r"><code>hypo_data &lt;- ad %&gt;%
+  data_grid(gpa = seq_range(gpa, n = 100),
+            legacy=c(0,1),
+            .model=m)</code></pre>
+<p>We can then plot that data as follows:</p>
+<pre class="r"><code>plot_data&lt;-data.frame(prob_attend = predict(m,newdata = hypo_data,type=&quot;response&quot;)) %&gt;%
+  bind_cols(hypo_data)
+
+plot_data%&gt;%
+ggplot(aes(x=gpa,y=prob_attend,color=as_factor(legacy)))+
+  geom_line()+
+  ylab(&quot;Prob(Attend)&quot;)</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_13_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<p><em>Quick Exercise:</em> Plot the impact of changing distance across its range for those who have and haven’t visited campus</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<p>The above tools can allow us to think through the substantive importance of changes in the different variables. This is an important step in these kinds of models, where the coefficients aren’t directly interpretable.</p>
+</div>
+<div id="changing-policy" class="section level2">
+<h2>Changing policy</h2>
+<p>AS we think about changing policy for the campus, we need to answer a series of questions about the key characteristics of the campus right now. Remember that for your assignment we want you to do the the four following things:</p>
+<p>The college president and the board of trustees have two strategic goals:</p>
+<ol style="list-style-type: decimal">
+<li>Increase the average SAT score to 1300</li>
+<li>Admit at least 200 more students with incomes less than $50,000</li>
+<li>Don’t allow tuition revenues from first-year students to drop to less than $30 million</li>
+<li>Keep the number of enrolled students between 1,450 and 1,550</li>
+</ol>
+<p>So, what’s the average SAT score?</p>
+<pre class="r"><code>ad%&gt;%
+  filter(yield==1)%&gt;%
+  summarize(mean(sat))</code></pre>
+<pre><code>##   mean(sat)
+## 1  12.25941</code></pre>
+<p>Second, how many currently enrolled students come from families that make less than $50,000 a year?</p>
+<pre class="r"><code>ad%&gt;%
+  filter(yield==1,income&lt;50)%&gt;%
+  count()</code></pre>
+<pre><code>##    n
+## 1 77</code></pre>
+<p><a href="https://www.nytimes.com/interactive/projects/college-mobility/villanova-university">Someone alert Raj Chetty!</a></p>
+<p>Next how much does the campus collect from first-year students in tuition revenue?</p>
+<pre class="r"><code>ad%&gt;%
+  filter(yield==1)%&gt;%
+  summarize(dollar(sum(net_price)))</code></pre>
+<pre><code>##   dollar(sum(net_price))
+## 1             $30,674.15</code></pre>
+<p>And how many students currently yield?</p>
+<pre class="r"><code>ad%&gt;%
+  filter(yield==1)%&gt;%
+  count()</code></pre>
+<pre><code>##      n
+## 1 1466</code></pre>
+<p>What we want to do now is to think about how changing policies might affect all four of these summary measures. Let’s think about changing our financial aid policy for students who sent scores.</p>
+<pre class="r"><code>data.frame(prob_attend = predict(m,type = &#39;response&#39;)) %&gt;%
+  bind_cols(ad)%&gt;%
+  mutate(pred_attend = ifelse(prob_attend &gt; .5,1,0)) %&gt;%
+  group_by(sent_scores,pred_attend)%&gt;%
+  count()</code></pre>
+<pre><code>## # A tibble: 4 × 3
+## # Groups:   sent_scores, pred_attend [4]
+##   sent_scores pred_attend     n
+##         &lt;dbl&gt;       &lt;dbl&gt; &lt;int&gt;
+## 1           0           0   627
+## 2           0           1  1093
+## 3           1           0    75
+## 4           1           1   355</code></pre>
+<p>The model currently predicts that 355 of the 430 students who sent scores will enroll. What happens if we increase their net price by 5,000? I’m going to create a new version of our dataset, with net price increased by 5,000 (5) for everyone who sent scores.</p>
+<pre class="r"><code>ad_np&lt;-ad%&gt;%
+  mutate(net_price=ifelse(sent_scores==1,
+                              net_price+5,
+                              net_price))</code></pre>
+<p>Then I can generate predictions from the dataset, and create a new variable for <code>prob_attend</code> which will classify our variable. Please note that this uses a threshold of .5 by default.</p>
+<pre class="r"><code>ad_np&lt;-data.frame(prob_attend = predict(m,newdata = ad_np,type = &#39;response&#39;)) %&gt;%
+  mutate(pred_attend = ifelse(prob_attend &gt; .5,1,0)) %&gt;%
+  bind_cols(ad_np)</code></pre>
+<p>How many students who sent scores are now predicted to yield?</p>
+<pre class="r"><code>ad_np%&gt;%
+  group_by(sent_scores,pred_attend)%&gt;%
+  count()</code></pre>
+<pre><code>## # A tibble: 4 × 3
+## # Groups:   sent_scores, pred_attend [4]
+##   sent_scores pred_attend     n
+##         &lt;dbl&gt;       &lt;dbl&gt; &lt;int&gt;
+## 1           0           0   627
+## 2           0           1  1093
+## 3           1           0    92
+## 4           1           1   338</code></pre>
+<p>So, we lost about 22 students by increasing the net price. On the other hand, we charged more to the students who did attend.</p>
+<pre class="r"><code>ad_np%&gt;%
+  filter(pred_attend==1)%&gt;%
+  summarize(dollar(sum(net_price)))</code></pre>
+<pre><code>##   dollar(sum(net_price))
+## 1             $31,264.66</code></pre>
+<p>Total revenues went up!</p>
+<p>And what happened to overall enrollment?</p>
+<pre class="r"><code>ad_np%&gt;%
+  group_by(pred_attend)%&gt;%
+  count()</code></pre>
+<pre><code>## # A tibble: 2 × 2
+## # Groups:   pred_attend [2]
+##   pred_attend     n
+##         &lt;dbl&gt; &lt;int&gt;
+## 1           0   719
+## 2           1  1431</code></pre>
+<p>So, this policy decreased enrollment slightly, but raised 500,000 dollars. Worth it?</p>
+<p><em>Quick Exercise:</em> Decrease prices for everyone who lives more than 1500 miles away by 10,000 and summarize the impacts on the campus.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+</div>

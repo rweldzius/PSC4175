@@ -1,0 +1,48 @@
+{{- define "main" -}}
+
+<article class="article">
+
+  {{ partial "page_header" . }}
+
+  <div class="article-container">
+
+    {{/* --- Metadata Section --- */}}
+    <div class="article-metadata">
+      
+      {{/* Display Due Date if it exists */}}
+      {{ with .Params.due_date }}
+        <span class="meta-item">
+          <strong>Due:</strong> {{ . }}
+        </span>
+        <span class="middot-divider"></span>
+      {{ end }}
+
+      {{/* Display Institute if it exists */}}
+      {{ with .Params.institute }}
+        <span class="meta-item">
+          {{ . }}
+        </span>
+        <span class="middot-divider"></span>
+      {{ end }}
+      
+      {{ if .File }}
+      <p>
+        <a href="/{{ .File.Dir }}{{ .File.BaseFileName }}.Rmd" download>
+          <i class="fa fa-download" aria-hidden="true" style="margin-right: 6px;"></i><Strong>Download R Markdown file</Strong>
+        </a>
+      </p>
+    {{ end }}
+
+    </div>
+    {{/* --- End Metadata Section --- */}}
+
+    <div class="article-style">
+      {{ .Content }}
+    </div>
+
+    {{ partial "page_footer" . }}
+
+  </div>
+</article>
+
+{{- end -}}

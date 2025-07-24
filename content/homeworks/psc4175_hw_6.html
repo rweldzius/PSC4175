@@ -1,0 +1,483 @@
+---
+title: "EVEN MORE conditional relationships"
+author: "Prof. Weldzius"
+date: 2025-07-24
+Due_Date: "2026-06-02 by 11:59PM"
+output:
+  html_document: default
+  pdf_document: default
+subtitle: Homework
+institute: Villanova University
+---
+
+<link href="/data-science-site/rmarkdown-libs/htmltools-fill/fill.css" rel="stylesheet" />
+<script src="/data-science-site/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/data-science-site/rmarkdown-libs/plotly-binding/plotly.js"></script>
+<script src="/data-science-site/rmarkdown-libs/typedarray/typedarray.min.js"></script>
+<script src="/data-science-site/rmarkdown-libs/jquery/jquery.min.js"></script>
+<link href="/data-science-site/rmarkdown-libs/crosstalk/css/crosstalk.min.css" rel="stylesheet" />
+<script src="/data-science-site/rmarkdown-libs/crosstalk/js/crosstalk.min.js"></script>
+<link href="/data-science-site/rmarkdown-libs/plotly-htmlwidgets-css/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="/data-science-site/rmarkdown-libs/plotly-main/plotly-latest.min.js"></script>
+
+
+<div id="recap" class="section level1">
+<h1>Recap</h1>
+<p>Recall that we have tested Trump’s theory that the MSM was biased against him. We found that polls that underpredicted Trump <strong>also</strong> underpredicted Biden. This is not what we would expect if the polls favored one candidate over another.</p>
+</div>
+<div id="loading-the-data" class="section level1">
+<h1>Loading the data</h1>
+<pre class="r"><code>require(tidyverse)
+require(scales)
+Pres2020.PV &lt;- read_rds(file=&quot;https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/Pres2020_PV.Rds&quot;)
+Pres2020.PV &lt;- Pres2020.PV %&gt;%
+                mutate(Trump = Trump/100,
+                      Biden = Biden/100,
+                      margin = Biden - Trump)</code></pre>
+<pre class="r"><code>Pres2020.PV %&gt;%
+  ggplot(aes(x = Biden, y = Trump)) + 
+  labs(title=&quot;Biden and Trump Support in 2020 National Popular Vote&quot;,
+       y = &quot;Trump Support&quot;,
+       x = &quot;Biden Support&quot;) + 
+  geom_jitter(color=&quot;purple&quot;,alpha = .5) + 
+    scale_y_continuous(breaks=seq(0,1,by=.05),
+                     labels= scales::percent_format(accuracy = 1)) +
+  scale_x_continuous(breaks=seq(0,1,by=.05),
+                     labels= scales::percent_format(accuracy = 1)) </code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_6_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>What is an alternative explanation for these patterns? Why would polls underpredict <em>both</em> Trump and Biden?</p>
+<p>Perhaps they were fielded earlier in the year, when more people were interested in third party candidates, or hadn’t made up their mind.</p>
+</div>
+<div id="visualizing-more-dimensions-and-introducing-dates" class="section level1">
+<h1>Visualizing More Dimensions – And Introducing Dates!</h1>
+<p>How did the support for Biden and Trump vary across the course of the 2020 Election?</p>
+<ul>
+<li><p>What should we measure?</p></li>
+<li><p>How do we summarize, visualize, and communicate?</p></li>
+</ul>
+<p>Give you some tools to do some <em>amazing</em> things!</p>
+</div>
+<div id="telling-time" class="section level1">
+<h1>Telling Time</h1>
+<ul>
+<li><p>Time is often a critical <em>descriptive</em> variable. (Not causal!)</p></li>
+<li><p>Also useful for <em>prediction</em> ?</p></li>
+<li><p>We want to evaluate the properties of presidential polling as Election Day 2020 approached.</p></li>
+<li><p>Necessary for prediction – we want most recent data to account for last-minute shift.</p></li>
+<li><p>Necessary for identifying when changes occurred (and why?)</p></li>
+</ul>
+</div>
+<div id="dates-in-r" class="section level1">
+<h1>Dates in R</h1>
+<ul>
+<li>Dates are a special format in R (character with quasi-numeric properties)</li>
+</ul>
+<pre class="r"><code>election.day &lt;- as.Date(&quot;11/3/2020&quot;, &quot;%m/%d/%Y&quot;)   
+election.day16 &lt;- as.Date(&quot;11/8/2016&quot;, &quot;%m/%d/%Y&quot;)   </code></pre>
+<ul>
+<li>Difference in “dates” versus difference in integers?</li>
+</ul>
+<pre class="r"><code>election.day - election.day16</code></pre>
+<pre><code>## Time difference of 1456 days</code></pre>
+<pre class="r"><code>as.numeric(election.day - election.day16)</code></pre>
+<pre><code>## [1] 1456</code></pre>
+</div>
+<div id="initial-questions" class="section level1">
+<h1>Initial Questions</h1>
+<ul>
+<li><p>How many polls were publicly done and reported in the media about the national popular vote?</p></li>
+<li><p>When did the polling occur? Did most of the polls occur close to Election Day?</p></li>
+</ul>
+<p>So, for every day, how many polls were reported by the media?</p>
+<p>Note that we could also look to see if the poll results depend on how the poll is being done (i.e., the <code>Mode</code> used to contact respondents) or even depending on who funded (<code>Funded</code>) or conducted (<code>Conducted</code>) the polls. We could also see if larger polls (i.e., polls with more respondents <code>SampleSize</code>) or polls that took longer to conduct (<code>DaysInField</code>) were more or less accurate.</p>
+</div>
+<div id="lets-wrangle" class="section level1">
+<h1>Let’s Wrangle…</h1>
+<pre class="r"><code>Pres2020.PV &lt;- Pres2020.PV %&gt;%
+                mutate(EndDate = as.Date(EndDate, &quot;%m/%d/%Y&quot;), 
+                      StartDate = as.Date(StartDate, &quot;%m/%d/%Y&quot;),
+                      DaysToED = as.numeric(election.day - EndDate),
+                      Trump = Trump/100,
+                      Biden = Biden/100,
+                      margin = Biden - Trump)</code></pre>
+</div>
+<div id="what-are-we-plotting" class="section level1">
+<h1>What are we plotting?</h1>
+<ul>
+<li><p>Media Question: how does the number of polls change over time?</p></li>
+<li><p>Data Scientist Question: What do we need to plot? <code>margin</code> or <code>DaysToED</code>?</p></li>
+<li><p>What will each produce?</p></li>
+<li><p>Are they <em>discrete/categorical</em> (barplot) or <em>continuous</em> (histogram)?</p></li>
+</ul>
+<pre class="r"><code>ggplot(data = Pres2020.PV, aes(x = DaysToED)) +
+  labs(title = &quot;Number of 2020 National Polls Over Time&quot;,
+       x = &quot;Number of Days until Election Day&quot;,
+       y = &quot;Number of Polls&quot;) + 
+  geom_bar(fill=&quot;purple&quot;, color= &quot;black&quot;) +
+  scale_x_continuous(breaks=seq(0,230,by=10)) +
+  scale_y_continuous(labels = label_number(accuracy = 1))</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_6_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>So this is a bit weird because it arranges the axis from smallest to largest even though that is in reverse chronological order. Since November comes after January it may make sense to flip the scale so that the graph plots polls that are closer to Election Day as the reader moves along the scale to the left.</p>
+<pre class="r"><code>ggplot(data = Pres2020.PV, aes(x = DaysToED)) +
+  labs(title = &quot;Number of 2020 National Polls Over Time&quot;) + 
+  labs(x = &quot;Number of Days until Election Day&quot;) + 
+  labs(y = &quot;Number of Polls&quot;) + 
+  geom_bar(fill=&quot;purple&quot;, color= &quot;black&quot;) +
+  scale_x_reverse(breaks=seq(0,230,by=10)) +
+  scale_y_continuous(labels = label_number(accuracy = 1))</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_6_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>But is the bargraph the right plot to use? Should we plot every single day given that we know some days might contain fewer polls (e.g., weekends)? What if we to use a histogram instead to plot the number of polls that occur in a set interval of time (to be defined by the number of bins chosen)?</p>
+<pre class="r"><code>ggplot(data = Pres2020.PV, aes(x = DaysToED)) +
+  labs(title = &quot;Number of 2020 National Polls Over Time&quot;) + 
+  labs(x = &quot;Number of Days until Election Day&quot;) + 
+  labs(y = &quot;Number of Polls&quot;) + 
+  geom_histogram(color=&quot;PURPLE&quot;,bins = 30) +
+  scale_x_reverse()</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_6_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Which do you prefer? Why or why not? Data Science is sometimes as much art as it is science - especially when it comes to data visualization!</p>
+</div>
+<div id="bivariatemultivariate-relationships" class="section level1">
+<h1>Bivariate/Multivariate relationships</h1>
+<ul>
+<li><p>Most of what we do is a relationship between (at least) 2 variables.</p></li>
+<li><p>Here we are interested in how the margin varies as Election Day approaches: <code>margin</code> by <code>DaysToED</code>.</p></li>
+<li><p>Want to plot X (variable that “explains”) vs. Y (variable being “explained”):</p></li>
+</ul>
+<p>A very frequently used plot is the scatterplot that shows the relationship between two variables. To do so we are going to define an aesthetic when calling <code>ggplot</code> that defines both an x-variable (here <code>EndDate</code>) and a y-variable (here <code>margin</code>).</p>
+<p>First, a brief aside, we can change the size of the figure being printed in our Rmarkdown by including some commands when defining the R chunk. Much like we could suppress messages (e.g., <code>message=FALSE</code> or tell R not to actually evaluate the chunk <code>eval=FALSE</code> or to run the code but not print the code <code>echo=FALSE</code>) we can add some arguments to this line. For example, the code below defines the figure to be 2 inches tall, 2 inches wide and to be aligned in the center (as opposed to left-justified). As you can see, depending on the choices you make you can destroy the readability of the graphics as <code>ggplot</code> will attempt to rescale the figure accordingly. The dimensions are in inches and they refer to the plotting area – an area that includes labels and margins so it is <em>not</em> the area where the data itself appears.</p>
+<pre class="r"><code>margin_over_time_plot &lt;- Pres2020.PV %&gt;%
+  ggplot(aes(x = EndDate, y = margin)) + 
+  labs(title=&quot;Margin in 2020 National Popular Vote Polls Over Time&quot;,
+       y = &quot;Margin: Biden - Trump&quot;,
+       x = &quot;Poll Ending Date&quot;) + 
+  geom_point(color=&quot;purple&quot;)
+margin_over_time_plot</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_6_files/figure-html/unnamed-chunk-9-1.png" width="192" style="display: block; margin: auto;" /></p>
+<p>To ``fix” this we can call the ggplot object without defining the graphical parameters.</p>
+<pre class="r"><code>margin_over_time_plot</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_6_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>Ok, back to fixing the graph. What do you think?</p>
+<ol style="list-style-type: decimal">
+<li><p>Axes looks weird - lots of interpolation required by the consumer.</p></li>
+<li><p>Data looks “chunky”? How many data points are at each point?</p></li>
+</ol>
+<p>To fix the axis scale we can use <code>scale_y_continuous</code> to chose better labels for the y-axis and we can use <code>scale_x_date</code> to determine how to plot the dates we are plotting. Here we are going to plot at two-week intervals (<code>date_breaks = "2 week"</code>) using labels that include the month and date (<code>date_labels - "%b %d"</code>).</p>
+<p>Note here that we are going to adjust the plot by adding new features to the ggplot object <code>margin_over_time_plot</code>. We could also have created the graph without creating the object.</p>
+<pre class="r"><code>margin_over_time_plot &lt;- margin_over_time_plot  + 
+    scale_y_continuous(breaks=seq(-.1,.2,by=.05),
+                     labels= scales::percent_format(accuracy = 1)) +
+    scale_x_date(date_breaks = &quot;2 week&quot;, date_labels = &quot;%b %d&quot;) 
+margin_over_time_plot</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_6_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>Now one thing that is hard to know is how many polls are at a particular point. If some points contain a single poll and others contain 1000 polls that matters a lot for how we interpret the relationship.</p>
+<p>To help convey this information we can again use <code>geom_jitter</code> and alpha transparency instead of <code>geom_point</code>. Here we are adding +/- .005 to the y-value to change the value of the poll, but not the date. (Note that we could also use <code>position=jitter</code> when calling <code>geom_point</code>). This adds just enough error in the x (width) and y (height) values associated with each point so as to help distinguish how many observations might share a value. We are also going to use the alpha transparency to denote when lots of points occur on a similar (jittered) point. Note that when doing this code we are going to redo the plot from start to finish.</p>
+<pre class="r"><code>Pres2020.PV %&gt;%
+  ggplot(aes(x = EndDate, y = margin)) + 
+  labs(title=&quot;Margin in 2020 National Popular Vote Polls Over Time&quot;,
+       y = &quot;Margin: Biden - Trump&quot;,
+       x = &quot;Poll Ending Date&quot;) + 
+    geom_jitter(color = &quot;PURPLE&quot;,height=.005, alpha = .4) +
+    scale_y_continuous(breaks=seq(-.1,.2,by=.05),
+                     labels= scales::percent_format(accuracy = 1)) +
+    scale_x_date(date_breaks = &quot;2 week&quot;, date_labels = &quot;%b %d&quot;) </code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_6_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>In addition to plotting plotting points using <code>geom_point</code> we can also add lines to the plot using <code>geom_line</code>. The line will connect the values in sequence so it does not always make sense to include. For example, if we add the <code>geom_line</code> to the plot it is hard to make the case that the results are meaningful.</p>
+<pre class="r"><code>Pres2020.PV %&gt;%
+  ggplot(aes(x = EndDate, y = margin)) + 
+  labs(title=&quot;Margin in 2020 National Popular Vote Polls Over Time&quot;,
+       y = &quot;Margin: Biden - Trump&quot;,
+       x = &quot;Poll Ending Date&quot;) + 
+    geom_jitter(color=&quot;purple&quot;, alpha = .5) + 
+    scale_y_continuous(breaks=seq(-.1,.2,by=.05),
+                     labels= scales::percent_format(accuracy = 1)) +
+    scale_x_date(date_breaks = &quot;2 week&quot;, date_labels = &quot;%b %d&quot;) +
+  geom_line()</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_6_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>While <code>geom_line</code> may help accentuate variation over time, it is really not designed to summarize a relationship in the data as it is simply connecting sequential points (arranged according to the x-axis). In contrast, if we were to add <code>geom_smooth</code> then the plot would add the average value of nearby points to help summarize the trend. (Note that we have opted to include the associated uncertainty in the moving average off using the <code>se=T</code> parameter in <code>geom_smooth</code>.)</p>
+<pre class="r"><code># Using message=FALSE to suppress note about geom_smooth
+Pres2020.PV %&gt;%
+  ggplot(aes(x = EndDate, y = margin)) + 
+  labs(title=&quot;Margin in 2020 National Popular Vote Polls Over Time&quot;,
+       y = &quot;Margin: Biden - Trump&quot;,
+       x = &quot;Poll Ending Date&quot;) + 
+    geom_jitter(color=&quot;purple&quot;, alpha = .5) + 
+    scale_y_continuous(breaks=seq(-.1,.2,by=.05),
+                     labels= scales::percent_format(accuracy = 1)) +
+    scale_x_date(date_breaks = &quot;2 week&quot;, date_labels = &quot;%b %d&quot;) +
+    geom_smooth(color = &quot;BLACK&quot;, se=T) </code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_6_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+</div>
+<div id="plotting-multiple-variables-over-time-time-series" class="section level1">
+<h1>Plotting Multiple Variables Over Time (Time-Series)</h1>
+<ul>
+<li>Can we plot support for Biden and support for Trump separately over time (on the same plot)?</li>
+</ul>
+<p>Let’s define a <code>ggplot</code> object to add to later. Note that this code chuck will not print anything because we need to call the object to see what it produced.</p>
+<pre class="r"><code>BidenTrumpplot &lt;- Pres2020.PV %&gt;%
+  ggplot()  +
+  geom_point(aes(x = EndDate, y = Trump), 
+             color = &quot;red&quot;, alpha=.4)  +
+  geom_point(aes(x = EndDate, y = Biden), 
+             color = &quot;blue&quot;, alpha=.4) +
+  labs(title=&quot;% Biden and Trump in 2020 National Popular Vote Polls Over Time&quot;,
+       y = &quot;Pct. Support&quot;,
+       x = &quot;Poll Ending Date&quot;) +
+  scale_x_date(date_breaks = &quot;2 week&quot;, date_labels = &quot;%b %d&quot;) + 
+  scale_y_continuous(breaks=seq(.3,.7,by=.05),
+                     labels= scales::percent_format(accuracy = 1)) </code></pre>
+<ul>
+<li>Note the use of <code>aes</code> in <code>geom_point()</code>!</li>
+</ul>
+<p>Now call the plot</p>
+<pre class="r"><code>BidenTrumpplot</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_6_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>Now we are going to add smoothed lines to the ggplot object. The nice thing about having saved the ggplot object above is that to add the smoothed lines we can simply add it to the existing plot. <code>geom_smooth</code> summarizes the average using a subset of the data (the default is 75%) by computing the average value for the closest 75% of the data. Put differently, after sorting the polls by their date it then summarizes the predicted value for a poll taken at that date using the closest 75% of polls according to the date. (It is not taking a mean of those values, but it is doing something similar.) After doing so for the first date, it then does the same for the second date, but now the “closest” data includes polls that happened both before an after. The smoother “moves along” the x-axis and generates a predicted value for each date. Because it is using so much of the data, the values of the line will change very slowly because the only change between two adjacent dates is by dropping and adding new information.</p>
+<p>When calling the <code>geom_smooth</code> we used <code>se=T</code> to tell <code>ggplot</code> to produce an estimate of how much the prediction may vary. (This is the 95% confidence interval for the prediction being graphed.)</p>
+<pre class="r"><code># Using message=FALSE to suppress note about geom_smooth
+BidenTrumpplot +  
+  geom_smooth(aes(x = EndDate, y = Trump), 
+              color = &quot;red&quot;,se=T) + 
+  geom_smooth(aes(x = EndDate, y = Biden), 
+              color = &quot;blue&quot;,se=T)</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_6_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p>If we change it to using only the closest 10% of the data by changing <code>span=.1</code> we get a slightly different relationship. The smoothed lines are less smooth because the impact of adding and removing points is much greater when we are using less data to compute the smoothed value – a single observation can change the overall results much more than when we used so much more data. In addition, the error-bars around the smoother are larger because we are using less data to calculate each point.</p>
+<pre class="r"><code># Using message=FALSE to suppress note about geom_smooth
+BidenTrumpplot +  
+  geom_smooth(aes(x = EndDate, y = Trump), 
+              color = &quot;red&quot;,se=T,span=.1) + 
+  geom_smooth(aes(x = EndDate, y = Biden), 
+              color = &quot;blue&quot;,se=T,span=.1)</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_6_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>Try some other values to see how things change. Note that you are not changing the data, you are only changing how you are visualizing the relationship over time by deciding how much data to use. In part, the decision of how much data to use is a question of how much you you want to allow public opinion to vary over the course of the campaign – how much of the variation is “real” versus how much is “noise”?</p>
+<p><strong>Quick Exercise</strong> Choose another span and see how it changes how you interpret how much variation there is in the data over time.</p>
+<pre class="r"><code># INSERT CODE</code></pre>
+<p><strong><em>ADVANCED!</em></strong> We can also use <code>fill</code> to introduce another dimension into the visualization. Consider for example, plotting support for Trump over time for mixed-mode polls versus telephone polls versus online-only polls. How would you go about doing this? You want to be careful not to make a mess however. Just because you can doesn’t mean you should!</p>
+</div>
+<div id="state-polls-and-the-electoral-college" class="section level1">
+<h1>State Polls and the Electoral College</h1>
+<p>New functions and libraries:</p>
+<ul>
+<li><code>plotly</code> library</li>
+<li>Working with dates</li>
+<li>Simple looping</li>
+</ul>
+<p>First load the data of all state-level polls for the 2020 presidential election.</p>
+<pre class="r"><code>Pres2020.StatePolls &lt;- read_rds(file=&quot;https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/Pres2020_StatePolls.Rds&quot;)
+glimpse(Pres2020.StatePolls)</code></pre>
+<pre><code>## Rows: 1,545
+## Columns: 19
+## $ StartDate      &lt;date&gt; 2020-03-21, 2020-03-24, 2020-03-24, 2020-03-28, 2020-0…
+## $ EndDate        &lt;date&gt; 2020-03-30, 2020-04-03, 2020-03-29, 2020-03-29, 2020-0…
+## $ DaysinField    &lt;dbl&gt; 10, 11, 6, 2, 3, 5, 2, 2, 7, 3, 3, 3, 2, 2, 3, 4, 10, 1…
+## $ MoE            &lt;dbl&gt; 2.8, 3.0, 4.2, NA, 4.0, 1.7, 3.0, 3.1, 4.1, 4.4, NA, NA…
+## $ Mode           &lt;chr&gt; &quot;Phone/Online&quot;, &quot;Phone/Online&quot;, &quot;Live phone - RDD&quot;, &quot;Li…
+## $ SampleSize     &lt;dbl&gt; 1331, 1000, 813, 962, 602, 3244, 1035, 1019, 583, 500, …
+## $ Biden          &lt;dbl&gt; 41, 47, 48, 67, 46, 46, 46, 48, 52, 42, 48, 50, 52, 38,…
+## $ Trump          &lt;dbl&gt; 46, 34, 45, 29, 46, 40, 48, 45, 39, 49, 47, 41, 43, 49,…
+## $ Winner         &lt;chr&gt; &quot;Rep&quot;, &quot;Dem&quot;, &quot;Dem&quot;, &quot;Dem&quot;, &quot;Dem&quot;, &quot;Rep&quot;, &quot;Dem&quot;, &quot;Dem&quot;,…
+## $ poll.predicted &lt;dbl&gt; 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+## $ Funded         &lt;chr&gt; &quot;UtahPolicy.com &amp; KUTV 2News&quot;, &quot;Sacred Heart University…
+## $ Conducted      &lt;chr&gt; &quot;Y2 Analytics&quot;, &quot;GreatBlue Research&quot;, &quot;LHK Partners Inc…
+## $ margin         &lt;dbl&gt; -5, 13, 3, 38, 0, 6, -2, 3, 13, -7, 1, 9, 9, -11, 6, -1…
+## $ DaysToED       &lt;drtn&gt; 218 days, 214 days, 219 days, 219 days, 216 days, 213 …
+## $ StateName      &lt;chr&gt; &quot;Utah&quot;, &quot;Connecticut&quot;, &quot;Wisconsin&quot;, &quot;California&quot;, &quot;Mich…
+## $ EV             &lt;int&gt; 6, 7, 10, 55, 16, 29, 16, 16, 12, 15, 10, 16, 11, 6, 16…
+## $ State          &lt;chr&gt; &quot;UT&quot;, &quot;CT&quot;, &quot;WI&quot;, &quot;CA&quot;, &quot;MI&quot;, &quot;FL&quot;, &quot;GA&quot;, &quot;MI&quot;, &quot;WA&quot;, &quot;…
+## $ BidenCertVote  &lt;dbl&gt; 38, 59, 49, 64, 51, 48, 50, 51, 58, 49, 49, 51, 49, 41,…
+## $ TrumpCertVote  &lt;dbl&gt; 58, 39, 49, 34, 48, 51, 49, 48, 39, 50, 49, 48, 49, 58,…</code></pre>
+<p>Variables of potential interest include:</p>
+<ul>
+<li><em>Biden</em> : Percentage of respondents supporting Biden, the Democrat, in poll (0-100)</li>
+<li><em>Trump</em> : Percentage of respondents supporting Trump, the Republican, in poll (0-100)</li>
+<li><em>BidenCertVote</em> : Percentage of vote Biden, the Democrat, actually received in the election (0-100)</li>
+<li><em>TrumpCertVote</em> : Percentage of vote Trump, the Democrat, actually received in the election (0-100)</li>
+<li><em>Winner</em> : whether Biden won (“Dem”) or Trump won (“Rep”)</li>
+<li><em>poll.predicted</em> : Indicator for whether the poll correctly predicted who won (1) or not (0)</li>
+<li><em>State</em> &amp; <em>StateName</em> : the state where the poll was conducted</li>
+<li><em>EV</em> : the number of Electoral College Votes the state is worth for the winning candidate</li>
+</ul>
+</div>
+<div id="overall-task" class="section level1">
+<h1>Overall Task:</h1>
+<ul>
+<li>How do we use this data to calculate the probability that Biden will win the presidency of the United States by winning the Electoral College?</li>
+</ul>
+<div id="task-1-how-should-we-translate-a-poll-result-into-a-predicted-probability" class="section level3">
+<h3>Task 1: How should we translate a poll result into a predicted probability?</h3>
+<p>Suppose that I give you 10 polls from a state.</p>
+<p>Load in the data and create the some mutations to create new variables.</p>
+<pre class="r"><code>Pres2020.StatePolls &lt;- Pres2020.StatePolls %&gt;%
+   mutate(BidenNorm = Biden/(Biden+Trump),
+          TrumpNorm = 1-BidenNorm,
+          Biden = Biden/100,
+          Trump=Trump/100)</code></pre>
+<p>How can you use them to create a probability? Discuss! (I can think of 3 ways.)</p>
+<ul>
+<li>Measure 1: Fraction of polls with Biden in the lead</li>
+<li>Measure 2: Biden Pct = Probability Biden wins</li>
+<li>Measure 3: Normalized Biden Pct = Probability Biden wins (i.e., all voters either vote for Biden or Trump). Sometimes called “two-party” vote.</li>
+</ul>
+<p>How does this vary across states? The joys of <code>group_by()</code>. Note that <code>group_by()</code> defines what happens for all subsequent code in that code chunk. So here we are going to calculate the mean separately for each state.</p>
+<pre class="r"><code>stateprobs &lt;- Pres2020.StatePolls %&gt;%
+    group_by(StateName) %&gt;%
+      summarize(BidenProbWin1 = mean(Biden &gt; Trump),
+                BidenProbWin2 = mean(Biden),  
+                BidenProbWin3 = mean(BidenNorm))
+
+stateprobs</code></pre>
+<pre><code>## # A tibble: 50 × 4
+##    StateName   BidenProbWin1 BidenProbWin2 BidenProbWin3
+##    &lt;chr&gt;               &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt;
+##  1 Alabama             0             0.389         0.407
+##  2 Alaska              0             0.442         0.466
+##  3 Arizona             0.840         0.484         0.519
+##  4 Arkansas            0             0.381         0.395
+##  5 California          1             0.618         0.661
+##  6 Colorado            1             0.534         0.571
+##  7 Connecticut         1             0.584         0.631
+##  8 Delaware            1             0.603         0.627
+##  9 Florida             0.798         0.486         0.517
+## 10 Georgia             0.548         0.474         0.504
+## # ℹ 40 more rows</code></pre>
+<p>Clearly they differ, so let’s visualize to try to understand what is going on. Install the library <code>plotly</code></p>
+<pre class="r"><code>library(plotly)
+gg &lt;- stateprobs %&gt;%
+  ggplot(aes(x=BidenProbWin2, y=BidenProbWin3,text=paste(StateName))) +
+  geom_point() +
+  geom_abline(intercept=0,slope=1) +
+  labs(x= &quot;Probability as % Support&quot;,
+       y = &quot;Probability as Two-Party % Support&quot;,
+       title = &quot;Comparing Probability of Winning Measures&quot;)
+
+ggplotly(gg,tooltip = &quot;text&quot;)</code></pre>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-1" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"data":[{"x":[0.38928571428571429,0.44230769230769229,0.48415094339622639,0.38125000000000003,0.61799999999999999,0.53428571428571425,0.58444444444444443,0.60285714285714287,0.48643410852713176,0.4741095890410959,0.63428571428571434,0.38166666666666665,0.56600000000000006,0.41714285714285715,0.46619047619047621,0.424375,0.39111111111111113,0.38727272727272727,0.52833333333333332,0.63636363636363635,0.6415384615384615,0.50115384615384617,0.51068181818181824,0.40090909090909088,0.44526315789473686,0.43440000000000001,0.44400000000000001,0.49136363636363639,0.52909090909090906,0.56631578947368422,0.53545454545454552,0.61846153846153851,0.47947761194029848,0.37714285714285717,0.4653846153846154,0.36599999999999999,0.58624999999999994,0.49895104895104897,0.65400000000000003,0.44038461538461537,0.41142857142857142,0.40999999999999998,0.46369230769230768,0.3992857142857143,0.64571428571428569,0.53349999999999997,0.59307692307692306,0.35375000000000001,0.50205357142857143,0.32833333333333337],"y":[0.40696497996548259,0.46581930032762203,0.51879736341892746,0.39456407198523163,0.66108016549013837,0.57064341862963197,0.63119564660287264,0.62684067129416965,0.51673639552664608,0.5041636610284177,0.66679316894324248,0.39131509040323631,0.5889432528215327,0.44201688232547159,0.49681581253334745,0.4492683633263716,0.4118412289672253,0.40822311395405431,0.56935082794352765,0.66696769693824443,0.69076942423213772,0.5391190135878895,0.54726713099242585,0.42106312139619351,0.4646467212580116,0.45911478821711954,0.45217480931766646,0.52569038542903845,0.55300232822609408,0.60811775849763272,0.550494041773396,0.65665235364136931,0.51049271444868238,0.39320149770001478,0.49596224975874315,0.38290323831575057,0.60546937226361297,0.52920845393542826,0.66051041022469592,0.46344756475908905,0.42438478099058119,0.4248292669951656,0.49324378279804576,0.43892429795241228,0.67408835954569668,0.56452601901563448,0.6254777870302517,0.36602330001815431,0.53716607212889256,0.3380024737167594],"text":["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.31205000000000005,0.67028333333333334],"y":[0.31205000000000005,0.67028333333333334],"text":"","type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.762557077625573,"r":7.3059360730593621,"b":40.182648401826498,"l":43.105022831050235},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Comparing Probability of Winning Measures","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.31205000000000005,0.67028333333333334],"tickmode":"array","ticktext":["0.4","0.5","0.6"],"tickvals":[0.40000000000000002,0.5,0.60000000000000009],"categoryorder":"array","categoryarray":["0.4","0.5","0.6"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Probability as % Support","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.32036412619099047,0.70840777175790659],"tickmode":"array","ticktext":["0.4","0.5","0.6","0.7"],"tickvals":[0.40000000000000002,0.5,0.60000000000000009,0.70000000000000007],"categoryorder":"array","categoryarray":["0.4","0.5","0.6","0.7"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Probability as Two-Party % Support","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"10f8422e30419":{"x":{},"y":{},"text":{},"type":"scatter"},"10f8466221733":{"intercept":{},"slope":{}}},"cur_data":"10f8422e30419","visdat":{"10f8422e30419":["function (y) ","x"],"10f8466221733":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>So removing the undecided and making the probabilities for Biden and Trump sum to 100% is consequential.</p>
+<p>What about if we compare these measures to the fration of polls with a given winner? After all, it seems implausible that the Biden would ever lose California or Trump would ever lose Tennessee.</p>
+<pre class="r"><code>library(plotly)
+gg &lt;- stateprobs %&gt;%
+  ggplot(aes(x=BidenProbWin2, y=BidenProbWin1,text=paste(StateName))) +
+  geom_point() +
+  geom_abline(intercept=0,slope=1) +
+  labs(x= &quot;Probability as % Support&quot;,
+       y = &quot;Probability as % Polls Winning&quot;,
+       title = &quot;Comparing Probability of Winning Measures&quot;)
+
+ggplotly(gg,tooltip = &quot;text&quot;)</code></pre>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-2" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-2">{"x":{"data":[{"x":[0.38928571428571429,0.44230769230769229,0.48415094339622639,0.38125000000000003,0.61799999999999999,0.53428571428571425,0.58444444444444443,0.60285714285714287,0.48643410852713176,0.4741095890410959,0.63428571428571434,0.38166666666666665,0.56600000000000006,0.41714285714285715,0.46619047619047621,0.424375,0.39111111111111113,0.38727272727272727,0.52833333333333332,0.63636363636363635,0.6415384615384615,0.50115384615384617,0.51068181818181824,0.40090909090909088,0.44526315789473686,0.43440000000000001,0.44400000000000001,0.49136363636363639,0.52909090909090906,0.56631578947368422,0.53545454545454552,0.61846153846153851,0.47947761194029848,0.37714285714285717,0.4653846153846154,0.36599999999999999,0.58624999999999994,0.49895104895104897,0.65400000000000003,0.44038461538461537,0.41142857142857142,0.40999999999999998,0.46369230769230768,0.3992857142857143,0.64571428571428569,0.53349999999999997,0.59307692307692306,0.35375000000000001,0.50205357142857143,0.32833333333333337],"y":[0,0,0.839622641509434,0,1,1,1,1,0.79844961240310075,0.54794520547945202,1,0,1,0,0.2857142857142857,0,0,0,1,1,1,0.91538461538461535,0.97727272727272729,0,0.052631578947368418,0,0,0.95454545454545459,1,1,1,1,0.71641791044776115,0,0.38461538461538464,0,1,0.91608391608391604,1,0,0,0,0.30769230769230771,0,1,1,1,0,0.9642857142857143,0],"text":["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.31205000000000005,0.67028333333333334],"y":[0.31205000000000005,0.67028333333333334],"text":"","type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.762557077625573,"r":7.3059360730593621,"b":40.182648401826498,"l":48.949771689497723},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Comparing Probability of Winning Measures","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.31205000000000005,0.67028333333333334],"tickmode":"array","ticktext":["0.4","0.5","0.6"],"tickvals":[0.40000000000000002,0.5,0.60000000000000009],"categoryorder":"array","categoryarray":["0.4","0.5","0.6"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Probability as % Support","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.050000000000000003,1.05],"tickmode":"array","ticktext":["0.00","0.25","0.50","0.75","1.00"],"tickvals":[0,0.25,0.5,0.75,1],"categoryorder":"array","categoryarray":["0.00","0.25","0.50","0.75","1.00"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Probability as % Polls Winning","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"10f847f27b16":{"x":{},"y":{},"text":{},"type":"scatter"},"10f84406ee56d":{"intercept":{},"slope":{}}},"cur_data":"10f847f27b16","visdat":{"10f847f27b16":["function (y) ","x"],"10f84406ee56d":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>So what do you think? Exactly the same data, but just different impications depending on how you choose to measure the probability of winning a state. Data sciene is as much about argument and reasoning as it is about coding. How we measure a concept is often critical to the conclusions that we get.</p>
+</div>
+<div id="task-2-start-simple-calculate-the-probability-that-biden-wins-pa" class="section level3">
+<h3>Task 2: Start “simple” – calculate the probability that Biden wins PA</h3>
+<p>But we want to combine these probabilities with the Electoral College votes in each state. Not every state has the same amount of Electoral College votes – it is typically given by the number of Senators (2) plus the number of representatives (at least 1) so we need to account for this if we want to make a projection about who is going to win the Electoral College.</p>
+<ul>
+<li>Create a tibble with just polls from PA.</li>
+</ul>
+<pre class="r"><code>PA.dat &lt;- Pres2020.StatePolls %&gt;% 
+  filter(State == &quot;PA&quot;)</code></pre>
+<ul>
+<li>Now compute these three probabilities. What functions do we need?</li>
+</ul>
+<pre class="r"><code>PA.dat %&gt;%
+      summarize(BidenProbWin1 = mean(Biden &gt; Trump),
+                BidenProbWin2 = mean(Biden),  
+                BidenProbWin3 = mean(BidenNorm))</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   BidenProbWin1 BidenProbWin2 BidenProbWin3
+##           &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt;
+## 1         0.916         0.499         0.529</code></pre>
+<ul>
+<li>What do you think about this?</li>
+</ul>
+</div>
+<div id="task-3-given-that-probability-how-do-we-change-the-code-to-compute-the-expected-number-of-electoral-college-votes-ev-for-biden" class="section level3">
+<h3>Task 3: Given that probability, how do we change the code to compute the expected number of Electoral College Votes <code>EV</code> for Biden?</h3>
+<ul>
+<li>Keep the code from above and copy and paste so you can understand how each step changes what we are doing. Note that we have the number of electoral college votes associated with each state <code>EV</code> that we want to use to compute the expected number of electoral college votes. But recall that when we <code>summarize</code> we change the tibble to be the output of the function. So how do we keep the number of Electoral College votes for a future mutation?</li>
+</ul>
+<pre class="r"><code>PA.dat %&gt;%
+      summarize(BidenProbWin1 = mean(Biden &gt; Trump),
+                BidenProbWin2 = mean(Biden),
+                BidenProbWin3 = mean(BidenNorm),
+                EV = mean(EV)) %&gt;%
+      mutate(BidenEV1 = BidenProbWin1*EV,
+             BidenEV2 = BidenProbWin2*EV,
+             BidenEV3 = BidenProbWin3*EV)</code></pre>
+<pre><code>## # A tibble: 1 × 7
+##   BidenProbWin1 BidenProbWin2 BidenProbWin3    EV BidenEV1 BidenEV2 BidenEV3
+##           &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+## 1         0.916         0.499         0.529    20     18.3     9.98     10.6</code></pre>
+<p>Note that we are calculation the Expected Value of the Electoral College votes using: <em>Probability that Biden wins state i</em> X <em>Electoral College Votes in State i</em>. This will allocate fractions of Electoral College votes even though the actual election is winner-take all. This is OK because the fractions reflect the probability that an alternative outcome occurs.</p>
+<p><strong>Quick Exercise</strong> How can we get compute the expected number of Electoral College votes for Trump in each measure? NOTE: There are at least 2 ways to do this because this is a 2 candidate race</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<ul>
+<li><code>EV-BidenEV</code>, or compute <code>TrumpProbWin</code></li>
+</ul>
+</div>
+<div id="task-4-now-generalize-to-every-state-by-applying-this-code-to-each-set-of-state-polls." class="section level3">
+<h3>Task 4: Now generalize to every state by applying this code to each set of state polls.</h3>
+<ul>
+<li>What do we need to do this calculation for every state in our tibble?</li>
+<li>First, compute probability of winning a state. (How?)</li>
+<li>Second, compute expected Electoral College Votes. (How?)</li>
+</ul>
+<pre class="r"><code>Pres2020.StatePolls %&gt;%  
+  group_by(StateName) %&gt;%
+    summarize(BidenProbWin1 = mean(Biden &gt; Trump),
+              BidenProbWin3 = mean(BidenNorm),
+              EV = mean(EV),
+              State = first(State)) %&gt;%
+    mutate(State = State,
+              BidenECVPredicted1 = EV*BidenProbWin1,
+              TrumpECVPredicted1 = EV- BidenECVPredicted1,
+              BidenECVPredicted3 = EV*BidenProbWin3,
+              TrumpECVPredicted3 = EV- BidenECVPredicted3) %&gt;%
+  summarize(BidenECVPredicted1=sum(BidenECVPredicted1),
+            BidenECVPredicted3=sum(BidenECVPredicted3),
+            TrumpECVPredicted1=sum(TrumpECVPredicted1),
+            TrumpECVPredicted3=sum(TrumpECVPredicted3),)</code></pre>
+<pre><code>## # A tibble: 1 × 4
+##   BidenECVPredicted1 BidenECVPredicted3 TrumpECVPredicted1 TrumpECVPredicted3
+##                &lt;dbl&gt;              &lt;dbl&gt;              &lt;dbl&gt;              &lt;dbl&gt;
+## 1               345.               289.               190.               246.</code></pre>
+</div>
+<div id="task-5-now-compute-total-expected-vote-by-adding-to-that-code" class="section level3">
+<h3>Task 5: Now compute total expected vote by adding to that code</h3>
+<ul>
+<li>NOTE: Actually 306 - 232</li>
+<li>What do we need to do to the tibble we created in Task 4 to get the overall number of Electoral College Votes?</li>
+</ul>
+<pre class="r"><code>Pres2020.StatePolls %&gt;%  
+  group_by(StateName) %&gt;%
+    summarize(BidenProbWin1 = mean(Biden &gt; Trump),
+              BidenProbWin3 = mean(BidenNorm),
+              EV = mean(EV)) %&gt;%
+    mutate(BidenECVPredicted1 = EV*BidenProbWin1,
+              TrumpECVPredicted1 = EV- BidenECVPredicted1,
+              BidenECVPredicted3 = EV*BidenProbWin3,
+              TrumpECVPredicted3 = EV- BidenECVPredicted3) %&gt;%
+    summarize(BidenECV1 = sum(BidenECVPredicted1),
+              TrumpECV1 = sum(TrumpECVPredicted1),
+              BidenECV3 = sum(BidenECVPredicted3),
+              TrumpECV3 = sum(TrumpECVPredicted3))</code></pre>
+<pre><code>## # A tibble: 1 × 4
+##   BidenECV1 TrumpECV1 BidenECV3 TrumpECV3
+##       &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1      345.      190.      289.      246.</code></pre>
+<p><strong>Quick Exercise</strong> Could also do this for just polls conducted in the last 7 days. How?</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<p>THINKING: What about states that do not have any polls? What should we do about them? Is there a reason why they might not have a poll? Is that useful information? Questions like this become more relevant when we start to restrict the sample.</p>
+<p>Here are the number of polls done in each state in the last 3 days. Note that when we use fewer days our measure based on the percentage of polls won may be more affected?</p>
+<pre class="r"><code>Pres2020.StatePolls %&gt;%
+  filter(DaysToED &lt; 3) %&gt;%
+  count(State) %&gt;%
+  ggplot(aes(x=n)) +
+  geom_bar() + 
+  scale_x_continuous(breaks=seq(0,15,by=1)) +
+  labs(x=&quot;Number of Polls in a State&quot;,
+       y=&quot;Number of States&quot;,
+       title=&quot;Number of Polls in States \n in the Last 3 Days of 2020&quot;)</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_6_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+</div>
+</div>

@@ -1,0 +1,335 @@
+---
+title: "College Admissions, Part 1"
+subtitle: "Homework 12"
+author: "Prof. Weldzius"
+institute: "Villanova University"
+date: 2025-07-24
+Due_Date: "2026-06-02 by 11:59PM"
+output: html_document
+---
+
+
+
+<div id="college-admissions-from-the-colleges-view" class="section level2">
+<h2>College Admissions: From the College’s View</h2>
+<p>All of you have quite recently gone through the stressful process of figuring out which college to attend. You most likely selected colleges you thought might be a good fit, sent off applications, heard back from them, and then weighed your options. Those around you probably emphasized what an important decision this is for you and for your future.</p>
+<p>Colleges see this process from an entirely different point of view. A college needs students to enroll first of all in order to collect enough tuition revenues in order to keep the lights on, the faculty paid, and, in the case Villanova, purchase TWO campuses. Almost all private colleges receive most of their revenues from tuition, and public colleges receive about equal amounts of funding from tuition and state funds, with state funds based on how many students they enroll. Second, colleges want to enroll certain types of students; colleges base their reputation on which students enroll, with greater prestige associated with enrolling students with better demonstrated academic qualifications. The job of enrolling a class that provides enough revenue AND has certain characteristics falls to the Enrollment Management office on a campus. This office typically includes the admissions office as well as the financial aid office.</p>
+</div>
+<div id="the-college-admissions-funnel" class="section level2">
+<h2>The College Admissions “Funnel”</h2>
+<p>The <a href="https://www.curacubby.com/blog/admissions-funnel">admissions funnel</a> is a well-established metaphor for understanding the enrollment process from the college’s perspective. It begins with colleges identifying prospective students: those who might be interested in enrolling. This proceeds to “interested” students, who engage with the college via registering on the college website, sending test scores, visiting campus, or requesting other information. Some portion of these interested students will then apply. Applicants are then considered, and admissions decisions are made. From this group of admitted students a certain proportion will actually enroll. Here’s data from Villanova on their <a href="https://www1.villanova.edu/university/undergraduate-admission/applying-to-villanova/admission-profile.html">enrollment funnel</a>.</p>
+<p>Each stage in this process involves modeling and prediction: how can we predict which prospective students will end up being interested students? How many interested students will turn into applicants? And, most importantly, how many admitted students will actually show up in the fall?</p>
+<p>Colleges aren’t powerless in this process. Instead, they execute a careful strategy to intervene at each stage to get both the number and type of students they want to convert to the next stage. These are the core functions of enrollment management. Why did you receive so many emails, brochures and maybe even text messages? Some model somewhere said that the intervention could convert you from a prospect to an interest, or from an interest to an applicant.</p>
+<p>We’re going to focus on the very last step: from admitted students to what’s called a yield: a student who actually shows up and sits down for classes in the fall.</p>
+<p>The stakes are large: if too few students show up, then the institutions will not have enough revenues to operate. If too many show up the institution will not have capacity for all of them. On top of this, enrollment managers are also tasked with the combined goals of increasing academic prestige (usually through test scores and GPA) and increasing the socioeconomic diversity of the entering class. As we’ll see, these are not easy tasks.</p>
+</div>
+<div id="the-data" class="section level2">
+<h2>The Data</h2>
+<p>We’re going to be using a dataset that was constructed to resemble a typical admissions dataset. To be clear: this is not real data, but instead is based on the relationships we see in actual datasets. Using real data in this case would be a violation of privacy.</p>
+<pre class="r"><code>library(tidyverse)
+library(scales)</code></pre>
+<pre class="r"><code>ad&lt;-read_rds(&quot;../Data/admit_data.rds&quot;)%&gt;%ungroup()</code></pre>
+<pre><code>## Warning in readRDS(con, refhook = refhook): cannot open file
+## &#39;../Data/admit_data.rds&#39;: No such file or directory</code></pre>
+<pre><code>## Error in readRDS(con, refhook = refhook): cannot open the connection</code></pre>
+<p>Codebook for <code>admit_data.rds</code>:</p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Variable Name</td>
+<td>Description</td>
+</tr>
+<tr class="even">
+<td>ID</td>
+<td>Student id</td>
+</tr>
+<tr class="odd">
+<td>income</td>
+<td>Family income (AGI)</td>
+</tr>
+<tr class="even">
+<td>sat</td>
+<td>SAT/ACT score (ACT scores converted to SAT scale)</td>
+</tr>
+<tr class="odd">
+<td>gpa</td>
+<td>HS GPA, four point scale</td>
+</tr>
+<tr class="even">
+<td>visit</td>
+<td>Did student visit campus?</td>
+</tr>
+<tr class="odd">
+<td>legacy</td>
+<td>Did student parent go to this college?</td>
+</tr>
+<tr class="even">
+<td>registered</td>
+<td>Did student register on the website?</td>
+</tr>
+<tr class="odd">
+<td>sent_scores</td>
+<td>Did student send scores prior to applying?</td>
+</tr>
+<tr class="even">
+<td>distance</td>
+<td>Distance from student home address to campus</td>
+</tr>
+<tr class="odd">
+<td>tuition</td>
+<td>Stated tuition: $45,000</td>
+</tr>
+<tr class="even">
+<td>need_aid</td>
+<td>Need-based aid offered</td>
+</tr>
+<tr class="odd">
+<td>merit_aid</td>
+<td>Merit-based aid offered</td>
+</tr>
+<tr class="even">
+<td>net_price</td>
+<td>Net Price: Tuition less aid received</td>
+</tr>
+<tr class="odd">
+<td>yield</td>
+<td>Student enrolled in classes in fall after admission</td>
+</tr>
+</tbody>
+</table>
+<div id="the-basics" class="section level3">
+<h3>The Basics</h3>
+<pre class="r"><code>## How many admitted students enroll?
+ad%&gt;%summarize(`Yield Rate`=percent(mean(yield)))</code></pre>
+<pre><code>## Error: object &#39;ad&#39; not found</code></pre>
+<pre class="r"><code>## Just for enrolled students
+ad%&gt;%filter(yield==1)%&gt;%summarize(
+               `Average  SAT Score`=number(mean(sat),accuracy=1,big.mark=&quot;&quot;),
+               `Average GPA`=number(mean(gpa),accuracy = 1.11),
+               `Tuition`=dollar(mean(tuition)),
+               `Average Net Price`=dollar(mean(net_price),accuracy = 1 ),
+               `Total Tuition Revenues`=dollar(sum(net_price)),
+               `Total 1st Year Enrollment`=comma(n(),big.mark=&quot;,&quot;)) </code></pre>
+<pre><code>## Error: object &#39;ad&#39; not found</code></pre>
+<p>So, a few things stand out right away, all of which are pretty common among private colleges. First, this is a moderately selective institution, with an average GPA of 3.33 (unweighted) and an average SAT of about 1200 (about a 25 on the ACT). The average net price is MUCH less than tuition, indicating that the campus is discounting heavily. Total revenues from tuition are about 30 million.</p>
+</div>
+</div>
+<div id="the-case" class="section level2">
+<h2>The Case</h2>
+<p>We’ve been hired as the data science team for a liberal arts college <a href="https://www.fire-engine-red.com/financial-aid-and-student-success/">(this is a real thing)</a>.</p>
+<p>The college president and the board of trustees have two strategic goals:</p>
+<ol style="list-style-type: decimal">
+<li>Increase the average SAT score to 1300</li>
+<li>Admit at least 200 more students with incomes less than $50,000</li>
+</ol>
+<p>Here’s the rub: they want to do this without allowing tuition revenues to drop below $30 million and without changing the size of the entering class, which should be about 1,500 students (plus or minus 50, nobody minds sleeping in Falvey, right?).</p>
+<p>What we need to do is to figure out which students are most and least likely to enroll. We can then target our financial aid strategy to improve yield rates among certain groups.</p>
+<p>This is a well-known problem known as <a href="http://sites.bu.edu/manove-ec101/files/2017/11/VarianHalPriceDiscrimination1989.pdf">price discrimination</a>, which is applied in many industries, including airlines, hotels, and software. The idea is to charge the customers who are most willing/able to pay the most, while charging the customers who are least willing/able to pay the least.</p>
+<p>To solve our problem we need to do the following:</p>
+<ol style="list-style-type: decimal">
+<li>Come up with a prediction algorithm that accurately establishes the relationship between student characteristics and the probability of attendance</li>
+<li>Adjust policies in order to target those students who we want to attend, thereby increasing their probability of attendance.</li>
+</ol>
+</div>
+<div id="current-institutional-policies" class="section level2">
+<h2>Current Institutional Policies</h2>
+<p>Essentially every private college engages heavily in tuition discounting. This has two basic forms: need-based aid and merit-based aid. Need-based aid is provided on the basis of income, typically with some kind of income cap. Merit-based aid is based on demonstrated academic qualifications, again usually with some kind of minimum. Here’s this institution’s current policies.</p>
+<p>The institution is currently awarding need-based aid for families making less than $100,0000 on the following formula:</p>
+<p><span class="math inline">\(need_{aid}=500+(income/1000-100)*-425\)</span></p>
+<p>Translated, this means for every $1,000 the family makes less than $100,000 the student receives an additional 425 dollars. So for a family making $50,000, need-based aid will be <span class="math inline">\(500+(50,000/1000-100)*-425= 500+ (-50*-425)\)</span>=$21,750. Need based aid is capped at total tuition.</p>
+<pre class="r"><code>ad%&gt;%
+  ggplot(aes(x=income,y=need_aid))+
+  geom_point()</code></pre>
+<pre><code>## Error: object &#39;ad&#39; not found</code></pre>
+<p>The institution is currently awarding merit-based aid for students with SAT scores above 1250 on the following formula:</p>
+<p><span class="math inline">\(merit_{aid}=5000+(sat/100*250)\)</span></p>
+<p>Translated, this means that for every 10 points in SAT scores above 1250, the student will receive an additional $1,500. So for a student with 1400 SAT, merit based aid will be : <span class="math inline">\(5000+ (1400/10 *250)= 500+(140*250)\)</span></p>
+<pre class="r"><code>ad%&gt;%
+  ggplot(aes(x=sat,y=merit_aid))+
+  geom_point()</code></pre>
+<pre><code>## Error: object &#39;ad&#39; not found</code></pre>
+<p>As with need-based aid, merit-based aid is capped by total tuition.</p>
+</div>
+<div id="classification" class="section level2">
+<h2>Classification</h2>
+<p>Our core prediction problem is <a href="https://towardsdatascience.com/machine-learning-classifiers-a5cc4e1b0623">classification</a>. There are two groups of individuals that constitute our outcome: those who attended and those who did not. In data science, predicting group membership is known as a classification problem. It occurs whenever the outcome is a set of discrete groupings. We’ll be working with the simplest type of classification problem, which has just two groups, but these problems can have multiple groups, essentially categorical variables.</p>
+</div>
+<div id="probability-of-attendance" class="section level2">
+<h2>Probability of Attendance</h2>
+<p>Remember: the mean of a binary variable is the same thing as the proportion of the sample with that characteristic. So, the mean of <code>yield</code> is the same thing as the proportion of admitted students who attend, or the probability of attendance.</p>
+<pre class="r"><code>ad%&gt;%summarize(pr_attend=mean(yield))</code></pre>
+<pre><code>## Error: object &#39;ad&#39; not found</code></pre>
+</div>
+<div id="conditional-means" class="section level2">
+<h2>Conditional Means</h2>
+<p>Let’s go back to our first algorithm for prediction: conditional means. Let’s start with the variable <code>legacy</code> which indicates whether or not the student has a parent who attended the same institution:</p>
+<pre class="r"><code>ad%&gt;%
+  group_by(legacy)%&gt;%
+  summarize(pr_attend=mean(yield))</code></pre>
+<pre><code>## Error: object &#39;ad&#39; not found</code></pre>
+<p>That’s a big difference! Legacy students are abut 14 percentage points more likely to yield than non-legacies.</p>
+<p>Next, let’s look at SAT scores. This is a continuous variable, so we need to first break it up into a smaller number of groups. Let’s look at yield rates by quintile of SAT scores among admitted students:</p>
+<pre class="r"><code>ad%&gt;%
+  mutate(sat_quintile=ntile(sat,n=5))%&gt;%
+  group_by(sat_quintile)%&gt;%
+  summarize(min_sat=min(sat),
+  pr_attend=mean(yield))</code></pre>
+<pre><code>## Error: object &#39;ad&#39; not found</code></pre>
+<p>So, it looks like yield steadily increases with SAT scores– a good sign for the institution as it seeks to increase SAT scores.</p>
+<p><strong>Quick Exercise</strong> calculate yield by quintiles of net price: what do you see?</p>
+<pre class="r"><code>ad%&gt;%
+  mutate(...)%&gt;%
+  group_by(... = )%&gt;%
+  summarize(amount=min(...),
+            pr_attend=mean(...))</code></pre>
+<pre><code>## Error in group_by(., ... = ): &#39;...&#39; used in an incorrect context</code></pre>
+</div>
+<div id="combining-conditional-means" class="section level2">
+<h2>Combining Conditional Means</h2>
+<p>Let’s look at yield rates by both sat quintile and legacy status. What type of plot do you think we’ll use? Remember from the lectures on multivariate visualization. If you have Categorical X Categorical X Continuous, then use a tile plot!</p>
+<pre class="r"><code>ad%&gt;%
+  mutate(sat_decile=ntile(sat,n=10))%&gt;%
+  group_by(sat_decile,legacy)%&gt;%
+  summarize(min_sat=min(sat),
+  pr_attend=mean(yield))%&gt;%
+  ggplot(aes(y=as_factor(sat_decile),x=as_factor(legacy),fill=pr_attend))+
+  geom_tile()+
+  scale_fill_viridis_c()+
+  ylab(&quot;SAT Score Decile&quot;)+xlab(&quot;Legacy Status&quot;)</code></pre>
+<pre><code>## Error: object &#39;ad&#39; not found</code></pre>
+</div>
+<div id="predictions-based-on-conditional-means" class="section level2">
+<h2>Predictions based on conditional means</h2>
+<p>We can use this simple method to make predictions.</p>
+<pre class="r"><code>ad&lt;-ad%&gt;%
+  mutate(sat_quintile=ntile(sat,n=10))%&gt;%
+  group_by(sat_quintile,legacy)%&gt;%
+  mutate(prob_attend=mean(yield))%&gt;%
+  mutate(pred_attend=ifelse(prob_attend&gt;=.5,1,0))</code></pre>
+<pre><code>## Error: object &#39;ad&#39; not found</code></pre>
+<p>Let’s compare this predicted with the actual:</p>
+<pre class="r"><code>ad%&gt;%
+  group_by(yield,pred_attend)%&gt;%
+  summarize(n())%&gt;%
+  rename(`Actually Attended`=yield,
+         `Predicted to Attend`=pred_attend,
+         `Number of Students`=`n()`)</code></pre>
+<pre><code>## Error: object &#39;ad&#39; not found</code></pre>
+</div>
+<div id="acccuracy-of-conditional-means" class="section level2">
+<h2>Acccuracy of Conditional Means</h2>
+<pre class="r"><code>ad%&gt;%
+  group_by(yield)%&gt;%
+  mutate(total_attend=n())%&gt;%
+  group_by(yield,pred_attend)%&gt;%
+  summarize(n(),`Actual Group`=mean(total_attend))%&gt;%
+  mutate(Proportion=`n()`/`Actual Group`)%&gt;%
+  rename(`Actually Attended`=yield,
+         `Predicted to Attend`=pred_attend,
+         `Number of Students`=`n()`)</code></pre>
+<pre><code>## Error: object &#39;ad&#39; not found</code></pre>
+<p>Here’s how to read this: There were 304 students that our algorithm said would not attend who didn’t attend. This means out of the 684 students who were admitted but did not attend, our algorithm correctly classified 44 percent. There were 380 students who our model said would not attend who actually showed up (or 56 percent).</p>
+<p>On the other side, there were 210 students who our model said would not show up, who actually attended. And last, there were 1256 students who our model said would attend who actually did; we correctly classified 85 percent of actual attendees. The overall accuracy of our model ends up being (304+1256)/2150 or 73 percent.</p>
+<p><em>Question: is this a good model?</em></p>
+</div>
+<div id="prediction-via-linear-regression-wrong-but-useful" class="section level2">
+<h2>Prediction via Linear Regression: Wrong, but Useful!</h2>
+<p>We can use our standard tool of linear regression to build a model and make predictions, with just a few adjustments. This will be wrong, but useful.</p>
+<p>We’ll use the wrong model, a linear regression. Running a linear regression with a binary dependent variable is called a linear probability model, which ironically it is not.</p>
+<p>We’ll use a formula that includes the variables we’ve used so far.</p>
+<pre class="r"><code>admit_formula&lt;-as.formula(&quot;yield~sat+net_price+legacy&quot;)
+
+ad_analysis &lt;- ad %&gt;%
+  ungroup() %&gt;%
+  select(yield,sat,net_price,legacy) %&gt;%
+  drop_na()</code></pre>
+<pre><code>## Error: object &#39;ad&#39; not found</code></pre>
+<pre class="r"><code>m &lt;- lm(formula = admit_formula,data = ad_analysis)</code></pre>
+<pre><code>## Error in eval(mf, parent.frame()): object &#39;ad_analysis&#39; not found</code></pre>
+<pre class="r"><code>summary(m)</code></pre>
+<pre><code>## Error: object &#39;m&#39; not found</code></pre>
+<p><em>Question: What do we make of these coefficients</em></p>
+<p>To evaluate our model, we traditionally have relied on RMSE. However, this is less appropriate when using a <strong>binary dependent variable</strong>. Instead, we want to think about <strong>accuracy</strong>. Let’s start by getting the predictions, as always.</p>
+<pre class="r"><code>ad_analysis &lt;- ad_analysis %&gt;%
+  mutate(preds = predict(m)) %&gt;%
+  mutate(errors = yield - preds)</code></pre>
+<pre><code>## Error: object &#39;ad_analysis&#39; not found</code></pre>
+<p>Let’s take a look at these predictions</p>
+<pre class="r"><code>ad_analysis %&gt;% select(yield,preds)</code></pre>
+<pre><code>## Error: object &#39;ad_analysis&#39; not found</code></pre>
+<p>So these are probabilities. To complete the classification problem, we need to assign group labels to each case in the testing dataset. Let’s assume that a probability equal to or greater than .5 will be classified as a 1 and everything else as a 0.</p>
+<pre class="r"><code>ad_analysis&lt;-ad_analysis%&gt;%
+  mutate(pred_attend=ifelse(preds&gt;=.5,1,0))</code></pre>
+<pre><code>## Error: object &#39;ad_analysis&#39; not found</code></pre>
+<pre class="r"><code>ad_analysis%&gt;%select(yield,preds,pred_attend)</code></pre>
+<pre><code>## Error: object &#39;ad_analysis&#39; not found</code></pre>
+<p>Here’s the problem with using a linear regression in this case: there’s no guarantee that the results will be on the probability scale. So, we can find cases where our model predicted probabilities below 0 or above 1. Of course, these just get labeled as 1 or 0.</p>
+<pre class="r"><code>ad_analysis%&gt;%
+  filter(preds&gt;1|preds&lt;0)%&gt;%
+  select(yield,preds,pred_attend)</code></pre>
+<pre><code>## Error: object &#39;ad_analysis&#39; not found</code></pre>
+</div>
+<div id="accuracy-of-linear-regression" class="section level2">
+<h2>Accuracy of Linear Regression</h2>
+<pre class="r"><code>ad_analysis%&gt;%
+  group_by(yield)%&gt;%
+  mutate(total_attend=n())%&gt;%
+  group_by(yield,pred_attend)%&gt;%
+  summarize(n(),`Actual Group`=mean(total_attend))%&gt;%
+  mutate(Proportion=`n()`/`Actual Group`)%&gt;%
+  rename(`Actually Attended`=yield,
+         `Predicted to Attend`=pred_attend,
+         `Number of Students`=`n()`)</code></pre>
+<pre><code>## Error: object &#39;ad_analysis&#39; not found</code></pre>
+<p>In this model, we correctly classified 282 out of 684 non-attendees or about 41 percent, and 1353 out of 1466 attendees or about 92 percent. The overall accuracy is (282+1353)/2150 or 76 percent. How are we doing?</p>
+<div id="sensitivity" class="section level3">
+<h3>Sensitivity</h3>
+<p>In the above table, the percent of 1s correctly identified is a measure known as <strong>sensitivity</strong>:</p>
+<pre class="r"><code>ad_analysis%&gt;%
+  group_by(yield)%&gt;%
+  mutate(total_attend=n())%&gt;%
+  group_by(yield,pred_attend)%&gt;%
+  summarize(n(),`Actual Group`=mean(total_attend))%&gt;%
+  mutate(Proportion=`n()`/`Actual Group`)%&gt;%
+  rename(`Actually Attended`=yield,
+         `Predicted to Attend`=pred_attend,
+         `Number of Students`=`n()`) %&gt;%
+  filter(`Actually Attended` == 1 &amp; `Predicted to Attend` == 1)</code></pre>
+<pre><code>## Error: object &#39;ad_analysis&#39; not found</code></pre>
+</div>
+<div id="specificity" class="section level3">
+<h3>Specificity</h3>
+<p>The percent of 0s correctly identified is a measure known as <strong>specificity</strong></p>
+<pre class="r"><code>ad_analysis%&gt;%
+  group_by(yield)%&gt;%
+  mutate(total_attend=n())%&gt;%
+  group_by(yield,pred_attend)%&gt;%
+  summarize(n(),`Actual Group`=mean(total_attend))%&gt;%
+  mutate(Proportion=`n()`/`Actual Group`)%&gt;%
+  rename(`Actually Attended`=yield,
+         `Predicted to Attend`=pred_attend,
+         `Number of Students`=`n()`) %&gt;%
+  filter(`Actually Attended` == 0 &amp; `Predicted to Attend` == 0)</code></pre>
+<pre><code>## Error: object &#39;ad_analysis&#39; not found</code></pre>
+</div>
+<div id="accuracy" class="section level3">
+<h3>Accuracy</h3>
+<pre class="r"><code>ad_analysis%&gt;%
+  group_by(yield)%&gt;%
+  mutate(total_attend=n())%&gt;%
+  group_by(yield,pred_attend)%&gt;%
+  summarize(n(),`Actual Group`=mean(total_attend))%&gt;%
+  mutate(Proportion=`n()`/`Actual Group`)%&gt;%
+  rename(`Actually Attended`=yield,
+         `Predicted to Attend`=pred_attend,
+         `Number of Students`=`n()`) %&gt;%
+  filter(`Actually Attended` == `Predicted to Attend`) %&gt;%
+  ungroup() %&gt;%
+  summarise(Accuracy = sum(`Number of Students`) / sum(`Actual Group`))</code></pre>
+<pre><code>## Error: object &#39;ad_analysis&#39; not found</code></pre>
+</div>
+</div>
