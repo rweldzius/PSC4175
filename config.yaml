@@ -1,4 +1,4 @@
-baseurl: https://rijalsankalp.github.io/data-science-site/
+baseurl: http://ryanweldzius.com/
 defaultContentLanguage: en
 title: "Introduction to Data Science"
 theme: hugo-academic
@@ -29,7 +29,8 @@ imaging:
   quality: 90
   anchor: smart
 
-copyright: ""
+
+copyright: ''
 enableGitInfo: true
 hasCJKLanguage: false
 defaultContentLanguageInSubdir: false
@@ -40,23 +41,9 @@ enableEmoji: true
 footnotereturnlinkcontents: <sup>^</sup>
 
 
-
-module:
-  mounts:
-    - source: 'assets'
-      target: 'assets'
-    - source: 'static'
-      target: 'assets'
-
-
-
 # ----------------
 # Output options
 # ----------------
-
-
-
-
 outputs:
   home:
     - HTML

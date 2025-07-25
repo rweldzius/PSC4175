@@ -118,7 +118,7 @@ important to note that they can only be 0s or 1s.</p>
 <pre class="r"><code>ad%&gt;%
   ggplot(aes(x=sat,y=yield))+
   geom_jitter(width=.01,height=.05,alpha=.25,color=&quot;blue&quot;)</code></pre>
-<p><img src="/data-science-sitehomeworks/psc4175_hw_13_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="/homeworks/psc4175_hw_13_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>We can see there are more higher SAT students than lower SAT students that ended
 up enrolling. A linear model in this case would look like this:</p>
 </div>
@@ -129,7 +129,7 @@ up enrolling. A linear model in this case would look like this:</p>
   geom_jitter(width=.01,height=.05,alpha=.25,color=&quot;blue&quot;)+
   geom_smooth(method=&quot;lm&quot;,se = FALSE,color=&quot;black&quot;)</code></pre>
 <pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
-<p><img src="/data-science-sitehomeworks/psc4175_hw_13_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="/homeworks/psc4175_hw_13_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>We can see the issue we identified last time: we CAN fit a model, but it doesn’t
 make a ton of sense. In particular, it doesn’t follow the data very well and it
 ends up with probabilities outside 0,1.</p>
@@ -158,7 +158,7 @@ as_tibble(pr_y = pr_y,x = x)%&gt;%
   ggplot(aes(x=x,y=pr_y))+
   geom_smooth()</code></pre>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;</code></pre>
-<p><img src="/data-science-sitehomeworks/psc4175_hw_13_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="/homeworks/psc4175_hw_13_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>Mapped onto our GLM, this gives us:</p>
 <p><span class="math inline">\(P(y=1|\mathbf{x})=\frac{exp(\beta_0 + \mathbf{x_i\beta})}{1+exp(\beta_0 +\mathbf{x_i\beta})}\)</span></p>
 <p>The critical thing to note about the above is that the link function maps the
@@ -340,7 +340,7 @@ threshRes %&gt;%
   ggplot(aes(x = threshold,y = Proportion,color = metric)) + 
   geom_line() + 
   geom_vline(xintercept = .67)</code></pre>
-<p><img src="/data-science-sitehomeworks/psc4175_hw_13_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="/homeworks/psc4175_hw_13_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>The optimal threshold is the one that maximizes Sensitivity and Specificity! (Although this is use-case dependent. You might prefer to do better on accurately predicting those who do attend than you do about predicting those who don’t.) In this case it is about 0.67.</p>
 </div>
 <div id="the-roc-curve" class="section level2">
@@ -358,7 +358,7 @@ threshRes %&gt;%
   geom_abline(slope = 1,intercept = 0,linetype = &#39;dotted&#39;) # The curve is always evaluated in reference to the diagonal line.</code></pre>
 <pre><code>## Warning: Removed 7 rows containing missing values or values outside the scale range
 ## (`geom_line()`).</code></pre>
-<p><img src="/data-science-sitehomeworks/psc4175_hw_13_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="/homeworks/psc4175_hw_13_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>The idea is that a model that is very predictive will have high levels of sensitivity AND high levels of specificity at EVERY threshold. Such a model will cover most of the available area above the baseline of .5. A model with low levels of sensitivity and low levels of specificity at every threshold will cover almost none of the available area above the baseline of .5.</p>
 <p>As such, we can extract a single number that captures the quality of our model from this plot: the “Area Under the Curve” (AUC). The further away from the diagonal line is our ROC curve, the better our model performs, and the higher is the AUC. But how to calculate the AUC? Thankfully, there is a helpful <code>R</code> package that will do this for us: <code>tidymodels</code>.</p>
 <pre class="r"><code>require(tidymodels)
@@ -479,14 +479,14 @@ library(tidymodels)</code></pre>
 <pre class="r"><code>ad%&gt;%
   ggplot(aes(x=income,y=need_aid))+
   geom_point()</code></pre>
-<p><img src="/data-science-sitehomeworks/psc4175_hw_13_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p><img src="/homeworks/psc4175_hw_13_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <p>The institution is currently awarding merit-based aid for students with SAT scores above 1250 on the following formula:</p>
 <p><span class="math inline">\(merit_aid=500+(sat/10\*250)\)</span></p>
 <p>Translated, this means that for every 10 points in SAT scores above 1250, the student will receive an additional $250. So for a student with 1400 SAT, merit based aid will be : <span class="math inline">\(500+ (1400/10 *250)= 500+140*250\)</span></p>
 <pre class="r"><code>ad%&gt;%
   ggplot(aes(x=sat,y=merit_aid))+
   geom_point()</code></pre>
-<p><img src="/data-science-sitehomeworks/psc4175_hw_13_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p><img src="/homeworks/psc4175_hw_13_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 </div>
 <div id="probability-for-a-specific-case" class="section level2">
 <h2>Probability for a Specific Case</h2>
@@ -594,7 +594,7 @@ plot_data%&gt;%
 ggplot(aes(x=gpa,y=prob_attend,color=as_factor(legacy)))+
   geom_line()+
   ylab(&quot;Prob(Attend)&quot;)</code></pre>
-<p><img src="/data-science-sitehomeworks/psc4175_hw_13_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<p><img src="/homeworks/psc4175_hw_13_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
 <p><em>Quick Exercise:</em> Plot the impact of changing distance across its range for those who have and haven’t visited campus</p>
 <pre class="r"><code># INSERT CODE HERE</code></pre>
 <p>The above tools can allow us to think through the substantive importance of changes in the different variables. This is an important step in these kinds of models, where the coefficients aren’t directly interpretable.</p>

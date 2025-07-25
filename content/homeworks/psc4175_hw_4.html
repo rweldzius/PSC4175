@@ -42,13 +42,13 @@ names(df)</code></pre>
 <p>Let’s create the first layer of our plot by using the <code>%&gt;%</code> function to link our data with the <code>ggplot()</code> function.</p>
 <pre class="r"><code>df %&gt;%
   ggplot(aes(x = adm_rate,y = sat_avg))</code></pre>
-<p><img src="/data-science-sitehomeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>This gives us a rather ugly looking graph box (see the bottom right quadrant of RStudio), where we see the admissions rate on the x-axis (the horizontal axis) and the SAT scores on the y-axis (the vertical axis). However, there are no visuals like lines or bars or points to help us actually SEE the data. We know that ggplot has them on the axes we specified, but we haven’t drawn anything yet.</p>
 <p>The next step is to add a “layer” to this plot that contains the visuals we want. To add a layer, we use the <code>+</code> sign to link our blank canvas to the function to draw the graph. In this situation, we are going to create a scatterplot using the function named <code>geom_point()</code>. (There are <strong>many</strong> other functions that are included with ggplot which will draw different plots…<code>geom_line()</code> and <code>geom_bar()</code> for example.)</p>
 <pre class="r"><code>df %&gt;%
   ggplot(aes(x = adm_rate,y = sat_avg)) + 
   geom_point()</code></pre>
-<p><img src="/data-science-sitehomeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 </div>
 <div id="tweaking-visuals" class="section level1">
@@ -59,14 +59,14 @@ names(df)</code></pre>
   ggplot(aes(x = adm_rate,y = sat_avg)) + 
   geom_point() + 
   geom_smooth()</code></pre>
-<p><img src="/data-science-sitehomeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>The default behavior of <code>geom_smooth()</code> is to draw a slightly curvy line that bends. This is potentially useful, since it reveals that the negative relationship between the admissions rate and the SAT scores is stronger among more selective schools (i.e., those with an admissions rate less than 0.50 or 50%), but almost flat among less selective schools.</p>
 <p>However, if all we want is the <strong>overall</strong> relationship drawn with a straight line, we need to tell <code>geom_smooth()</code> to draw a straight line with the input <code>method = "lm"</code>. (“lm” stands for “linear model”, a topic we will come back to later in the semester.)</p>
 <pre class="r"><code>df %&gt;%
   ggplot(aes(x = adm_rate,y = sat_avg)) + 
   geom_point() + 
   geom_smooth(method = &#39;lm&#39;)</code></pre>
-<p><img src="/data-science-sitehomeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 <div id="colors" class="section level1">
 <h1>Colors</h1>
@@ -74,19 +74,19 @@ names(df)</code></pre>
 <pre class="r"><code>df %&gt;%
   ggplot(aes(x = adm_rate,y = sat_avg)) + 
   geom_point(color = &#39;red&#39;)</code></pre>
-<p><img src="/data-science-sitehomeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p>However, we could instead color points <em>based on their value</em>. To do so, we want to move the <code>color</code> input <strong>inside</strong> the <code>aes()</code> function, and set it equal to the variable we want to visualize with color.</p>
 <pre class="r"><code>df %&gt;%
   ggplot(aes(x = adm_rate,y = sat_avg,
              color = region)) + 
   geom_point()</code></pre>
-<p><img src="/data-science-sitehomeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>We now have a legend added to the plot that tells us what each color refers to. In this example, we set the color equal to a categorical variable. We could instead set it equal to a continuous variable, which would give us a gradient.</p>
 <pre class="r"><code>df %&gt;%
   ggplot(aes(x = adm_rate,y = sat_avg,
              color = md_earn_wne_p6)) + 
   geom_point()</code></pre>
-<p><img src="/data-science-sitehomeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>Here we see two patterns. First, we continue to see the negative relationship between the admissions rate and the SAT scores. Second, we can <em>kinda</em> see a relationship between future wages of graduates and their SAT scores.</p>
 <p>If we don’t like the default choice of dark to light blue, we can modify this with <code>scale_color_gradient()</code>. As always, add another <code>+</code> to add the layer to the plot!</p>
 <pre class="r"><code>df %&gt;%
@@ -94,7 +94,7 @@ names(df)</code></pre>
              color = md_earn_wne_p6)) + 
   geom_point() + 
   scale_color_gradient(low = &#39;grey90&#39;,high = &#39;darkred&#39;)</code></pre>
-<p><img src="/data-science-sitehomeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>Note that some of the points are dark gray. These are schools that don’t report the median earnings of their recent graduates. These missing data default to a dark gray color. You can find more colors in the R color palette here: <a href="https://r-graph-gallery.com/color-palette-finder" class="uri">https://r-graph-gallery.com/color-palette-finder</a>.</p>
 <p><strong>Quick Exercise</strong> Re-do this plot but put <code>md_earn_wne_p6</code> on the y-axis, and <code>sat_avg</code> on the x-axis. Is there a relationship between SAT scores and earnings? Why might this be the case?</p>
 <pre class="r"><code># INSERT CODE HERE</code></pre>
@@ -106,13 +106,13 @@ names(df)</code></pre>
   ggplot(aes(x = adm_rate,y = sat_avg)) + 
   geom_point(size = 3) + 
   labs(title = &#39;Uniform Size Setting for all points&#39;)</code></pre>
-<p><img src="/data-science-sitehomeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <pre class="r"><code>df %&gt;%
   ggplot(aes(x = adm_rate,y = sat_avg,
              size = md_earn_wne_p6)) + 
   geom_point() + 
   labs(title = &#39;Sized by the future earnings&#39;)</code></pre>
-<p><img src="/data-science-sitehomeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 </div>
 </div>
 <div id="transparency" class="section level1">
@@ -123,7 +123,7 @@ names(df)</code></pre>
              size = md_earn_wne_p6)) + 
   geom_point(alpha = .3) + 
   labs(title = &#39;Sized by the future earnings&#39;)</code></pre>
-<p><img src="/data-science-sitehomeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 </div>
 <div id="other-types-of-plots" class="section level1">
 <h1>Other Types of Plots</h1>
@@ -135,12 +135,12 @@ names(df)</code></pre>
 <pre class="r"><code>df %&gt;%
   ggplot(aes(md_earn_wne_p6)) + 
   geom_histogram()</code></pre>
-<p><img src="/data-science-sitehomeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p><img src="/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <p>We can also get the same result with a density plot, which replaces the histogram with a line. The y-axis becomes the fraction of schools at each point on the x-axis, and adds up to 1.</p>
 <pre class="r"><code>df %&gt;%
   ggplot(aes(x = md_earn_wne_p6)) + 
   geom_density()</code></pre>
-<p><img src="/data-science-sitehomeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><img src="/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 </div>
 <div id="barplots" class="section level2">
 <h2>Barplots</h2>
@@ -148,7 +148,7 @@ names(df)</code></pre>
 <pre class="r"><code>df %&gt;%
   ggplot(aes(x = region)) + 
   geom_bar()</code></pre>
-<p><img src="/data-science-sitehomeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p><img src="/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 </div>
 </div>
 <div id="univariate-data-analysis" class="section level1">
@@ -477,12 +477,12 @@ nba&lt;-read_rds(&quot;https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Dat
 <pre class="r"><code>nba%&gt;%
   ggplot(aes(x=fgm))+
   geom_density()</code></pre>
-<p><img src="/data-science-sitehomeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p><img src="/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <p>We can also use a histogram to figure out much the same thing.</p>
 <pre class="r"><code>nba%&gt;%
   ggplot(aes(x=fgm))+
   geom_histogram()</code></pre>
-<p><img src="/data-science-sitehomeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p><img src="/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 <p>Now, technically field goals don’t meet the definition I set out above as being a continuous variable because they aren’t divisible below a certain amount. Usually in practice though we just ignore this– this variable is “as good as” continuous, given that it varies smoothly over the range and isn’t confined to a relatively small set of possible values.</p>
 <p><strong>Quick Exercise</strong>: Do the same thing for field goal percentage and think about what kind of variable it is.</p>
 <pre class="r"><code># INSERT CODE HERE</code></pre>
@@ -571,7 +571,7 @@ nba&lt;-read_rds(&quot;https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Dat
 <pre class="r"><code>nba%&gt;%
   ggplot(aes(x=numberPlayerSeason))+
   geom_histogram(binwidth = 1)</code></pre>
-<p><img src="/data-science-sitehomeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p><img src="/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 <p>Nope. See how it falls into a small set of possible categories? This is an ordered categorical variable. That means we should calculate the proportions in each category</p>
 <pre class="r"><code>nba%&gt;%
   group_by(numberPlayerSeason)%&gt;%
