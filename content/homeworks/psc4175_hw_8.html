@@ -243,7 +243,7 @@ for (i in 1:1000){ # Repeat the steps below 10,000 times
   ggplot(aes(x=mean_tov,fill=isWin))+
   geom_density(alpha=.3)+
   geom_vline(xintercept =12.9)</code></pre>
-<p><img src="/homeworks/psc4175_hw_8_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="/data-science-site/homeworks/psc4175_hw_8_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>We can see that the mean of this distribution is centered right on the mean of the actual data, and it goes from about 11 to about 15. This is different than the minimum and maximum of the overall sample, which goes from 3 to 24 (bad night).</p>
 <pre class="r"><code>gms_tov_rs%&gt;%
   filter(isWin)%&gt;%
@@ -265,7 +265,7 @@ for (i in 1:1000){ # Repeat the steps below 10,000 times
   ggplot(aes(x=mean_tov,fill=isWin))+
   geom_density(alpha=.3,fill=&quot;lightblue&quot;)+
     geom_vline(xintercept =13.8)</code></pre>
-<p><img src="/homeworks/psc4175_hw_8_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p><img src="/data-science-site/homeworks/psc4175_hw_8_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <p>And now the particular values.</p>
 <pre class="r"><code>gms_tov_rs%&gt;%
   filter(!isWin)%&gt;%

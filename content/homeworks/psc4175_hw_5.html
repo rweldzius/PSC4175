@@ -169,7 +169,7 @@ MI_final_small &lt;- mi_ep %&gt;%
          x = &quot;&quot;,
          title = &quot;Michigan 2020 Exit Poll: Reasons for voting for a candidate&quot;) +
     geom_bar(color=&quot;black&quot;) </code></pre>
-<p><img src="/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>Note that if we add <code>coord_flip</code> that we will flip the axes of the graph. (We could also have done this by changing <code>aes(y= Quality)</code>, but then we would also have to change the associated labels.)</p>
 <pre class="r"><code>mi_ep %&gt;% 
     select(Quality,preschoice) %&gt;%
@@ -182,7 +182,7 @@ MI_final_small &lt;- mi_ep %&gt;%
          title = &quot;Michigan 2020 Exit Poll: Reasons for voting for a candidate&quot;) +
     geom_bar(color=&quot;black&quot;) + 
   coord_flip()</code></pre>
-<p><img src="/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <p>So enough review, lets add another dimension to the data. To show how the self-reported reasons for voting for a presidential candidate varied by vote choice we are going to use the <code>fill</code> of the graph to create different color bars depending on the value of the character or factor variable that is used to <code>fill</code>.</p>
 <p>So we are going to include as a <code>ggplot</code> aesthetic a character or factor variable as a <code>fill</code> (here <code>fill=preschoice</code>) and then we are going to also include <code>fill</code> in the <code>labs</code> function to make sure that we label the meaning of the values being plotted. The other change we have made is in <code>geom_bar</code> where we used <code>position=dodge</code> to make sure that the bars are plotted next to one-another rather than on top of one another.</p>
 <pre class="r"><code>mi_ep %&gt;% 
@@ -197,7 +197,7 @@ MI_final_small &lt;- mi_ep %&gt;%
          fill = &quot;Self-Reported Vote&quot;) +
     geom_bar(color=&quot;black&quot;, position=&quot;dodge&quot;) +
     coord_flip()</code></pre>
-<p><img src="/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>For fun, see what happens when you do not use <code>postion=dodge</code>. Also see what happens if you do not flip the coordinates using <code>coord_flip</code>.</p>
 <p>It is important to note that the <code>fill</code> variable has to be a character or a factor. If we want to graph self-reported vote by sex, for example, we need to redefine the variable for the purposes of <code>ggplot</code> as follows. Note that because we are not mutating it and we are only defining it to be a factor within the `<code>ggplot</code> object, this redefinition will not stick. Note also the problem caused by uninformative values in <code>SEX</code> – can you change it.</p>
 <pre class="r"><code>mi_ep %&gt;% 
@@ -209,7 +209,7 @@ MI_final_small &lt;- mi_ep %&gt;%
          fill = &quot;Sex&quot;) +
     geom_bar(color=&quot;black&quot;, position=&quot;dodge&quot;) +
     coord_flip()</code></pre>
-<p><img src="/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p><strong>Quick Exercise</strong> The barplot we just produced does not satisfy our principles of visualization because the fill being used is uninterpretable to those unfamiliar with the dataset. Redo the code to use a <code>fill</code> variable that produces an informative label. Hint: don’t overthink.</p>
 <pre class="r"><code># INSERT CODE HERE</code></pre>
 </div>
@@ -254,7 +254,7 @@ So if we want to plot the histogram of <code>margin</code> for two types of poll
     geom_histogram(bins=10, color=&quot;black&quot;, position=&quot;dodge&quot;) + 
     scale_x_continuous(breaks=seq(-.1,.2,by=.05),
                      labels= scales::percent_format(accuracy = 1))</code></pre>
-<p><img src="/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <p><strong>Quick Exercise</strong> Try running the code without the <code>filter</code>. What do you observe? How useful is this? Why or why not?</p>
 <pre class="r"><code># INSERT CODE</code></pre>
 <p>While informative, it can be hard to compare the distribution of more than two categories using such methods. To compare the variation across more types of surveys we need to use a different visualization that summarizes the variation in the variable of interest a bit more. One common visualization is the <code>boxplot</code> which reports the mean, 25th percentile (i.e., the value of the data if we sort the data from lowest to highest and take the value of the observation that is 25% of the way through), the 75th percentile, the range of values, and notable outliers.</p>
@@ -268,7 +268,7 @@ So if we want to plot the histogram of <code>margin</code> for two types of poll
     geom_boxplot(fill = &quot;slateblue&quot;) +
     scale_y_continuous(breaks=seq(-.1,.2,by=.05),
                      labels= scales::percent_format(accuracy = 1))</code></pre>
-<p><img src="/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 <p>We can also flip the graph if we think it makes more sense to display it in a different orientation using <code>coord_flip</code>. (We could, of course, also redefine the x and y variables in the `<code>ggplot</code> object, but it is useful to have a command to do this to help you determine which orientiation is most useful).</p>
 <pre class="r"><code>Pres2020.PV %&gt;% 
   filter(Mode != &quot;IVR&quot; &amp; Mode != &quot;Online/Text&quot; &amp; Mode != &quot;Phone - unknown&quot; &amp; Mode != &quot;NA&quot;) %&gt;%
@@ -280,7 +280,7 @@ So if we want to plot the histogram of <code>margin</code> for two types of poll
     scale_y_continuous(breaks=seq(-.1,.2,by=.05),
                      labels= scales::percent_format(accuracy = 1)) +
     coord_flip()</code></pre>
-<p><img src="/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <p>A downside of the boxplot is that it can be hard to tell how the data varies within each box. Is it equally spread out? How much data are contained in the lines (which are simply 1.5 times the height of the box)? To get a better handle on this we can use a “violin” plot that dispenses with a standard box and instead tries to plot the distribution of data within each category.</p>
 <pre class="r"><code>Pres2020.PV %&gt;% 
   filter(Mode != &quot;IVR&quot; &amp; Mode != &quot;Online/Text&quot; &amp; Mode != &quot;Phone - unknown&quot; &amp; Mode != &quot;NA&quot;) %&gt;%
@@ -288,7 +288,7 @@ So if we want to plot the histogram of <code>margin</code> for two types of poll
     xlab(&quot;Mode&quot;) + 
     ylab(&quot;Biden- Trump Margin&quot;) +
     geom_violin(fill=&quot;slateblue&quot;)</code></pre>
-<p><img src="/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 <p>It is also hard to know <strong>how much</strong> data is being plotted. If some modes have 1000 polls and others have only 5 that seems relevant.</p>
 <p><strong>Quick Exercise</strong> We have looked at the difference in <code>margin</code>. How about differences in the percent who report supporting <code>Biden</code> and <code>Trump</code>? What do you observe. Does this suggest that the different ways of contacting respondents may matter in terms of who responds? Is there something else that may explain the differences (i.e., what are we assuming when making this comparison)?</p>
 <pre class="r"><code># INSERT CODE HERE</code></pre>
@@ -309,7 +309,7 @@ So if we want to plot the histogram of <code>margin</code> for two types of poll
                      labels= scales::percent_format(accuracy = 1)) +
   scale_x_continuous(breaks=seq(0,1,by=.05),
                      labels= scales::percent_format(accuracy = 1))</code></pre>
-<p><img src="/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 <p>The results are intriguing! First the data seems like it falls along a grid. This is because of how poll results are reported in terms of percentage points and it highlights that even continuous variables may be reported in discrete values. This is consequential because it is hard to know how many polls are associated with each point on the graph. How many polls are at the point (Biden 50%, Trump 45%)? This matters for trying to determine what the relationship might be. Second, it is clear that there are some questions that need to be asked – why doesn’t <code>Biden + Trump = 100\%</code>?</p>
 <p>To try to display how many observations are located at each point we have two tools at our disposal. First, we can alter the “alpha transparency” by setting <code>alpha-.5</code> in the <code>geom_point</code> call. By setting a low level of transparency, this means that the point will become less transparent as more points occur at the same coordinate. Thus, a faint point indicates that only a single poll (observation) is located at a coordinate whereas a solid point indicates that there are many polls. When we apply this to the scatterplot you can immediately see that most of the polls are located in the neighborhood of Biden 50%, Trump 42%.</p>
 <pre class="r"><code>Pres2020.PV %&gt;%
@@ -322,7 +322,7 @@ So if we want to plot the histogram of <code>margin</code> for two types of poll
                      labels= scales::percent_format(accuracy = 1)) +
   scale_x_continuous(breaks=seq(0,1,by=.05),
                      labels= scales::percent_format(accuracy = 1))</code></pre>
-<p><img src="/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
 <p>However, the grid-like nature of the plot is still somewhat hard to interpret as it can be hard to discern variations in color gradient. Another tool is to add a tiny bit of randomness to the x and y values associated with each plot. Instead of values being constrained to vary by a full percentage point, for example, the jitter allows it to vary by less. To do so we replace <code>geom_point</code> with <code>geom_jitter</code>.</p>
 <pre class="r"><code>Pres2020.PV %&gt;%
   ggplot(aes(x = Biden, y = Trump)) + 
@@ -334,7 +334,7 @@ So if we want to plot the histogram of <code>margin</code> for two types of poll
                      labels= scales::percent_format(accuracy = 1)) +
   scale_x_continuous(breaks=seq(0,1,by=.05),
                      labels= scales::percent_format(accuracy = 1)) </code></pre>
-<p><img src="/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 <p>Note how much the visualization changes. Whereas before the eye was focused on – and arguably distracted by – the grid-like orientation imposed by the measurement, once we jitter the points we are immediately made aware of the relationship between the two variables. While we are indeed slightly changing our data by adding random noise, the payoff is that the visualization arguably better highlights the nature of the relationship. Insofar the goal of visualization is communication, this trade-off seems worthwhile in this instance. But here again is where data science is sometimes art as much as science. The decision of which visualization to use depends on what you think most effectively communicates the nature of the relationship to the reader.</p>
 <p>We can also look at the accuracy of a poll as a function of the sample size. This is also a relationship between two continuous variables – hence a scatterplot! Are polls with more respondents more accurate? There is one poll with nearly 80,000 respondents that we will filter out to me able to show a reasonable scale. Note that we are going to use <code>labels = scales::comma</code> when plotting the x-axis to report numbers with commas for readability.</p>
 <pre class="r"><code>Pres2020.PV %&gt;%
@@ -350,7 +350,7 @@ So if we want to plot the histogram of <code>margin</code> for two types of poll
                      labels= scales::percent_format(accuracy = 1)) +
   scale_x_continuous(breaks=seq(0,30000,by=5000),
                      labels= scales::comma) </code></pre>
-<p><img src="/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
 <p>In sum, we have tested Trump’s theory that the MSM was biased against him. We found that polls that underpredicted Trump <strong>also</strong> underpredicted Biden. This is not what we would expect if the polls favored one candidate over another.</p>
 <pre class="r"><code>Pres2020.PV %&gt;%
   ggplot(aes(x = Biden, y = Trump)) + 
@@ -362,7 +362,7 @@ So if we want to plot the histogram of <code>margin</code> for two types of poll
                      labels= scales::percent_format(accuracy = 1)) +
   scale_x_continuous(breaks=seq(0,1,by=.05),
                      labels= scales::percent_format(accuracy = 1)) </code></pre>
-<p><img src="/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
 <p>What is an alternative explanation for these patterns? Why would polls underpredict <em>both</em> Trump and Biden?</p>
 <p>Perhaps they were fielded earlier in the year, when more people were interested in third party candidates, or hadn’t made up their mind. We’ll turn to testing this theory next time!</p>
 </div>
