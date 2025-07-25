@@ -1,5 +1,5 @@
 ---
-title: "01-intro"
+title: "Introduction"
 linktitle: "1: Introduction"
 date: 2025-08-25
 menu:
@@ -18,4 +18,7 @@ type: weeks
 - [Lecture 1 - Introduction](../../lectures/1_intro.html)
 
 ## Homework
-- [HomeWork 1: psc4175_hw_1](../../homeworks/psc4175_hw_1/)
+- [HomeWork 1](../../homeworks/psc4175_hw_1/)
+
+## Problem Set
+- [Problem Set 0](../../problemsets/psc4175_pset_0)  [Will not be graded]

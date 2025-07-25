@@ -1,0 +1,24 @@
+---
+title: "Multivariate 2"
+linktitle: "6: Multivariate 2"
+date: 2025-08-25
+menu:
+  weeks:
+    parent: Weeks
+    weight: 6
+type: weeks
+---
+
+## Materials
+
+### Lecture 6 - Multivariate Analysis (part 3)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/P7RsKcUHW6I" title="PSC 4175 - Lecture 6 - Multivariate Analysis, Part 3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
+### Slides
+- [Lecture 6 - Multivariate Analysis (part 3)](../../lectures/6_Multivariate3.html)
+
+
+## Homework
+- [HomeWork 6](../../homeworks/psc4175_hw_6/)
+- Incorporate plotly into your data visualization

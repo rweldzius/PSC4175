@@ -19,4 +19,6 @@ Imports:
   metathis,
   fontawesome,
   xaringanExtra,
-  magick
+  magick,
+  here,
+  fs

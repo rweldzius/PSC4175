@@ -1,0 +1,23 @@
+---
+title: "Data Wrangling"
+linktitle: "3: Data Wrangling"
+date: 2025-08-25
+menu:
+  weeks:
+    parent: Weeks
+    weight: 3
+type: weeks
+---
+
+## Materials
+
+### Lecture 3 - Data Wrangling
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Nka7Ma7vBFI" title="PSC 4175 - Lecture 3 - Data Wrangling" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+### Slides
+- [Lecture 3 - Data Wrangling](../../lectures/3_DataWrangling.html)
+
+
+## Homework
+- [HomeWork 3](../../homeworks/psc4175_hw_3/)
+- Final project research question and potential data sources

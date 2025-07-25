@@ -1,0 +1,27 @@
+---
+title: "Regression 3"
+linktitle: "11: Regression 3"
+date: 2025-08-25
+menu:
+  weeks:
+    parent: Weeks
+    weight: 11
+type: weeks
+---
+
+## Materials
+
+### Lecture 11a - Regression 3
+<iframe width="560" height="315" src="https://www.youtube.com/embed/kODEpwWQj6s" title="PSC 4175 - Lecture 11a - Regression Part 3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+### Lecture 11b - Regression 3
+<iframe width="560" height="315" src="https://www.youtube.com/embed/CC8bhfn76Uo" title="PSC 4175 - Lecture 11b - Regression Part 3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+### Slides
+- [Lecture 11a - Regression 3](../../lectures/11a_RegressionPart3.html)
+- [Lecture 11b - Regression 3](../../lectures/11b_RegressionPart3.html)
+
+
+## Homework
+- [HomeWork 11](../../homeworks/psc4175_hw_11/)
+- Test hypotheses including potential confounding variables

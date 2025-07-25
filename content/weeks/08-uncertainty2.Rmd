@@ -1,0 +1,26 @@
+---
+title: "Uncertainty 2"
+linktitle: "8: Uncertainty 2"
+date: 2025-08-25
+menu:
+  weeks:
+    parent: Weeks
+    weight: 8
+type: weeks
+---
+
+## Materials
+
+### Lecture 8a - Confidence Statements
+<iframe width="560" height="315" src="https://www.youtube.com/embed/q02LciYcIGI" title="PSC 4175 - Lecture 8a - Confidence Statements" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+### Lecture 8b - Confidence Statements
+<iframe width="560" height="315" src="https://www.youtube.com/embed/uDUPRnX-_ic" title="PSC 4175 - Lecture 8b - Confidence Statements" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+### Slides
+- [Lecture 8a - Confidence Statements](../../lectures/8a_ConfidenceStatements.html)
+- [Lecture 8b - Confidence Statements](../../lectures/8b_ConfidenceStatements.html)
+
+
+## Homework
+- [HomeWork 8](../../homeworks/psc4175_hw_8/)

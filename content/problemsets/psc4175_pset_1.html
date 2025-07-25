@@ -1,0 +1,323 @@
+---
+title: "Problem Set 1"
+author: '[YOUR NAME]'
+date: 2025-06-06
+Due_Date: "2025-06-06 by 11:59 PM"
+subtitle: Intro to `R`
+institute: Villanova University
+---
+
+
+
+<div id="getting-set-up" class="section level1">
+<h1>Getting Set Up</h1>
+<p>Open <code>RStudio</code> and create a new RMarkDown file (<code>.Rmd</code>) by going to <code>File -&gt; New File -&gt; R Markdown...</code>.
+Accept defaults and save this file as <code>[LAST NAME]_ps1.Rmd</code> to your <code>code</code> folder.</p>
+<p>Copy and paste the contents of this <code>.Rmd</code> file into your <code>[LAST NAME]_ps1.Rmd</code> file. Then change the <code>author: [Your Name]</code> to your name.</p>
+<p>All of the following questions should be answered in this <code>.Rmd</code> file. There are code chunks with incomplete code that need to be filled in.</p>
+<p>This problem set is worth 22 total points, plus 2.5 extra credit points. The point values for each question are indicated in brackets below. To receive full credit, you must have the correct code. In addition, some questions ask you to provide a written response in addition to the code.</p>
+<p>You are free to rely on whatever resources you need to complete this problem set, including lecture notes, lecture presentations, Google, your classmates…you name it. However, the final submission must be complete by you. There are no group assignments. To submit, compile the completed problem set and upload the PDF file to Drobox on Friday by midnight. If you use AI for help, choose to save your output as a PDF and submit this with the problem set as well. Also note that I will not respond to Campuswire messages after 2PM ET on Friday, so don’t wait until the last minute to get started!</p>
+<p><strong>Good luck!</strong></p>
+<p><strong>If you collaborated with a colleague and/or used AI for any help on this problem set, document here.</strong> Write the names of your classmates and/or upload a PDF of your AI prompt and output with your problem set:</p>
+</div>
+<div id="part-1-all-about-college" class="section level1">
+<h1>Part 1: All about college</h1>
+<div id="points-possible-0.5-extra-credit-points" class="section level2">
+<h2>[10 points possible; 0.5 extra credit points]</h2>
+</div>
+<div id="question-0-0-points" class="section level2">
+<h2>Question 0 [0 points]</h2>
+<p><em>Require <code>tidyverse</code> and load the <code>sc_debt.Rds</code> data by assigning it to an object named <code>df</code>.</em></p>
+<pre class="r"><code>require() # Load tidyverse</code></pre>
+<pre><code>## Loading required package:</code></pre>
+<pre class="r"><code>df &lt;- read_rds() # Load the dataset directly from github</code></pre>
+<pre><code>## Error in read_rds(): could not find function &quot;read_rds&quot;</code></pre>
+</div>
+<div id="question-1-1-point" class="section level2">
+<h2>Question 1 [1 point]</h2>
+<p><em>Which school has the lowest admission rate (<code>adm_rate</code>) and which state is it in (<code>stabbr</code>)?</em></p>
+<pre class="r"><code>df %&gt;% 
+  arrange() %&gt;% # Arrange by the admission rate
+  select() # Select the school name, the admission rate, and the state</code></pre>
+<pre><code>## Error in df %&gt;% arrange() %&gt;% select(): could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-2-1-point" class="section level2">
+<h2>Question 2 [1 point]</h2>
+<p><em>Which are the top 10 schools by average SAT score (<code>sat_avg</code>)?</em></p>
+<pre class="r"><code>df %&gt;%
+  arrange() %&gt;% # arrange by SAT scores in descending order
+  select() %&gt;% # Select the school name and SAT score
+  print() # Print the first 12 rows (hint: there is a tie)</code></pre>
+<pre><code>## Error in df %&gt;% arrange() %&gt;% select() %&gt;% print(): could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-3-1-point" class="section level2">
+<h2>Question 3 [1 point]</h2>
+<p><em>Create a new variable called <code>adm_rate_pct</code> which is the admissions rate multiplied by 100 to convert from a 0-to-1 decimal to a 0-to-100 percentage point.</em></p>
+<pre class="r"><code>df &lt;- df %&gt;% # Use the object assignment operator to overwrite the df object
+  mutate() # Create the new variable adm_rate_pct</code></pre>
+<pre><code>## Error in df %&gt;% mutate(): could not find function &quot;%&gt;%&quot;</code></pre>
+</div>
+<div id="question-4-1-point" class="section level2">
+<h2>Question 4 [1 point]</h2>
+<p><em>Calculate the average SAT score and median earnings of recent graduates by state.</em></p>
+<pre class="r"><code>df %&gt;%
+  group_by() %&gt;% # Calculate state-by-state with group_by()
+  summarise(sat_avg = , # Summarise the average SAT
+            earn_avg = ) # Summarise the average earnings</code></pre>
+<pre><code>## Error in df %&gt;% group_by() %&gt;% summarise(sat_avg = , earn_avg = ): could not find function &quot;%&gt;%&quot;</code></pre>
+</div>
+<div id="extra-credit-0.5-points" class="section level2">
+<h2>Extra Credit [0.5 points]</h2>
+<p><em>Plot the average SAT score (x-axis) against the median earnings of recent graduates (y-axis) by school, and add the line of best fit. What relationship do you observe? Why do you think this relationship exists?</em></p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-5-3-points" class="section level2">
+<h2>Question 5 [3 points]</h2>
+<p><em>Research Question: Do students who graduate from smaller schools (i.e., schools with smaller student bodies) make more money in their future careers? Before looking at the data, write out what you think the answer is, and explain why you think so.</em></p>
+<blockquote>
+<p>Write a few sentences here.</p>
+</blockquote>
+<p><em>Based on this research question, what is the outcome / dependent / <span class="math inline">\(Y\)</span> variable and what is the explanatory / independent / <span class="math inline">\(X\)</span> variable? Create the scatterplot of the data based on this answer, along with a line of best fit. Is your answer to the research question supported?</em></p>
+<pre class="r"><code>df %&gt;%
+  ggplot(aes(x = , # Put the explanatory variable on the x-axis
+             y = )) +  # Put the outcome variable on the y-axis
+  geom_point() + # Create a scatterplot
+  geom_smooth() + # Add line of best fit
+  labs(title = &#39;&#39;, # give the plot meaningful labels to help the viewer understand it
+       x = &#39;&#39;,
+       y = &#39;&#39;)</code></pre>
+<pre><code>## Error in df %&gt;% ggplot(aes(x = , y = )): could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<p>Write a few sentences here.</p>
+</blockquote>
+</div>
+<div id="question-6-2-points" class="section level2">
+<h2>Question 6 [2 points]</h2>
+<p><em>Does this relationship change by whether the school is a research university? Using the filter() function, create two versions of the plot, one for research universities and the other for non-research universities.</em></p>
+<pre class="r"><code>df %&gt;%
+  filter() %&gt;% # Filter to non-research universities
+  ggplot(aes(x = , # Put the explanatory variable on the x-axis
+             y = )) +  # Put the outcome variable on the y-axis
+  geom_point() + # Create a scatterplot
+  geom_smooth() + # Add line of best fit
+  labs(title = &#39;&#39;, # give the plot meaningful labels to help the viewer understand it
+       subtitle = &#39;&#39;, 
+       x = &#39;&#39;,
+       y = &#39;&#39;)</code></pre>
+<pre><code>## Error in df %&gt;% filter() %&gt;% ggplot(aes(x = , y = )): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code>df %&gt;%
+  filter() %&gt;% # Filter to research universities
+  ggplot(aes(x = , # Put the explanatory variable on the x-axis
+             y = )) +  # Put the outcome variable on the y-axis
+  geom_point() + # Create a scatterplot
+  geom_smooth() + # Add line of best fit
+  labs(title = &#39;&#39;, # give the plot meaningful labels to help the viewer understand it
+       subtitle = &#39;&#39;, 
+       x = &#39;&#39;,
+       y = &#39;&#39;)</code></pre>
+<pre><code>## Error in df %&gt;% filter() %&gt;% ggplot(aes(x = , y = )): could not find function &quot;%&gt;%&quot;</code></pre>
+</div>
+<div id="question-7-1-point" class="section level2">
+<h2>Question 7 [1 point]</h2>
+<p><em>Instead of creating two separate plots, color the points by whether the school is a research university. To do this, you first need to modify the research_u variable to be categorical (it is currently stored as numeric). To do this, use the mutate command with <code>ifelse()</code> to create a new variable called <code>research_u_cat</code> which is either “Research” if <code>research_u</code> is equal to 1, and “Non-Research” otherwise.</em></p>
+<pre class="r"><code>df &lt;- df %&gt;%
+  mutate(research_u_cat = ifelse()) # Create a labeled version of the research_u variable</code></pre>
+<pre><code>## Error in df %&gt;% mutate(research_u_cat = ifelse()): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code>df %&gt;%
+  ggplot(aes(x = , # Put the explanatory variable on the x-axis
+             y = , # Put the outcome variable on the y-axis
+             color = )) + # Color the points by the new variable you created above
+  geom_point() + # Create a scatterplot
+  geom_smooth() + # Add line of best fit
+  labs(title = &#39;&#39;, # give the plot meaningful labels to help the viewer understand it
+       x = &#39;&#39;,
+       color = &#39;&#39;,
+       y = &#39;&#39;)</code></pre>
+<pre><code>## Error in df %&gt;% ggplot(aes(x = , y = , color = )): could not find function &quot;%&gt;%&quot;</code></pre>
+</div>
+</div>
+<div id="part-2-learning-about-the-2020-elections-from-michigan-exit-polling" class="section level1">
+<h1>Part 2: Learning about the 2020 elections from Michigan exit polling</h1>
+<div id="points-1-extra-credit-points-available" class="section level2">
+<h2>[6 points; +1 extra credit points available]</h2>
+<p>For part 2 of this problem set, we will be using the <code>MI2020_ExitPoll.Rds</code> file from the course <a href="https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/MI2020_ExitPoll.Rds">github page</a>.</p>
+</div>
+<div id="question-8-1-point" class="section level2">
+<h2>Question 8 [1 point]</h2>
+<p>Require an additional package called <code>labelled</code> (remember to <code>install.packages("labelled")</code> if you don’t have it yet) and load the <code>MI2020_ExitPoll.Rds</code> data to an object called <code>MI_raw</code>. (Tip: use the <code>read_rds()</code> function with the link to the raw data.)</p>
+<pre class="r"><code>require()</code></pre>
+<pre><code>## Loading required package:</code></pre>
+<pre class="r"><code>MI_raw &lt;- read_rds(&#39;&#39;) </code></pre>
+<pre><code>## Error in read_rds(&quot;&quot;): could not find function &quot;read_rds&quot;</code></pre>
+<p><em>What is the unit of analysis in this dataset? How many variables does it have? How many observations?</em></p>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-9-1-point" class="section level2">
+<h2>Question 9 [1 point]</h2>
+<p><em>This has too much information that we don’t care about. Create a new object called <code>MI_clean</code> that contains only the following variables:</em></p>
+<ul>
+<li>AGE10</li>
+<li>SEX</li>
+<li>PARTYID</li>
+<li>EDUC18</li>
+<li>PRSMI20</li>
+<li>QLT20</li>
+<li>LGBT</li>
+<li>BRNAGAIN</li>
+<li>LATINOS</li>
+<li>QRACEAI</li>
+<li>WEIGHT</li>
+</ul>
+<p><em>and then list which of these variables contain missing data recorded as <code>NA</code>. How many respondents were not asked certain questions?</em></p>
+<pre class="r"><code>MI_clean &lt;- MI_raw %&gt;% 
+  select() # Select the requested variables</code></pre>
+<pre><code>## Error in MI_raw %&gt;% select(): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code>summary() # Identify which have missing data recorded as NA</code></pre>
+<pre><code>## Error in summary.default(): argument &quot;object&quot; is missing, with no default</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-10-1-point" class="section level2">
+<h2>Question 10 [1 point]</h2>
+<p><em>Are there</em> <strong>unit non-response</strong> <em>data in the <code>PRSMI20</code> variable? If so, how are they recorded? What about the <code>PARTYID</code> variable? How many people refused to answer both of these questions?</em></p>
+<pre class="r"><code>MI_clean %&gt;%
+  count() # Tip: use count() function to look at your variables.</code></pre>
+<pre><code>## Error in MI_clean %&gt;% count(): could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<p>Write answer here.</p>
+</blockquote>
+</div>
+<div id="question-11-1-points" class="section level2">
+<h2>Question 11 [1 points]</h2>
+<p><em>Let’s create a new variable called <code>preschoice</code> that converts <code>PRSMI20</code> to a character. To do this, install the <code>labelled</code> package if you haven’t already, then use the <code>to_character()</code> function from the <code>labelled</code> package. Now <code>count()</code> the number of respondents who reported voting for each candidate. How many respondents voted for candidate Trump in 2020? How many respondents refused to tell us who they voted for?</em></p>
+<pre class="r"><code>MI_clean &lt;- MI_clean %&gt;%
+  mutate(preschoice = ) # Convert to character</code></pre>
+<pre><code>## Error in MI_clean %&gt;% mutate(preschoice = ): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code>MI_clean %&gt;%
+  count()</code></pre>
+<pre><code>## Error in MI_clean %&gt;% count(): could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-12-2-points" class="section level2">
+<h2>Question 12 [2 points]</h2>
+<p>What proportion of women supported Trump?</p>
+<pre class="r"><code># Women Trump supporters
+MI_clean %&gt;%
+  drop_na() %&gt;% # Drop any missing values for preschoice
+  filter() %&gt;% # Filter to only women
+  count() %&gt;% # Count the number of women who supported each candidate
+  mutate(share = ) # Calculate the proportion of women who supported Trump</code></pre>
+<pre><code>## Error in MI_clean %&gt;% drop_na() %&gt;% filter() %&gt;% count() %&gt;% mutate(share = ): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Alternative approach
+MI_clean %&gt;%
+  drop_na() %&gt;% # Drop any missing values for preschoice
+  mutate(trumpSupp = ifelse()) %&gt;% # Create &quot;dummy&quot; variable for whether the person voted for Trump or not that is either 1 (they voted for Trump) or 0
+  group_by() %&gt;% # Group by gender
+  summarise(share = mean(trumpSupp)) # Calculate proportion who supported Trump</code></pre>
+<pre><code>## Error in MI_clean %&gt;% drop_na() %&gt;% mutate(trumpSupp = ifelse()) %&gt;% group_by() %&gt;% : could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<p>Write answer here.</p>
+</blockquote>
+</div>
+<div id="extra-credit-1-point" class="section level2">
+<h2>Extra Credit [1 point]</h2>
+<p><em>Among women, which age group sees the highest support for Trump? To answer, you will need to calculate the proportion of women who supported Trump by age-group to determine which age-group had the highest Trump support among women. You will need to clean the AGE10 variable before completing this problem, just like we did with the PRSMI20 variable. Call the new variable “Age”. HINT: to make your life easier (and not write a 10-level nested ifelse() function), try asking ChatGPT for help with this prompt: “I have a labelled variable in R that I want to convert to text. How can I do this?”</em></p>
+<pre class="r"><code># Insert code here.</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+</div>
+<div id="part-3-nba-jam-boom-shakalaka" class="section level1">
+<h1>Part 3: NBA Jam, “Boom-shakalaka!”</h1>
+<div id="points-1-extra-credit-point-available" class="section level2">
+<h2>[6 points; +1 extra credit point available]</h2>
+</div>
+<div id="question-13-1-point" class="section level2">
+<h2>Question 13 [1 point]</h2>
+<p><em>Plot the distribution of field goals attempted by all NBA players in the 2018-2019 season. Explain why you chose the visualization that you did. Then add a vertical line indicating the mean and median number of points in the data. Color the median line blue and the mean line red. Why is the median lower than the mean?</em></p>
+<pre class="r"><code>nba %&gt;%
+  ggplot() + # Put the fga variable on the x-axis of a ggplot.
+   geom_...() + # Choose the appropriate geom function to visualize.
+  labs() + # Add labels
+      geom_vline() + # Median vertical line (blue)
+      geom_vline() # Mean vertical line (red)</code></pre>
+<pre><code>## Error in nba %&gt;% ggplot(): could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<p>Write answer here.</p>
+</blockquote>
+</div>
+<div id="question-14-1-point" class="section level2">
+<h2>Question 14 [1 point]</h2>
+<p><em>Now examine the <code>country</code> variable. Visualize this variable using the appropriate <code>geom_...</code>, and justify your reason for choosing it. Tweak the plot to put the country labels on the y-axis, ordered by frequency. Which country are most NBA players from? What is weird about your answer, and what might explain it? </em></p>
+<pre class="r"><code>nba %&gt;%
+  count() %&gt;% # count the number of players by country
+  ggplot() + # place the country on the y-axis, reordered by the number of players. Put the number of players on the x-axis
+  geom_...() + # Choose the best geom
+  labs() # Add labels</code></pre>
+<pre><code>## Error in nba %&gt;% count() %&gt;% ggplot(): could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-15-3-points" class="section level2">
+<h2>Question 15 [3 points]</h2>
+<p><em>Let’s pretend we are consulting for an NBA organization. The owner and GM tell us they are interested in the relationship between the player’s age (<code>agePlayer</code>) and the amount of points they score (<code>pts</code>). Please answer the following research question and provide a theory supporting your answer: “Do older NBA players score more points than younger players?”</em></p>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+<p><em>Based on your answer above, what is the outcome / dependent / <span class="math inline">\(Y\)</span> variable and what is the explanatory / independent / <span class="math inline">\(X\)</span> variable? Why?</em></p>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+<p><em>Create a univariate visualization of both the <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> variables. Choose the best <code>geom_...()</code> based on the variable type, and make sure to label your plots!</em></p>
+<pre class="r"><code># X variable
+nba %&gt;%
+  ggplot() + # Put the X variable on the x-axis
+  geom_...() +  # Choose the best geom given the variable type (make sure to look at it if you aren&#39;t sure)
+  labs()     # Add labels</code></pre>
+<pre><code>## Error in nba %&gt;% ggplot(): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Y variable
+nba %&gt;%
+  ggplot(...) + # Put the Y variable on the x-axis
+  geom_...() +  # Choose the best geom given the variable type (make sure to look at it if you aren&#39;t sure)
+  labs(...)     # Add labels</code></pre>
+<pre><code>## Error in nba %&gt;% ggplot(...): could not find function &quot;%&gt;%&quot;</code></pre>
+</div>
+<div id="question-16-1-point" class="section level2">
+<h2>Question 16 [1 point]</h2>
+<p><em>Now analyze the data by creating a multivariate visualization that shows the relationship between age and points. Add a STRAIGHT line of best fit with <code>geom_smooth()</code>.</em></p>
+<pre class="r"><code>nba %&gt;%
+  ggplot() + # Put the X variable on the x-axis, and the Y variable on the y-axis
+  geom_...() +  # Choose the best geom given both variable types
+  geom_smooth() + # Add a STRAIGHT line of best fit
+  labs()     # Add labels</code></pre>
+<pre><code>## Error in nba %&gt;% ggplot(): could not find function &quot;%&gt;%&quot;</code></pre>
+<p><em>Based on your analysis, does the data support or reject your hypothesis from Question 3?</em></p>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="extra-credit-1-point-1" class="section level2">
+<h2>Extra Credit [1 point]</h2>
+<p><em>Let’s look for evidence of a “curvelinear” relationship between player age and points scored. To do so, first calculate the average points scored by age. Then plot this relationship using a multivariate visualization. Add a line of best fit with <code>geom_smooth()</code> but DON’T use <code>method = "lm"</code>. What do you conclude? Why?</em></p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+</div>

@@ -1,0 +1,302 @@
+---
+title: "Problem Set 3"
+subtitle: "Classification"
+author: "[YOUR NAME]"
+institute: "Villanova University"
+date: 2025-08-07 
+Due_Date: "2025-06-20 at 11:59 PM"
+type: homeworks
+---
+
+
+
+<div id="getting-set-up" class="section level1">
+<h1>Getting Set Up</h1>
+<p>Open <code>RStudio</code> and create a new RMarkDown file (<code>.Rmd</code>) by going to <code>File -&gt; New File -&gt; R Markdown...</code>.
+Accept defaults and save this file as <code>[LAST NAME]_ps3.Rmd</code> to your <code>code</code> folder.</p>
+<p>Copy and paste the contents of this <code>.Rmd</code> file into your <code>[LAST NAME]_ps3.Rmd</code> file. Then change the <code>author: [Your Name]</code> to your name.</p>
+<p>All of the following questions should be answered in this <code>.Rmd</code> file. There are code chunks with incomplete code that need to be filled in. To submit, compile (i.e., <code>knit as pdf</code>) the completed problem set and upload the PDF file to Blackboard on Friday by midnight. Be sure to check your knitted PDF for mistakes before submitting!</p>
+<p>This problem set is worth 18 total points, plus 1 extra credit point (and an additional extra credit point for the winner; more below). The point values for each question are indicated in brackets below. To receive full credit, you must have the correct code. In addition, some questions ask you to provide a written response in addition to the code.</p>
+<p>You will be deducted 1 point for each day late the problem set is submitted, and 1 point for failing to submit in the correct format (i.e., not knitting as a PDF).</p>
+<p>You are free to rely on whatever resources you need to complete this problem set, including lecture notes, lecture presentations, Google, your classmates…you name it. However, the final submission must be complete by you. There are no group assignments.</p>
+<p><em>Note that the professor will not respond to Campuswire posts after 2PM on Friday, so don’t wait until the last minute to get started!</em></p>
+<p><strong>Good luck!</strong></p>
+<p><strong>If you collaborated with a colleague and/or used AI for any help on this problem set, document here.</strong> Write the names of your classmates and/or upload a PDF of your AI prompt and output with your problem set:</p>
+</div>
+<div id="part-1-maximizing-accuracy" class="section level1">
+<h1>Part 1: Maximizing Accuracy</h1>
+<div id="question-0" class="section level2">
+<h2>Question 0</h2>
+<p>Require <code>tidyverse</code> and load the <a href="https://github.com/rweldzius/PSC4175_SUM2025/raw/main/data/fn_cleaned_final.Rds&#39;"><code>fn_cleaned_final.Rds</code></a> data to an object called <code>fn</code>.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="question-1-2-points" class="section level2">
+<h2>Question 1 [2 points]</h2>
+<p>In this problem set, we are interested in developing a classifier that maximizes our accuracy for predicting Fortnite victories. To do so we will use both a linear probability model and a logit, and then compare their predictive accuracy. We will use two <span class="math inline">\(X\)</span> variables to predict the probability of winning: accuracy (<code>accuracy</code>), and head shots (<code>head_shots</code>). Our outcome variable of interest <span class="math inline">\(Y\)</span> is whether the player won the game (<code>won</code>).</p>
+<p>Start by <strong>looking</strong> at these variables. Why types of variables are they? How much missingness do they have? What do their univariate visualizations look like? Then create two multivariate visualizations of the relationship between <code>won</code> and each of the two <span class="math inline">\(X\)</span> variables one-by-one. Finally, use <code>geom_tile()</code> to create a heatmap of the three-way relationship, where quintiles of <code>accuracy</code> is on the x-axis, quintiles of <code>head_shots</code> is on the y-axis, and tiles are filled according to the average winning probability. (NB: look up what “quintile” means if you are not sure.) Is there anything surprising about this result?</p>
+<pre class="r"><code># What types?
+# INSERT CODE HERE
+
+# How much missingness?
+# INSERT CODE HERE
+
+# Univariate
+# INSERT CODE HERE
+
+# Multivariate: one-by-one
+# INSERT CODE HERE
+
+# Multivariate: 3-dimensions
+# INSERT CODE HERE</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-2-2-points" class="section level2">
+<h2>Question 2 [2 points]</h2>
+<p>Now let’s run a linear model and evaluate it in terms of overall accuracy, sensitivity and specificity using a threshold of 0.5. Then, determine the threshold that maximizes both specificity and sensitivity. Finally, calculate the area under the curve (AUC).</p>
+<pre class="r"><code>require(...) # Require the scales package</code></pre>
+<pre><code>## Error: &#39;...&#39; used in an incorrect context</code></pre>
+<pre class="r"><code># Running linear model
+model_lm &lt;- lm(formula = ..., # Define the regression equation
+               data = ...) # Provide the dataset</code></pre>
+<pre><code>## Error: &#39;...&#39; used in an incorrect context</code></pre>
+<pre class="r"><code># Calculating accuracy, sensitivity, and specificity
+fn %&gt;%
+  mutate(prob_win = ...) %&gt;% # Calculate the probability of winning
+  mutate(pred_win = ...) %&gt;% # Convert the probability to a 1 if the probability is greater than 0.5, or zero otherwise
+  group_by(...) %&gt;% # Calculate the total games by whether they were actually won or lost
+  mutate(total_games = ...) %&gt;%
+  group_by(....) %&gt;% # Calculate the number of games by whether they were actually won or lost, and by whether they were predicted to be won or lost
+  summarise(nGames=...,.groups = &#39;drop&#39;) %&gt;%
+  mutate(prop = ...) %&gt;% # Calculate the proportion of game by the total games
+  ungroup() %&gt;%
+  mutate(accuracy = ...) # Calculate the overall accuracy</code></pre>
+<pre><code>## Error in fn %&gt;% mutate(prob_win = ...) %&gt;% mutate(pred_win = ...) %&gt;% : could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Create the sensitivity vs specificity plot
+toplot &lt;- NULL # Instantiate an empty object
+for(thresh in seq(0,1,by = .025)) {
+  toplot &lt;- fn %&gt;%
+  mutate(prob_win = ...) %&gt;% # Calculate the probability of winning
+  mutate(pred_win = ...) %&gt;% # Convert the probability to a 1 if the probability is greater than the given threshold, or zero otherwise
+  group_by(...) %&gt;% # Calculate the total games by whether they were actually won or lost
+  mutate(total_games = ...) %&gt;%
+  group_by(...) %&gt;% # Calculate the number of games by whether they were actually won or lost, and by whether they were predicted to be won or lost
+  summarise(nGames=...,.groups = &#39;drop&#39;) %&gt;%
+  mutate(prop = ...) %&gt;% # Calculate the proportion of game by the total games
+  ungroup() %&gt;%
+  mutate(accuracy = ...) %&gt;% # Calculate the overall accuracy
+  mutate(threshold = ...) %&gt;% # Record the threshold level
+    bind_rows(toplot) # Add it to the toplot object
+}</code></pre>
+<pre><code>## Error in fn %&gt;% mutate(prob_win = ...) %&gt;% mutate(pred_win = ...) %&gt;% : could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code>toplot %&gt;%
+  mutate(metric = ifelse(...,
+                         ifelse(...,...))) %&gt;% # Using a nested ifelse() function, label each row as either Sensitivity (if the predicted win is 1 and the true win is 1), Specificity (if the predicted win is 0 and the true win is 0), or NA
+  drop_na(...) %&gt;% # Drop rows that are neither sensitivity nor specificity measures
+  ggplot(aes(x = ...,y = ...,color = ...)) + # Visualize the Sensitivity and Specificity curves by putting the threshold on the x-axis, the proportion of all games on the y-axis, and coloring by Sensitivity or Specificity
+  geom_...() + 
+  geom_vline(xintercept = ...) # Tweak the x-intercept to find the optimal threshold</code></pre>
+<pre><code>## Error in toplot %&gt;% mutate(metric = ifelse(..., ifelse(..., ...))) %&gt;% : could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Plot the AUC
+toplot %&gt;%
+  mutate(metric = ifelse(...,
+                         ifelse(...,...))) %&gt;% # Using a nested ifelse() function, label each row as either Sensitivity (if the predicted win is 1 and the true win is 1), Specificity (if the predicted win is 0 and the true win is 0), or NA
+  drop_na(...) %&gt;% # Drop rows that are neither sensitivity nor specificity measures
+  select(...) %&gt;% # Select only the prop, metric, and threshold columns
+  spread(...) %&gt;% # Pivot the data to wide format using either spread() or pivot_wider(), where the new columns should be the metric
+  arrange(...) %&gt;% # Arrange by descending specificity, and then by sensitivity
+  ggplot(aes(x = ..., # Plot 1 minus the Specificity on the x-axis
+             y = ...)) +  # Plot the Sensitivity on the y-axis
+  geom_...() + 
+  xlim(...) + ylim(...) + # Expand the x and y-axis limits to be between 0 and 1
+  geom_abline(...) + # Add a 45-degree line using geom_abline()
+  labs(x = &#39;&#39;, # Add clear labels! (Make sure to indicate that this is the result of a linear regression model)
+       y = &#39;&#39;,
+       title = &#39;&#39;,
+       subtitle = &#39;&#39;)</code></pre>
+<pre><code>## Error in toplot %&gt;% mutate(metric = ifelse(..., ifelse(..., ...))) %&gt;% : could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Calculate the AUC
+require(...) # Require the tidymodels package</code></pre>
+<pre><code>## Error: &#39;...&#39; used in an incorrect context</code></pre>
+<pre class="r"><code>forAUC &lt;- fn %&gt;%
+  mutate(prob_win = ..., # Generate predicted probabilities of winning from our model
+         truth = ...) %&gt;% # Convert the outcome to a factor with levels c(&#39;1&#39;,&#39;0&#39;)
+  select(truth,prob_win) # Select only the probability and true outcome columns</code></pre>
+<pre><code>## Error in fn %&gt;% mutate(prob_win = ..., truth = ...) %&gt;% select(truth, : could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code>roc_auc(data = forAUC, # Run the roc_auc() function on the dataset we just created
+        truth, # Tell it which column contains the true outcomes
+        prob_win) # Tell it which column contains our model&#39;s predicted probabilities</code></pre>
+<pre><code>## Error in roc_auc(data = forAUC, truth, prob_win): could not find function &quot;roc_auc&quot;</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-3-2-points" class="section level2">
+<h2>Question 3 [2 points]</h2>
+<p>Now let’s re-do the exact same work, except use a logit model instead of a linear model. Based on your analysis, which model has a larger AUC?</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-4-2-points" class="section level2">
+<h2>Question 4 [2 points]</h2>
+<p>Use 100-fold cross validation with a 60-40 split to calculate the average AUC for both the linear and logit models. Which is better?</p>
+<pre class="r"><code>set.seed(123)
+cvRes &lt;- NULL
+for(i in 1:100) {
+  # Cross validation prep
+  # INSERT CODE HERE
+
+  # Training models
+  mLM &lt;- lm(...)
+  mGLM &lt;- glm(...)
+  
+  # Predicting models
+  toEval &lt;- test %&gt;%
+    mutate(mLMPreds = ..., # Calculate the probability of winning from the linear model
+           mGLMPreds = ..., # Calculate the probability of winning from the logit
+           truth = ...) # Convert the outcome to a factor with levels c(&#39;1&#39;,&#39;0&#39;)
+
+  # Evaluating models
+  rocLM &lt;- roc_auc(...) %&gt;% # Calculate the AUC for the linear model
+    mutate(model = ...) %&gt;% # Record the model type
+    rename(auc = .estimate) # Rename to &#39;auc&#39;
+    
+  rocGLM &lt;- roc_auc(...) %&gt;% # Calculate the AUC for the logit model
+    mutate(model = ...) %&gt;% # Record the model type
+    rename(auc = .estimate) # Rename to &#39;auc&#39;
+
+  cvRes &lt;- rocLM %&gt;%
+    bind_rows(rocGLM) %&gt;%
+    mutate(cvInd = i) %&gt;%
+    bind_rows(cvRes)
+}</code></pre>
+<pre><code>## Error in lm(...): &#39;...&#39; used in an incorrect context</code></pre>
+<pre class="r"><code>cvRes %&gt;%
+  group_by(model) %&gt;%
+  summarise(mean_auc = mean(auc))</code></pre>
+<pre><code>## Error in cvRes %&gt;% group_by(model) %&gt;% summarise(mean_auc = mean(auc)): could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<p>Write answer here.</p>
+</blockquote>
+</div>
+<div id="extra-credit-1-point" class="section level2">
+<h2>Extra Credit [1 Point]</h2>
+<p>Can you improve on the best model identified above? You will receive one extra credit points for executing the analysis correctly. The student(s) who achieve the best cross-validated AUC in class will receive an additional 1 extra point on top of the EC.</p>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+</div>
+<div id="part-2-random-forest-time" class="section level1">
+<h1>Part 2: Random Forest Time!</h1>
+<div id="question-5-2-points" class="section level2">
+<h2>Question 5 [2 points]</h2>
+<p>Let’s consider two possible <span class="math inline">\(X\)</span> variables which might help us predict whether a player wins a Fortnite match: <code>revives</code> and <code>eliminations</code>. <code>revives</code> counts the total number of times a player is brought back to life by a teammate. <code>eliminations</code> is a measure of how many times the player killed an opponent. Which variable do you think is more helpful for predicting whether a player wins a game of Fortnite? Why?</p>
+<blockquote>
+<p>Write response here.</p>
+</blockquote>
+</div>
+<div id="question-6-2-points" class="section level2">
+<h2>Question 6 [2 points]</h2>
+<p>Look at the data and provide univariate and multivariate visualizations of both variables. Make sure to think carefully about what types of variables these are, and justify your visualization choices accordingly!</p>
+<pre class="r"><code># Look to determine variable types
+# INSERT CODE HERE
+
+# Univariate #1
+# INSERT CODE HERE
+
+# Univariate #1
+# INSERT CODE HERE
+
+# Multivariate (many different options will work)
+# INSERT CODE HERE</code></pre>
+</div>
+<div id="question-7-2-points" class="section level2">
+<h2>Question 7 [2 points]</h2>
+<p>Let’s test your intuition. Starting with the full data, calculate the AUC for both models. Then, using 100 cross validation with a logit model and a 60-40 split, calculate the AUC for the model which uses the variable you think is best, compared to the model you think is the worst. Pay attention to the things you need to change to use a logit model! Is your assumption from Q1 supported in the data?</p>
+<pre class="r"><code># Require the tidymodels package
+# Running logit model #1
+# INSERT CODE HERE
+
+# Running logit model #2
+# INSERT CODE HERE
+
+# Calculate the AUC #1
+# INSERT CODE HERE
+
+# Calculate the AUC #1
+# INSERT CODE HERE
+
+
+# Calculate cross validation
+set.seed(123)
+cvRes &lt;- NULL
+for(i in 1:100) {
+  # Cross validation prep
+  # INSERT CODE HERE
+
+  # Training models
+  # INSERT CODE HERE
+  
+  # Predicting models
+  # INSERT CODE HERE
+
+  # Evaluating models
+  # INSERT CODE HERE
+
+  # Binding data
+  # INSERT CODE HERE
+}
+
+# Calculate overall mean AUC
+# INSERT CODE HERE
+
+# Visualize distribution of AUC by variable (optional)
+# INSERT CODE HERE
+
+# Calculate Proportion of time the &quot;best&quot; model is better than the &quot;worst&quot; (optional)
+# INSERT CODE HERE</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-8-2-points" class="section level2">
+<h2>Question 8 [2 points]</h2>
+<p>Now let’s run a kitchen sink model using a random forest (make sure to install and require the <code>ranger</code> package). Use the following <span class="math inline">\(X\)</span> variables:
+- <code>hits</code>
+- <code>assists</code>
+- <code>accuracy</code>
+- <code>head_shots</code>
+- <code>damage_to_players</code>
+- <code>eliminations</code>
+- <code>revives</code>
+- <code>distance_traveled</code>
+- <code>materials_gathered</code>
+- <code>mental_state</code>
+- <code>startTime</code>
+- <code>gameIdSession</code></p>
+<p>Run it on the full data and use <code>importance = 'permutation'</code> to see which variables the random forest thinks are most important. Visualize these results with a barplot. Where do the variables you thought would be best and worst appear?</p>
+<pre class="r"><code># Require ranger
+# INSERT CODE HERE
+
+# Run RF model with permutation-based importance calculation
+model_rf  &lt;- ranger(..., # Insert regression equation here
+                    ..., # Insert data here
+                    ...) # Set importance calculation here</code></pre>
+<pre><code>## Error in ranger(..., ..., ...): could not find function &quot;ranger&quot;</code></pre>
+<pre class="r"><code># Visualize variable importance results
+# First, create a toplot object
+toplot &lt;- data.frame(vimp = ..., # Get variable importance values from model_rf
+                     vars = names(...)) # Get variable importance value names from model_rf</code></pre>
+<pre><code>## Error: &#39;...&#39; used in an incorrect context</code></pre>
+<pre class="r"><code># Second, visualize the results (make sure to reorder the variables in order of importance)
+# INSERT CODE HERE</code></pre>
+<blockquote>
+<p>Write response here.</p>
+</blockquote>
+</div>
+</div>

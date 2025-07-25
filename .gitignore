@@ -29,6 +29,3 @@ data-science-site.Rproj
 *.log
 *.tmp
 *.temp
-
-# R custom script files
-R/

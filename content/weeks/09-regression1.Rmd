@@ -1,0 +1,27 @@
+---
+title: "Regression 1"
+linktitle: "9: Regression 1"
+date: 2025-08-25
+menu:
+  weeks:
+    parent: Weeks
+    weight: 9
+type: weeks
+---
+
+## Materials
+
+### Lecture 9a - Regression 1
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Y1XocVcgzq8" title="PSC 4175 - Lecture 9a - Regression Part 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+### Lecture 9b - Regression 1
+<iframe width="560" height="315" src="https://www.youtube.com/embed/taIFftqpDIQ" title="PSC 4175 - Lecture 9b - Regression Part 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+### Slides
+- [Lecture 9a - Regression 1](../../lectures/9a_RegressionPart1.html)
+- [Lecture 9b - Regression 1](../../lectures/9b_RegressionPart1.html)
+
+
+## Homework
+- [HomeWork 9](../../homeworks/psc4175_hw_9/)
+- Test hypotheses from research question

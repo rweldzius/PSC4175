@@ -27,7 +27,7 @@
       
       {{ if .File }}
       <p>
-        <a href="/{{ .File.Dir }}{{ .File.BaseFileName }}.Rmd" download>
+        <a href="{{ (print .File.Dir .File.BaseFileName ".Rmd") | relURL }}" download>
           <i class="fa fa-download" aria-hidden="true" style="margin-right: 6px;"></i><Strong>Download R Markdown file</Strong>
         </a>
       </p>

@@ -1,0 +1,108 @@
+---
+title: "Problem Set 0"
+subtitle: "Practice (not graded)"
+author: "[YOUR NAME]"
+institute: "Villanova University"
+date: 2025-05-30
+Due_Date: "2025-06-06 by 11:59 PM"
+type: homeworks
+---
+
+
+
+<p>At the top of all problem sets I will have the following statement. You should follow the statement with the names of classmates with whom you worked and/or upload a PDF of your AI prompt/output.</p>
+<p><strong>If you collaborated with a colleague and/or used AI for any help on this problem set, document here.</strong> Write the names of your classmates and/or upload a PDF of your AI prompt and output with your problem set:</p>
+<div id="problem-set-0-getting-set-up" class="section level2">
+<h2>Problem Set 0: Getting Set Up!</h2>
+<p>The rest of the semester will see you working on data science questions using <code>R</code>. As such, your first problem set will have you:</p>
+<ol style="list-style-type: decimal">
+<li>Install <code>R</code> on your computer.</li>
+<li>Install <code>RStudio</code> on your computer.</li>
+<li>Create a <code>directory</code> (i.e., a folder with a set of subfolders) for this class.</li>
+<li>Create a new <code>.Rmd</code> file and <code>Save as...</code>.</li>
+<li>Modify the <code>.Rmd</code> file and <code>knit</code> it.</li>
+</ol>
+</div>
+<div id="installing-r" class="section level2">
+<h2>1. Installing R</h2>
+<p><code>R</code> is going to be the only programming language we will use. <code>R</code> is an extensible statistical programming environment that can handle all of the main tasks that we’ll need to cover this semester: getting data, analyzing data and communicating data analysis.</p>
+<p>Download R here: <a href="https://cran.r-project.org/" class="uri">https://cran.r-project.org/</a>. Make sure to choose the version that works with your operating system!</p>
+<center>
+<img src="../Lectures/figs/download_R.png" width = 80%>
+</center>
+</div>
+<div id="installing-rstudio" class="section level2">
+<h2>2. Installing RStudio</h2>
+<p>When we work with <code>R</code>, we communicate via the command line. To help automate this process, we can write scripts, which contain all of the commands to be executed. These scripts generate various kinds of output, like numbers on the screen, graphics or reports in common formats (pdf, word). Most programming languages have several <strong>I</strong> ntegrated <strong>D</strong> evelopment <strong>E</strong> nvironments (IDEs) that encompass all of these elements (scripts, command line interface, output). The primary IDE for R is RStudio.</p>
+<p>Download RStudio here: <a href="https://rstudio.com/products/rstudio/download/" class="uri">https://rstudio.com/products/rstudio/download/</a>. You need the free RStudio desktop version.</p>
+<center>
+<img src="../../lectures/figs/download_RStudio.png" width = 80%>
+</center>
+</div>
+<div id="setting-up-directories" class="section level2">
+<h2>3. Setting up Directories</h2>
+<p>In each class, we’re going to include some code and text in one file, and data in another file. You’ll need
+to download both of these files to your computer. You need to have a particular place to put these files. Computers are organized using named directories (sometimes called folders). Don’t just put the files in your Downloads directory. One common solution is to created a folder on your computer named after the class: <code>PSC4175</code>.</p>
+<p>You could just throw everything related to the class into this folder. However, this will quickly get messy. I recommend you create a “sub-folder” (or “sub-directory”) within <code>PSC4175</code> called <code>Lecture_1</code>. (You might also want to create similar sub-folders for <code>Lecture_2</code>.) Inside <code>Lecture_1</code>, create two additional sub-folders: <code>code</code> and <code>data</code>. When you’re done, your class directory should look like this:</p>
+<ul>
+<li>PSC4175
+<ul>
+<li>Lecture_1
+<ul>
+<li>code</li>
+<li>data</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<div id="create-an-.rmd-file" class="section level2">
+<h2>4. Create an <code>.Rmd</code> file</h2>
+<p>Open <code>RStudio</code>, then create a new <code>.Rmd</code> file. To do this, click on <code>File</code> → <code>New File</code> → <code>R Markdown...</code>.</p>
+<center>
+<img src="../../lecturesfigs/create_rmd.png" width = 70%>
+</center>
+<div id="settings-for-.rmd-file" class="section level3">
+<h3>Settings for <code>.Rmd</code> file</h3>
+<p>You will then be asked to determine a bunch of settings for this <code>.Rmd</code> document. For example, you can choose whether you want to create a “Document”, “Presentation”, “Shiny”, or “From Template” on the left. You can set the “Title:” “Author:” and “Date:” on the top-right. And you can choose the “Default Output Format:” to be either “HTML”, “PDF”, or “Word”. You should <strong>not change any of these settings</strong>. Their defaults (“Document”, “Untitled”, “[Your name]”, “[Today’s Date]”, and “HTML”) are sufficient. Just click “OK”.</p>
+<center>
+<img src="../../lectures/figs/create_rmd_2.png" width = 70%>
+</center>
+</div>
+<div id="saving-.rmd-file" class="section level3">
+<h3>Saving <code>.Rmd</code> file</h3>
+<p>This will open a new <code>.Rmd</code> file! Now you should change the title of the file to “Problem Set 0” and the author to your name. You should then save the file in your <code>code</code> folder with the file name <code>[Last Name]_PS0.Rmd</code> by clicking <code>File</code> → <code>Save As...</code>.</p>
+<center>
+<img src="../../lectures/figs/rmd_ps0.png" width = 70%>
+</center>
+</div>
+</div>
+<div id="modify-and-knit" class="section level2">
+<h2>5. Modify and <code>knit</code></h2>
+<p>Now, <strong>delete all of the default text</strong> in your <code>.Rmd</code> file from line 12 down to the bottom. Then write the following on line 12:</p>
+<pre><code># Problem Set 0
+I can take notes by just typing normally.</code></pre>
+<p>Now let’s <code>knit</code> the file by clicking the <code>Knit</code> button on the top of the window. You should see a new window pop-up that shows the processed code! This <code>.html</code> document should also appear in your <code>code</code> folder with the same file name as your <code>.Rmd</code> file.</p>
+<center>
+<img src="../../lectures/figs/knit_rmd.png" width = 70%>
+</center>
+<div id="inserting-r-code" class="section level3">
+<h3>Inserting R Code</h3>
+<p>The final part of the homework assignment is to insert a <code>chunk</code> of <code>R</code> code. On line 15 type the following:</p>
+<pre class="default"><code>```{r}
+2+2
+```</code></pre>
+<p>Then <code>knit</code> a final time and open the .html file that is created in your <code>code</code> folder. It should be called [Your Last Name]_PS0.html. You should open this in your internet browser (Safari, Google Chrome, FireFox, etc.), and then right-click anywhere on the opened file and click “Print…”.</p>
+<center>
+<img src="../../lectures/figs/save_pdf_safari.png" width = 70%>
+</center>
+<p>Then choose “Save as PDF…”</p>
+<center>
+<img src="../../lectures/figs/save_pdf_safari_2.png" width = 70%>
+</center>
+<p>and save it as <code>[Your Last Name]_ps0.pdf</code>.</p>
+<center>
+<img src="../../lectures/figs/save_pdf_safari_3.png" width = 70%>
+</center>
+<p>Finally, upload the PDF to Blackboard under the Problem Set 0 assignment!</p>
+</div>
+</div>
