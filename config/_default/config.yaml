@@ -1,4 +1,4 @@
-baseurl: https://rijalsankalp.github.io/data-science-site/
+baseurl: 
 defaultContentLanguage: en
 title: "Introduction to Data Science"
 theme: hugo-academic
