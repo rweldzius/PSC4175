@@ -33,7 +33,7 @@ You are free to rely on whatever resources you need to complete this problem set
 ## [10 points possible; 0.5 extra credit points]
 
 ## Question 0 [0 points]
-*Require `tidyverse` and load the `sc_debt.Rds` data by assigning it to an object named `df`.*
+*Require `tidyverse` and load the [`sc_debt.Rds`](../../data/sc_debt.Rds) data by assigning it to an object named `df`.*
 ```{r}
 require() # Load tidyverse
 df <- read_rds() # Load the dataset directly from github

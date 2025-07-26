@@ -1,0 +1,10 @@
+---
+title: "Downloads"
+slug: downloads
+summary: "Resources for PSC 4175"
+citeproc: true
+---
+
+## Data for homeworks and problem sets
+
+`r blogdown::shortcode("datalist")`

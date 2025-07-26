@@ -1,0 +1,11 @@
+<ul>
+  {{ range site.Data.files.files }}
+    <li>
+      <a href="{{ (print "data/" .) | absURL }}" download>
+        <i class="fa fa-download" aria-hidden="true" style="margin-right: 6px;"></i>
+        {{ . }}
+      </a>
+    </li>
+  {{ end }}
+</ul>
+

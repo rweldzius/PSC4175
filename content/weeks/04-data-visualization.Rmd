@@ -26,4 +26,4 @@ type: weeks
 - [HomeWork 4](../../homeworks/psc4175_hw_4/)
 
 ## Problem Set
-- [Problem Set 1](../../problemsets/psc_pset_1/)
+- [Problem Set 1](../../problemsets/psc4175_pset_1/)

@@ -1,0 +1,17 @@
+---
+title: "Resources for PSC 4175: Introduction to Data Science"
+slug: course-resources
+summary: "Resources for PSC 4175"
+citeproc: true
+---
+## Important resources for the course.
+
+[Rstudio Cheat Sheet: Data Wrangling](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
+
+[Rstudio Cheat Sheet: ggplot2](https://hbctraining.github.io/Intro-to-R-flipped/cheatsheets/data-visualization-2.1.pdf)
+
+[R-graphics Cookbook](http://www.cookbook-r.com/Graphs/)
+
+[... And the full list of Rstudio cheat sheets](https://posit.co/resources/cheatsheets/)
+
+[Tidymodels Resources](https://www.tidymodels.org/learn/)
