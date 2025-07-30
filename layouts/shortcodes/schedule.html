@@ -12,13 +12,14 @@
       <td style="width:10%;text-align:center" class="mid-table-header">Due Date</td>
       <td style="width:15%;text-align:left" class="mid-table-header">Homeworks</td>
       <td style="width:10%;text-align:center" class="mid-table-header">
-        <a href="/weeks">Materials</a>
+        <a href="{{ $.Site.BaseURL }}/weeks/">Materials</a>
       </td>
 
       {{- else }}
 
       <!-- Week -->
       <td align="center" style="text-align:right">{{ .weeknum }}</td>
+      {{- $weeknum := .weeknum }}
 
       <!-- Date -->
       <td align="left">{{ dateFormat "Jan 2" .date }}</td>
@@ -53,12 +54,12 @@
       <td style="text-align:left">
         {{- with .materials.homework }}
         <a href="{{ $.Site.BaseURL }}/homeworks/{{ .link }}/">
-          <i class="fas fa-file"></i> HW
+          <i class="fas fa-file"></i> HW{{ $weeknum }}
         </a>
         <br>
         {{- end }}
         {{- with .materials.homework.extra }}
-        <small>{{ . | markdownify }}</small>
+        <small><strong>{{ . | markdownify }}</strong></small>
         {{- end }}
       </td>
 

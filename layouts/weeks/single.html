@@ -60,11 +60,13 @@
                 {{ with .homework }}
                   <h2>Homeworks</h2>
                   <ul>
-                    <li><a href="{{ .link }}">Homework for Week {{ $currentWeekData.weeknum }}</a>
+                    <li><a href="{{ .link }}">HomeWork for Week {{ $currentWeekData.weeknum }}</a></li>
                     {{ with .extra }}
-                      <br><strong>Note:</strong> {{ . }}
+                      <li>
+                        <br><strong></strong> {{ . }}
+                      </li>
                     {{ end }}
-                    </li>
+                    
                   </ul>
                 {{ end }}
                 {{ with .assignment }}

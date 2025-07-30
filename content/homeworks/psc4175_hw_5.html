@@ -26,21 +26,25 @@ output: html_document
 <p>So load in the Michigan 2020 Exit Poll Data.</p>
 <pre class="r"><code>library(tidyverse)
 library(scales)
-mi_ep &lt;- read_rds(&quot;https://github.com/rweldzius/PSC4175_F2024/raw/main/Data/MI2020_ExitPoll_small.rds&quot;)</code></pre>
-<pre><code>## Error in readRDS(con, refhook = refhook): cannot open the connection to &#39;https://github.com/rweldzius/PSC4175_F2024/raw/main/Data/MI2020_ExitPoll_small.rds&#39;</code></pre>
-<pre class="r"><code>MI_final_small &lt;- mi_ep %&gt;%
+mi_ep &lt;- read_rds(&quot;https://github.com/rweldzius/PSC4175_F2024/raw/main/Data/MI2020_ExitPoll_small.rds&quot;)
+MI_final_small &lt;- mi_ep %&gt;%
   filter(preschoice==&quot;Donald Trump, the Republican&quot; | preschoice==&quot;Joe Biden, the Democrat&quot;) %&gt;%
   mutate(BidenVoter=ifelse(preschoice==&quot;Joe Biden, the Democrat&quot;,1,0),
          TrumpVoter=ifelse(BidenVoter==1,0,1),
          AGE10=ifelse(AGE10==99,NA,AGE10))</code></pre>
-<pre><code>## Error: object &#39;mi_ep&#39; not found</code></pre>
 <p>We learned that if we <code>count</code> using multiple variables that R will count within values. Can we use this to analyze how this varies by groups? Let’s see!</p>
 <pre class="r"><code>MI_final_small %&gt;%
   filter(AGE10==1) %&gt;%
   count(preschoice,SEX) %&gt;%
   mutate(PctSupport = n/sum(n),
          PctSupport = round(PctSupport, digits=2))</code></pre>
-<pre><code>## Error: object &#39;MI_final_small&#39; not found</code></pre>
+<pre><code>## # A tibble: 4 × 4
+##   preschoice                     SEX     n PctSupport
+##   &lt;chr&gt;                        &lt;dbl&gt; &lt;int&gt;      &lt;dbl&gt;
+## 1 Donald Trump, the Republican     1     7       0.22
+## 2 Donald Trump, the Republican     2     1       0.03
+## 3 Joe Biden, the Democrat          1     9       0.28
+## 4 Joe Biden, the Democrat          2    15       0.47</code></pre>
 <p>Here we have broken everything out by both <code>preschoice</code> and <code>SEX</code> but the <code>PctSupport</code> is not quite what we want because it is the fraction of responses (out of 1) that are in each row rather than the proportion of support for each candidate <strong>by</strong> sex.</p>
 <p>To correct this and to perform the functions within a value we need to use the <code>group_by</code> function.</p>
 <p>We can use the <code>group_by</code> command to organize our data a bit better. What <code>group_by</code> does is to run all subsequent code separately according to the defined group.</p>
@@ -49,7 +53,14 @@ mi_ep &lt;- read_rds(&quot;https://github.com/rweldzius/PSC4175_F2024/raw/main/D
   filter(AGE10==1) %&gt;%
   group_by(SEX) %&gt;%
   count(preschoice)</code></pre>
-<pre><code>## Error: object &#39;MI_final_small&#39; not found</code></pre>
+<pre><code>## # A tibble: 4 × 3
+## # Groups:   SEX [2]
+##     SEX preschoice                       n
+##   &lt;dbl&gt; &lt;chr&gt;                        &lt;int&gt;
+## 1     1 Donald Trump, the Republican     7
+## 2     1 Joe Biden, the Democrat          9
+## 3     2 Donald Trump, the Republican     1
+## 4     2 Joe Biden, the Democrat         15</code></pre>
 <p>Note that any functions of the data are also now organized by that grouping, so if we were to manually compute the proportions using the mutation approach discussed above we would get:</p>
 <pre class="r"><code>MI_final_small %&gt;%
   filter(AGE10==1) %&gt;%
@@ -57,7 +68,14 @@ mi_ep &lt;- read_rds(&quot;https://github.com/rweldzius/PSC4175_F2024/raw/main/D
   count(preschoice) %&gt;%
   mutate(PctSupport = n/sum(n),
          PctSupport = round(PctSupport, digits=2))</code></pre>
-<pre><code>## Error: object &#39;MI_final_small&#39; not found</code></pre>
+<pre><code>## # A tibble: 4 × 4
+## # Groups:   SEX [2]
+##     SEX preschoice                       n PctSupport
+##   &lt;dbl&gt; &lt;chr&gt;                        &lt;int&gt;      &lt;dbl&gt;
+## 1     1 Donald Trump, the Republican     7       0.44
+## 2     1 Joe Biden, the Democrat          9       0.56
+## 3     2 Donald Trump, the Republican     1       0.06
+## 4     2 Joe Biden, the Democrat         15       0.94</code></pre>
 <p>So you can see that <code>PctSupport</code> sums to 2.0 because it sums to 1.0 within each value of the grouping variable <code>SEX</code>.</p>
 <p>If we wanted the fraction of voters who are in each unique category - so that the percentage of all the categories sum to 1.0 – we would want to <code>ungroup</code> before doing the mutation that calculates the percentage. So here we are doing the functions after the <code>group_by()</code> separately for each value of the grouping variables (here <code>SEX</code>) and then we are going to then undo that and return to the entire dataset.</p>
 <pre class="r"><code>MI_final_small %&gt;%
@@ -67,7 +85,13 @@ mi_ep &lt;- read_rds(&quot;https://github.com/rweldzius/PSC4175_F2024/raw/main/D
   ungroup() %&gt;%
   mutate(PctSupport = n/sum(n),
          PctSupport = round(PctSupport, digits=2))</code></pre>
-<pre><code>## Error: object &#39;MI_final_small&#39; not found</code></pre>
+<pre><code>## # A tibble: 4 × 4
+##     SEX preschoice                       n PctSupport
+##   &lt;dbl&gt; &lt;chr&gt;                        &lt;int&gt;      &lt;dbl&gt;
+## 1     1 Donald Trump, the Republican     7       0.22
+## 2     1 Joe Biden, the Democrat          9       0.28
+## 3     2 Donald Trump, the Republican     1       0.03
+## 4     2 Joe Biden, the Democrat         15       0.47</code></pre>
 <p>If we are just interested in the proportion and we do not care about the number of respondents in each value (although here it seems relevant!) we could also <code>group_by</code> and then <code>summarize</code> as follows:</p>
 <pre class="r"><code>MI_final_small %&gt;%
   filter(AGE10==1) %&gt;%
@@ -76,25 +100,55 @@ mi_ep &lt;- read_rds(&quot;https://github.com/rweldzius/PSC4175_F2024/raw/main/D
           PctTrump = mean(TrumpVoter)) %&gt;%
   mutate(PctBiden = round(PctBiden, digits =2),
          PctTrump = round(PctTrump, digits =2))</code></pre>
-<pre><code>## Error: object &#39;MI_final_small&#39; not found</code></pre>
+<pre><code>## # A tibble: 2 × 3
+##     SEX PctBiden PctTrump
+##   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+## 1     1     0.56     0.44
+## 2     2     0.94     0.06</code></pre>
 <p>Because we have already filtered to focus only on Biden and Trump voters, we don’t actually need both since <code>PctBiden = 1 - PctTrump</code> and <code>PctTrump = 1 - PctBiden</code>.</p>
 <p>Note that we can have multiple groups. So if we want to group by age and by sex we can do the following…</p>
 <pre class="r"><code>MI_final_small %&gt;%
   group_by(SEX, AGE10) %&gt;%
   summarize(PctBiden = mean(BidenVoter)) %&gt;%
   mutate(PctBiden = round(PctBiden, digits =2))</code></pre>
-<pre><code>## Error: object &#39;MI_final_small&#39; not found</code></pre>
+<pre><code>## # A tibble: 22 × 3
+## # Groups:   SEX [2]
+##      SEX AGE10 PctBiden
+##    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+##  1     1     1     0.56
+##  2     1     2     0.58
+##  3     1     3     0.58
+##  4     1     4     0.76
+##  5     1     5     0.58
+##  6     1     6     0.42
+##  7     1     7     0.46
+##  8     1     8     0.56
+##  9     1     9     0.61
+## 10     1    10     0.57
+## # ℹ 12 more rows</code></pre>
 <p>We can also save it for later analysis and then filter or select the results. For example:</p>
 <pre class="r"><code>SexAge &lt;- MI_final_small %&gt;%
   group_by(SEX, AGE10) %&gt;%
   summarize(PctBiden = mean(BidenVoter)) %&gt;%
   mutate(PctBiden = round(PctBiden, digits =2)) %&gt;%
   drop_na()</code></pre>
-<pre><code>## Error: object &#39;MI_final_small&#39; not found</code></pre>
 <p>So if we want to look at the Biden support by age among females (i.e., <code>SEX==2</code>) we can look at:</p>
 <pre class="r"><code>SexAge %&gt;%
   filter(SEX == 2)</code></pre>
-<pre><code>## Error: object &#39;SexAge&#39; not found</code></pre>
+<pre><code>## # A tibble: 10 × 3
+## # Groups:   SEX [1]
+##      SEX AGE10 PctBiden
+##    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+##  1     2     1     0.94
+##  2     2     2     0.93
+##  3     2     3     0.69
+##  4     2     4     0.71
+##  5     2     5     0.52
+##  6     2     6     0.6 
+##  7     2     7     0.63
+##  8     2     8     0.74
+##  9     2     9     0.69
+## 10     2    10     0.61</code></pre>
 <p><strong>Quick Exercise</strong> What is the Biden support by age among males?</p>
 <pre class="r"><code># INSERT CODE HERE</code></pre>
 </div>
@@ -115,7 +169,7 @@ mi_ep &lt;- read_rds(&quot;https://github.com/rweldzius/PSC4175_F2024/raw/main/D
          x = &quot;&quot;,
          title = &quot;Michigan 2020 Exit Poll: Reasons for voting for a candidate&quot;) +
     geom_bar(color=&quot;black&quot;) </code></pre>
-<pre><code>## Error: object &#39;mi_ep&#39; not found</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>Note that if we add <code>coord_flip</code> that we will flip the axes of the graph. (We could also have done this by changing <code>aes(y= Quality)</code>, but then we would also have to change the associated labels.)</p>
 <pre class="r"><code>mi_ep %&gt;% 
     select(Quality,preschoice) %&gt;%
@@ -128,7 +182,7 @@ mi_ep &lt;- read_rds(&quot;https://github.com/rweldzius/PSC4175_F2024/raw/main/D
          title = &quot;Michigan 2020 Exit Poll: Reasons for voting for a candidate&quot;) +
     geom_bar(color=&quot;black&quot;) + 
   coord_flip()</code></pre>
-<pre><code>## Error: object &#39;mi_ep&#39; not found</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <p>So enough review, lets add another dimension to the data. To show how the self-reported reasons for voting for a presidential candidate varied by vote choice we are going to use the <code>fill</code> of the graph to create different color bars depending on the value of the character or factor variable that is used to <code>fill</code>.</p>
 <p>So we are going to include as a <code>ggplot</code> aesthetic a character or factor variable as a <code>fill</code> (here <code>fill=preschoice</code>) and then we are going to also include <code>fill</code> in the <code>labs</code> function to make sure that we label the meaning of the values being plotted. The other change we have made is in <code>geom_bar</code> where we used <code>position=dodge</code> to make sure that the bars are plotted next to one-another rather than on top of one another.</p>
 <pre class="r"><code>mi_ep %&gt;% 
@@ -143,7 +197,7 @@ mi_ep &lt;- read_rds(&quot;https://github.com/rweldzius/PSC4175_F2024/raw/main/D
          fill = &quot;Self-Reported Vote&quot;) +
     geom_bar(color=&quot;black&quot;, position=&quot;dodge&quot;) +
     coord_flip()</code></pre>
-<pre><code>## Error: object &#39;mi_ep&#39; not found</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>For fun, see what happens when you do not use <code>postion=dodge</code>. Also see what happens if you do not flip the coordinates using <code>coord_flip</code>.</p>
 <p>It is important to note that the <code>fill</code> variable has to be a character or a factor. If we want to graph self-reported vote by sex, for example, we need to redefine the variable for the purposes of <code>ggplot</code> as follows. Note that because we are not mutating it and we are only defining it to be a factor within the `<code>ggplot</code> object, this redefinition will not stick. Note also the problem caused by uninformative values in <code>SEX</code> – can you change it.</p>
 <pre class="r"><code>mi_ep %&gt;% 
@@ -155,7 +209,7 @@ mi_ep &lt;- read_rds(&quot;https://github.com/rweldzius/PSC4175_F2024/raw/main/D
          fill = &quot;Sex&quot;) +
     geom_bar(color=&quot;black&quot;, position=&quot;dodge&quot;) +
     coord_flip()</code></pre>
-<pre><code>## Error: object &#39;mi_ep&#39; not found</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p><strong>Quick Exercise</strong> The barplot we just produced does not satisfy our principles of visualization because the fill being used is uninterpretable to those unfamiliar with the dataset. Redo the code to use a <code>fill</code> variable that produces an informative label. Hint: don’t overthink.</p>
 <pre class="r"><code># INSERT CODE HERE</code></pre>
 </div>
