@@ -8,9 +8,15 @@ main:
   - name: Classes
     url: /weeks/
     weight: 3
+  - name: CampusWire
+    url: https://campuswire.com/p/GF9F6AD11
+    weight: 4
   - name: Resources
     url: /course-resources/
-    weight: 4
+    weight: 5
   - name: Downloads
     url: /downloads/
-    weight: 5
+    weight: 6
+  - name: Blackboard
+    url: https://elearning.villanova.edu
+    weight: 7

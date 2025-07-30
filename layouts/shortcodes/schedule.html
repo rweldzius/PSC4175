@@ -8,9 +8,7 @@
       <td style="width:10%;text-align:left" class="mid-table-header">Date</td>
       <td style="width:15%;text-align:left" class="mid-table-header">Title</td>
       <td style="width:15%;text-align:left" class="mid-table-header">Goal</td>
-      <td style="width:10%;text-align:center" class="mid-table-header">
-        <a href="/assignments/problem-sets/">Assignment</a>
-      </td>
+      <td style="width:10%;text-align:center" class="mid-table-header">Assignment</td>
       <td style="width:10%;text-align:center" class="mid-table-header">Due Date</td>
       <td style="width:15%;text-align:left" class="mid-table-header">Homeworks</td>
       <td style="width:10%;text-align:center" class="mid-table-header">
@@ -33,9 +31,9 @@
 
       <!-- Assignment -->
       <td align="center">
-        {{- with .assignment.link }}
-        <a href="{{ $.Site.BaseURL }}/assignments/{{ . }}/">
-          <i class="fas fa-file"></i> {{ . }}
+        {{with .materials.assignment}}
+        <a href="{{ $.Site.BaseURL }}/problem-sets/{{ .link }}">
+          <i class="fas fa-file"></i> {{ .name }}
         </a>
         {{- else }}
         <font color="f1f1f1"><i class="fas fa-file"></i></font>
@@ -44,8 +42,8 @@
 
       <!-- Due Date -->
       <td align="center">
-        {{- with .assignment.due }}
-        {{ dateFormat "Jan 2" . }}
+        {{with .materials.assignment}}
+        {{ dateFormat "Jan 2" .due }}
         {{- else }}
         <font color="f1f1f1">—</font>
         {{- end }}
@@ -54,12 +52,12 @@
       <!-- Homework -->
       <td style="text-align:left">
         {{- with .materials.homework }}
-        <a href="{{ $.Site.BaseURL }}/homeworks/{{ . }}/">
-          <i class="fas fa-file"></i> {{ . }}
+        <a href="{{ $.Site.BaseURL }}/homeworks/{{ .link }}/">
+          <i class="fas fa-file"></i> HW
         </a>
         <br>
         {{- end }}
-        {{- with .materials.extra }}
+        {{- with .materials.homework.extra }}
         <small>{{ . | markdownify }}</small>
         {{- end }}
       </td>

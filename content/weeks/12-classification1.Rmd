@@ -1,6 +1,8 @@
 ---
 title: "Classfication 1"
 linktitle: "12: Classification 1"
+week_id: "12-classification1"
+
 date: 2025-08-25
 menu:
   weeks:
@@ -8,19 +10,3 @@ menu:
     weight: 12
 type: weeks
 ---
-
-## Materials
-
-### Lecture 12a - Classification Part 1
-<iframe width="560" height="315" src="https://www.youtube.com/embed/zycMNBysKrw" title="PSC 4175 - Lecture 12a - Classification Part 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-### Lecture 12b - Classification Part 1
-<iframe width="560" height="315" src="https://www.youtube.com/embed/JtJ3fkr4vJk" title="PSC 4175 - Lecture 12b - Classification Part 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-### Slides
-- [Lecture 12a - Classification 1](../../lectures/12a_ClassificationPart1.html)
-- [Lecture 12b - Classification 1](../../lectures/12b_ClassificationPart1.html)
-
-
-## Homework
-- [HomeWork 12](../../homeworks/psc4175_hw_12/)

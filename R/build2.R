@@ -11,15 +11,25 @@ delete_copied_rmds <- function(target_dir) {
   }
   
   # Find all files ending in .Rmd in the target directory
-  files_to_delete <- dir_ls(target_dir, glob = "*.Rmd")
+  rmd_files_to_delete <- dir_ls(target_dir, glob = "*.Rmd")
+  html_files_to_delete <- dir_ls(target_dir, glob = "*.html")
   
-  if (length(files_to_delete) > 0) {
+  if (length(rmd_files_to_delete) > 0) {
     # Delete the files
-    file_delete(files_to_delete)
+    file_delete(rmd_files_to_delete)
     # Print a confirmation message
-    message("Deleted ", length(files_to_delete), " .Rmd file(s) from: ", target_dir)
+    message("Deleted ", length(rmd_files_to_delete), " .Rmd file(s) from: ", target_dir)
   } else {
     message("No .Rmd files to delete in: ", target_dir)
+  }
+  
+  if (length(html_files_to_delete) > 0) {
+    # Delete the files
+    file_delete(html_files_to_delete)
+    # Print a confirmation message
+    message("Deleted ", length(html_files_to_delete), " .html file(s) from: ", target_dir)
+  } else {
+    message("No .html files to delete in: ", target_dir)
   }
 }
 

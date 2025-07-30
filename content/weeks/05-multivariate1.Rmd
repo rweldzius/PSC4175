@@ -1,6 +1,8 @@
 ---
 title: "Multivariate 1"
 linktitle: "5: Multivariate 1"
+week_id: "05-multivariate1"
+
 date: 2025-08-25
 menu:
   weeks:
@@ -8,20 +10,3 @@ menu:
     weight: 5
 type: weeks
 ---
-
-## Materials
-
-### Lecture 5 - Multivariate Analysis (part 1)
-<iframe width="560" height="315" src="https://www.youtube.com/embed/_xTEKVbnDbw" title="PSC 4175 - Lecture 5 - Multivariate Analysis, Part 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-### Lecture 5 - Multivariate Analysis (part 2)
-<iframe width="560" height="315" src="https://www.youtube.com/embed/w807SBZbFP0" title="PSC 4175 - Lecture 5 - Multivariate Analysis, Part 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-### Slides
-- [Lecture 5 - Multivariate Analysis (part 1)](../../lectures/5_Multivariate1.html)
-- [Lecture 5 - Multivariate Analysis (part 2)](../../lectures/5_Multivariate2.html)
-
-
-## Homework
-- [HomeWork 5](../../homeworks/psc4175_hw_5/)
-- Load/wrangle data and create univariate/multivariate plots of key variables of interest

@@ -1,6 +1,8 @@
 ---
 title: "Introduction to R"
 linktitle: "2: Intro to R"
+week_id: "02-intro-R"
+
 date: 2025-08-25
 menu:
   weeks:
@@ -8,18 +10,3 @@ menu:
     weight: 2
 type: weeks
 ---
-
-## Materials
-
-### Lecture 2 - Introduction to R (part 1)
-<iframe width="560" height="315" src="https://www.youtube.com/embed/nBxddalwQyA" title="PSC 4175 - Lecture 2 - Intro to R (part 1)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-### Lecture 2 - Introduction to R (part 2)
-<iframe width="560" height="315" src="https://www.youtube.com/embed/2MFCLkZVoAA" title="PSC 4175 - Lecture 2 - Intro to R (part 2)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-### Slides
-- [Lecture 2 - Intro to R (part 1)](../../lectures/2_Rintro_part1.html)
-- [Lecture 2 - Intro to R (part 2)](../../lectures/2_Rintro_part2.html)
-
-## Homework
-- [HomeWork 2](../../homeworks/psc4175_hw_2/)

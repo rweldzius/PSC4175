@@ -1,6 +1,8 @@
 ---
 title: "Regression 2"
 linktitle: "10: Regression 2"
+week_id: "10-regression2"
+
 date: 2025-08-25
 menu:
   weeks:
@@ -8,23 +10,3 @@ menu:
     weight: 10
 type: weeks
 ---
-
-## Materials
-
-### Lecture 10a - Regression 2
-<iframe width="560" height="315" src="https://www.youtube.com/embed/wiCMAArQJbg" title="PSC 4175 - Lecture 10a - Regression Part 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-### Lecture 10a - Regression 2
-<iframe width="560" height="315" src="https://www.youtube.com/embed/hGEonkyhad4" title="PSC 4175 - Lecture 10a - Regression Part 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-### Slides
-- [Lecture 10a - Regression 2](../../lectures/10a_RegressionPart2.html)
-- [Lecture 10a - Regression 2](../../lectures/10b_RegressionPart2.html)
-
-
-## Homework
-- [HomeWork 10](../../homeworks/psc4175_hw_10/)
-
-
-## Problem Set
-- [Problem Set 3](../../problemsets/psc4175_pset_3/)
