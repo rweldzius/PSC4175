@@ -24,4 +24,4 @@ social:
 superuser: true
 ---
 
-Matthew Blackwell is an Assistant Professor in the Department of Political Science at Villanova University. 
+Ryan Weldzius is an Assistant Professor in the Department of Political Science at Villanova University. 
