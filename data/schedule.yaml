@@ -9,15 +9,15 @@ lessons:
     materials:
       assignment:
         name: "PS0"
-        link: "../../problemsets/psc4175_pset_0/"
+        link: "psc4175_pset_0/"
         due: 2025-09-07
 
       homework:
-        link: "../../homeworks/psc4175_hw_1/"
+        link: "psc4175_hw_1/"
 
       slides:
         - name: "Lecture 1 - Introduction"
-          link: "../../lectures/1_intro.html"
+          link: "1_intro.html"
 
       video:
         - name: "PSC 4175 - Lecture 1 - Introduction"
@@ -31,7 +31,7 @@ lessons:
 
     materials:
       homework:
-        link: "../../homeworks/psc4175_hw_2/"
+        link: "psc4175_hw_2/"
 
       video:
         - name: "PSC 4175 - Lecture 2 - Intro to R (part 1)"
@@ -42,9 +42,9 @@ lessons:
 
       slides:
         - name: "Lecture 2 - Introduction to R (part 1)"
-          link: "../../lectures/2_Rintro_part1.html"
+          link: "2_Rintro_part1.html"
         - name: "Lecture 2 - Introduction to R (part 2)"
-          link: "../../lectures/2_Rintro_part2.html"
+          link: "2_Rintro_part2.html"
 
   - title: "Data Wrangligng"
     goal: "Replicability and tabular data"
@@ -54,7 +54,7 @@ lessons:
 
     materials:
       homework:
-        link: "../../homeworks/psc4175_hw_3/"
+        link: "psc4175_hw_3/"
         extra: "Final project reserach question and potential data sources"
 
       video:
@@ -63,7 +63,7 @@ lessons:
 
       slides:
         - name: "Lecture 3 - Data Wrangling"
-          link: "../../lectures/3_DataWrangling.html"
+          link: "3_DataWrangling.html"
 
   - title: "Data visualization and univeriate analysis"
     goal: "Summaries of variables"
@@ -74,11 +74,11 @@ lessons:
     materials:
       assignment:
         name: "PS1"
-        link: "../../problemsets/psc4175_pset_1/"
+        link: "psc4175_pset_1/"
         due: 2025-09-21
 
       homework:
-        link: "../../homeworks/psc4175_hw_4/"
+        link: "psc4175_hw_4/"
 
       video:
         - name: "PSC 4175 - Lecture 4a - Data Visualization"
@@ -88,9 +88,9 @@ lessons:
 
       slides:
         - name: "Lecture 4 - Data Visualization"
-          link: "../../lectures/4_DataViz.html"
+          link: "4_DataViz.html"
         - name: "Lecture 4 - Univariate Analysis"
-          link: "../../lectures/4_Univariate.html"
+          link: "4_Univariate.html"
 
   - title: "Multivariate 1"
     goal: "Conditional relationships"
@@ -100,7 +100,7 @@ lessons:
 
     materials:
       homework:
-        link: "../../homeworks/psc4175_hw_5/"
+        link: "psc4175_hw_5/"
         extra: "Final project data wrangling and visualization"
 
       video:
@@ -111,9 +111,9 @@ lessons:
 
       slides:
         - name: "Lecture 5 - Multivariate Analysis, Part 1"
-          link: "../../lectures/5_Multivariate1.html"
+          link: "5_Multivariate1.html"
         - name: "Lecture 5 - Multivariate Analysis, Part 2"
-          link: "../../lectures/5_Multivariate2.html"
+          link: "5_Multivariate2.html"
 
   - title: "Multivariate 2"
     goal: "More conditional relationships"
@@ -123,7 +123,7 @@ lessons:
 
     materials:
       homework:
-        link: "../../homeworks/psc4175_hw_6/"
+        link: "psc4175_hw_6/"
         extra: "Incorporate plotly into your data visualization"
 
       video:
@@ -132,7 +132,7 @@ lessons:
 
       slides:
         - name: "Lecture 6 - Multivariate Analysis, Part 3"
-          link: "../../lectures/6_Multivariate3.html"
+          link: "6_Multivariate3.html"
 
   - title: "Uncertainty 1"
     goal: "Uncertainty and bootstrapping"
@@ -143,11 +143,11 @@ lessons:
     materials:
       assignment:
         name: "PS2"
-        link: "../../problemsets/psc4175_pset_2/"
+        link: "psc4175_pset_2/"
         due: 2025-10-12
 
       homework:
-        link: "../../homeworks/psc4175_hw_7/"
+        link: "psc4175_hw_7/"
 
       video:
         - name: "PSC 4175 - Lecture 7 - Uncertainty & Bootstrapping"
@@ -155,7 +155,7 @@ lessons:
 
       slides:
         - name: "Lecture 7 - Uncertainty & Bootstrapping"
-          link: "../../lectures/7_UncertaintyBootstrapping.html"
+          link: "7_UncertaintyBootstrapping.html"
 
   - title: "Fall Break"
     date: 2025-10-13
@@ -169,7 +169,7 @@ lessons:
 
     materials:
       homework:
-        link: "../../homeworks/psc4175_hw_8/"
+        link: "psc4175_hw_8/"
 
       video:
         - name: "PS 4175 - Lecture 8a - Confidence Statements"
@@ -179,9 +179,9 @@ lessons:
 
       slides:
         - name: "Lecture 8a - Confidence Statements"
-          link: "../../lectures/8a_ConfidenceStatements.html"
+          link: "8a_ConfidenceStatements.html"
         - name: "Lecture 8b - Confidence Statements"
-          link: "../../lectures/8b_ConfidenceStatements.html"
+          link: "8b_ConfidenceStatements.html"
 
   - title: "Regression 1"
     goal: "Interpreting output and evaluating model"
@@ -191,7 +191,7 @@ lessons:
 
     materials:
       homework:
-        link: "../../homeworks/psc4175_hw_9/"
+        link: "psc4175_hw_9/"
         extra: "test hypotheses from research question"
 
       video:
@@ -202,9 +202,9 @@ lessons:
 
       slides:
         - name: "Lecture 9a - Regression Part 1"
-          link: "../../lectures/9a_RegressionPart1.html"
+          link: "9a_RegressionPart1.html"
         - name: "Lecture 9b - Regression Part 1"
-          link: "../../lectures/9b_RegressionPart1.html"
+          link: "9b_RegressionPart1.html"
 
   - title: "Regression 2"
     goal: "Interpreting output and evaluating model"
@@ -215,11 +215,11 @@ lessons:
     materials:
       assignment:
         name: "PS3"
-        link: "..../../problemsets/psc4175_pset_3/"
+        link: "..psc4175_pset_3/"
         due: 2025-11-09
 
       homework:
-        link: "../../homeworks/psc4175_hw_10/"
+        link: "psc4175_hw_10/"
 
       video:
         - name: "PSC 4175 - Lecture 10a - Regression Part 2"
@@ -229,9 +229,9 @@ lessons:
 
       slides:
         - name: "Lecture 10a - Regression Part 2"
-          link: "../../lectures/10a_RegressionPart2.html"
+          link: "10a_RegressionPart2.html"
         - name: "Lecture 10b - Regression Part 2"
-          link: "../../lectures/10b_RegressionPart2.html"
+          link: "10b_RegressionPart2.html"
 
   - title: "Regression 3"
     goal: "Multiple regression, categorical Xs"
@@ -241,7 +241,7 @@ lessons:
 
     materials:
       homework:
-        link: "../../homeworks/psc4175_hw_11/"
+        link: "psc4175_hw_11/"
         extra: "Test hypotheses including potential confounding variables"
 
       video:
@@ -252,9 +252,9 @@ lessons:
 
       slides:
         - name: "Lecture 11a - Regression Part 3"
-          link: "../../lectures/11a_RegressionPart3.html"
+          link: "11a_RegressionPart3.html"
         - name: "Lecture 11b - Regression Part 3"
-          link: "../../lectures/11b_RegressionPart3.html"
+          link: "11b_RegressionPart3.html"
 
   - title: "Classification 1"
     goal: "The concept of logistic regression"
@@ -264,7 +264,7 @@ lessons:
 
     materials:
       homework:
-        link: "../../homeworks/psc4175_hw_12/"
+        link: "psc4175_hw_12/"
 
       video:
         - name: "PSC 4175 - Lecture 12a - Classification Part 1"
@@ -274,9 +274,9 @@ lessons:
 
       slides:
         - name: "Lecture 12a - Classification Part 1"
-          link: "../../lectures/12a_ClassificationPart1.html"
+          link: "12a_ClassificationPart1.html"
         - name: "Lecture 12b - Classification Part 1"
-          link: "../../lectures/12b_ClassificationPart1.html"
+          link: "12b_ClassificationPart1.html"
 
   - title: "Classification 2"
     goal: "Interpreting output and evaluating model"
@@ -286,7 +286,7 @@ lessons:
 
     materials:
       homework:
-        link: "../../homeworks/psc4175_hw_13/"
+        link: "psc4175_hw_13/"
 
       video:
         - name: "PSC 4175 - Lecture 13a - Classification Part 2"
@@ -296,9 +296,9 @@ lessons:
 
       slides:
         - name: "Lecture 13a - Classification Part 2"
-          link: "../../lectures/13a_ClassificationPart2.html"
+          link: "13a_ClassificationPart2.html"
         - name: "Lecture 13b - Classification Part 2"
-          link: "../../lectures/13b_ClassificationPart2.html"
+          link: "13b_ClassificationPart2.html"
 
   - title: "Clustering"
     goal: "k-means clustering"
@@ -309,11 +309,11 @@ lessons:
     materials:
       assignment:
         name: "PS4"
-        link: "../../problemsets/psc4175_pset_4/"
+        link: "psc4175_pset_4/"
         due: 2025-12-07
       
       homework:
-        link: "../../homeworks/psc4175_hw_14/"
+        link: "psc4175_hw_14/"
 
       video:
         - name: "PSC 4175 - Lecture 14a - Clustering Part 1"
@@ -323,14 +323,14 @@ lessons:
 
       slides:
         - name: "Lecture 14a - Clustering Part 1"
-          link: "../../lectures/14a_ClusteringPart1.html"
+          link: "14a_ClusteringPart1.html"
         - name: "Lecture 14b - Clustering Part 1"
-          link: "../../lectures/14b_ClusteringPart1.html"
+          link: "14b_ClusteringPart1.html"
 
     extraMaterials:
       homework:
-        - link: "../../homeworks/psc4175_hw_15/"
-        - link: "../../homeworks/psc4175_hw_16/"
+        - link: "psc4175_hw_15/"
+        - link: "psc4175_hw_16/"
 
       video:
         - name: "PSC 4175 - Lecture 15a - Clustering Part 2"
@@ -346,13 +346,13 @@ lessons:
 
       slides:
         - name: "Lecture 15a - Clustering Part 2"
-          link: "../../lectures/15a_ClusteringPart2.html"
+          link: "15a_ClusteringPart2.html"
         - name: "Lecture 15b - Clustering Part 2"
-          link: "../../lectures/15b_ClusteringPart2.html"
+          link: "15b_ClusteringPart2.html"
         - name: "Lecture 16a - Clustering Part 3"
-          link: "../../lectures/16a_ClusteringPart3.html"
+          link: "16a_ClusteringPart3.html"
         - name: "Lecture 16b - Clustering Part 3"
-          link: "../../lectures/16b_ClusteringPart3.html"
+          link: "16b_ClusteringPart3.html"
 
   - title: "Final project presentations"
     weeknum: 15

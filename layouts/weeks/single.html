@@ -45,7 +45,7 @@
                   <h3>Slides</h3>
                   <ul>
                     {{ range . }}
-                      <li><a href="{{ .link }}">{{ .name }}</a></li>
+                      <li><a href="{{ $.Site.BaseURL }}/lectures/{{ .link }}">{{ .name }}</a></li>
                     {{ end }}
                   </ul>
                 {{ end }}
@@ -60,7 +60,7 @@
                 {{ with .homework }}
                   <h2>Homeworks</h2>
                   <ul>
-                    <li><a href="{{ .link }}">HomeWork for Week {{ $currentWeekData.weeknum }}</a></li>
+                    <li><a href="{{ $.Site.BaseURL }}/homeworks/{{ .link }}">HomeWork for Week {{ $currentWeekData.weeknum }}</a></li>
                     {{ with .extra }}
                         <li><strong>{{ . }}</strong></li>
                     {{ end }}
@@ -70,7 +70,7 @@
                 {{ with .assignment }}
                   <h2>Problem Set</h2>
                   <ul>
-                    <li><a href="{{ .link }}">Problem Set for Week {{ $currentWeekData.weeknum }}</a>
+                    <li><a href="{{ $.Site.BaseURL }}/problemsets/{{ .link }}">Problem Set for Week {{ $currentWeekData.weeknum }}</a>
                     {{ with .due }}
                       (Due: {{ dateFormat "Sunday, Jan 2, 2006" . }} by 11:59 PM)
                     {{ end }}
