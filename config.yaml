@@ -29,8 +29,7 @@ imaging:
   quality: 90
   anchor: smart
 
-
-copyright: ''
+copyright: ""
 enableGitInfo: true
 hasCJKLanguage: false
 defaultContentLanguageInSubdir: false
@@ -39,7 +38,6 @@ pagination:
   pagerSize: 10
 enableEmoji: true
 footnotereturnlinkcontents: <sup>^</sup>
-
 
 # ----------------
 # Output options
@@ -50,17 +48,24 @@ outputs:
     - RSS
     - JSON
     - WebAppManifest
+    - SearchIndex
   section:
     - HTML
     - RSS
+
+outputFormats:
+  SearchIndex:
+    mediaType: "application/json"
+    baseName: "search"
+    isPlainText: true
+    notAlternative: true
+  WebAppManifest:
+    mediaType: application/manifest+json
+    rel: manifest
 mediaTypes:
   application/manifest+json:
     suffixes:
       - webmanifest
-outputFormats:
-  WebAppManifest:
-    mediaType: application/manifest+json
-    rel: manifest
 ignoreFiles:
   - \.ipynb$
   - .ipynb_checkpoints$

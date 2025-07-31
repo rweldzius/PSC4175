@@ -5,6 +5,7 @@ date: 2025-06-06
 Due_Date: "2025-06-06 by 11:59 PM"
 subtitle: Intro to `R`
 institute: Villanova University
+type: homeworks
 ---
 
 ```{r,include=F}
