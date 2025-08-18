@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en" 
+      xmlns:og="http://ogp.me/ns#" 
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+
+<head><script src="/data-science-site/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=data-science-site/livereload" data-no-instant defer></script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.8.0">
+
+  
+
+  
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  
+
+  
+  
+  
+    
+  
+  <meta name="description" content="
+Getting back to where we left off
+We are going to start from the prepared Trump_tweet_words.Rds file from last time. Let’s load it in, along with a bunch of useful packages for text analysis.
+require(tidyverse)
+require(tidytext)
+require(scales)
+tweet_words &lt;- read_rds(file=&quot;https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/Trump_tweet_words.Rds&quot;) %&gt;% # Note you can add data manipulations directly to the code that opens the file!
+  mutate(PostPresident = Tweeting.date &gt; &quot;2016-11-03&quot;)
+
+
+Comparing Word Use Pre/Post Using Log Odds Ratio
+So far we have focused on frequency of word use, but another way to make this comparison is to look at the relative “odds” that each word is used pre/post presidency. After all, “Trump” is used by Trump both before and after his presidency so perhaps that is not a great indicator of content. We could instead consider the relative rate at which a word is used Post-Presidency relative to Pre-presidency.">
+
+  
+  <link rel="alternate" hreflang="en" href="http://localhost:1313/data-science-site/homeworks/psc4175_hw_16/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#3498db">
+  
+
+  
+  
+  
+  <script src="/data-science-site/js/mathjax-config.js"></script>
+  
+
+  
+  
+  
+  
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha256-FMvZuGapsJLjouA6k7Eo2lusoAX9i0ShlWFG6qt7SLc=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+    
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed:400,400i,700,700i%7COverpass:400,400i,700,700i&display=swap">
+    
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/data-science-site/css/academic.css">
+
+  
+  
+
+
+  
+  
+
+  
+
+  <link rel="manifest" href="/data-science-site/index.webmanifest">
+  <link rel="icon" type="image/png" href="/data-science-site/images/icon_hu_eb1e217680dff947.png">
+  <link rel="apple-touch-icon" type="image/png" href="/data-science-site/images/icon_hu_f0a9735dbf069933.png">
+
+  <link rel="canonical" href="http://localhost:1313/data-science-site/homeworks/psc4175_hw_16/">
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@rweldzius">
+  <meta property="twitter:creator" content="@rweldzius">
+  
+  <meta property="og:site_name" content="Introduction to Data Science">
+  <meta property="og:url" content="http://localhost:1313/data-science-site/homeworks/psc4175_hw_16/">
+  <meta property="og:title" content="Natural Language Processing Part 2 | Introduction to Data Science">
+  <meta property="og:description" content="
+Getting back to where we left off
+We are going to start from the prepared Trump_tweet_words.Rds file from last time. Let’s load it in, along with a bunch of useful packages for text analysis.
+require(tidyverse)
+require(tidytext)
+require(scales)
+tweet_words &lt;- read_rds(file=&quot;https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/Trump_tweet_words.Rds&quot;) %&gt;% # Note you can add data manipulations directly to the code that opens the file!
+  mutate(PostPresident = Tweeting.date &gt; &quot;2016-11-03&quot;)
+
+
+Comparing Word Use Pre/Post Using Log Odds Ratio
+So far we have focused on frequency of word use, but another way to make this comparison is to look at the relative “odds” that each word is used pre/post presidency. After all, “Trump” is used by Trump both before and after his presidency so perhaps that is not a great indicator of content. We could instead consider the relative rate at which a word is used Post-Presidency relative to Pre-presidency."><meta property="og:image" content="http://localhost:1313/data-science-site/media/social-image.png">
+  <meta property="twitter:image" content="http://localhost:1313/data-science-site/media/social-image.png"><meta property="og:locale" content="en">
+  
+    
+      <meta property="article:published_time" content="2025-07-24T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2025-07-25T00:25:05-04:00">
+  
+
+  
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Natural Language Processing Part 2 | Introduction to Data Science</title>
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70"
+    data-target="#TableOfContents"
+    >
+
+    <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/data-science-site">Introduction to Data Science</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/data-science-site/">Introduction to Data Science</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-end" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/syllabus/"><span>Syllabus</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/schedule/"><span>Schedule</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/weeks/"><span>Classes</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/resources/"><span>Resources</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/downloads/"><span>Downloads</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+            
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="https://campuswire.com/p/GF9F6AD11" target="_blank" rel="noopener"><span>CampusWire</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+            
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="https://elearning.villanova.edu" target="_blank" rel="noopener"><span>Blackboard</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+
+
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Natural Language Processing Part 2</h1>
+
+  
+  <p class="page-subtitle">Homework 16</p>
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    July 25, 2025
+  </span>
+  
+
+  
+
+  
+
+  
+  
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    
+    <div class="article-metadata">
+      
+      
+      
+        <span class="meta-item">
+          <strong>Due:</strong> 2026-06-02 by 11:59PM
+        </span>
+        <span class="middot-divider"></span>
+      
+
+      
+      
+        <span class="meta-item">
+          Villanova University
+        </span>
+        <span class="middot-divider"></span>
+      
+      
+      
+      <p>
+        <a href="/data-science-site/homeworks/psc4175_hw_16.Rmd" download>
+          <i class="fa fa-download" aria-hidden="true" style="margin-right: 6px;"></i><Strong>Download R Markdown file</Strong>
+        </a>
+      </p>
+    
+
+    </div>
+    
+
+    <div class="article-style">
+      
+
+
+<div id="getting-back-to-where-we-left-off" class="section level1">
+<h1>Getting back to where we left off</h1>
+<p>We are going to start from the prepared <code>Trump_tweet_words.Rds</code> file from last time. Let’s load it in, along with a bunch of useful packages for text analysis.</p>
+<pre class="r"><code>require(tidyverse)
+require(tidytext)
+require(scales)
+tweet_words &lt;- read_rds(file=&quot;https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/Trump_tweet_words.Rds&quot;) %&gt;% # Note you can add data manipulations directly to the code that opens the file!
+  mutate(PostPresident = Tweeting.date &gt; &quot;2016-11-03&quot;)</code></pre>
+</div>
+<div id="comparing-word-use-prepost-using-log-odds-ratio" class="section level1">
+<h1>Comparing Word Use Pre/Post Using Log Odds Ratio</h1>
+<p>So far we have focused on frequency of word use, but another way to make this comparison is to look at the relative “odds” that each word is used pre/post presidency. After all, “Trump” is used by Trump both before and after his presidency so perhaps that is not a great indicator of content. We could instead consider the relative rate at which a word is used Post-Presidency relative to Pre-presidency.</p>
+<p>We are going to count each word stem used pre and post-presidency, then select only those words that were used at least 5 times, then <code>spread</code> the data so that if a word appears Pre-Presidency but not Post-Presidency (or visa-versa) we will create a matching word with the filled in value of 0, then we are going to ungroup the data so that the observation is now a word rather than a word-timing combination (look to see how the tibble changes before and after the ungroup() by running these code snippets separately to see). Then we are going to <code>mutate_each</code> to compute the fraction of times a word is used relative to all words (the <code>.</code> indicates the particular value of each variable – note that we are adding a <code>+ 1</code> to each of those values to avoid errors when taking the log later). We then compute the <code>ratio</code> by computing the relative frequency of each word used pre and post presidency and take the log of that ratio because of extreme outliers before arranging the tibble in decreasing value of ratio.</p>
+<p>So let’s compute the log odds ratio for each word pre and post presidency.</p>
+<pre class="r"><code>prepost_ratios &lt;- tweet_words %&gt;%
+  count(word, PostPresident) %&gt;%
+  filter(sum(n) &gt;= 5) %&gt;%
+  spread(PostPresident, n, fill = 0) %&gt;%
+  ungroup() %&gt;%
+  mutate_each(funs((. + 1) / sum(. + 1)), -word) %&gt;%    
+  mutate(ratio = `TRUE` / `FALSE`) %&gt;%
+  mutate(logratio = log(ratio)) %&gt;%
+  arrange(-logratio)</code></pre>
+<p>Now let’s plot the top 15 most distinctive words (according to the log-ratio we just computed) that were tweeted before and after Trump was elected president.</p>
+<pre class="r"><code>prepost_ratios %&gt;%
+  group_by(logratio &gt; 0) %&gt;%
+  top_n(15, abs(logratio)) %&gt;%
+  ungroup() %&gt;%
+  mutate(word = reorder(word, logratio)) %&gt;% 
+  ggplot(aes(word, logratio, fill = logratio &lt; 0)) +
+  geom_bar(stat = &quot;identity&quot;) +
+  coord_flip() +
+  ylab(&quot;Post-President/Pre-President log ratio&quot;) +
+  scale_fill_manual(name = &quot;&quot;, labels = c(&quot;President&quot;, &quot;Pre-President&quot;),
+                    values = c(&quot;red&quot;, &quot;lightblue&quot;))</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_16_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>You could look at other splits. Pre-post his first impeachment? 2016 versus 2017? Note that the log-ratio is a comparison of a binary condition.</p>
+</div>
+<div id="sentiment-analysis" class="section level1">
+<h1>Sentiment Analysis</h1>
+<p>Everything we have done so far is “basic” in the sense that we are looking at frequencies and proportions. We have not done anything particularly fancy (apart from perhaps defining the log odds-ratio but even that is just applying a function to our data).</p>
+<p>A prominent tool used to analyze text is called “sentiment analysis.” Unlike clustering algorithms that we discussed earlier that were unsupervised, “sentiment analysis” is an analysis that classifies the meaning/sentiment of text based on a dictionary of words that are assumed to be true. That is, we are using an object with assumed meaning to learn about the characteristics of a text in terms of concepts that are predefined and predetermined.</p>
+<p>Sentiment analysis sounds like it is very complex, and it is because of the complexity of language and how the meaning/sentiment of words can change based on context.</p>
+<p>Analyzing sentiment requires using a dictionary of predefined sentiment and then using the frequency (or a similar measure) of words with sentiment to classify a text. If we have information on the sentiment of a tweet (perhaps via crowdsourcing) then we can use the methods of prior classes to try to determine how close other tweets are to the tweets that have been identified as belonging to each sentiment – i.e., we can use features of a tweet to classify it given the relationship of known tweets.</p>
+<p>If we do not have this predefined tweet-level sentiment, we can characterize sentiment by counting the number of times a set of predefined words are used and then using the resulting distributions to interpret the “sentiment” of the text. Note that it is always preferable to use the former to account for the contextual meaning of language, but characterizing the frequency of sentiments can also be of interest.</p>
+<p>There are several dictionaries of sentiment, but we are going to use the <a href="http://saifmohammad.com/WebPages/NRC-Emotion-Lexicon.htm">NRC Word-Emotion Association</a> lexicon created by, and published in Saif M. Mohammad and Peter Turney. (2013), “Crowdsourcing a Word-Emotion Association Lexicon,” Computational Intelligence, 29(3): 436-465. This is available from the tidytext package, which associates words with 10 sentiments: <strong>positive</strong>, <strong>negative</strong>, <strong>anger</strong>, <strong>anticipation</strong>, <strong>disgust</strong>, <strong>fear</strong>, <strong>joy</strong>, <strong>sadness</strong>, <strong>surprise</strong>, and <strong>trust</strong>.</p>
+<p>As an aside, the way the sentiment was created was by showing a bunch of people a series of words and then asking them what emotion they associated with each word. The responses of regular people were then aggregated to determine whether each word was associated with each emotion (by effectively looking at the extent to which individuals associated the same emotion with each word). This is what we mean by “crowd-sourcing” – using people to collect data for us. Note that we could create our own DSCI 1000 sentiment index. All we would need to do is to have each of you indicate the emotion(s) you associate with a series of words. For example, when you see <code>ggplot</code> do you feel <strong>positive</strong>, <strong>negative</strong>, <strong>anger</strong>, <strong>anticipation</strong>, <strong>disgust</strong>, <strong>fear</strong>, <strong>joy</strong>, <strong>sadness</strong>, <strong>surprise</strong>, or <strong>trust</strong>? (Multiple emotions are allowed.)</p>
+<p>So let’s load the NRC sentiment library in and take a look at what it looks like by calling <code>nrc</code> to the console. (NB: you may need to answer a question in your console after running the chunk below. Answer “yes” by typing 1 in the console and hitting ENTER. If you are unable to knit the HW it is probably because you have to run this chunk first.)</p>
+<pre class="r"><code>library(tidytext)
+library(textdata)
+nrc &lt;- get_sentiments(&quot;nrc&quot;)</code></pre>
+<pre><code>## Do you want to download:
+##  Name: NRC Word-Emotion Association Lexicon 
+##  URL: http://saifmohammad.com/WebPages/lexicons.html 
+##  License: License required for commercial use. Please contact Saif M. Mohammad (saif.mohammad@nrc-cnrc.gc.ca). 
+##  Size: 22.8 MB (cleaned 424 KB) 
+##  Download mechanism: http 
+##  Citation info:
+## 
+## This dataset was published in Saif M. Mohammad and Peter Turney. (2013), ``Crowdsourcing a Word-Emotion Association Lexicon.&#39;&#39; Computational Intelligence, 29(3): 436-465.
+## 
+## article{mohammad13,
+## author = {Mohammad, Saif M. and Turney, Peter D.},
+## title = {Crowdsourcing a Word-Emotion Association Lexicon},
+## journal = {Computational Intelligence},
+## volume = {29},
+## number = {3},
+## pages = {436-465},
+## doi = {10.1111/j.1467-8640.2012.00460.x},
+## url = {https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1467-8640.2012.00460.x},
+## eprint = {https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.1467-8640.2012.00460.x},
+## year = {2013}
+## }
+## If you use this lexicon, then please cite it.</code></pre>
+<pre><code>## Error in menu(choices = c(&quot;Yes&quot;, &quot;No&quot;), title = title): menu() cannot be used non-interactively</code></pre>
+<pre class="r"><code>nrc</code></pre>
+<pre><code>## Error: object &#39;nrc&#39; not found</code></pre>
+<p>Let’s get overall sentiment as a fraction of words used in tweets grouped by PostPresidency (could also group by <code>Tweeting.year</code> or <code>Tweeting.hour</code>).</p>
+<p>Start by defining the relative frequency of each word being used pre/post presidency conditional on being tweeted at least 5 times.</p>
+<pre class="r"><code>word_freq &lt;- tweet_words %&gt;%
+  group_by(PostPresident) %&gt;%
+  count(word) %&gt;%
+  filter(sum(n) &gt;= 5) %&gt;%
+  mutate(prop = prop.table(n))</code></pre>
+<p>Now we use <code>inner_join</code> to select only the words in <code>tweet_words</code> that are contained in the NRC sentiment analysis word list. Note that <code>inner_join</code> keeps only the observations that are common to both <code>tweet_words</code> and <code>nrc</code> so it is going to keep just the words that have an associated sentiment. Note that if we stem the word tokens this would be problematic!</p>
+<pre class="r"><code>word_freq_sentiment &lt;- word_freq %&gt;%
+    inner_join(nrc, by = &quot;word&quot;) </code></pre>
+<pre><code>## Error: object &#39;nrc&#39; not found</code></pre>
+<p>Note that the proportion <code>prop</code> that we calculated above will no longer sum to 1 because: 1. we dropped words outside of the NRC word list with the <code>inner_join</code>, 2. each word can appear in multiple sentiments. That said, the proportion is still meaningful as a measure of the relative importance of each word, even if the interpretation of the value is somewhat problematic.</p>
+<p>Now let’s plot the top most typically used words in each sentiment.</p>
+<pre class="r"><code>word_freq_sentiment %&gt;%
+  group_by(sentiment) %&gt;%
+  top_n(10, n) %&gt;%
+  ungroup() %&gt;%
+  mutate(word = reorder(word, n)) %&gt;%
+  ggplot(aes(word, n)) +
+  facet_wrap(~ sentiment, scales = &quot;free&quot;, nrow = 3) + 
+  geom_bar(stat = &quot;identity&quot;) +
+  coord_flip()</code></pre>
+<pre><code>## Error: object &#39;word_freq_sentiment&#39; not found</code></pre>
+<p>One way to measure sentiment is simply the number of positive sentiments - the number of negative sentiments.</p>
+<p>Let’s go back to our original tibble where each observation was a word, use <code>inner_join</code> to extract sentiments and then create a new tibble <code>tweet_sentiment_summary</code> that summarizes the sentiment of each tweet.</p>
+<pre class="r"><code>tweet_sentiment &lt;- tweet_words %&gt;%
+    inner_join(nrc, by = &quot;word&quot;) </code></pre>
+<pre><code>## Error: object &#39;nrc&#39; not found</code></pre>
+<pre class="r"><code>tweet_sentiment_summary &lt;- tweet_sentiment %&gt;%
+  group_by(PostPresident, sentiment) %&gt;%
+  count(document,sentiment) %&gt;%
+  pivot_wider(names_from = sentiment, values_from = n, values_fill = 0) %&gt;% 
+  mutate(sentiment = positive - negative)</code></pre>
+<pre><code>## Error: object &#39;tweet_sentiment&#39; not found</code></pre>
+<p>Note the use of <code>pivot_wider</code> here. This transforms a “long” tibble (many rows) into a “wide” tibble (many columns). Now each observation is a tweet (instead of a word in a tweet).</p>
+<p>If we wanted to see how many total words were used in the all of the tweets we observed pre-post presidency we can summarize.</p>
+<pre class="r"><code>tweet_sentiment_summary  %&gt;%
+  group_by(PostPresident) %&gt;%
+  mutate(ntweet = 1) %&gt;%
+  summarize(across(-document, sum)) </code></pre>
+<pre><code>## Error: object &#39;tweet_sentiment_summary&#39; not found</code></pre>
+<p>We can plot the distribution of sentiment scores pre/post presidency as follows. Note that the <code>position</code> controls where the bars for each <code>fill</code> are placed. (Try running it without <code>position</code> to see the default.) The <code>aes</code> of <code>geom_bar</code> is defined so as to plot the proportion rather than the frequency. Here we have told ggplot to calculate the proportion for us.</p>
+<pre class="r"><code>  tweet_sentiment_summary %&gt;%
+  ggplot(aes(x = sentiment, fill=PostPresident)) + 
+  geom_bar(aes(y = ..prop..), position=position_dodge()) +
+  scale_y_continuous(labels = percent) + 
+  labs(y= &quot;Proportion of Tweets&quot;, x = &quot;Sentiment Score: Positive - Negative&quot;, fill=&quot;Is President?&quot;)</code></pre>
+<pre><code>## Error: object &#39;tweet_sentiment_summary&#39; not found</code></pre>
+<p>As before, we could also use <code>facet_wrap</code> here. How to think about nrow here. Should it be 1 or 2? What is the comparison you want to make - comparing across x-axis or y-axis? Note also that we chose <code>scales="fixed"</code> this time. Why is this important?</p>
+<pre class="r"><code>tweet_sentiment_summary %&gt;%
+  ggplot(aes(x = sentiment)) + 
+  facet_wrap(~ PostPresident, scales = &quot;fixed&quot;, nrow = 2) +
+  geom_bar(aes(y = ..prop..)) +
+  scale_y_continuous(labels = percent) + 
+  labs(y= &quot;Proportion of Tweets&quot;, x = &quot;Sentiment Score: Positive - Negative&quot;)</code></pre>
+<pre><code>## Error: object &#39;tweet_sentiment_summary&#39; not found</code></pre>
+<p>Can also see how it varies by hour. To do this we need to go back to the original tibble to <code>group_by</code> <code>Tweeting.hour</code>.</p>
+<pre class="r"><code>tweet_sentiment %&gt;%
+  group_by(PostPresident,Tweeting.hour,sentiment) %&gt;%
+  count(document,sentiment) %&gt;%
+  pivot_wider(names_from = sentiment, values_from = n, values_fill = 0) %&gt;% 
+  mutate(sentiment = positive - negative) %&gt;%
+  summarize(AvgSentiment = mean(sentiment)) %&gt;%
+  ggplot(aes(y = AvgSentiment, x= as.integer(Tweeting.hour), color=PostPresident)) + 
+  geom_point() +
+  labs(x = &quot;Tweeting Hour (EST)&quot;, y = &quot;Average Tweet Sentiment: Positive - Negative&quot;, color = &quot;Is President?&quot;) +
+  scale_x_continuous(n.breaks = 13, limits = c(0,23))</code></pre>
+<pre><code>## Error: object &#39;tweet_sentiment&#39; not found</code></pre>
+<p>We can also dive in deeper and focus on particular sentiments. What is the distribution of the number of “angry” words being used in each tweet? Was Trump getting “angrier” over time?</p>
+<pre class="r"><code>  tweet_sentiment_summary %&gt;%
+  ggplot(aes(x = anger, fill=PostPresident)) + 
+  geom_bar(aes(y = ..prop..), position=position_dodge()) +
+  scale_y_continuous(labels = percent) + 
+  labs(y= &quot;Proportion of Tweets&quot;, x = &quot;Number of `Angry` Words in Tweet&quot;, fill=&quot;Is President?&quot;)</code></pre>
+<pre><code>## Error: object &#39;tweet_sentiment_summary&#39; not found</code></pre>
+<p>Or angrier based on the time of day post-presidency?</p>
+<pre class="r"><code>tweet_sentiment %&gt;%
+  filter(PostPresident==TRUE, sentiment == &quot;anger&quot;) %&gt;%
+  group_by(Tweeting.hour) %&gt;%
+  count(document,sentiment) %&gt;%
+  summarize(AvgAnger = mean(n)) %&gt;%
+  ggplot(aes(y = AvgAnger, x= as.integer(Tweeting.hour))) + 
+  geom_point() +
+  labs(x = &quot;Average Tweeting Hour (EST)&quot;, y = &quot;Avg. Number of Angry Words&quot;) +
+  scale_x_continuous(n.breaks = 13, limits = c(0,23))</code></pre>
+<pre><code>## Error: object &#39;tweet_sentiment&#39; not found</code></pre>
+<p>And how about which words are most distinctively used in each sentiment (using log-odds ratio)?</p>
+<pre class="r"><code>prepost_ratios %&gt;%
+  inner_join(nrc, by = &quot;word&quot;) %&gt;%
+  filter(!sentiment %in% c(&quot;positive&quot;, &quot;negative&quot;)) %&gt;%
+  mutate(sentiment = reorder(sentiment, -logratio),
+         word = reorder(word, -logratio)) %&gt;%
+  group_by(sentiment) %&gt;%
+  top_n(10, abs(logratio)) %&gt;%
+  ungroup() %&gt;%
+  ggplot(aes(word, logratio, fill = logratio &lt; 0)) +
+  facet_wrap(~ sentiment, scales = &quot;free&quot;, nrow = 2) +
+  geom_bar(stat = &quot;identity&quot;) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(x = &quot;&quot;, y = &quot;Post / Pre log ratio&quot;) +
+  scale_fill_manual(name = &quot;&quot;, labels = c(&quot;Post&quot;, &quot;Pre&quot;),
+                    values = c(&quot;red&quot;, &quot;lightblue&quot;))</code></pre>
+<pre><code>## Error: object &#39;nrc&#39; not found</code></pre>
+<p>Now you can blow the doors off of this!</p>
+<p>How does the sentiment change over time? At various times of the day?</p>
+<p>Note also that this is very basic stuff. Instead of defining sentiment at the token level and trying to aggregate up we can define it at the tweet level and then use the methods we talked about last time to try to classify tweet-level sentiments by determining how close each tweet is to the tweets classified according to each sentiment. This kind of “supervised” learning would require a tweet-level measure of sentiment that we could then predict using features as before (e.g., words, time of day, date). To do so we could build a prediction model and predict the tweet.</p>
+<p>We can also try to use the most-frequently used sentiment to classify each tweet and see the most frequent “sentiment” associated with each tweet. If, for example, we were to classify the sentiment of each tweet using the modal sentiment (i.e., the most frequently appearing sentiment) we would get the following.</p>
+<pre class="r"><code>tweet_sentiment %&gt;%
+  filter(sentiment != &quot;positive&quot; &amp; sentiment != &quot;negative&quot;) %&gt;%
+  group_by(document) %&gt;%
+  count(sentiment) %&gt;%
+  top_n(1,n) %&gt;%     # select the most frequently appearing sentiment
+  group_by(sentiment) %&gt;%
+  count() %&gt;%
+  ungroup() %&gt;%
+  mutate(PctSentiment = n/sum(n))</code></pre>
+<pre><code>## Error: object &#39;tweet_sentiment&#39; not found</code></pre>
+<p>What do you think about this?</p>
+<p>Now let’s graph the proportion of tweets according to the modal sentiment over time.</p>
+<pre class="r"><code>tweet_sentiment %&gt;%
+  filter(sentiment != &quot;positive&quot; &amp; sentiment != &quot;negative&quot;) %&gt;%
+  group_by(Tweeting.year,document) %&gt;%
+  count(sentiment) %&gt;%
+  top_n(1,n) %&gt;%
+  group_by(Tweeting.year,sentiment) %&gt;%
+  count() %&gt;%
+  ungroup(sentiment) %&gt;%
+  mutate(PctSentiment = n/sum(n)) %&gt;%
+  ggplot(aes(x=Tweeting.year, y = PctSentiment, color = sentiment)) +
+  geom_point() + 
+  labs(x = &quot;Year&quot;, y = &quot;Pct. Tweets with Modal Sentiment&quot;, color = &quot;Model Tweet Sentiment&quot;) + 
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1))</code></pre>
+<pre><code>## Error: object &#39;tweet_sentiment&#39; not found</code></pre>
+<p>You can literally do a thousand descriptive things with sentiment!</p>
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+    
+    
+    
+    
+    
+    <div class="media author-card content-widget-hr">
+      
+
+      <div class="media-body">
+        <h5 class="card-title"><a href="/data-science-site/authors/authors/"></a></h5>
+        <h6 class="card-subtitle">Assistant Professor</h6>
+        
+        <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/data-science-site/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/RyanWeldzius" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=16VmMg4AAAAJ&amp;hl=en" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/rweldzius" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+</ul>
+
+      </div>
+    </div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+
+        
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" integrity="sha512-1+qUtKoh9XZW7j+6LhRMAyOrgSQKenQ4mluTR+cvxXjP1Z54RxZuzstR/H9kgPXQsVB8IW7DMDFUJpzLjvhGSQ==" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js" integrity="sha512-7t8APmYpzEsZP7CYoA7RfMPV9Bb+PJHa9x2WiUnDXZx3XHveuyWUtvNOexhkierl5flZ3tr92dP1mMS+SGlD+A==" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/languages/r.min.js"></script>
+        
+      
+
+    
+
+    
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    <script>const isSiteThemeDark = false;</script>
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <script src="/data-science-site/js/academic.min.36113c13f63e6c1889c2fede8fbd5f35.js"></script>
+
+    
+
+
+
+
+
+
+    
+    
+    <div class="container">
+        <footer>
+    <hr>
+
+    <div class="row course-info">
+        <div class="col-md-7">
+            <p>
+                <strong>PSC4175: Introduction to Data Science (Fall 2025)</strong><br>
+
+                <a href="https://www.villanova.edu" target="_blank" rel="noopener">Villanova University</a><br>
+                
+                <a href="https://www1.villanova.edu/university/liberal-arts-sciences/programs/political-science.html" target="_blank" rel="noopener">Department of Political Science</a>
+            </p>
+
+            <p>
+                <a href="http://www.ryanweldzius.com/" target="_blank" rel="noopener"><i class="fas fa-user"></i>
+                    Ryan Weldzius</a> &emsp;&emsp;
+                <a href="mailto:ryan.weldzius@villanova.edu"><i class="fas fa-envelope"></i>
+                    ryan.weldzius@villanova.edu</a>
+            </p>
+
+            <p>
+                <i class="far fa-calendar-alt"></i> Mondays &emsp;&emsp;
+                <i class="far fa-clock"></i> 3:20 pm -4:35pm <br>
+                <i class="fas fa-university"></i> Bartley Hall 2073
+            </p>
+        </div>
+
+        <div class="col-md-5 credits">
+            <p>All content licensed under a <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.</p>
+            
+            <p>Content <i class="fab fa-creative-commons"></i> 2025 <a href="http://www.ryanweldzius.com/" target="_blank" rel="noopener">Ryan Weldzius</a></p>                    
+            
+            <p><a href="https://github.com/rweldzius/data-science-site" target="_blank" rel="noopener"><i class="fab fa-github"></i> View the source at GitHub.</a></p>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+
+    
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+
+</html>

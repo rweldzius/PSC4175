@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en" 
+      xmlns:og="http://ogp.me/ns#" 
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+
+<head><script src="/data-science-site/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=data-science-site/livereload" data-no-instant defer></script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.8.0">
+
+  
+
+  
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  
+
+  
+  
+  
+    
+  
+  <meta name="description" content="
+Getting Set Up
+Open RStudio and create a new RMarkDown file (.Rmd) by going to File -&gt; New File -&gt; R Markdown....
+Accept defaults and save this file as [LAST NAME]_ps4.Rmd to your code folder.
+Copy and paste the contents of this .Rmd file into your [LAST NAME]_ps4.Rmd file. Then change the author: [Your Name] to your name.
+All of the following questions should be answered in this .Rmd file. There are code chunks with incomplete code that need to be filled in. To submit, compile (i.e., knit as pdf) the completed problem set and upload the PDF file to Blackboard on Friday by midnight. Be sure to check your knitted PDF for mistakes before submitting!">
+
+  
+  <link rel="alternate" hreflang="en" href="http://localhost:1313/data-science-site/problemsets/psc4175_pset_4/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#3498db">
+  
+
+  
+  
+  
+  <script src="/data-science-site/js/mathjax-config.js"></script>
+  
+
+  
+  
+  
+  
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha256-FMvZuGapsJLjouA6k7Eo2lusoAX9i0ShlWFG6qt7SLc=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+    
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed:400,400i,700,700i%7COverpass:400,400i,700,700i&display=swap">
+    
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/data-science-site/css/academic.css">
+
+  
+  
+
+
+  
+  
+
+  
+
+  <link rel="manifest" href="/data-science-site/index.webmanifest">
+  <link rel="icon" type="image/png" href="/data-science-site/images/icon_hu_eb1e217680dff947.png">
+  <link rel="apple-touch-icon" type="image/png" href="/data-science-site/images/icon_hu_f0a9735dbf069933.png">
+
+  <link rel="canonical" href="http://localhost:1313/data-science-site/problemsets/psc4175_pset_4/">
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@rweldzius">
+  <meta property="twitter:creator" content="@rweldzius">
+  
+  <meta property="og:site_name" content="Introduction to Data Science">
+  <meta property="og:url" content="http://localhost:1313/data-science-site/problemsets/psc4175_pset_4/">
+  <meta property="og:title" content="Problem Set 4 (last one!) | Introduction to Data Science">
+  <meta property="og:description" content="
+Getting Set Up
+Open RStudio and create a new RMarkDown file (.Rmd) by going to File -&gt; New File -&gt; R Markdown....
+Accept defaults and save this file as [LAST NAME]_ps4.Rmd to your code folder.
+Copy and paste the contents of this .Rmd file into your [LAST NAME]_ps4.Rmd file. Then change the author: [Your Name] to your name.
+All of the following questions should be answered in this .Rmd file. There are code chunks with incomplete code that need to be filled in. To submit, compile (i.e., knit as pdf) the completed problem set and upload the PDF file to Blackboard on Friday by midnight. Be sure to check your knitted PDF for mistakes before submitting!"><meta property="og:image" content="http://localhost:1313/data-science-site/media/social-image.png">
+  <meta property="twitter:image" content="http://localhost:1313/data-science-site/media/social-image.png"><meta property="og:locale" content="en">
+  
+    
+      <meta property="article:published_time" content="2025-08-07T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2025-07-25T15:40:27-04:00">
+  
+
+  
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Problem Set 4 (last one!) | Introduction to Data Science</title>
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70"
+    data-target="#TableOfContents"
+    >
+
+    <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/data-science-site">Introduction to Data Science</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/data-science-site/">Introduction to Data Science</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-end" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/syllabus/"><span>Syllabus</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/schedule/"><span>Schedule</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/weeks/"><span>Classes</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/resources/"><span>Resources</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/downloads/"><span>Downloads</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+            
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="https://campuswire.com/p/GF9F6AD11" target="_blank" rel="noopener"><span>CampusWire</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+            
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="https://elearning.villanova.edu" target="_blank" rel="noopener"><span>Blackboard</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+
+
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Problem Set 4 (last one!)</h1>
+
+  
+  <p class="page-subtitle">Clustering &amp; NLP</p>
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    July 25, 2025
+  </span>
+  
+
+  
+
+  
+
+  
+  
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    
+    <div class="article-metadata">
+      
+      
+      
+        <span class="meta-item">
+          <strong>Due:</strong> 2025-06-26 at 11:59 PM
+        </span>
+        <span class="middot-divider"></span>
+      
+
+      
+      
+        <span class="meta-item">
+          Villanova University
+        </span>
+        <span class="middot-divider"></span>
+      
+      
+      
+      <p>
+        <a href="/data-science-site/problemsets/psc4175_pset_4.Rmd" download>
+          <i class="fa fa-download" aria-hidden="true" style="margin-right: 6px;"></i><Strong>Download R Markdown file</Strong>
+        </a>
+      </p>
+    
+
+    </div>
+    
+
+    <div class="article-style">
+      
+
+
+<div id="getting-set-up" class="section level2">
+<h2>Getting Set Up</h2>
+<p>Open <code>RStudio</code> and create a new RMarkDown file (<code>.Rmd</code>) by going to <code>File -&gt; New File -&gt; R Markdown...</code>.
+Accept defaults and save this file as <code>[LAST NAME]_ps4.Rmd</code> to your <code>code</code> folder.</p>
+<p>Copy and paste the contents of this <code>.Rmd</code> file into your <code>[LAST NAME]_ps4.Rmd</code> file. Then change the <code>author: [Your Name]</code> to your name.</p>
+<p>All of the following questions should be answered in this <code>.Rmd</code> file. There are code chunks with incomplete code that need to be filled in. To submit, compile (i.e., <code>knit as pdf</code>) the completed problem set and upload the PDF file to Blackboard on Friday by midnight. Be sure to check your knitted PDF for mistakes before submitting!</p>
+<p>This problem set is worth 9 total points, plus 1 extra credit point. <strong>This is due on Thursday (6/26), the final day of the semester; not on Friday.</strong> The point values for each question are indicated in brackets below. To receive full credit, you must have the correct code. In addition, some questions ask you to provide a written response in addition to the code.</p>
+<p>You will be deducted 1 point for each day late the problem set is submitted, and 1 point for failing to submit in the correct format (i.e., not knitting as a PDF).</p>
+<p>You are free to rely on whatever resources you need to complete this problem set, including lecture notes, lecture presentations, Google, your classmates…you name it. However, the final submission must be complete by you. There are no group assignments.</p>
+<p><em>Note that the professor will not respond to Campuswire posts after 2PM on Friday, so don’t wait until the last minute to get started!</em></p>
+<p><strong>Good luck!</strong></p>
+<p><strong>If you collaborated with a colleague and/or used AI for any help on this problem set, document here.</strong> Write the names of your classmates and/or upload a PDF of your AI prompt and output with your problem set:</p>
+</div>
+<div id="question-0" class="section level2">
+<h2>Question 0</h2>
+<p>Require <code>tidyverse</code> and <code>tidymodels</code>, and then load the <a href="https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/pres_elec.rds"><code>pres_elec.rds</code></a> data to an object called <code>dat</code>.</p>
+</div>
+<div id="question-1-0.5-points" class="section level2">
+<h2>Question 1 [0.5 points]</h2>
+<p>Describe the data. What is the unit of analysis? What information do the columns provide? What is the period described (i.e., how far back in time does the data go?). Is there any missing data? If so, “where” is it, in terms of both columns and in terms of the observations that have missing data?</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<blockquote>
+<ul>
+<li>Write response here</li>
+</ul>
+</blockquote>
+</div>
+<div id="question-2-1.5-point" class="section level2">
+<h2>Question 2 [1.5 point]</h2>
+<p>Perform <em>k</em>-means analysis on the Republican and Democrat votes with <em>k</em> = 2, and then plot the results, coloring the points by cluster assignment. Then predict the <code>GOP_win</code> binary outcome as a function of the cluster assignment using a logit regression. Make sure to <code>factor(cluster)</code> in the regression. What is the AUC for this model? Finally, use cross validation with an 80-20% split to re-calculate the AUC. Overall, would you say that the <em>k</em>-means algorithm helps you predict which counties vote Republican?</p>
+<pre class="r"><code>set.seed(123)
+# K-means with k = 2
+# INSERT CODE HERE
+
+# Plotting the result
+dat %&gt;%
+  select(...) %&gt;%
+  drop_na() %&gt;%
+  mutate(cluster = ...) %&gt;%
+  ggplot(aes(x = ...,y = ...,color = factor(...),group = 1)) + 
+  geom_point() + 
+  labs(x = &#39;&#39;,
+       y = &#39;&#39;,
+       color = &#39;&#39;)</code></pre>
+<pre><code>## Error in dat %&gt;% select(...) %&gt;% drop_na() %&gt;% mutate(cluster = ...) %&gt;% : could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Create dataset for analysis
+toanal &lt;- dat %&gt;%
+  select(...,...,...) %&gt;%
+  drop_na() %&gt;%
+  mutate(cluster = ...)</code></pre>
+<pre><code>## Error in dat %&gt;% select(..., ..., ...) %&gt;% drop_na() %&gt;% mutate(cluster = ...): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Estimate logit model
+summary(m &lt;- glm(...,toanal,family = binomial))</code></pre>
+<pre><code>## Error in summary(m &lt;- glm(..., toanal, family = binomial)): &#39;...&#39; used in an incorrect context</code></pre>
+<pre class="r"><code># Calculate AUC
+roc_auc(toanal %&gt;%
+          mutate(prob_win = ...,
+                 truth = ...),
+        truth,prob_win)</code></pre>
+<pre><code>## Error in roc_auc(toanal %&gt;% mutate(prob_win = ..., truth = ...), truth, : could not find function &quot;roc_auc&quot;</code></pre>
+<pre class="r"><code># Calculate cross-validated result
+cvRes &lt;- NULL
+for(i in 1:100) {
+  # INSERT CODE HERE
+}
+
+# Cross-validated AUC
+# INSERT CODE HERE</code></pre>
+<blockquote>
+<ul>
+<li>Write response here.</li>
+</ul>
+</blockquote>
+</div>
+<div id="question-3-2-points" class="section level2">
+<h2>Question 3 [2 points]</h2>
+<p>Now create an elbow plot by looping over potential values of <em>k</em> from 1 to 30 and plotting the <em>k</em> on the x-axis and the total Within Sum of Squares (total WSS) on the y-axis. What value of <em>k</em> would you use? Then re-run the preceding analysis with that value of <em>k</em> and interpret the results. Does the model improve?</p>
+<pre class="r"><code># Looking at multiple values of k
+kRes &lt;- NULL
+for(k in 1:30) {
+  # Calculate k-means cluster solution for given value of k
+  kResTmp &lt;- # INSERT CODE HERE
+  
+  # Save result including value of k and the total WSS
+  kRes &lt;- data.frame(withinSS = ...,
+             k = ...) %&gt;%
+    bind_rows(kRes)
+}</code></pre>
+<pre><code>## Error in data.frame(withinSS = ..., k = ...) %&gt;% bind_rows(kRes): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Plotting the elbow plot. Looks like k=4 is the elbow?
+# INSERT CODE HERE
+
+# Rerunning with optimal k
+# INSERT CODE HERE
+
+# Plotting again
+# INSERT CODE HERE
+
+# Create dataset for analysis 
+# INSERT CODE HERE
+
+# Estimate logit model
+# INSERT CODE HERE
+
+# Calculate AUC
+# INSERT CODE HERE
+
+# Calculate cross-validated result
+# INSERT CODE HERE
+
+# Cross-validated AUC
+# INSERT CODE HERE</code></pre>
+<blockquote>
+<ul>
+<li>Write response here</li>
+</ul>
+</blockquote>
+</div>
+<div id="question-0.b" class="section level2">
+<h2>Question 0.B</h2>
+<p>Require <code>tidyverse</code>, <code>tidytext</code> and <code>tidymodels</code>, and then load the <a href="https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/Trump_tweet_words.Rds"><code>Trump_tweet_words.Rds</code></a> data to an object called <code>tweet_words</code>.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="question-4-1-point" class="section level2">
+<h2>Question 4 [1 point]</h2>
+<ol style="list-style-type: lower-alpha">
+<li><p>Plot the total number of times the word “trump” is used each year. Then, plot the proportion of times the word “trump” is used each year. Make sure to justify your choice of <code>geom_...()</code>!</p></li>
+<li><p>Why are these plots so different? Which measure is better? Why?</p></li>
+</ol>
+<pre class="r"><code># Total number of times
+tweet_words %&gt;%
+  count(...) %&gt;% # Calculate total number of times each word was used in each year
+  filter(...) %&gt;% # Filter to the word of interest
+  ggplot(aes(x = ...,
+             y = ...)) +  # Plot results
+  geom_...() + # Choose appropriate geom_...()
+  labs(x = &#39;&#39;, # Provide descriptive labels
+       y = &#39;&#39;,
+       title = &#39;&#39;)</code></pre>
+<pre><code>## Error in tweet_words %&gt;% count(...) %&gt;% filter(...) %&gt;% ggplot(aes(x = ..., : could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Proportion of times
+tweet_words %&gt;%
+  count(...) %&gt;% # Calculate total number of times each word was used in each year
+  group_by(...) %&gt;% # Calculate total number of words used each year
+  mutate(...) %&gt;%
+  ungroup() %&gt;%
+  mutate(prop = ...) %&gt;% # Calculate proportion
+  filter(...) %&gt;% # Filter to the word of interest
+  ggplot(aes(x = ...,
+             y = ...)) +  # Plot results
+  geom_...() + # Choose appropriate geom_...()
+  labs(x = &#39;&#39;, # Provide descriptive labels
+       y = &#39;&#39;,
+       title = &#39;&#39;)</code></pre>
+<pre><code>## Error in tweet_words %&gt;% count(...) %&gt;% group_by(...) %&gt;% mutate(...) %&gt;% : could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<ul>
+<li>Write answer here</li>
+</ul>
+</blockquote>
+</div>
+<div id="question-5-2-points" class="section level2">
+<h2>Question 5 [2 points]</h2>
+<p>We want to only look at tweets written during Trump’s first year as president (January 20th, 2017 through December 31st, 2017), and are interested if there are patterns in what he talks about.</p>
+<p>We will use <span class="math inline">\(k\)</span>-means clustering to learn about this data. To do so, follow these steps.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Create a document-term matrix (<code>dtm</code>), dropping any words that appear fewer than 20 times total, and using the <code>document</code> column as the document indicator. <strong>NB: Drop the word <code>'amp'</code>.</strong></p></li>
+<li><p>Calculate the TF-IDF using the appropriate function from the <code>tidytext</code> package.</p></li>
+<li><p>Cast the DTM to wide format using the <code>cast_dtm()</code> function, also from the <code>tidytext</code> package.</p></li>
+<li><p>Determine the optimal number of clusters / centers / topics / <span class="math inline">\(k\)</span> by creating and manually inspecting an elbow plot. To save time, only examine the following sizes: <code>c(1,10,50,100,250,500,1000)</code> and set <code>nstart = 5</code> with <code>set.seed(123)</code>. (This will still take a little while to run so be patient!).</p></li>
+<li><p>Using the optimal value from the elbow plot, run <span class="math inline">\(k\)</span>-means on the data with <code>nstart</code> set to 5 and <code>set.seed(123)</code>.</p></li>
+<li><p>Which are the top 3 most popular topics for Donald Trump in this period? Plot the top 10 highest scoring words for each of the top 3 most popular topics. What is each “about”?</p></li>
+</ol>
+<pre class="r"><code># a.
+dtm &lt;- tweet_words %&gt;% 
+  filter(..., # Filter to the correct period
+         ...) %&gt;%  # Drop the word &#39;amp&#39;
+  count(...) %&gt;%  # Count the number of times each word appears in each document
+  group_by(...) %&gt;%  # Count the total number of times a word appears overall
+  mutate(tot_n = sum(...)) %&gt;% 
+  ungroup() %&gt;% 
+  filter(...) # Filter to only words that appear more than 20 times in total</code></pre>
+<pre><code>## Error in tweet_words %&gt;% filter(..., ...) %&gt;% count(...) %&gt;% group_by(...) %&gt;% : could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code>#b.
+dtm.tfidf &lt;- bind_tf_idf(tbl = ...,  # Calculate the TF-IDF metric
+                         term = ..., 
+                         document = ..., 
+                         n = ...)</code></pre>
+<pre><code>## Error in bind_tf_idf(tbl = ..., term = ..., document = ..., n = ...): could not find function &quot;bind_tf_idf&quot;</code></pre>
+<pre class="r"><code>#c.
+castdtm &lt;- cast_dtm(data = ...,  # Cast to a DTM
+                    document = ..., 
+                    term = ..., 
+                    value = ...)</code></pre>
+<pre><code>## Error in cast_dtm(data = ..., document = ..., term = ..., value = ...): could not find function &quot;cast_dtm&quot;</code></pre>
+<pre class="r"><code>#d. 
+# INSERT CODE HERE (see pset 10 if you need a refresher)
+
+#e. 
+# INSERT CODE HERE (see pset 10 if you need a refresher)
+
+km_out_tidy &lt;- tidy(...) %&gt;% # Tidy the kmeans result
+  gather(...) %&gt;% # Pivot to long format
+  mutate(...) # Convert the average TF-IDF value to numeric</code></pre>
+<pre><code>## Error in tidy(...) %&gt;% gather(...) %&gt;% mutate(...): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># For students who can&#39;t load tidymodels
+# km_out_tidy &lt;- as_tibble(km_out$centers) %&gt;%
+#   mutate(size = km_out$size,
+#          withinss = km_out$withinss,
+#          cluster = factor(row_number())) %&gt;%
+#   gather(word,mean_tfidf,-size,-cluster,-withinss)
+
+#f. Find the top 3 topics tweeted by Trump
+tops &lt;- km_out_tidy %&gt;%
+  select(...) %&gt;% # Select only the size and cluster
+  distinct() %&gt;% # Keep only distinct rows
+  arrange(...) %&gt;% # Arrange by size in descending order
+    slice(...) # Get top 3 topics</code></pre>
+<pre><code>## Error in km_out_tidy %&gt;% select(...) %&gt;% distinct() %&gt;% arrange(...) %&gt;% : could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Visualize the top 10 words in the top 3 most used topics
+km_out_tidy %&gt;%
+  filter(cluster %in% ...) %&gt;% # Filter to the topics found above
+  group_by(...) %&gt;% # Arrange in descending order of average TF-IDF
+  arrange(...) %&gt;%
+  slice(...) %&gt;% # Get top 10 words
+  ggplot(aes(x = ...,
+             y = ..., # Reorder words by highest scoring TF-IDF
+             fill = ...)) + # Fill by topic
+  geom_...(...) + # Choose the appropriate geom_...()
+  facet_wrap(~...,scales = &#39;free&#39;) + # Create facets by topics
+  labs(title = &#39;&#39;, # Good labels!
+       subtitle = &#39;&#39;,
+       x = &#39;&#39;,
+       y = &#39;&#39;,
+       fill = &#39;&#39;)</code></pre>
+<pre><code>## Error in km_out_tidy %&gt;% filter(cluster %in% ...) %&gt;% group_by(...) %&gt;% : could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<ul>
+<li>Write answer here</li>
+</ul>
+</blockquote>
+</div>
+<div id="question-6-2-points" class="section level2">
+<h2>Question 6 [2 points]</h2>
+<p>Now load the sentiment dictionary <code>nrc</code> from the <code>tidytext</code> package, and look at the clusters with sentiment scores by merging the <code>km_out_tidy</code> dataset with the <code>nrc</code> dataset using the <code>inner_join()</code> function. (If you can’t open the <code>nrc</code> object from the <code>tidytext</code> package, you can just load it from GitHub with this link: <code>https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/nrc.Rds</code>)</p>
+<p>Filter to only look at <code>positive</code> and <code>negative</code> categories and then <code>select()</code> only the <code>size</code>, <code>cluster</code>, <code>word</code>, <code>mean_tfidf</code>, and <code>sentiment</code> columns. Then use either <code>spread()</code> or <code>pivot_wider()</code> to create two columns of <code>mean_tfidf</code> values: one for <code>positive</code> and one for <code>negative</code>. Replace <code>NA</code> values with 0! Finally, filter to only look at clusters with more than 10 tweets in them. Save this processed data to an object named <code>cluster_sentiment</code>.</p>
+<p>Using this data, plot the top 10 words for the three most positive clusters and the top 10 words for the three most negative clusters. Describe what you see. What are Trump’s most positive and negative topics about?</p>
+<pre class="r"><code># Load the NRC dictionary
+
+cluster_sentiment &lt;- km_out_tidy %&gt;%
+  inner_join(nrc %&gt;% # Join on the words that appear in both (ignore the warning)
+               filter(...)) %&gt;% # Filter the nrc to only positive and negative labels
+  select(...) %&gt;% # Select the columns size, cluster, word, mean_tfidf, and sentiment
+  spread(...) %&gt;% # Spread the data into two columns, one for 
+  mutate(net_sentiment = ...) %&gt;% # Calculate the net_sentiment as positive - negative
+  group_by(cluster,size) %&gt;% # Calculate the average sentiment by cluster and size
+  summarise(net_sentiment = ...) %&gt;%
+  ungroup() %&gt;%
+  filter(...) # Drop clusters with fewer than 10 tweets</code></pre>
+<pre><code>## Error in km_out_tidy %&gt;% inner_join(nrc %&gt;% filter(...)) %&gt;% select(...) %&gt;% : could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Calculate the top 3 most positive clusters
+top_sentiment &lt;- cluster_sentiment %&gt;%
+  arrange(...) %&gt;%  # Arrange in descending order of net sentiment
+  slice(...) # Get top 3</code></pre>
+<pre><code>## Error in cluster_sentiment %&gt;% arrange(...) %&gt;% slice(...): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Visualize the top 10 words in the top 3 most positive clusters
+km_out_tidy %&gt;%
+  filter(cluster %in% ...) %&gt;% # Filter to the topics found above
+  group_by(...) %&gt;% # Arrange in descending order of average TF-IDF
+  arrange(...) %&gt;%
+  slice(...) %&gt;% # Get top 10 words
+  ggplot(aes(x = ...,
+             y = ..., # Reorder words by highest scoring TF-IDF
+             fill = ...)) + # Fill by topic
+  geom_...(...) + # Choose the appropriate geom_...()
+  facet_wrap(~...,scales = &#39;free&#39;) + # Create facets by topics
+  labs(title = &#39;&#39;, # Good labels!
+       subtitle = &#39;&#39;,
+       x = &#39;&#39;,
+       y = &#39;&#39;,
+       fill = &#39;&#39;)</code></pre>
+<pre><code>## Error in km_out_tidy %&gt;% filter(cluster %in% ...) %&gt;% group_by(...) %&gt;% : could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Calculate the bottom 3 most negative clusters
+bottom_sentiment &lt;- cluster_sentiment %&gt;%
+  arrange(...) %&gt;%  # Arrange in ascending order of net sentiment
+  slice(...) # Get bottom 3</code></pre>
+<pre><code>## Error in cluster_sentiment %&gt;% arrange(...) %&gt;% slice(...): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Visualize the top 10 words in the bottom 3 most negative clusters
+km_out_tidy %&gt;%
+  filter(cluster %in% ...) %&gt;% # Filter to the topics found above
+  group_by(...) %&gt;% # Arrange in descending order of average TF-IDF
+  arrange(...) %&gt;%
+  slice(...) %&gt;% # Get top 10 words
+  ggplot(aes(x = ...,
+             y = ..., # Reorder words by highest scoring TF-IDF
+             fill = ...)) + # Fill by topic
+  geom_...(...) + # Choose the appropriate geom_...()
+  facet_wrap(~...,scales = &#39;free&#39;) + # Create facets by topics
+  labs(title = &#39;&#39;, # Good labels!
+       subtitle = &#39;&#39;,
+       x = &#39;&#39;,
+       y = &#39;&#39;,
+       fill = &#39;&#39;)</code></pre>
+<pre><code>## Error in km_out_tidy %&gt;% filter(cluster %in% ...) %&gt;% group_by(...) %&gt;% : could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<ul>
+<li>Write answer here</li>
+</ul>
+</blockquote>
+</div>
+<div id="extra-credit-1-point" class="section level2">
+<h2>Extra Credit [1 point]</h2>
+<p>Which of Trump’s topics are the most “popular”, measured by total retweets? You will need to get creative with this final extra credit question. Broadly, you will need to link each tweet to the topic it was assigned as well as the number of retweets it received. This will require you to exploit the fact that the <code>km_out$cluster</code> data includes both the cluster to which each observation was assigned, as well as the tweet ID associated with that observation. Once you have created this lookup object, you can then link the original <code>tweet_words</code> dataset with the clusters. (NOTE: not every tweet will be assigned to a cluster, since we are dropping many of them.) This will require you to pay attention to object types (the names of the <code>km_out$cluster</code> are character, but the document IDs are stored as numeric in the <code>tweet_words</code> object), think creatively about how to merge the datasets, be aware of <code>NA</code>’s and think about how to deal with them, and then finally analyze the data once you have built it. Your end result should be, as above, the top 10 words associated with the top 3 most popular topics. Good luck!</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<blockquote>
+<ul>
+<li>Write answer here.</li>
+</ul>
+</blockquote>
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+    
+    
+    
+    
+    
+    <div class="media author-card content-widget-hr">
+      
+
+      <div class="media-body">
+        <h5 class="card-title"><a href="/data-science-site/authors/authors/"></a></h5>
+        <h6 class="card-subtitle">Assistant Professor</h6>
+        
+        <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/data-science-site/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/RyanWeldzius" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=16VmMg4AAAAJ&amp;hl=en" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/rweldzius" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+</ul>
+
+      </div>
+    </div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+
+        
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" integrity="sha512-1+qUtKoh9XZW7j+6LhRMAyOrgSQKenQ4mluTR+cvxXjP1Z54RxZuzstR/H9kgPXQsVB8IW7DMDFUJpzLjvhGSQ==" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js" integrity="sha512-7t8APmYpzEsZP7CYoA7RfMPV9Bb+PJHa9x2WiUnDXZx3XHveuyWUtvNOexhkierl5flZ3tr92dP1mMS+SGlD+A==" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/languages/r.min.js"></script>
+        
+      
+
+    
+
+    
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    <script>const isSiteThemeDark = false;</script>
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <script src="/data-science-site/js/academic.min.36113c13f63e6c1889c2fede8fbd5f35.js"></script>
+
+    
+
+
+
+
+
+
+    
+    
+    <div class="container">
+        <footer>
+    <hr>
+
+    <div class="row course-info">
+        <div class="col-md-7">
+            <p>
+                <strong>PSC4175: Introduction to Data Science (Fall 2025)</strong><br>
+
+                <a href="https://www.villanova.edu" target="_blank" rel="noopener">Villanova University</a><br>
+                
+                <a href="https://www1.villanova.edu/university/liberal-arts-sciences/programs/political-science.html" target="_blank" rel="noopener">Department of Political Science</a>
+            </p>
+
+            <p>
+                <a href="http://www.ryanweldzius.com/" target="_blank" rel="noopener"><i class="fas fa-user"></i>
+                    Ryan Weldzius</a> &emsp;&emsp;
+                <a href="mailto:ryan.weldzius@villanova.edu"><i class="fas fa-envelope"></i>
+                    ryan.weldzius@villanova.edu</a>
+            </p>
+
+            <p>
+                <i class="far fa-calendar-alt"></i> Mondays &emsp;&emsp;
+                <i class="far fa-clock"></i> 3:20 pm -4:35pm <br>
+                <i class="fas fa-university"></i> Bartley Hall 2073
+            </p>
+        </div>
+
+        <div class="col-md-5 credits">
+            <p>All content licensed under a <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.</p>
+            
+            <p>Content <i class="fab fa-creative-commons"></i> 2025 <a href="http://www.ryanweldzius.com/" target="_blank" rel="noopener">Ryan Weldzius</a></p>                    
+            
+            <p><a href="https://github.com/rweldzius/data-science-site" target="_blank" rel="noopener"><i class="fab fa-github"></i> View the source at GitHub.</a></p>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+
+    
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en" 
+      xmlns:og="http://ogp.me/ns#" 
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+
+<head><script src="/data-science-site/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=data-science-site/livereload" data-no-instant defer></script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.8.0">
+
+  
+
+  
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  
+
+  
+  
+  
+    
+  
+  <meta name="description" content="
+Getting Set Up
+Open RStudio and create a new RMarkDown file (.Rmd) by going to File -&gt; New File -&gt; R Markdown....
+Accept defaults and save this file as [LAST NAME]_ps1.Rmd to your code folder.
+Copy and paste the contents of this .Rmd file into your [LAST NAME]_ps1.Rmd file. Then change the author: [Your Name] to your name.
+All of the following questions should be answered in this .Rmd file. There are code chunks with incomplete code that need to be filled in.">
+
+  
+  <link rel="alternate" hreflang="en" href="http://localhost:1313/data-science-site/problemsets/psc4175_pset_1/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#3498db">
+  
+
+  
+  
+  
+  <script src="/data-science-site/js/mathjax-config.js"></script>
+  
+
+  
+  
+  
+  
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha256-FMvZuGapsJLjouA6k7Eo2lusoAX9i0ShlWFG6qt7SLc=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+    
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed:400,400i,700,700i%7COverpass:400,400i,700,700i&display=swap">
+    
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/data-science-site/css/academic.css">
+
+  
+  
+
+
+  
+  
+
+  
+
+  <link rel="manifest" href="/data-science-site/index.webmanifest">
+  <link rel="icon" type="image/png" href="/data-science-site/images/icon_hu_eb1e217680dff947.png">
+  <link rel="apple-touch-icon" type="image/png" href="/data-science-site/images/icon_hu_f0a9735dbf069933.png">
+
+  <link rel="canonical" href="http://localhost:1313/data-science-site/problemsets/psc4175_pset_1/">
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@rweldzius">
+  <meta property="twitter:creator" content="@rweldzius">
+  
+  <meta property="og:site_name" content="Introduction to Data Science">
+  <meta property="og:url" content="http://localhost:1313/data-science-site/problemsets/psc4175_pset_1/">
+  <meta property="og:title" content="Problem Set 1 | Introduction to Data Science">
+  <meta property="og:description" content="
+Getting Set Up
+Open RStudio and create a new RMarkDown file (.Rmd) by going to File -&gt; New File -&gt; R Markdown....
+Accept defaults and save this file as [LAST NAME]_ps1.Rmd to your code folder.
+Copy and paste the contents of this .Rmd file into your [LAST NAME]_ps1.Rmd file. Then change the author: [Your Name] to your name.
+All of the following questions should be answered in this .Rmd file. There are code chunks with incomplete code that need to be filled in."><meta property="og:image" content="http://localhost:1313/data-science-site/media/social-image.png">
+  <meta property="twitter:image" content="http://localhost:1313/data-science-site/media/social-image.png"><meta property="og:locale" content="en">
+  
+    
+      <meta property="article:published_time" content="2025-06-06T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2025-07-31T00:10:02-04:00">
+  
+
+  
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Problem Set 1 | Introduction to Data Science</title>
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70"
+    data-target="#TableOfContents"
+    >
+
+    <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/data-science-site">Introduction to Data Science</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/data-science-site/">Introduction to Data Science</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-end" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/syllabus/"><span>Syllabus</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/schedule/"><span>Schedule</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/weeks/"><span>Classes</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/resources/"><span>Resources</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/downloads/"><span>Downloads</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+            
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="https://campuswire.com/p/GF9F6AD11" target="_blank" rel="noopener"><span>CampusWire</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+            
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="https://elearning.villanova.edu" target="_blank" rel="noopener"><span>Blackboard</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+
+
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Problem Set 1</h1>
+
+  
+  <p class="page-subtitle">Intro to <code>R</code></p>
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    July 31, 2025
+  </span>
+  
+
+  
+
+  
+
+  
+  
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    
+    <div class="article-metadata">
+      
+      
+      
+        <span class="meta-item">
+          <strong>Due:</strong> 2025-06-06 by 11:59 PM
+        </span>
+        <span class="middot-divider"></span>
+      
+
+      
+      
+        <span class="meta-item">
+          Villanova University
+        </span>
+        <span class="middot-divider"></span>
+      
+      
+      
+      <p>
+        <a href="/data-science-site/problemsets/psc4175_pset_1.Rmd" download>
+          <i class="fa fa-download" aria-hidden="true" style="margin-right: 6px;"></i><Strong>Download R Markdown file</Strong>
+        </a>
+      </p>
+    
+
+    </div>
+    
+
+    <div class="article-style">
+      
+
+
+<div id="getting-set-up" class="section level1">
+<h1>Getting Set Up</h1>
+<p>Open <code>RStudio</code> and create a new RMarkDown file (<code>.Rmd</code>) by going to <code>File -&gt; New File -&gt; R Markdown...</code>.
+Accept defaults and save this file as <code>[LAST NAME]_ps1.Rmd</code> to your <code>code</code> folder.</p>
+<p>Copy and paste the contents of this <code>.Rmd</code> file into your <code>[LAST NAME]_ps1.Rmd</code> file. Then change the <code>author: [Your Name]</code> to your name.</p>
+<p>All of the following questions should be answered in this <code>.Rmd</code> file. There are code chunks with incomplete code that need to be filled in.</p>
+<p>This problem set is worth 22 total points, plus 2.5 extra credit points. The point values for each question are indicated in brackets below. To receive full credit, you must have the correct code. In addition, some questions ask you to provide a written response in addition to the code.</p>
+<p>You are free to rely on whatever resources you need to complete this problem set, including lecture notes, lecture presentations, Google, your classmates…you name it. However, the final submission must be complete by you. There are no group assignments. To submit, compile the completed problem set and upload the PDF file to Drobox on Friday by midnight. If you use AI for help, choose to save your output as a PDF and submit this with the problem set as well. Also note that I will not respond to Campuswire messages after 2PM ET on Friday, so don’t wait until the last minute to get started!</p>
+<p><strong>Good luck!</strong></p>
+<p><strong>If you collaborated with a colleague and/or used AI for any help on this problem set, document here.</strong> Write the names of your classmates and/or upload a PDF of your AI prompt and output with your problem set:</p>
+</div>
+<div id="part-1-all-about-college" class="section level1">
+<h1>Part 1: All about college</h1>
+<div id="points-possible-0.5-extra-credit-points" class="section level2">
+<h2>[10 points possible; 0.5 extra credit points]</h2>
+</div>
+<div id="question-0-0-points" class="section level2">
+<h2>Question 0 [0 points]</h2>
+<p><em>Require <code>tidyverse</code> and load the <a href="../../data/sc_debt.Rds"><code>sc_debt.Rds</code></a> data by assigning it to an object named <code>df</code>.</em></p>
+<pre class="r"><code>require() # Load tidyverse</code></pre>
+<pre><code>## Loading required package:</code></pre>
+<pre class="r"><code>df &lt;- read_rds() # Load the dataset directly from github</code></pre>
+<pre><code>## Error in read_rds(): could not find function &quot;read_rds&quot;</code></pre>
+</div>
+<div id="question-1-1-point" class="section level2">
+<h2>Question 1 [1 point]</h2>
+<p><em>Which school has the lowest admission rate (<code>adm_rate</code>) and which state is it in (<code>stabbr</code>)?</em></p>
+<pre class="r"><code>df %&gt;% 
+  arrange() %&gt;% # Arrange by the admission rate
+  select() # Select the school name, the admission rate, and the state</code></pre>
+<pre><code>## Error in df %&gt;% arrange() %&gt;% select(): could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-2-1-point" class="section level2">
+<h2>Question 2 [1 point]</h2>
+<p><em>Which are the top 10 schools by average SAT score (<code>sat_avg</code>)?</em></p>
+<pre class="r"><code>df %&gt;%
+  arrange() %&gt;% # arrange by SAT scores in descending order
+  select() %&gt;% # Select the school name and SAT score
+  print() # Print the first 12 rows (hint: there is a tie)</code></pre>
+<pre><code>## Error in df %&gt;% arrange() %&gt;% select() %&gt;% print(): could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-3-1-point" class="section level2">
+<h2>Question 3 [1 point]</h2>
+<p><em>Create a new variable called <code>adm_rate_pct</code> which is the admissions rate multiplied by 100 to convert from a 0-to-1 decimal to a 0-to-100 percentage point.</em></p>
+<pre class="r"><code>df &lt;- df %&gt;% # Use the object assignment operator to overwrite the df object
+  mutate() # Create the new variable adm_rate_pct</code></pre>
+<pre><code>## Error in df %&gt;% mutate(): could not find function &quot;%&gt;%&quot;</code></pre>
+</div>
+<div id="question-4-1-point" class="section level2">
+<h2>Question 4 [1 point]</h2>
+<p><em>Calculate the average SAT score and median earnings of recent graduates by state.</em></p>
+<pre class="r"><code>df %&gt;%
+  group_by() %&gt;% # Calculate state-by-state with group_by()
+  summarise(sat_avg = , # Summarise the average SAT
+            earn_avg = ) # Summarise the average earnings</code></pre>
+<pre><code>## Error in df %&gt;% group_by() %&gt;% summarise(sat_avg = , earn_avg = ): could not find function &quot;%&gt;%&quot;</code></pre>
+</div>
+<div id="extra-credit-0.5-points" class="section level2">
+<h2>Extra Credit [0.5 points]</h2>
+<p><em>Plot the average SAT score (x-axis) against the median earnings of recent graduates (y-axis) by school, and add the line of best fit. What relationship do you observe? Why do you think this relationship exists?</em></p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-5-3-points" class="section level2">
+<h2>Question 5 [3 points]</h2>
+<p><em>Research Question: Do students who graduate from smaller schools (i.e., schools with smaller student bodies) make more money in their future careers? Before looking at the data, write out what you think the answer is, and explain why you think so.</em></p>
+<blockquote>
+<p>Write a few sentences here.</p>
+</blockquote>
+<p><em>Based on this research question, what is the outcome / dependent / <span class="math inline">\(Y\)</span> variable and what is the explanatory / independent / <span class="math inline">\(X\)</span> variable? Create the scatterplot of the data based on this answer, along with a line of best fit. Is your answer to the research question supported?</em></p>
+<pre class="r"><code>df %&gt;%
+  ggplot(aes(x = , # Put the explanatory variable on the x-axis
+             y = )) +  # Put the outcome variable on the y-axis
+  geom_point() + # Create a scatterplot
+  geom_smooth() + # Add line of best fit
+  labs(title = &#39;&#39;, # give the plot meaningful labels to help the viewer understand it
+       x = &#39;&#39;,
+       y = &#39;&#39;)</code></pre>
+<pre><code>## Error in df %&gt;% ggplot(aes(x = , y = )): could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<p>Write a few sentences here.</p>
+</blockquote>
+</div>
+<div id="question-6-2-points" class="section level2">
+<h2>Question 6 [2 points]</h2>
+<p><em>Does this relationship change by whether the school is a research university? Using the filter() function, create two versions of the plot, one for research universities and the other for non-research universities.</em></p>
+<pre class="r"><code>df %&gt;%
+  filter() %&gt;% # Filter to non-research universities
+  ggplot(aes(x = , # Put the explanatory variable on the x-axis
+             y = )) +  # Put the outcome variable on the y-axis
+  geom_point() + # Create a scatterplot
+  geom_smooth() + # Add line of best fit
+  labs(title = &#39;&#39;, # give the plot meaningful labels to help the viewer understand it
+       subtitle = &#39;&#39;, 
+       x = &#39;&#39;,
+       y = &#39;&#39;)</code></pre>
+<pre><code>## Error in df %&gt;% filter() %&gt;% ggplot(aes(x = , y = )): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code>df %&gt;%
+  filter() %&gt;% # Filter to research universities
+  ggplot(aes(x = , # Put the explanatory variable on the x-axis
+             y = )) +  # Put the outcome variable on the y-axis
+  geom_point() + # Create a scatterplot
+  geom_smooth() + # Add line of best fit
+  labs(title = &#39;&#39;, # give the plot meaningful labels to help the viewer understand it
+       subtitle = &#39;&#39;, 
+       x = &#39;&#39;,
+       y = &#39;&#39;)</code></pre>
+<pre><code>## Error in df %&gt;% filter() %&gt;% ggplot(aes(x = , y = )): could not find function &quot;%&gt;%&quot;</code></pre>
+</div>
+<div id="question-7-1-point" class="section level2">
+<h2>Question 7 [1 point]</h2>
+<p><em>Instead of creating two separate plots, color the points by whether the school is a research university. To do this, you first need to modify the research_u variable to be categorical (it is currently stored as numeric). To do this, use the mutate command with <code>ifelse()</code> to create a new variable called <code>research_u_cat</code> which is either “Research” if <code>research_u</code> is equal to 1, and “Non-Research” otherwise.</em></p>
+<pre class="r"><code>df &lt;- df %&gt;%
+  mutate(research_u_cat = ifelse()) # Create a labeled version of the research_u variable</code></pre>
+<pre><code>## Error in df %&gt;% mutate(research_u_cat = ifelse()): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code>df %&gt;%
+  ggplot(aes(x = , # Put the explanatory variable on the x-axis
+             y = , # Put the outcome variable on the y-axis
+             color = )) + # Color the points by the new variable you created above
+  geom_point() + # Create a scatterplot
+  geom_smooth() + # Add line of best fit
+  labs(title = &#39;&#39;, # give the plot meaningful labels to help the viewer understand it
+       x = &#39;&#39;,
+       color = &#39;&#39;,
+       y = &#39;&#39;)</code></pre>
+<pre><code>## Error in df %&gt;% ggplot(aes(x = , y = , color = )): could not find function &quot;%&gt;%&quot;</code></pre>
+</div>
+</div>
+<div id="part-2-learning-about-the-2020-elections-from-michigan-exit-polling" class="section level1">
+<h1>Part 2: Learning about the 2020 elections from Michigan exit polling</h1>
+<div id="points-1-extra-credit-points-available" class="section level2">
+<h2>[6 points; +1 extra credit points available]</h2>
+<p>For part 2 of this problem set, we will be using the <code>MI2020_ExitPoll.Rds</code> file from the course <a href="https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/MI2020_ExitPoll.Rds">github page</a>.</p>
+</div>
+<div id="question-8-1-point" class="section level2">
+<h2>Question 8 [1 point]</h2>
+<p>Require an additional package called <code>labelled</code> (remember to <code>install.packages("labelled")</code> if you don’t have it yet) and load the <code>MI2020_ExitPoll.Rds</code> data to an object called <code>MI_raw</code>. (Tip: use the <code>read_rds()</code> function with the link to the raw data.)</p>
+<pre class="r"><code>require()</code></pre>
+<pre><code>## Loading required package:</code></pre>
+<pre class="r"><code>MI_raw &lt;- read_rds(&#39;&#39;) </code></pre>
+<pre><code>## Error in read_rds(&quot;&quot;): could not find function &quot;read_rds&quot;</code></pre>
+<p><em>What is the unit of analysis in this dataset? How many variables does it have? How many observations?</em></p>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-9-1-point" class="section level2">
+<h2>Question 9 [1 point]</h2>
+<p><em>This has too much information that we don’t care about. Create a new object called <code>MI_clean</code> that contains only the following variables:</em></p>
+<ul>
+<li>AGE10</li>
+<li>SEX</li>
+<li>PARTYID</li>
+<li>EDUC18</li>
+<li>PRSMI20</li>
+<li>QLT20</li>
+<li>LGBT</li>
+<li>BRNAGAIN</li>
+<li>LATINOS</li>
+<li>QRACEAI</li>
+<li>WEIGHT</li>
+</ul>
+<p><em>and then list which of these variables contain missing data recorded as <code>NA</code>. How many respondents were not asked certain questions?</em></p>
+<pre class="r"><code>MI_clean &lt;- MI_raw %&gt;% 
+  select() # Select the requested variables</code></pre>
+<pre><code>## Error in MI_raw %&gt;% select(): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code>summary() # Identify which have missing data recorded as NA</code></pre>
+<pre><code>## Error in summary.default(): argument &quot;object&quot; is missing, with no default</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-10-1-point" class="section level2">
+<h2>Question 10 [1 point]</h2>
+<p><em>Are there</em> <strong>unit non-response</strong> <em>data in the <code>PRSMI20</code> variable? If so, how are they recorded? What about the <code>PARTYID</code> variable? How many people refused to answer both of these questions?</em></p>
+<pre class="r"><code>MI_clean %&gt;%
+  count() # Tip: use count() function to look at your variables.</code></pre>
+<pre><code>## Error in MI_clean %&gt;% count(): could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<p>Write answer here.</p>
+</blockquote>
+</div>
+<div id="question-11-1-points" class="section level2">
+<h2>Question 11 [1 points]</h2>
+<p><em>Let’s create a new variable called <code>preschoice</code> that converts <code>PRSMI20</code> to a character. To do this, install the <code>labelled</code> package if you haven’t already, then use the <code>to_character()</code> function from the <code>labelled</code> package. Now <code>count()</code> the number of respondents who reported voting for each candidate. How many respondents voted for candidate Trump in 2020? How many respondents refused to tell us who they voted for?</em></p>
+<pre class="r"><code>MI_clean &lt;- MI_clean %&gt;%
+  mutate(preschoice = ) # Convert to character</code></pre>
+<pre><code>## Error in MI_clean %&gt;% mutate(preschoice = ): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code>MI_clean %&gt;%
+  count()</code></pre>
+<pre><code>## Error in MI_clean %&gt;% count(): could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-12-2-points" class="section level2">
+<h2>Question 12 [2 points]</h2>
+<p>What proportion of women supported Trump?</p>
+<pre class="r"><code># Women Trump supporters
+MI_clean %&gt;%
+  drop_na() %&gt;% # Drop any missing values for preschoice
+  filter() %&gt;% # Filter to only women
+  count() %&gt;% # Count the number of women who supported each candidate
+  mutate(share = ) # Calculate the proportion of women who supported Trump</code></pre>
+<pre><code>## Error in MI_clean %&gt;% drop_na() %&gt;% filter() %&gt;% count() %&gt;% mutate(share = ): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Alternative approach
+MI_clean %&gt;%
+  drop_na() %&gt;% # Drop any missing values for preschoice
+  mutate(trumpSupp = ifelse()) %&gt;% # Create &quot;dummy&quot; variable for whether the person voted for Trump or not that is either 1 (they voted for Trump) or 0
+  group_by() %&gt;% # Group by gender
+  summarise(share = mean(trumpSupp)) # Calculate proportion who supported Trump</code></pre>
+<pre><code>## Error in MI_clean %&gt;% drop_na() %&gt;% mutate(trumpSupp = ifelse()) %&gt;% group_by() %&gt;% : could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<p>Write answer here.</p>
+</blockquote>
+</div>
+<div id="extra-credit-1-point" class="section level2">
+<h2>Extra Credit [1 point]</h2>
+<p><em>Among women, which age group sees the highest support for Trump? To answer, you will need to calculate the proportion of women who supported Trump by age-group to determine which age-group had the highest Trump support among women. You will need to clean the AGE10 variable before completing this problem, just like we did with the PRSMI20 variable. Call the new variable “Age”. HINT: to make your life easier (and not write a 10-level nested ifelse() function), try asking ChatGPT for help with this prompt: “I have a labelled variable in R that I want to convert to text. How can I do this?”</em></p>
+<pre class="r"><code># Insert code here.</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+</div>
+<div id="part-3-nba-jam-boom-shakalaka" class="section level1">
+<h1>Part 3: NBA Jam, “Boom-shakalaka!”</h1>
+<div id="points-1-extra-credit-point-available" class="section level2">
+<h2>[6 points; +1 extra credit point available]</h2>
+</div>
+<div id="question-13-1-point" class="section level2">
+<h2>Question 13 [1 point]</h2>
+<p><em>Plot the distribution of field goals attempted by all NBA players in the 2018-2019 season. Explain why you chose the visualization that you did. Then add a vertical line indicating the mean and median number of points in the data. Color the median line blue and the mean line red. Why is the median lower than the mean?</em></p>
+<pre class="r"><code>nba %&gt;%
+  ggplot() + # Put the fga variable on the x-axis of a ggplot.
+   geom_...() + # Choose the appropriate geom function to visualize.
+  labs() + # Add labels
+      geom_vline() + # Median vertical line (blue)
+      geom_vline() # Mean vertical line (red)</code></pre>
+<pre><code>## Error in nba %&gt;% ggplot(): could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<p>Write answer here.</p>
+</blockquote>
+</div>
+<div id="question-14-1-point" class="section level2">
+<h2>Question 14 [1 point]</h2>
+<p><em>Now examine the <code>country</code> variable. Visualize this variable using the appropriate <code>geom_...</code>, and justify your reason for choosing it. Tweak the plot to put the country labels on the y-axis, ordered by frequency. Which country are most NBA players from? What is weird about your answer, and what might explain it? </em></p>
+<pre class="r"><code>nba %&gt;%
+  count() %&gt;% # count the number of players by country
+  ggplot() + # place the country on the y-axis, reordered by the number of players. Put the number of players on the x-axis
+  geom_...() + # Choose the best geom
+  labs() # Add labels</code></pre>
+<pre><code>## Error in nba %&gt;% count() %&gt;% ggplot(): could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-15-3-points" class="section level2">
+<h2>Question 15 [3 points]</h2>
+<p><em>Let’s pretend we are consulting for an NBA organization. The owner and GM tell us they are interested in the relationship between the player’s age (<code>agePlayer</code>) and the amount of points they score (<code>pts</code>). Please answer the following research question and provide a theory supporting your answer: “Do older NBA players score more points than younger players?”</em></p>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+<p><em>Based on your answer above, what is the outcome / dependent / <span class="math inline">\(Y\)</span> variable and what is the explanatory / independent / <span class="math inline">\(X\)</span> variable? Why?</em></p>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+<p><em>Create a univariate visualization of both the <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> variables. Choose the best <code>geom_...()</code> based on the variable type, and make sure to label your plots!</em></p>
+<pre class="r"><code># X variable
+nba %&gt;%
+  ggplot() + # Put the X variable on the x-axis
+  geom_...() +  # Choose the best geom given the variable type (make sure to look at it if you aren&#39;t sure)
+  labs()     # Add labels</code></pre>
+<pre><code>## Error in nba %&gt;% ggplot(): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Y variable
+nba %&gt;%
+  ggplot(...) + # Put the Y variable on the x-axis
+  geom_...() +  # Choose the best geom given the variable type (make sure to look at it if you aren&#39;t sure)
+  labs(...)     # Add labels</code></pre>
+<pre><code>## Error in nba %&gt;% ggplot(...): could not find function &quot;%&gt;%&quot;</code></pre>
+</div>
+<div id="question-16-1-point" class="section level2">
+<h2>Question 16 [1 point]</h2>
+<p><em>Now analyze the data by creating a multivariate visualization that shows the relationship between age and points. Add a STRAIGHT line of best fit with <code>geom_smooth()</code>.</em></p>
+<pre class="r"><code>nba %&gt;%
+  ggplot() + # Put the X variable on the x-axis, and the Y variable on the y-axis
+  geom_...() +  # Choose the best geom given both variable types
+  geom_smooth() + # Add a STRAIGHT line of best fit
+  labs()     # Add labels</code></pre>
+<pre><code>## Error in nba %&gt;% ggplot(): could not find function &quot;%&gt;%&quot;</code></pre>
+<p><em>Based on your analysis, does the data support or reject your hypothesis from Question 3?</em></p>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="extra-credit-1-point-1" class="section level2">
+<h2>Extra Credit [1 point]</h2>
+<p><em>Let’s look for evidence of a “curvelinear” relationship between player age and points scored. To do so, first calculate the average points scored by age. Then plot this relationship using a multivariate visualization. Add a line of best fit with <code>geom_smooth()</code> but DON’T use <code>method = "lm"</code>. What do you conclude? Why?</em></p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+    
+    
+    
+    
+    
+    <div class="media author-card content-widget-hr">
+      
+
+      <div class="media-body">
+        <h5 class="card-title"><a href="/data-science-site/authors/authors/"></a></h5>
+        <h6 class="card-subtitle">Assistant Professor</h6>
+        
+        <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/data-science-site/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/RyanWeldzius" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=16VmMg4AAAAJ&amp;hl=en" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/rweldzius" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+</ul>
+
+      </div>
+    </div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+
+        
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" integrity="sha512-1+qUtKoh9XZW7j+6LhRMAyOrgSQKenQ4mluTR+cvxXjP1Z54RxZuzstR/H9kgPXQsVB8IW7DMDFUJpzLjvhGSQ==" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js" integrity="sha512-7t8APmYpzEsZP7CYoA7RfMPV9Bb+PJHa9x2WiUnDXZx3XHveuyWUtvNOexhkierl5flZ3tr92dP1mMS+SGlD+A==" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/languages/r.min.js"></script>
+        
+      
+
+    
+
+    
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    <script>const isSiteThemeDark = false;</script>
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <script src="/data-science-site/js/academic.min.36113c13f63e6c1889c2fede8fbd5f35.js"></script>
+
+    
+
+
+
+
+
+
+    
+    
+    <div class="container">
+        <footer>
+    <hr>
+
+    <div class="row course-info">
+        <div class="col-md-7">
+            <p>
+                <strong>PSC4175: Introduction to Data Science (Fall 2025)</strong><br>
+
+                <a href="https://www.villanova.edu" target="_blank" rel="noopener">Villanova University</a><br>
+                
+                <a href="https://www1.villanova.edu/university/liberal-arts-sciences/programs/political-science.html" target="_blank" rel="noopener">Department of Political Science</a>
+            </p>
+
+            <p>
+                <a href="http://www.ryanweldzius.com/" target="_blank" rel="noopener"><i class="fas fa-user"></i>
+                    Ryan Weldzius</a> &emsp;&emsp;
+                <a href="mailto:ryan.weldzius@villanova.edu"><i class="fas fa-envelope"></i>
+                    ryan.weldzius@villanova.edu</a>
+            </p>
+
+            <p>
+                <i class="far fa-calendar-alt"></i> Mondays &emsp;&emsp;
+                <i class="far fa-clock"></i> 3:20 pm -4:35pm <br>
+                <i class="fas fa-university"></i> Bartley Hall 2073
+            </p>
+        </div>
+
+        <div class="col-md-5 credits">
+            <p>All content licensed under a <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.</p>
+            
+            <p>Content <i class="fab fa-creative-commons"></i> 2025 <a href="http://www.ryanweldzius.com/" target="_blank" rel="noopener">Ryan Weldzius</a></p>                    
+            
+            <p><a href="https://github.com/rweldzius/data-science-site" target="_blank" rel="noopener"><i class="fab fa-github"></i> View the source at GitHub.</a></p>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+
+    
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+
+</html>

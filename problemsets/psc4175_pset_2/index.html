@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="en" 
+      xmlns:og="http://ogp.me/ns#" 
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+
+<head><script src="/data-science-site/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=data-science-site/livereload" data-no-instant defer></script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.8.0">
+
+  
+
+  
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  
+
+  
+  
+  
+    
+  
+  <meta name="description" content="
+Getting Set Up
+Open RStudio and create a new RMarkDown file (.Rmd) by going to File -&gt; New File -&gt; R Markdown....
+Accept defaults and save this file as [LAST NAME]_ps2.Rmd to your code folder.
+Copy and paste the contents of this .Rmd file into your [LAST NAME]_ps2.Rmd file. Then change the author: [Your Name] to your name.
+All of the following questions should be answered in this .Rmd file. There are code chunks with incomplete code that need to be filled in. To submit, compile (i.e., knit as pdf) the completed problem set and upload the PDF file to Blackboard on Friday by midnight. Be sure to check your knitted PDF for mistakes before submitting!">
+
+  
+  <link rel="alternate" hreflang="en" href="http://localhost:1313/data-science-site/problemsets/psc4175_pset_2/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#3498db">
+  
+
+  
+  
+  
+  <script src="/data-science-site/js/mathjax-config.js"></script>
+  
+
+  
+  
+  
+  
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha256-FMvZuGapsJLjouA6k7Eo2lusoAX9i0ShlWFG6qt7SLc=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+    
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed:400,400i,700,700i%7COverpass:400,400i,700,700i&display=swap">
+    
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/data-science-site/css/academic.css">
+
+  
+  
+
+
+  
+  
+
+  
+
+  <link rel="manifest" href="/data-science-site/index.webmanifest">
+  <link rel="icon" type="image/png" href="/data-science-site/images/icon_hu_eb1e217680dff947.png">
+  <link rel="apple-touch-icon" type="image/png" href="/data-science-site/images/icon_hu_f0a9735dbf069933.png">
+
+  <link rel="canonical" href="http://localhost:1313/data-science-site/problemsets/psc4175_pset_2/">
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@rweldzius">
+  <meta property="twitter:creator" content="@rweldzius">
+  
+  <meta property="og:site_name" content="Introduction to Data Science">
+  <meta property="og:url" content="http://localhost:1313/data-science-site/problemsets/psc4175_pset_2/">
+  <meta property="og:title" content="Problem Set 2 | Introduction to Data Science">
+  <meta property="og:description" content="
+Getting Set Up
+Open RStudio and create a new RMarkDown file (.Rmd) by going to File -&gt; New File -&gt; R Markdown....
+Accept defaults and save this file as [LAST NAME]_ps2.Rmd to your code folder.
+Copy and paste the contents of this .Rmd file into your [LAST NAME]_ps2.Rmd file. Then change the author: [Your Name] to your name.
+All of the following questions should be answered in this .Rmd file. There are code chunks with incomplete code that need to be filled in. To submit, compile (i.e., knit as pdf) the completed problem set and upload the PDF file to Blackboard on Friday by midnight. Be sure to check your knitted PDF for mistakes before submitting!"><meta property="og:image" content="http://localhost:1313/data-science-site/media/social-image.png">
+  <meta property="twitter:image" content="http://localhost:1313/data-science-site/media/social-image.png"><meta property="og:locale" content="en">
+  
+    
+      <meta property="article:published_time" content="2025-07-08T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2025-07-25T15:40:27-04:00">
+  
+
+  
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Problem Set 2 | Introduction to Data Science</title>
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70"
+    data-target="#TableOfContents"
+    >
+
+    <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/data-science-site">Introduction to Data Science</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/data-science-site/">Introduction to Data Science</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-end" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/syllabus/"><span>Syllabus</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/schedule/"><span>Schedule</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/weeks/"><span>Classes</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/resources/"><span>Resources</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/downloads/"><span>Downloads</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+            
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="https://campuswire.com/p/GF9F6AD11" target="_blank" rel="noopener"><span>CampusWire</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+            
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="https://elearning.villanova.edu" target="_blank" rel="noopener"><span>Blackboard</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+
+
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Problem Set 2</h1>
+
+  
+  <p class="page-subtitle">Multivariate Visualization, Uncertainty, and Regression</p>
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    July 25, 2025
+  </span>
+  
+
+  
+
+  
+
+  
+  
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    
+    <div class="article-metadata">
+      
+      
+      
+        <span class="meta-item">
+          <strong>Due:</strong> 2025-06-13 by 11:59 PM
+        </span>
+        <span class="middot-divider"></span>
+      
+
+      
+      
+        <span class="meta-item">
+          Villanova University
+        </span>
+        <span class="middot-divider"></span>
+      
+      
+      
+      <p>
+        <a href="/data-science-site/problemsets/psc4175_pset_2.Rmd" download>
+          <i class="fa fa-download" aria-hidden="true" style="margin-right: 6px;"></i><Strong>Download R Markdown file</Strong>
+        </a>
+      </p>
+    
+
+    </div>
+    
+
+    <div class="article-style">
+      
+
+
+<div id="getting-set-up" class="section level2">
+<h2>Getting Set Up</h2>
+<p>Open <code>RStudio</code> and create a new RMarkDown file (<code>.Rmd</code>) by going to <code>File -&gt; New File -&gt; R Markdown...</code>.
+Accept defaults and save this file as <code>[LAST NAME]_ps2.Rmd</code> to your <code>code</code> folder.</p>
+<p>Copy and paste the contents of this <code>.Rmd</code> file into your <code>[LAST NAME]_ps2.Rmd</code> file. Then change the <code>author: [Your Name]</code> to your name.</p>
+<p>All of the following questions should be answered in this <code>.Rmd</code> file. There are code chunks with incomplete code that need to be filled in. To submit, compile (i.e., <code>knit as pdf</code>) the completed problem set and upload the PDF file to Blackboard on Friday by midnight. Be sure to check your knitted PDF for mistakes before submitting!</p>
+<p>This problem set is worth 27 total points, plus 3.5 extra credit points. The point values for each question are indicated in brackets below. To receive full credit, you must have the correct code. In addition, some questions ask you to provide a written response in addition to the code.</p>
+<p>You will be deducted 1 point for each day late the problem set is submitted, and 1 point for failing to submit in the correct format (i.e., not knitting as a PDF).</p>
+<p>You are free to rely on whatever resources you need to complete this problem set, including lecture notes, lecture presentations, Google, your classmates…you name it. However, the final submission must be complete by you. There are no group assignments.</p>
+<p><em>Note that the professor will not respond to Campuswire posts after 2PM on Friday, so don’t wait until the last minute to get started!</em></p>
+<p><strong>Good luck!</strong></p>
+<p><strong>If you collaborated with a colleague and/or used AI for any help on this problem set, document here.</strong> Write the names of your classmates and/or upload a PDF of your AI prompt and output with your problem set:</p>
+</div>
+<div id="part-1-2020-presidential-election-10-points-1-extra-credit" class="section level1">
+<h1>Part 1: 2020 Presidential Election (10 points; +1 extra credit)</h1>
+<div id="question-0-0-points" class="section level2">
+<h2>Question 0 (0 points)</h2>
+<p><em>Require <code>tidyverse</code> and load the <a href="https://github.com/rweldzius/PSC4175_SUM2025/raw/main/data/Pres2020_PV.Rds&#39;"><code>Pres2020_PV.Rds</code></a> data to an object called <code>pres</code>.</em></p>
+<pre class="r"><code>require()</code></pre>
+<pre><code>## Loading required package:</code></pre>
+<pre class="r"><code>pres &lt;- read_rds()</code></pre>
+<pre><code>## Error in read_rds(): could not find function &quot;read_rds&quot;</code></pre>
+</div>
+<div id="question-1-2-points" class="section level2">
+<h2>Question 1 [2 points]</h2>
+<p><em>Consider the following hypothesis: “Most Americans don’t pay very much attention to politics, and don’t know who they will vote for until very close to the election. Therefore polling predictions should be more accurate closer to the election.” Based on this hypothesis and theoretical intuition, which variable is the <span class="math inline">\(X\)</span> variable and which is the <span class="math inline">\(Y\)</span> variable(s)?</em></p>
+<blockquote>
+<ul>
+<li>Write answer here</li>
+</ul>
+</blockquote>
+<p><em>Now let’s first look at each variable by itself using univariate visualization. First, plot the total number of polls per start date in the data. NB: you will have convert <code>StartDate</code> to a <code>date</code> class with <code>as.Date()</code>. If you need help, see <a href="https://www.r-bloggers.com/2013/08/date-formats-in-r/">this post</a>. Do you observe a pattern in the number of polls over time? Why do you think this is?</em></p>
+<pre class="r"><code>pres %&gt;%
+  mutate(StartDate = as.Date(StartDate,&#39;%m/%d/%Y&#39;)) %&gt;% # Convert to date
+  ggplot(aes(x = StartDate)) + # Visualize the variable using univariate principles
+  geom_...() + # Choose the correct `geom`
+  labs() # Make sure it is clearly labeled</code></pre>
+<pre><code>## Error in pres %&gt;% mutate(StartDate = as.Date(StartDate, &quot;%m/%d/%Y&quot;)) %&gt;% : could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<ul>
+<li>Write answer here</li>
+</ul>
+</blockquote>
+</div>
+<div id="question-2-2-points" class="section level2">
+<h2>Question 2 [2 points]</h2>
+<p><em>Next, let’s look at the other variables. Calculate the</em> <strong>prediction error</strong> <em>for Biden (call this variable <code>demErr</code>) and Trump (call this variable <code>repErr</code>) such that positive values mean that the poll</em> <strong>overestimated</strong> <em>the candidate’s popular vote share (<code>DemCertVote</code> for Biden and <code>RepCertVote</code> for Trump).</em></p>
+<pre class="r"><code>pres &lt;- pres %&gt;%
+  mutate() # Create the two new variables </code></pre>
+<pre><code>## Error in pres %&gt;% mutate(): could not find function &quot;%&gt;%&quot;</code></pre>
+<p><em>Plot the Biden and Trump prediction errors on a single plot using <code>geom_bar()</code>, with red indicating Trump and blue indicating Biden (make sure to set alpha to some value less than 1 to increase the transparency!). Add vertical lines for the average prediction error for both candidates (colored appropriately) as well as a vertical line indicating no prediction error.</em></p>
+<pre class="r"><code>pres %&gt;%
+  ggplot() + # Instantiate an EMPTY ggplot object
+  geom_bar(aes(...), # Put the first variable in the first `geom_bar()`
+           ...) + # Set the color and opacity
+  geom_bar(aes(...), # Put the second variable in the second `geom_bar()`
+           ...) + # Set the color and opacity
+  labs(...) + # Make sure it is clearly labeled
+  geom_vline(...) + # Put a black vertical line at 0
+  geom_vline() + # Put a dashed blue vertical line at the Democrat prediction error
+  geom_vline() + # Put a dashed red vertical line at the Republican prediction error</code></pre>
+<pre><code>## Error in parse(text = input): &lt;text&gt;:11:0: unexpected end of input
+## 9:   geom_vline() + # Put a dashed blue vertical line at the Democrat prediction error
+## 10:   geom_vline() + # Put a dashed red vertical line at the Republican prediction error
+##    ^</code></pre>
+<p><em>Do you observe a systematic bias toward one candidate or the other?</em></p>
+<blockquote>
+<ul>
+<li>Write answer here</li>
+</ul>
+</blockquote>
+</div>
+<div id="question-3-2-points" class="section level2">
+<h2>Question 3 [2 points]</h2>
+<p><em>Plot the average prediction error for Trump (red) and Biden (blue) by start date using <code>geom_point()</code> and add two curvey lines of best fit using <code>geom_smooth()</code>. Make sure that the curvey line for Trump is also red, and the curvey line for Biden is also blue!</em></p>
+<pre class="r"><code>pres %&gt;%
+  mutate(...) %&gt;% # Convert to date
+  group_by(...) %&gt;% # Calculate the average error for Biden and Trump by date
+  summarise(...,
+            ...) %&gt;%
+  ggplot() + # Instantiate an empty ggplot
+  geom_point(aes(x = ...,y = ...), # Put the first variable in the first `geom_point()`
+           ...) + # Set the color
+  geom_point(aes(x = ...,y = ...), # Put the second variable in the second `geom_point()`
+           ...) + # Set the color
+  geom_smooth(aes(x = ...,y = ...), # Put the first variable in the first geom_smooth()
+              ...) + # Set the color
+  geom_smooth(aes(x = ...,y = ...), # Put the second variable in the second geom_smooth()
+              ...) + # Set the color
+  labs(...) + # Make sure it is clearly labeled
+  geom_hline(...) # Add a horizontal dashed line at 0</code></pre>
+<pre><code>## Error in pres %&gt;% mutate(...) %&gt;% group_by(...) %&gt;% summarise(..., ...) %&gt;% : could not find function &quot;%&gt;%&quot;</code></pre>
+<p><em>What pattern do you observe over time, if any? Does this support the hypothesis presented in Question 1 above?</em></p>
+<blockquote>
+<ul>
+<li>Write answer here</li>
+</ul>
+</blockquote>
+</div>
+<div id="question-4-2-points" class="section level2">
+<h2>Question 4 [2 points]</h2>
+<p><em>Can we do better by aggregating state-level polls? Load the [Pres2020_StatePolls.Rds] to an object called <code>state</code>. First, create two new variables <code>demErr</code> and <code>repErr</code> just as you did in Question 2. Then recreate the same overtime plot comparing Biden and Trump prediction errors as you did in Question 3. What do you observe?</em></p>
+<pre class="r"><code>state &lt;- read_rds(...) # Read in the data</code></pre>
+<pre><code>## Error in read_rds(...): could not find function &quot;read_rds&quot;</code></pre>
+<pre class="r"><code>state &lt;- state %&gt;%
+  mutate(...) # Create the two new variables for Democrat and Republican prediction errors</code></pre>
+<pre><code>## Error in state %&gt;% mutate(...): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code>state %&gt;%
+  mutate(...) %&gt;% # Convert to date
+  group_by(...) %&gt;% # Calculate the average error for Biden and Trump by date
+  summarise(...,
+            ...) %&gt;%
+  ggplot() + # Instantiate an empty ggplot
+  geom_point(aes(x = ...,y = ...), # Put the first variable in the first `geom_point()`
+           ...) + # Set the color
+  geom_point(aes(x = ...,y = ...), # Put the second variable in the second `geom_point()`
+           ...) + # Set the color
+  geom_smooth(aes(x = ...,y = ...), # Put the first variable in the first geom_smooth()
+              ...) + # Set the color
+  geom_smooth(aes(x = ...,y = ...), # Put the second variable in the second geom_smooth()
+              ...) + # Set the color
+  labs(...) + # Make sure it is clearly labeled
+  geom_hline(...) # Add a horizontal dashed line at 0</code></pre>
+<pre><code>## Error in state %&gt;% mutate(...) %&gt;% group_by(...) %&gt;% summarise(..., ...) %&gt;% : could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<ul>
+<li>Write answer here</li>
+</ul>
+</blockquote>
+</div>
+<div id="question-5-2-points" class="section level2">
+<h2>Question 5 [2 points]</h2>
+<p><em>One other explanation for inaccurate state polls is that some states do not have many polls run. Calculate the anti-Trump/pro-Biden bias for each state by subtracting the <code>repErr</code> from the <code>demErr</code> (call this new variable <code>bidenBias</code>). Then calculate the average bias by state AND calculate the number of polls in that state. Finally, plot the relationship between the number of polls and the extent of bias. Does the data support the theory that states with more polls were predicted more accurately?</em></p>
+<pre class="r"><code>state &lt;- state %&gt;%
+  mutate(...) # Create the bidenBias variable here</code></pre>
+<pre><code>## Error in state %&gt;% mutate(...): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code>state %&gt;%
+  group_by(...) %&gt;%
+  summarise(...,   # Calculate the average bidenBias by state
+            ...) %&gt;% # Calculate the number of polls by state
+  ungroup() %&gt;%
+  ggplot(aes(x = ...,      # Put the correct variable on the x-axis
+             y = ...)) +   # Put the correct variable on the y-axis
+  geom_...() + # Choose the correct geom
+  geom_...(...) + # Add a straight line of best fit
+  labs(...) # Give it some good labels</code></pre>
+<pre><code>## Error in state %&gt;% group_by(...) %&gt;% summarise(..., ...) %&gt;% ungroup() %&gt;% : could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<ul>
+<li>Write answer here</li>
+</ul>
+</blockquote>
+</div>
+<div id="extra-credit-1-point" class="section level2">
+<h2>Extra Credit [1 point]</h2>
+<p><em>Do polls that underestimate Trump’s support overestimate Biden’s support? Investigate this question using both the national data (<code>pres</code>) and the state data (<code>state</code>). Use a scatterplot to test, combined with a (straight) line of best fit. Then, calculate the proportion of polls that (1) underestimate both Trump and Biden, (2) underestimate Trump and overestimate Biden, (3) overestimate Trump and underestimate Biden, (4) overestimate both candidates. In these analyses, define “overestimate” as prediction errors greater than or equal to zero, whereas “underestimate” should be prediction errors less than zero. What do you conclude? Is there any evidence of an anti-Trump bias in national polling? What about state polling?</em></p>
+<pre class="r"><code># National scatterplot
+# INSERT CODE HERE
+
+# National proportions: 4 different types of polls
+# INSERT CODE HERE
+
+# State scatterplot
+# INSERT CODE HERE
+
+# State proportions: 4 different types of polls
+# INSERT CODE HERE</code></pre>
+<blockquote>
+<ul>
+<li>Write answer here</li>
+</ul>
+</blockquote>
+</div>
+</div>
+<div id="part-2-new-yorkvillanova-knicks-8-points-1-extra-credit-point" class="section level1">
+<h1>Part 2: New York/Villanova Knicks (8 points; 1 extra credit point)</h1>
+<div id="question-0" class="section level2">
+<h2>Question 0</h2>
+<p>Require <code>tidyverse</code> and load the <a href="https://github.com/rweldzius/PSC4175_SUM2025/blob/main/data/game_summary.Rds?raw=true&#39;"><code>game_summary.rds</code></a> data to an object called <code>games</code>.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="question-1-2-points-1" class="section level2">
+<h2>Question 1 [2 points]</h2>
+<p>How many points, on average, did the New York Knicks score at home and away games in the 2017 season? Calculate this answer and also plot the multivariate relationship. Explain why your chosen visualization is justified. Draw two vertical lines for the average points at home and away.</p>
+<pre class="r"><code># Create extra object to plot vertical lines for average points at home and away
+vertLines &lt;- games %&gt;%
+filter() %&gt;% # Filter to the 2017 season (yearSeason) AND to the New York Knicks (nameTeam)
+  group_by() %&gt;% # Group by the location of the game
+  summarise() # Calculate the average points (pts)</code></pre>
+<pre><code>## Error in games %&gt;% filter() %&gt;% group_by() %&gt;% summarise(): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code>games %&gt;%
+  filter() %&gt;% # Filter to the 2017 season (yearSeason) AND to the New York Knicks (nameTeam)
+  ggplot() + # Create a multivariate plot comparing points scored between home and away games
+  geom_...() + # Choose the appropriate geom_... for this plot (i.e., geom_histogram(), geom_density(), geom_bar(), etc.)
+  labs(title = &#39;&#39;, # Add clear descriptions for the title, subtitle, axes, and legend
+       subtitle = &#39;&#39;,
+       x = &#39;&#39;,
+       y = &#39;&#39;,
+       color = &#39;&#39;) + 
+  geom_vline() # add vertical lines for the average points scored at home and away.</code></pre>
+<pre><code>## Error in games %&gt;% filter() %&gt;% ggplot(): could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-2-2-points-1" class="section level2">
+<h2>Question 2 [2 points]</h2>
+<p>Now recreate the same plot for the 2018, 2019, and combined seasons. Imagine that you work for the Knicks organization and Scott Perry (the GM), asks you if the team scores more points at home or away? Based on your analysis, what would you tell him?</p>
+<pre class="r"><code># By season
+vertLines &lt;- games %&gt;%
+filter() %&gt;% # Filter to the New York Knicks (nameTeam)
+  group_by() %&gt;% # Group by the location and the season
+  summarise() # Calculate the average points (pts)</code></pre>
+<pre><code>## Error in games %&gt;% filter() %&gt;% group_by() %&gt;% summarise(): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code>games %&gt;%
+  filter() %&gt;% # Filter to the New York Knicks (nameTeam)
+  ggplot() + # Create a multivariate plot comparing points scored between home and away games
+  geom_...() + # Choose the appropriate geom_... for this plot (i.e., geom_histogram(), geom_density(), geom_bar(), etc.)
+  labs(title = &#39;&#39;, # Add clear descriptions for the title, subtitle, axes, and legend
+       subtitle = &#39;&#39;,
+       x = &#39;&#39;,
+       y = &#39;&#39;,
+       color = &#39;&#39;) + 
+  facet_wrap() + # Create separate panels for each season (facet_wrap())
+  geom_vline() # add vertical lines for the average points scored at home and away.</code></pre>
+<pre><code>## Error in games %&gt;% filter() %&gt;% ggplot(): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Over all seasons combined
+vertLines &lt;- games %&gt;%
+filter() %&gt;% # Filter to the New York Knicks (nameTeam)
+  group_by() %&gt;% # Group by the location
+  summarise() # Calculate the average points (pts)</code></pre>
+<pre><code>## Error in games %&gt;% filter() %&gt;% group_by() %&gt;% summarise(): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code>games %&gt;%
+  filter() %&gt;% # Filter to the New York Knicks (nameTeam)
+  ggplot() + # Create a multivariate plot comparing points scored between home and away games
+  geom_...() + # Choose the appropriate geom_... for this plot (i.e., geom_histogram(), geom_density(), geom_bar(), etc.)
+  labs(title = &#39;&#39;, # Add clear descriptions for the title, subtitle, axes, and legend
+       subtitle = &#39;&#39;,
+       x = &#39;&#39;,
+       y = &#39;&#39;,
+       color = &#39;&#39;) + 
+  geom_vline() # add vertical lines for the average points scored at home and away.</code></pre>
+<pre><code>## Error in games %&gt;% filter() %&gt;% ggplot(): could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-3-2-points-1" class="section level2">
+<h2>Question 3 [2 points]</h2>
+<p>Scott Perry thanks you for your answer, but is a well-trained statistician in his own right, and wants to know how confident you are in your claim. Bootstrap sample the data 1,000 times to provide him with a more sophisticated answer. How confident are you in your conclusion that the Knicks score more points at home games than away games? Make sure to <code>set.seed(123)</code> to ensure you get the same answer every time you <code>knit</code> your code!</p>
+<pre class="r"><code>set.seed(123) # Set the seed!
+forBS &lt;- games %&gt;% # To make things easier, create a new data object that is filtered to just the Knicks so we don&#39;t have to do this every time in the loop
+    filter() # Filter to the Knicks (nameTeam)</code></pre>
+<pre><code>## Error in games %&gt;% filter(): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code>bsRes &lt;- NULL # Instantiate an empty object to store data from the loop
+for(i in 1:1000) { # Loop 1,000 times
+  bsRes &lt;- forBS %&gt;%
+    sample_n() %&gt;% # Sample the data with replacement using all possible rows
+    group_by() %&gt;% # Group by the location of the game
+    summarise() %&gt;% # Calculate the average points (pts)
+    ungroup() %&gt;% # Best practices!
+    spread() %&gt;% # Spread the data to get one column for average points at home and another for average points away
+    mutate(, # Calculate the difference between home and away points
+           ) %&gt;% # Save the bootstrap index
+    bind_rows(bsRes) # Append the result to the empty object from above
+} </code></pre>
+<pre><code>## Error in forBS %&gt;% sample_n() %&gt;% group_by() %&gt;% summarise() %&gt;% ungroup() %&gt;% : could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Calculate the confidence
+bsRes %&gt;%
+  summarise(, # Calculate the proportion of bootstrap simulations where the home points are greater than the away points
+            ) # Calculate the overall average difference</code></pre>
+<pre><code>## Error in bsRes %&gt;% summarise(, ): could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-4-2-points-1" class="section level2">
+<h2>Question 4 [2 points]</h2>
+<p>Re-do this analysis for three other statistics of interest to Scott: total rebounds (treb), turnovers (tov), and field goal percent (pctFG). Do you notice anything strange in these results? What might explain it?</p>
+<pre class="r"><code>bsRes &lt;- NULL # Instantiate an empty object to store data from the loop
+for(i in 1:1000) { # Loop 1,000 times
+  bsRes &lt;- forBS %&gt;%
+    sample_n() %&gt;% # Sample the data with replacement using all possible rows
+    group_by() %&gt;% # Group by the location of the game
+    summarise(, # Calculate the average total rebounds (treb)
+              , # Calculate the average turnovers (tov)
+              ) %&gt;% # Calculate the average field goal shooting percentage (pctFG)
+    ungroup() %&gt;% # Best practices!
+    pivot_wider(, # Pivot wider to get each measure in its own colunm for home and away games
+                ) %&gt;% # Use the values from the variables you created above
+    mutate(, # Calculate the difference between home and away total rebounds
+           , # Calculate the difference between home and away turnovers
+           , # Calculate the difference between home and away field goal percentages
+           ) %&gt;% # Save the bootstrap index
+    bind_rows(bsRes) # Append the result to the empty object from above
+} </code></pre>
+<pre><code>## Error in forBS %&gt;% sample_n() %&gt;% group_by() %&gt;% summarise(, , ) %&gt;% ungroup() %&gt;% : could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Calculate the confidence
+bsRes %&gt;%
+  summarise(, # Calculate the confidence for rebounds being greater than zero
+            , # Calculate the confidence for turnovers being greater than zero
+            )</code></pre>
+<pre><code>## Error in bsRes %&gt;% summarise(, , ): could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="extra-credit-1-point-1" class="section level2">
+<h2>Extra Credit [1 point]</h2>
+<p>Now Scott is asking for a similar analysis of other teams. Calculate the difference between home and away points for every team in the league and prepare a summary table that includes both the average difference for each team, as well as your confidence about whether the difference is not zero. Based on these data, would you argue that there is an <strong>overall</strong> home court advantage in terms of points across the NBA writ large? Visualize these summary results by plotting the difference on the x-axis, the teams (reordered) on the y-axis, and the points colored by whether you are more than 90% confident in your answer. How should we interpret confidence levels less than 50%?</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+</div>
+<div id="part-3-youtube-bias-9-points-1.5-extra-credit-points" class="section level1">
+<h1>Part 3: Youtube Bias (9 points; 1.5 extra credit points)</h1>
+<p>We will be using a new dataset called <code>youtube_individual.rds</code> which can be found on the course <a href="https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/youtube_individual.rds">github page</a>. The codebook for this dataset is produced below. All ideology measures are coded such that negative values indicate more liberal content and positive values indicate more conservative content.</p>
+<table>
+<colgroup>
+<col width="14%" />
+<col width="85%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ResponseId</td>
+<td align="left">A unique code for each respondent to the survey</td>
+</tr>
+<tr class="even">
+<td>ideo_recommendation</td>
+<td align="left">The average ideology of all recommendations shown to the respondent</td>
+</tr>
+<tr class="odd">
+<td>ideo_current</td>
+<td align="left">The average ideology of all current videos the respondent was watching when they were shown recommendations</td>
+</tr>
+<tr class="even">
+<td>ideo_watch</td>
+<td align="left">The average ideology of all videos the respondent has ever watched on YouTube (their “watch history”)</td>
+</tr>
+<tr class="odd">
+<td>nReccs</td>
+<td align="left">The total number of recommendations the respondent was shown during the survey</td>
+</tr>
+<tr class="even">
+<td>YOB</td>
+<td align="left">The year the respondent was born</td>
+</tr>
+<tr class="odd">
+<td>education</td>
+<td align="left">The respondent’s highest level of education</td>
+</tr>
+<tr class="even">
+<td>gender</td>
+<td align="left">The respondent’s gender</td>
+</tr>
+<tr class="odd">
+<td>income</td>
+<td align="left">The respondent’s total household income</td>
+</tr>
+<tr class="even">
+<td>party_id</td>
+<td align="left">The respondent’s self-reported partisanship</td>
+</tr>
+<tr class="odd">
+<td>ideology</td>
+<td align="left">The respondent’s self-reported ideology</td>
+</tr>
+<tr class="even">
+<td>race</td>
+<td align="left">The respondent’s race</td>
+</tr>
+<tr class="odd">
+<td>age</td>
+<td align="left">The respondent’s age at the time of the survey</td>
+</tr>
+</tbody>
+</table>
+<div id="question-0-1" class="section level2">
+<h2>Question 0</h2>
+<p><em>Require <code>tidyverse</code> and load the <a href="https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/youtube_individual.rds"><code>youtube_individual.rds</code></a> data to an object called <code>yt</code>.</em></p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="question-1-1-point" class="section level2">
+<h2>Question 1 [1 point]</h2>
+<p><em>We are interested in how the YouTube recommendation algorithm works. These data are collected from real users, logged into their real YouTube accounts, allowing us to see who gets recommended which videos. We will investigate three research questions in this problem set:</em></p>
+<p><em>1. What is the relationship between average ideology of recommendations shown to each user, and the average ideology of all the videos the user has watched?</em></p>
+<p><em>2. What is the relationship between the average ideology of recommendations shown to each user, and the average ideology of the current video the user was watching when they were shown the recommendation?</em></p>
+<p><em>3. Which of these relationships is stronger? Why?</em></p>
+<p><em>Start by answering all three of these research questions, and explaining your thinking. Be very precise about your assumptions!</em></p>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-2-2-points-2" class="section level2">
+<h2>Question 2 [2 points]</h2>
+<p><em>Based on your previous answer, which variables are the <span class="math inline">\(X\)</span> (predictors) and which are the <span class="math inline">\(Y\)</span> (outcome) variables?</em></p>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+<p><em>Now create univariate visualizations of all three variables, making sure to label your plots clearly.</em></p>
+<pre class="r"><code># Univariate visualization of Y
+# INSERT CODE HERE
+
+# Univariate visualization of X1
+# INSERT CODE HERE
+
+# Univariate visualization of X2
+# INSERT CODE HERE</code></pre>
+</div>
+<div id="question-3-2-points-2" class="section level2">
+<h2>Question 3 [2 points]</h2>
+<p><em>Let’s focus on the first research question. Create a multivariate visualization of the relationship between these two variables, making sure to put the <span class="math inline">\(X\)</span> variable on the x-axis, and the <span class="math inline">\(Y\)</span> variable on the y-axis. Add a straight line of best fit. Does the data support your theory?</em></p>
+<pre class="r"><code># Multviariate visualization of Y and X1
+# INSERT CODE HERE</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+<p><em>Now run a linear regression using the <code>lm()</code> function and save the result to an object called <code>model_watch</code>.</em></p>
+<pre class="r"><code>model_watch &lt;- lm(formula = ..., # Write the regression equation here (remember to use the tilde ~!)
+             data = ...) # Indicate where the data is stored here.</code></pre>
+<pre><code>## Error: &#39;...&#39; used in an incorrect context</code></pre>
+<p><em>Using either the <code>summary()</code> function (from base <code>R</code>) or the <code>tidy()</code> function (from the <code>broom</code> package), print the regression result.</em></p>
+<pre class="r"><code>require(broom)</code></pre>
+<pre><code>## Loading required package: broom</code></pre>
+<pre class="r"><code>tidy(model_watch)</code></pre>
+<pre><code>## Error: object &#39;model_watch&#39; not found</code></pre>
+<p><em>In a few sentences, summarize the results of the regression output. This requires you to translate the statistical measures into plain English, making sure to refer to the units for both the <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> variables. In addition, you must determine whether the regression result supports your hypothesis, and discuss your confidence in your answer, referring to the p-value.</em></p>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-4-2-points-2" class="section level2">
+<h2>Question 4 [2 points]</h2>
+<p><em>Now let’s do the same thing for the second research question. First, create the multivariate visualization and determine whether it is consistent with your theory.</em></p>
+<pre class="r"><code># Multviariate visualization of Y and X2
+# INSERT CODE HERE</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+<p><em>Second, run a new regression and save the result to <code>model_current</code>. Then print the result using either <code>summary()</code> or <code>tidy()</code>, as before.</em></p>
+<pre class="r"><code># [RUBRIC: 0.25 points - either right or wrong.]
+model_current &lt;- lm(formula = ..., # Write the regression equation here (remember to use the tilde ~!)
+             data = ...) # Indicate where the data is stored here.</code></pre>
+<pre><code>## Error: &#39;...&#39; used in an incorrect context</code></pre>
+<pre class="r"><code>tidy(model_current)</code></pre>
+<pre><code>## Error: object &#39;model_current&#39; not found</code></pre>
+<p><em>Finally, describe the result in plain English, and interpret it in light of your hypothesis. How confident are you?</em></p>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+<p><em>Based</em> <strong>ONLY</strong> <em>on the preceding analysis, are you able to answer research question 3?</em></p>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-5-2-points-0.5-ec-points" class="section level2">
+<h2>Question 5 [2 points + 0.5 EC points]</h2>
+<p><em>Now let’s evaluate the models. Start by calculating the “mistakes” (i.e., the “errors” or the “residuals”) generated by both models and saving these as new columns (<code>errors_watch</code> and <code>errors_current</code>) in the <code>yt</code> dataset.</em></p>
+<pre class="r"><code># Calculating errors 
+yt &lt;- yt %&gt;%
+  mutate(preds_watch = ..., # Get the predicted values from the first model (Yhat)
+         preds_current = ...) %&gt;% # Get the predicted values from the second model (Yhat)
+  mutate(errors_watch = ..., # Calculate errors for the first model (Y - Yhat)
+         errors_current = ...) # Calculate errors for the second model (Y - Yhat)</code></pre>
+<pre><code>## Error in yt %&gt;% mutate(preds_watch = ..., preds_current = ...) %&gt;% mutate(errors_watch = ..., : could not find function &quot;%&gt;%&quot;</code></pre>
+<p><em>Now create two univariate visualization of these errors. Based on this result, which model looks better? Why? EC [+1 point]: Plot both errors on the same graph using <code>pivot_longer()</code>.</em></p>
+<pre class="r"><code># Univariate visualization of watch history model errors 
+yt %&gt;%
+  ggplot(aes(x = ...)) + # Put the errors from the first model on the x-axis
+  geom_...() +  # Choose the best geom_...() to visualize based on the variable&#39;s type
+  labs(...) # Provide clear labels to help a stranger understand!</code></pre>
+<pre><code>## Error in yt %&gt;% ggplot(aes(x = ...)): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Univariate visualization of current video model errors 
+yt %&gt;%
+  ggplot(aes(x = ...)) + # Put the errors from the first model on the x-axis
+  geom_...() +  # Choose the best geom_...() to visualize based on the variable&#39;s type
+  labs(...) # Provide clear labels to help a stranger understand!</code></pre>
+<pre><code>## Error in yt %&gt;% ggplot(aes(x = ...)): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># EC [0.5 points]: Plot both errors on a single plot. Hint: use pivot_longer().</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+<p><em>Finally, create a multivariate visualization of both sets of errors, comparing them against the <span class="math inline">\(X\)</span> variable. Based on this result, which model looks better? Why? EC [+1 point]: Create two plots side-by-side using facet_wrap(). This is SUPER HARD, so don’t worry if you can’t get it.</em></p>
+<pre class="r"><code># Multivariate visualization of watch history errors
+yt %&gt;%
+  ggplot(aes(x = ...,      # Put the predictor on the x-axis
+             y = ...)) + # Put the errors on the y-axis
+  geom_...() + # Choose the best geom_...()
+  geom_...() + # Add a curvey line of best fit
+  geom_hline(...) + # Add a horizontal dashed line at zero
+  labs(...) # Provide clear labels to help a stranger understand!</code></pre>
+<pre><code>## Error in yt %&gt;% ggplot(aes(x = ..., y = ...)): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Multivariate visualization of current video errors
+yt %&gt;%
+  ggplot(aes(x = ...,      # Put the predictor on the x-axis
+             y = ...)) + # Put the errors on the y-axis
+  geom_...() + # Choose the best geom_...()
+  geom_...() + # Add a curvey line of best fit
+  geom_hline(...) + # Add a horizontal dashed line at zero
+  labs(...) # Provide clear labels to help a stranger understand!</code></pre>
+<pre><code>## Error in yt %&gt;% ggplot(aes(x = ..., y = ...)): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># EC [1 point]: Try to create two plots side-by-side. (SUPER HARD)</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="extra-credit-1-point-2" class="section level2">
+<h2>Extra Credit [1 point]</h2>
+<p><em>Calculate the</em> <strong>R</strong><em>oot</em> <strong>M</strong><em>ean</em> <strong>S</strong><em>quared</em> <strong>E</strong><em>rror (RMSE) using 100-fold cross validation with a 50-50 split for both models. How bad are the first model’s mistakes on average? How bad are the second model’s mistakes? Which model seems better? Remember to talk about the result in terms of the range of values of the outcome variable! Plot the errors by the model using geom_boxplot(). HINT: you’ll need to use pivot_longer() to get the data shaped correctly.</em></p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+    
+    
+    
+    
+    
+    <div class="media author-card content-widget-hr">
+      
+
+      <div class="media-body">
+        <h5 class="card-title"><a href="/data-science-site/authors/authors/"></a></h5>
+        <h6 class="card-subtitle">Assistant Professor</h6>
+        
+        <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/data-science-site/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/RyanWeldzius" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=16VmMg4AAAAJ&amp;hl=en" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/rweldzius" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+</ul>
+
+      </div>
+    </div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+
+        
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" integrity="sha512-1+qUtKoh9XZW7j+6LhRMAyOrgSQKenQ4mluTR+cvxXjP1Z54RxZuzstR/H9kgPXQsVB8IW7DMDFUJpzLjvhGSQ==" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js" integrity="sha512-7t8APmYpzEsZP7CYoA7RfMPV9Bb+PJHa9x2WiUnDXZx3XHveuyWUtvNOexhkierl5flZ3tr92dP1mMS+SGlD+A==" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/languages/r.min.js"></script>
+        
+      
+
+    
+
+    
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    <script>const isSiteThemeDark = false;</script>
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <script src="/data-science-site/js/academic.min.36113c13f63e6c1889c2fede8fbd5f35.js"></script>
+
+    
+
+
+
+
+
+
+    
+    
+    <div class="container">
+        <footer>
+    <hr>
+
+    <div class="row course-info">
+        <div class="col-md-7">
+            <p>
+                <strong>PSC4175: Introduction to Data Science (Fall 2025)</strong><br>
+
+                <a href="https://www.villanova.edu" target="_blank" rel="noopener">Villanova University</a><br>
+                
+                <a href="https://www1.villanova.edu/university/liberal-arts-sciences/programs/political-science.html" target="_blank" rel="noopener">Department of Political Science</a>
+            </p>
+
+            <p>
+                <a href="http://www.ryanweldzius.com/" target="_blank" rel="noopener"><i class="fas fa-user"></i>
+                    Ryan Weldzius</a> &emsp;&emsp;
+                <a href="mailto:ryan.weldzius@villanova.edu"><i class="fas fa-envelope"></i>
+                    ryan.weldzius@villanova.edu</a>
+            </p>
+
+            <p>
+                <i class="far fa-calendar-alt"></i> Mondays &emsp;&emsp;
+                <i class="far fa-clock"></i> 3:20 pm -4:35pm <br>
+                <i class="fas fa-university"></i> Bartley Hall 2073
+            </p>
+        </div>
+
+        <div class="col-md-5 credits">
+            <p>All content licensed under a <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.</p>
+            
+            <p>Content <i class="fab fa-creative-commons"></i> 2025 <a href="http://www.ryanweldzius.com/" target="_blank" rel="noopener">Ryan Weldzius</a></p>                    
+            
+            <p><a href="https://github.com/rweldzius/data-science-site" target="_blank" rel="noopener"><i class="fab fa-github"></i> View the source at GitHub.</a></p>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+
+    
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+
+</html>

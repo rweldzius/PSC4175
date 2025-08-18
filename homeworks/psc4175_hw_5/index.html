@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en" 
+      xmlns:og="http://ogp.me/ns#" 
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+
+<head><script src="/data-science-site/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=data-science-site/livereload" data-no-instant defer></script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.8.0">
+
+  
+
+  
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  
+
+  
+  
+  
+    
+  
+  <meta name="description" content="
+Agenda
+
+Conditional data: when a variable varies with respect to some other variable.
+How does the value of the outcome of interest vary depending on the value of another variable of interest?
+Typically: outcome of interest (dependent variable), Y-axis.
+Other variables possibly related to the outcome (independent variables): X-axis
+
+Our tools depend on the type of variables we are trying to graph.
+
+
+The “gender” gap in electoral politics
+Conditional variation involves examining how the values of two or more variables are related to one another. Earlier we made these comparisons by creating different tibbles and then comparing across tibbles, but we can also make comparisons without creating multiple tibbles.">
+
+  
+  <link rel="alternate" hreflang="en" href="http://localhost:1313/data-science-site/homeworks/psc4175_hw_5/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#3498db">
+  
+
+  
+  
+  
+  <script src="/data-science-site/js/mathjax-config.js"></script>
+  
+
+  
+  
+  
+  
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha256-FMvZuGapsJLjouA6k7Eo2lusoAX9i0ShlWFG6qt7SLc=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+    
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed:400,400i,700,700i%7COverpass:400,400i,700,700i&display=swap">
+    
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/data-science-site/css/academic.css">
+
+  
+  
+
+
+  
+  
+
+  
+
+  <link rel="manifest" href="/data-science-site/index.webmanifest">
+  <link rel="icon" type="image/png" href="/data-science-site/images/icon_hu_eb1e217680dff947.png">
+  <link rel="apple-touch-icon" type="image/png" href="/data-science-site/images/icon_hu_f0a9735dbf069933.png">
+
+  <link rel="canonical" href="http://localhost:1313/data-science-site/homeworks/psc4175_hw_5/">
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@rweldzius">
+  <meta property="twitter:creator" content="@rweldzius">
+  
+  <meta property="og:site_name" content="Introduction to Data Science">
+  <meta property="og:url" content="http://localhost:1313/data-science-site/homeworks/psc4175_hw_5/">
+  <meta property="og:title" content="Conditional Relationships | Introduction to Data Science">
+  <meta property="og:description" content="
+Agenda
+
+Conditional data: when a variable varies with respect to some other variable.
+How does the value of the outcome of interest vary depending on the value of another variable of interest?
+Typically: outcome of interest (dependent variable), Y-axis.
+Other variables possibly related to the outcome (independent variables): X-axis
+
+Our tools depend on the type of variables we are trying to graph.
+
+
+The “gender” gap in electoral politics
+Conditional variation involves examining how the values of two or more variables are related to one another. Earlier we made these comparisons by creating different tibbles and then comparing across tibbles, but we can also make comparisons without creating multiple tibbles."><meta property="og:image" content="http://localhost:1313/data-science-site/media/social-image.png">
+  <meta property="twitter:image" content="http://localhost:1313/data-science-site/media/social-image.png"><meta property="og:locale" content="en">
+  
+    
+      <meta property="article:published_time" content="2025-07-24T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2025-07-30T11:01:36-04:00">
+  
+
+  
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Conditional Relationships | Introduction to Data Science</title>
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70"
+    data-target="#TableOfContents"
+    >
+
+    <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/data-science-site">Introduction to Data Science</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/data-science-site/">Introduction to Data Science</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-end" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/syllabus/"><span>Syllabus</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/schedule/"><span>Schedule</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/weeks/"><span>Classes</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/resources/"><span>Resources</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/downloads/"><span>Downloads</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+            
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="https://campuswire.com/p/GF9F6AD11" target="_blank" rel="noopener"><span>CampusWire</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+            
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="https://elearning.villanova.edu" target="_blank" rel="noopener"><span>Blackboard</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+
+
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Conditional Relationships</h1>
+
+  
+  <p class="page-subtitle">Homework 5</p>
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    July 30, 2025
+  </span>
+  
+
+  
+
+  
+
+  
+  
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    
+    <div class="article-metadata">
+      
+      
+      
+        <span class="meta-item">
+          <strong>Due:</strong> 2024-06-04 by 11:59PM
+        </span>
+        <span class="middot-divider"></span>
+      
+
+      
+      
+        <span class="meta-item">
+          Villanova University
+        </span>
+        <span class="middot-divider"></span>
+      
+      
+      
+      <p>
+        <a href="/data-science-site/homeworks/psc4175_hw_5.Rmd" download>
+          <i class="fa fa-download" aria-hidden="true" style="margin-right: 6px;"></i><Strong>Download R Markdown file</Strong>
+        </a>
+      </p>
+    
+
+    </div>
+    
+
+    <div class="article-style">
+      
+
+
+<div id="agenda" class="section level1">
+<h1>Agenda</h1>
+<ul>
+<li><p>Conditional data: when a variable varies with respect to some other variable.</p></li>
+<li><p>How does the value of the outcome of interest vary <em>depending</em> on the value of another variable of interest?</p></li>
+<li><p>Typically: outcome of interest (dependent variable), Y-axis.</p></li>
+<li><p>Other variables possibly related to the outcome (independent variables): X-axis</p></li>
+</ul>
+<p>Our tools depend on the <strong>type of variables</strong> we are trying to graph.</p>
+</div>
+<div id="the-gender-gap-in-electoral-politics" class="section level1">
+<h1>The “gender” gap in electoral politics</h1>
+<p>Conditional variation involves examining how the values of two or more variables are related to one another. Earlier we made these comparisons by creating different tibbles and then comparing across tibbles, but we can also make comparisons without creating multiple tibbles.</p>
+<p>So load in the Michigan 2020 Exit Poll Data.</p>
+<pre class="r"><code>library(tidyverse)
+library(scales)
+mi_ep &lt;- read_rds(&quot;https://github.com/rweldzius/PSC4175_F2024/raw/main/Data/MI2020_ExitPoll_small.rds&quot;)
+MI_final_small &lt;- mi_ep %&gt;%
+  filter(preschoice==&quot;Donald Trump, the Republican&quot; | preschoice==&quot;Joe Biden, the Democrat&quot;) %&gt;%
+  mutate(BidenVoter=ifelse(preschoice==&quot;Joe Biden, the Democrat&quot;,1,0),
+         TrumpVoter=ifelse(BidenVoter==1,0,1),
+         AGE10=ifelse(AGE10==99,NA,AGE10))</code></pre>
+<p>We learned that if we <code>count</code> using multiple variables that R will count within values. Can we use this to analyze how this varies by groups? Let’s see!</p>
+<pre class="r"><code>MI_final_small %&gt;%
+  filter(AGE10==1) %&gt;%
+  count(preschoice,SEX) %&gt;%
+  mutate(PctSupport = n/sum(n),
+         PctSupport = round(PctSupport, digits=2))</code></pre>
+<pre><code>## # A tibble: 4 × 4
+##   preschoice                     SEX     n PctSupport
+##   &lt;chr&gt;                        &lt;dbl&gt; &lt;int&gt;      &lt;dbl&gt;
+## 1 Donald Trump, the Republican     1     7       0.22
+## 2 Donald Trump, the Republican     2     1       0.03
+## 3 Joe Biden, the Democrat          1     9       0.28
+## 4 Joe Biden, the Democrat          2    15       0.47</code></pre>
+<p>Here we have broken everything out by both <code>preschoice</code> and <code>SEX</code> but the <code>PctSupport</code> is not quite what we want because it is the fraction of responses (out of 1) that are in each row rather than the proportion of support for each candidate <strong>by</strong> sex.</p>
+<p>To correct this and to perform the functions within a value we need to use the <code>group_by</code> function.</p>
+<p>We can use the <code>group_by</code> command to organize our data a bit better. What <code>group_by</code> does is to run all subsequent code separately according to the defined group.</p>
+<p>So instead of running a count or summarize separately for both Males and Females as we did above, we can <code>group_by</code> the variable <code>SEX.chr</code> (or <code>FEMALE</code> or <code>SEX</code> – it makes no difference as they are all equivalent) and then preform the subsequent commands. So here we are going to filter to select those who are 24 and below and then we are going to count the number of Biden and Trump supporters within each value of <code>SEX.chr</code></p>
+<pre class="r"><code>MI_final_small %&gt;%
+  filter(AGE10==1) %&gt;%
+  group_by(SEX) %&gt;%
+  count(preschoice)</code></pre>
+<pre><code>## # A tibble: 4 × 3
+## # Groups:   SEX [2]
+##     SEX preschoice                       n
+##   &lt;dbl&gt; &lt;chr&gt;                        &lt;int&gt;
+## 1     1 Donald Trump, the Republican     7
+## 2     1 Joe Biden, the Democrat          9
+## 3     2 Donald Trump, the Republican     1
+## 4     2 Joe Biden, the Democrat         15</code></pre>
+<p>Note that any functions of the data are also now organized by that grouping, so if we were to manually compute the proportions using the mutation approach discussed above we would get:</p>
+<pre class="r"><code>MI_final_small %&gt;%
+  filter(AGE10==1) %&gt;%
+  group_by(SEX) %&gt;%
+  count(preschoice) %&gt;%
+  mutate(PctSupport = n/sum(n),
+         PctSupport = round(PctSupport, digits=2))</code></pre>
+<pre><code>## # A tibble: 4 × 4
+## # Groups:   SEX [2]
+##     SEX preschoice                       n PctSupport
+##   &lt;dbl&gt; &lt;chr&gt;                        &lt;int&gt;      &lt;dbl&gt;
+## 1     1 Donald Trump, the Republican     7       0.44
+## 2     1 Joe Biden, the Democrat          9       0.56
+## 3     2 Donald Trump, the Republican     1       0.06
+## 4     2 Joe Biden, the Democrat         15       0.94</code></pre>
+<p>So you can see that <code>PctSupport</code> sums to 2.0 because it sums to 1.0 within each value of the grouping variable <code>SEX</code>.</p>
+<p>If we wanted the fraction of voters who are in each unique category - so that the percentage of all the categories sum to 1.0 – we would want to <code>ungroup</code> before doing the mutation that calculates the percentage. So here we are doing the functions after the <code>group_by()</code> separately for each value of the grouping variables (here <code>SEX</code>) and then we are going to then undo that and return to the entire dataset.</p>
+<pre class="r"><code>MI_final_small %&gt;%
+  filter(AGE10==1) %&gt;%
+  group_by(SEX) %&gt;%
+  count(preschoice) %&gt;%
+  ungroup() %&gt;%
+  mutate(PctSupport = n/sum(n),
+         PctSupport = round(PctSupport, digits=2))</code></pre>
+<pre><code>## # A tibble: 4 × 4
+##     SEX preschoice                       n PctSupport
+##   &lt;dbl&gt; &lt;chr&gt;                        &lt;int&gt;      &lt;dbl&gt;
+## 1     1 Donald Trump, the Republican     7       0.22
+## 2     1 Joe Biden, the Democrat          9       0.28
+## 3     2 Donald Trump, the Republican     1       0.03
+## 4     2 Joe Biden, the Democrat         15       0.47</code></pre>
+<p>If we are just interested in the proportion and we do not care about the number of respondents in each value (although here it seems relevant!) we could also <code>group_by</code> and then <code>summarize</code> as follows:</p>
+<pre class="r"><code>MI_final_small %&gt;%
+  filter(AGE10==1) %&gt;%
+  group_by(SEX) %&gt;%
+  summarize(PctBiden = mean(BidenVoter),
+          PctTrump = mean(TrumpVoter)) %&gt;%
+  mutate(PctBiden = round(PctBiden, digits =2),
+         PctTrump = round(PctTrump, digits =2))</code></pre>
+<pre><code>## # A tibble: 2 × 3
+##     SEX PctBiden PctTrump
+##   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+## 1     1     0.56     0.44
+## 2     2     0.94     0.06</code></pre>
+<p>Because we have already filtered to focus only on Biden and Trump voters, we don’t actually need both since <code>PctBiden = 1 - PctTrump</code> and <code>PctTrump = 1 - PctBiden</code>.</p>
+<p>Note that we can have multiple groups. So if we want to group by age and by sex we can do the following…</p>
+<pre class="r"><code>MI_final_small %&gt;%
+  group_by(SEX, AGE10) %&gt;%
+  summarize(PctBiden = mean(BidenVoter)) %&gt;%
+  mutate(PctBiden = round(PctBiden, digits =2))</code></pre>
+<pre><code>## # A tibble: 22 × 3
+## # Groups:   SEX [2]
+##      SEX AGE10 PctBiden
+##    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+##  1     1     1     0.56
+##  2     1     2     0.58
+##  3     1     3     0.58
+##  4     1     4     0.76
+##  5     1     5     0.58
+##  6     1     6     0.42
+##  7     1     7     0.46
+##  8     1     8     0.56
+##  9     1     9     0.61
+## 10     1    10     0.57
+## # ℹ 12 more rows</code></pre>
+<p>We can also save it for later analysis and then filter or select the results. For example:</p>
+<pre class="r"><code>SexAge &lt;- MI_final_small %&gt;%
+  group_by(SEX, AGE10) %&gt;%
+  summarize(PctBiden = mean(BidenVoter)) %&gt;%
+  mutate(PctBiden = round(PctBiden, digits =2)) %&gt;%
+  drop_na()</code></pre>
+<p>So if we want to look at the Biden support by age among females (i.e., <code>SEX==2</code>) we can look at:</p>
+<pre class="r"><code>SexAge %&gt;%
+  filter(SEX == 2)</code></pre>
+<pre><code>## # A tibble: 10 × 3
+## # Groups:   SEX [1]
+##      SEX AGE10 PctBiden
+##    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+##  1     2     1     0.94
+##  2     2     2     0.93
+##  3     2     3     0.69
+##  4     2     4     0.71
+##  5     2     5     0.52
+##  6     2     6     0.6 
+##  7     2     7     0.63
+##  8     2     8     0.74
+##  9     2     9     0.69
+## 10     2    10     0.61</code></pre>
+<p><strong>Quick Exercise</strong> What is the Biden support by age among males?</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="dicrete-variable-by-discrete-variable-barplot" class="section level1">
+<h1>Dicrete Variable By Discrete Variable (Barplot)</h1>
+<p>If we are working with discrete/categorical/ordinal/data — i.e., variables that take on a finite (and small) number of unique values then we are interested in how to compare across bar graphs.</p>
+<p>Before we used <code>geom_bar</code> to plot the number of observations associated with each value of a variable. But we often want to know how the number of observations may vary according to a second variable. For example, we care not only about why voters reported that they supported Biden or Trump in 2020 but we are also interested in knowing whether Biden and Trump voters were voting for similar or different reasons. Did voters differ in terms of why they were voting for a candidate in addition to who they were voting for? If so, this may suggest something about what each set of voters were looking for in a candidate.</p>
+<p>Let’s first plot the barplot and then plot the barplot by presidential vote choice for the Michigan Exit Poll we were just analyzing.</p>
+<p>We are interested in the distribution of responses to the variable <code>Quality</code> and we only care about voters who voted for either Biden or Trump (<code>preschoice</code>) so let’s select those variables and <code>filter</code> using <code>preschoice</code> to select those respondents. We have an additional complication that the question was only asked of half of the respondents and some that were asked refused to answer. To remove these respondents we want to <code>drop_na</code> (note that this will drop every observation with a missing value – this is acceptable because we have used <code>select</code> to focus on the variables we are analyzing, but if we did not use <code>select</code> it would have dropped an observation with missing data in <strong>any</strong> variable. We could get around this using <code>drop_na(Quality)</code> if we wanted). A final complication is that some respondents did not answer the question they were asked so we have to use <code>filter</code> to remove respondents with missing observations.</p>
+<p>Now we include labels – note how we are suppressing the x-label because the value labels are self-explanatory in this instance and add the <code>geom_bar</code> as before.</p>
+<pre class="r"><code>mi_ep %&gt;% 
+    select(Quality,preschoice) %&gt;%
+    filter(preschoice == &quot;Joe Biden, the Democrat&quot; | preschoice == &quot;Donald Trump, the Republican&quot;) %&gt;%
+    drop_na() %&gt;%
+    filter(Quality != &quot;[DON&#39;T READ] Don’t know/refused&quot;) %&gt;%
+    ggplot(aes(x= Quality)) +     
+    labs(y = &quot;Number of Voters&quot;,
+         x = &quot;&quot;,
+         title = &quot;Michigan 2020 Exit Poll: Reasons for voting for a candidate&quot;) +
+    geom_bar(color=&quot;black&quot;) </code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>Note that if we add <code>coord_flip</code> that we will flip the axes of the graph. (We could also have done this by changing <code>aes(y= Quality)</code>, but then we would also have to change the associated labels.)</p>
+<pre class="r"><code>mi_ep %&gt;% 
+    select(Quality,preschoice) %&gt;%
+    filter(preschoice == &quot;Joe Biden, the Democrat&quot; | preschoice == &quot;Donald Trump, the Republican&quot;) %&gt;%
+    drop_na() %&gt;%
+    filter(Quality != &quot;[DON&#39;T READ] Don’t know/refused&quot;) %&gt;%
+    ggplot(aes(x= Quality)) +     
+    labs(y = &quot;Number of Voters&quot;,
+         x = &quot;&quot;,
+         title = &quot;Michigan 2020 Exit Poll: Reasons for voting for a candidate&quot;) +
+    geom_bar(color=&quot;black&quot;) + 
+  coord_flip()</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>So enough review, lets add another dimension to the data. To show how the self-reported reasons for voting for a presidential candidate varied by vote choice we are going to use the <code>fill</code> of the graph to create different color bars depending on the value of the character or factor variable that is used to <code>fill</code>.</p>
+<p>So we are going to include as a <code>ggplot</code> aesthetic a character or factor variable as a <code>fill</code> (here <code>fill=preschoice</code>) and then we are going to also include <code>fill</code> in the <code>labs</code> function to make sure that we label the meaning of the values being plotted. The other change we have made is in <code>geom_bar</code> where we used <code>position=dodge</code> to make sure that the bars are plotted next to one-another rather than on top of one another.</p>
+<pre class="r"><code>mi_ep %&gt;% 
+    select(Quality,preschoice) %&gt;%
+    filter(preschoice == &quot;Joe Biden, the Democrat&quot; | preschoice == &quot;Donald Trump, the Republican&quot;) %&gt;%
+    drop_na() %&gt;%
+    filter(Quality != &quot;[DON&#39;T READ] Don’t know/refused&quot;) %&gt;%
+    ggplot(aes(x= Quality, fill = preschoice)) +     
+    labs(y = &quot;Number of Voters&quot;,
+         x = &quot;&quot;,
+         title = &quot;Michigan 2020 Exit Poll: Reasons for voting for a candidate&quot;,
+         fill = &quot;Self-Reported Vote&quot;) +
+    geom_bar(color=&quot;black&quot;, position=&quot;dodge&quot;) +
+    coord_flip()</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>For fun, see what happens when you do not use <code>postion=dodge</code>. Also see what happens if you do not flip the coordinates using <code>coord_flip</code>.</p>
+<p>It is important to note that the <code>fill</code> variable has to be a character or a factor. If we want to graph self-reported vote by sex, for example, we need to redefine the variable for the purposes of <code>ggplot</code> as follows. Note that because we are not mutating it and we are only defining it to be a factor within the `<code>ggplot</code> object, this redefinition will not stick. Note also the problem caused by uninformative values in <code>SEX</code> – can you change it.</p>
+<pre class="r"><code>mi_ep %&gt;% 
+    filter(preschoice == &quot;Joe Biden, the Democrat&quot; | preschoice == &quot;Donald Trump, the Republican&quot;) %&gt;%
+    ggplot(aes(x= preschoice, fill = factor(SEX))) +     
+    labs(y = &quot;Number of Respondents&quot;,
+         x = &quot;&quot;,
+         title = &quot;Vote by Respondent Sex&quot;,
+         fill = &quot;Sex&quot;) +
+    geom_bar(color=&quot;black&quot;, position=&quot;dodge&quot;) +
+    coord_flip()</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><strong>Quick Exercise</strong> The barplot we just produced does not satisfy our principles of visualization because the fill being used is uninterpretable to those unfamiliar with the dataset. Redo the code to use a <code>fill</code> variable that produces an informative label. Hint: don’t overthink.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="a-new-question" class="section level1">
+<h1>A new question</h1>
+<p>Suppose we were concerned with whether some polls might give different answers because of variation in who the poll is able to reach using that method. People who take polls via landline phones (do you even know what that is?) might differ from those who take surveys online. Or people contacted using randomly generated phone numbers (RDD) may differ from those contacted from a voter registration list that has had telephone numbers merged onto it.</p>
+<p>Polls were done using lots of different methods in 2020.</p>
+</div>
+<div id="loading-the-data" class="section level1">
+<h1>Loading the data</h1>
+<pre class="r"><code>require(tidyverse)
+Pres2020.PV &lt;- read_rds(file=&quot;https://github.com/rweldzius/PSC4175_F2024/raw/main/Data/Pres2020_PV.Rds&quot;)
+Pres2020.PV &lt;- Pres2020.PV %&gt;%
+                mutate(Trump = Trump/100,
+                      Biden = Biden/100,
+                      margin = Biden - Trump)</code></pre>
+<pre class="r"><code>Pres2020.PV %&gt;%
+  count(Mode)</code></pre>
+<pre><code>## # A tibble: 9 × 2
+##   Mode                 n
+##   &lt;chr&gt;            &lt;int&gt;
+## 1 IVR                  1
+## 2 IVR/Online          47
+## 3 Live phone - RBS    13
+## 4 Live phone - RDD    51
+## 5 Online             366
+## 6 Online/Text          1
+## 7 Phone - unknown      1
+## 8 Phone/Online        19
+## 9 &lt;NA&gt;                29</code></pre>
+<p>This raises the question of – how do we visualization variation in a variable by another variable? More specifically, how can we visualize how the <code>margin</code> we get using one type of survey compares to the <code>margin</code> from another type of poll? (We cannot use a scatterplot because the data is from different observations (here polls).)</p>
+<p>We could do this using earlier methods by <code>select</code>ing polls with a specific interview method (“mode”) and then plotting the <code>margin</code> (or <code>Trump</code> or <code>Biden</code>), but that will produce a bunch of separate plots that may be hard to directly compare. (In addition to having more things to look at we would want to make sure that the scale of the x-axis and y-axis are similar.)</p>
+<p>We can plot another “layer” of data in `<code>ggplot</code> using the <code>fill</code> paramter. Previously we used it to make the graphs look nice by choosing a particular color. But if we set <code>fill</code> to be a variable in our <code>tibble</code> then <code>ggplot</code> will plot the data seperately for each unique value in the named variable.
+So if we want to plot the histogram of <code>margin</code> for two types of polls we can use the <code>fill</code> argument in <code>ggplot</code> to tell R to produce different fills depending on the value of that variable.</p>
+<pre class="r"><code>Pres2020.PV %&gt;% 
+  filter(Mode == &quot;IVR/Online&quot; | Mode == &quot;Live phone - RDD&quot;) %&gt;%
+    ggplot(aes(x= margin, fill = Mode)) +     
+  labs(y = &quot;Number of Polls&quot;,
+         x = &quot;Biden- Trump Margin&quot;,
+         title = &quot;Biden-Trump Margin for Two Types of Polls&quot;,
+        fill = &quot;Mode of Interview&quot;) +
+    geom_histogram(bins=10, color=&quot;black&quot;, position=&quot;dodge&quot;) + 
+    scale_x_continuous(breaks=seq(-.1,.2,by=.05),
+                     labels= scales::percent_format(accuracy = 1))</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><strong>Quick Exercise</strong> Try running the code without the <code>filter</code>. What do you observe? How useful is this? Why or why not?</p>
+<pre class="r"><code># INSERT CODE</code></pre>
+<p>While informative, it can be hard to compare the distribution of more than two categories using such methods. To compare the variation across more types of surveys we need to use a different visualization that summarizes the variation in the variable of interest a bit more. One common visualization is the <code>boxplot</code> which reports the mean, 25th percentile (i.e., the value of the data if we sort the data from lowest to highest and take the value of the observation that is 25% of the way through), the 75th percentile, the range of values, and notable outliers.</p>
+<p>Let’s see what the <code>boxplot</code> of survey mode looks like after we first drop surveys that were conducted using modes that were hardly used (or missing).</p>
+<pre class="r"><code>Pres2020.PV %&gt;% 
+  filter(Mode != &quot;IVR&quot; &amp; Mode != &quot;Online/Text&quot; &amp; Mode != &quot;Phone - unknown&quot; &amp; Mode != &quot;NA&quot;) %&gt;%
+  ggplot(aes(x = Mode, y = margin)) + 
+    labs(x = &quot;Mode of Survey Interview&quot;,
+         y = &quot;Biden- Trump Margin&quot;,
+         title = &quot;2020 Popular Vote Margin by Type of Poll&quot;) +
+    geom_boxplot(fill = &quot;slateblue&quot;) +
+    scale_y_continuous(breaks=seq(-.1,.2,by=.05),
+                     labels= scales::percent_format(accuracy = 1))</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p>We can also flip the graph if we think it makes more sense to display it in a different orientation using <code>coord_flip</code>. (We could, of course, also redefine the x and y variables in the `<code>ggplot</code> object, but it is useful to have a command to do this to help you determine which orientiation is most useful).</p>
+<pre class="r"><code>Pres2020.PV %&gt;% 
+  filter(Mode != &quot;IVR&quot; &amp; Mode != &quot;Online/Text&quot; &amp; Mode != &quot;Phone - unknown&quot; &amp; Mode != &quot;NA&quot;) %&gt;%
+  ggplot(aes(x = Mode, y = margin)) + 
+    labs(x = &quot;Mode of Survey Interview&quot;,
+         y = &quot;Biden- Trump Margin&quot;,
+         title = &quot;2020 Popular Vote Margin by Type of Poll&quot;) +
+    geom_boxplot(fill = &quot;slateblue&quot;) +
+    scale_y_continuous(breaks=seq(-.1,.2,by=.05),
+                     labels= scales::percent_format(accuracy = 1)) +
+    coord_flip()</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>A downside of the boxplot is that it can be hard to tell how the data varies within each box. Is it equally spread out? How much data are contained in the lines (which are simply 1.5 times the height of the box)? To get a better handle on this we can use a “violin” plot that dispenses with a standard box and instead tries to plot the distribution of data within each category.</p>
+<pre class="r"><code>Pres2020.PV %&gt;% 
+  filter(Mode != &quot;IVR&quot; &amp; Mode != &quot;Online/Text&quot; &amp; Mode != &quot;Phone - unknown&quot; &amp; Mode != &quot;NA&quot;) %&gt;%
+  ggplot(aes(x=Mode, y=margin)) + 
+    xlab(&quot;Mode&quot;) + 
+    ylab(&quot;Biden- Trump Margin&quot;) +
+    geom_violin(fill=&quot;slateblue&quot;)</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p>It is also hard to know <strong>how much</strong> data is being plotted. If some modes have 1000 polls and others have only 5 that seems relevant.</p>
+<p><strong>Quick Exercise</strong> We have looked at the difference in <code>margin</code>. How about differences in the percent who report supporting <code>Biden</code> and <code>Trump</code>? What do you observe. Does this suggest that the different ways of contacting respondents may matter in terms of who responds? Is there something else that may explain the differences (i.e., what are we assuming when making this comparison)?</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<p><strong>Quick Exercise</strong> Some claims have been made that polls that used multiple ways of contacting respondents were better than polls that used just one. Can you evaluate whether there were differences in so-called “mixed-mode” surveys compared to single-mode surveys? (This requires you to define a new variable based on <code>Mode</code> indicating whether survey is mixed-mode or not.)</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="continuous-variable-by-continuous-variable-scatterplot" class="section level1">
+<h1>Continuous Variable By Continuous Variable (Scatterplot)</h1>
+<p>When we have two continuous variables we use a scatterplot to visualize the relationship. A scatterplot is simply a graph of every point in (x,y) where x is the value associated with the x-variable and y is the value associated with the y-variable. For example, we may want to see how support for Trump and Biden within a poll varies. So each observation is a poll of the national popular vote and we are going to plot the percentage of respondents in each poll supporting Biden against the percentage who support Trump.</p>
+<p>To include two variables we are going to change our aesthetic to define both an x variable and a y variable – here <code>aes(x = Biden, y = Trump)</code> and we are going to label and scale the axes appropriately.</p>
+<pre class="r"><code>Pres2020.PV %&gt;%
+  ggplot(aes(x = Biden, y = Trump)) + 
+  labs(title=&quot;Biden and Trump Support in 2020 National Popular Vote&quot;,
+       y = &quot;Trump Support&quot;,
+       x = &quot;Biden Support&quot;) + 
+  geom_point(color=&quot;purple&quot;) + 
+    scale_y_continuous(breaks=seq(0,1,by=.05),
+                     labels= scales::percent_format(accuracy = 1)) +
+  scale_x_continuous(breaks=seq(0,1,by=.05),
+                     labels= scales::percent_format(accuracy = 1))</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p>The results are intriguing! First the data seems like it falls along a grid. This is because of how poll results are reported in terms of percentage points and it highlights that even continuous variables may be reported in discrete values. This is consequential because it is hard to know how many polls are associated with each point on the graph. How many polls are at the point (Biden 50%, Trump 45%)? This matters for trying to determine what the relationship might be. Second, it is clear that there are some questions that need to be asked – why doesn’t <code>Biden + Trump = 100\%</code>?</p>
+<p>To try to display how many observations are located at each point we have two tools at our disposal. First, we can alter the “alpha transparency” by setting <code>alpha-.5</code> in the <code>geom_point</code> call. By setting a low level of transparency, this means that the point will become less transparent as more points occur at the same coordinate. Thus, a faint point indicates that only a single poll (observation) is located at a coordinate whereas a solid point indicates that there are many polls. When we apply this to the scatterplot you can immediately see that most of the polls are located in the neighborhood of Biden 50%, Trump 42%.</p>
+<pre class="r"><code>Pres2020.PV %&gt;%
+  ggplot(aes(x = Biden, y = Trump)) + 
+  labs(title=&quot;Biden and Trump Support in 2020 National Popular Vote&quot;,
+       y = &quot;Trump Support&quot;,
+       x = &quot;Biden Support&quot;) + 
+  geom_point(color=&quot;purple&quot;,alpha = .3) + 
+    scale_y_continuous(breaks=seq(0,1,by=.05),
+                     labels= scales::percent_format(accuracy = 1)) +
+  scale_x_continuous(breaks=seq(0,1,by=.05),
+                     labels= scales::percent_format(accuracy = 1))</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p>However, the grid-like nature of the plot is still somewhat hard to interpret as it can be hard to discern variations in color gradient. Another tool is to add a tiny bit of randomness to the x and y values associated with each plot. Instead of values being constrained to vary by a full percentage point, for example, the jitter allows it to vary by less. To do so we replace <code>geom_point</code> with <code>geom_jitter</code>.</p>
+<pre class="r"><code>Pres2020.PV %&gt;%
+  ggplot(aes(x = Biden, y = Trump)) + 
+  labs(title=&quot;Biden and Trump Support in 2020 National Popular Vote&quot;,
+       y = &quot;Trump Support&quot;,
+       x = &quot;Biden Support&quot;) + 
+  geom_jitter(color=&quot;purple&quot;,alpha = .5) + 
+    scale_y_continuous(breaks=seq(0,1,by=.05),
+                     labels= scales::percent_format(accuracy = 1)) +
+  scale_x_continuous(breaks=seq(0,1,by=.05),
+                     labels= scales::percent_format(accuracy = 1)) </code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p>Note how much the visualization changes. Whereas before the eye was focused on – and arguably distracted by – the grid-like orientation imposed by the measurement, once we jitter the points we are immediately made aware of the relationship between the two variables. While we are indeed slightly changing our data by adding random noise, the payoff is that the visualization arguably better highlights the nature of the relationship. Insofar the goal of visualization is communication, this trade-off seems worthwhile in this instance. But here again is where data science is sometimes art as much as science. The decision of which visualization to use depends on what you think most effectively communicates the nature of the relationship to the reader.</p>
+<p>We can also look at the accuracy of a poll as a function of the sample size. This is also a relationship between two continuous variables – hence a scatterplot! Are polls with more respondents more accurate? There is one poll with nearly 80,000 respondents that we will filter out to me able to show a reasonable scale. Note that we are going to use <code>labels = scales::comma</code> when plotting the x-axis to report numbers with commas for readability.</p>
+<pre class="r"><code>Pres2020.PV %&gt;%
+  filter(SampleSize &lt; 50000) %&gt;%
+  mutate(TrumpError = Trump - RepCertVote/100,
+         BidenError = Biden - DemCertVote/100) %&gt;%
+  ggplot(aes(x = SampleSize, y = TrumpError)) + 
+  labs(title=&quot;Trump Polling Error in 2020 National Popular Vote as a function of Sample Size&quot;,
+       y = &quot;Error: Trump Poll - Trump Certified Vote&quot;,
+       x = &quot;Sample Size in Poll&quot;) + 
+  geom_jitter(color=&quot;purple&quot;,alpha = .5) +
+  scale_y_continuous(breaks=seq(-.2,1,by=.05),
+                     labels= scales::percent_format(accuracy = 1)) +
+  scale_x_continuous(breaks=seq(0,30000,by=5000),
+                     labels= scales::comma) </code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p>In sum, we have tested Trump’s theory that the MSM was biased against him. We found that polls that underpredicted Trump <strong>also</strong> underpredicted Biden. This is not what we would expect if the polls favored one candidate over another.</p>
+<pre class="r"><code>Pres2020.PV %&gt;%
+  ggplot(aes(x = Biden, y = Trump)) + 
+  labs(title=&quot;Biden and Trump Support in 2020 National Popular Vote&quot;,
+       y = &quot;Trump Support&quot;,
+       x = &quot;Biden Support&quot;) + 
+  geom_jitter(color=&quot;purple&quot;,alpha = .5) + 
+    scale_y_continuous(breaks=seq(0,1,by=.05),
+                     labels= scales::percent_format(accuracy = 1)) +
+  scale_x_continuous(breaks=seq(0,1,by=.05),
+                     labels= scales::percent_format(accuracy = 1)) </code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p>What is an alternative explanation for these patterns? Why would polls underpredict <em>both</em> Trump and Biden?</p>
+<p>Perhaps they were fielded earlier in the year, when more people were interested in third party candidates, or hadn’t made up their mind. We’ll turn to testing this theory next time!</p>
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+    
+    
+    
+    
+    
+    <div class="media author-card content-widget-hr">
+      
+
+      <div class="media-body">
+        <h5 class="card-title"><a href="/data-science-site/authors/authors/"></a></h5>
+        <h6 class="card-subtitle">Assistant Professor</h6>
+        
+        <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/data-science-site/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/RyanWeldzius" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=16VmMg4AAAAJ&amp;hl=en" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/rweldzius" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+</ul>
+
+      </div>
+    </div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+
+        
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" integrity="sha512-1+qUtKoh9XZW7j+6LhRMAyOrgSQKenQ4mluTR+cvxXjP1Z54RxZuzstR/H9kgPXQsVB8IW7DMDFUJpzLjvhGSQ==" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js" integrity="sha512-7t8APmYpzEsZP7CYoA7RfMPV9Bb+PJHa9x2WiUnDXZx3XHveuyWUtvNOexhkierl5flZ3tr92dP1mMS+SGlD+A==" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/languages/r.min.js"></script>
+        
+      
+
+    
+
+    
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    <script>const isSiteThemeDark = false;</script>
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <script src="/data-science-site/js/academic.min.36113c13f63e6c1889c2fede8fbd5f35.js"></script>
+
+    
+
+
+
+
+
+
+    
+    
+    <div class="container">
+        <footer>
+    <hr>
+
+    <div class="row course-info">
+        <div class="col-md-7">
+            <p>
+                <strong>PSC4175: Introduction to Data Science (Fall 2025)</strong><br>
+
+                <a href="https://www.villanova.edu" target="_blank" rel="noopener">Villanova University</a><br>
+                
+                <a href="https://www1.villanova.edu/university/liberal-arts-sciences/programs/political-science.html" target="_blank" rel="noopener">Department of Political Science</a>
+            </p>
+
+            <p>
+                <a href="http://www.ryanweldzius.com/" target="_blank" rel="noopener"><i class="fas fa-user"></i>
+                    Ryan Weldzius</a> &emsp;&emsp;
+                <a href="mailto:ryan.weldzius@villanova.edu"><i class="fas fa-envelope"></i>
+                    ryan.weldzius@villanova.edu</a>
+            </p>
+
+            <p>
+                <i class="far fa-calendar-alt"></i> Mondays &emsp;&emsp;
+                <i class="far fa-clock"></i> 3:20 pm -4:35pm <br>
+                <i class="fas fa-university"></i> Bartley Hall 2073
+            </p>
+        </div>
+
+        <div class="col-md-5 credits">
+            <p>All content licensed under a <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.</p>
+            
+            <p>Content <i class="fab fa-creative-commons"></i> 2025 <a href="http://www.ryanweldzius.com/" target="_blank" rel="noopener">Ryan Weldzius</a></p>                    
+            
+            <p><a href="https://github.com/rweldzius/data-science-site" target="_blank" rel="noopener"><i class="fab fa-github"></i> View the source at GitHub.</a></p>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+
+    
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+
+</html>

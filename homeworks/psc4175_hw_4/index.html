@@ -1,0 +1,1885 @@
+<!DOCTYPE html>
+<html lang="en" 
+      xmlns:og="http://ogp.me/ns#" 
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+
+<head><script src="/data-science-site/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=data-science-site/livereload" data-no-instant defer></script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.8.0">
+
+  
+
+  
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  
+
+  
+  
+  
+    
+  
+  <meta name="description" content="
+Learning Objectives
+
+Visualizing data in ggplot
+Functions: ggplot,
+Applications: College data; NBA player data (sorry, Knicks)
+
+
+Agenda
+Visualization is one of R’s most impressive features, and arguably where it surpasses other competing programs like Python. Visualization can either be done in “base” R, or via a powerful set of functions included in the ggplot package. In this class, we will be working exclusively in ggplot, which is included in the tidyverse package.">
+
+  
+  <link rel="alternate" hreflang="en" href="http://localhost:1313/data-science-site/homeworks/psc4175_hw_4/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#3498db">
+  
+
+  
+  
+  
+  <script src="/data-science-site/js/mathjax-config.js"></script>
+  
+
+  
+  
+  
+  
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha256-FMvZuGapsJLjouA6k7Eo2lusoAX9i0ShlWFG6qt7SLc=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+    
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed:400,400i,700,700i%7COverpass:400,400i,700,700i&display=swap">
+    
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/data-science-site/css/academic.css">
+
+  
+  
+
+
+  
+  
+
+  
+
+  <link rel="manifest" href="/data-science-site/index.webmanifest">
+  <link rel="icon" type="image/png" href="/data-science-site/images/icon_hu_eb1e217680dff947.png">
+  <link rel="apple-touch-icon" type="image/png" href="/data-science-site/images/icon_hu_f0a9735dbf069933.png">
+
+  <link rel="canonical" href="http://localhost:1313/data-science-site/homeworks/psc4175_hw_4/">
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@rweldzius">
+  <meta property="twitter:creator" content="@rweldzius">
+  
+  <meta property="og:site_name" content="Introduction to Data Science">
+  <meta property="og:url" content="http://localhost:1313/data-science-site/homeworks/psc4175_hw_4/">
+  <meta property="og:title" content="Visualization and Univariate Analysis | Introduction to Data Science">
+  <meta property="og:description" content="
+Learning Objectives
+
+Visualizing data in ggplot
+Functions: ggplot,
+Applications: College data; NBA player data (sorry, Knicks)
+
+
+Agenda
+Visualization is one of R’s most impressive features, and arguably where it surpasses other competing programs like Python. Visualization can either be done in “base” R, or via a powerful set of functions included in the ggplot package. In this class, we will be working exclusively in ggplot, which is included in the tidyverse package."><meta property="og:image" content="http://localhost:1313/data-science-site/media/social-image.png">
+  <meta property="twitter:image" content="http://localhost:1313/data-science-site/media/social-image.png"><meta property="og:locale" content="en">
+  
+    
+      <meta property="article:published_time" content="2025-07-24T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2025-07-25T00:25:05-04:00">
+  
+
+  
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Visualization and Univariate Analysis | Introduction to Data Science</title>
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70"
+    data-target="#TableOfContents"
+    >
+
+    <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/data-science-site">Introduction to Data Science</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/data-science-site/">Introduction to Data Science</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-end" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/syllabus/"><span>Syllabus</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/schedule/"><span>Schedule</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/weeks/"><span>Classes</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/resources/"><span>Resources</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/downloads/"><span>Downloads</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+            
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="https://campuswire.com/p/GF9F6AD11" target="_blank" rel="noopener"><span>CampusWire</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+            
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="https://elearning.villanova.edu" target="_blank" rel="noopener"><span>Blackboard</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+
+
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Visualization and Univariate Analysis</h1>
+
+  
+  <p class="page-subtitle">Homework 4</p>
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    July 25, 2025
+  </span>
+  
+
+  
+
+  
+
+  
+  
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    
+    <div class="article-metadata">
+      
+      
+      
+        <span class="meta-item">
+          <strong>Due:</strong> 2026-06-02 by 11:59PM
+        </span>
+        <span class="middot-divider"></span>
+      
+
+      
+      
+        <span class="meta-item">
+          Villanova University
+        </span>
+        <span class="middot-divider"></span>
+      
+      
+      
+      <p>
+        <a href="/data-science-site/homeworks/psc4175_hw_4.Rmd" download>
+          <i class="fa fa-download" aria-hidden="true" style="margin-right: 6px;"></i><Strong>Download R Markdown file</Strong>
+        </a>
+      </p>
+    
+
+    </div>
+    
+
+    <div class="article-style">
+      
+
+
+<div id="learning-objectives" class="section level1">
+<h1>Learning Objectives</h1>
+<ul>
+<li><p>Visualizing data in <code>ggplot</code></p></li>
+<li><p>Functions: <code>ggplot</code>,</p></li>
+<li><p>Applications: College data; NBA player data (sorry, Knicks)</p></li>
+</ul>
+<div id="agenda" class="section level2">
+<h2>Agenda</h2>
+<p>Visualization is one of <code>R</code>’s most impressive features, and arguably where it surpasses other competing programs like Python. Visualization can either be done in “base” <code>R</code>, or via a powerful set of functions included in the <code>ggplot</code> package. In this class, we will be working exclusively in <code>ggplot</code>, which is included in the <code>tidyverse</code> package.</p>
+<p>Let’s start by loading our college data again.</p>
+</div>
+<div id="load-relevant-libraries" class="section level2">
+<h2>Load relevant libraries</h2>
+<pre class="r"><code>library(tidyverse)</code></pre>
+</div>
+<div id="load-the-data" class="section level2">
+<h2>Load The Data</h2>
+<p>Once <code>tidyverse</code> is loaded, you can download the data directly from <a href="https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/sc_debt.Rds">GitHub</a> using the <code>read_rds()</code> function. You should then open it in <code>R</code> by assigning it to an object with the <code>&lt;-</code> command.</p>
+<pre class="r"><code>df&lt;-read_rds(&quot;https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/sc_debt.Rds&quot;) 
+names(df)</code></pre>
+<pre><code>##  [1] &quot;unitid&quot;         &quot;instnm&quot;         &quot;stabbr&quot;         &quot;grad_debt_mdn&quot; 
+##  [5] &quot;control&quot;        &quot;region&quot;         &quot;preddeg&quot;        &quot;openadmp&quot;      
+##  [9] &quot;adm_rate&quot;       &quot;ccbasic&quot;        &quot;sat_avg&quot;        &quot;md_earn_wne_p6&quot;
+## [13] &quot;ugds&quot;           &quot;costt4_a&quot;       &quot;selective&quot;      &quot;research_u&quot;</code></pre>
+</div>
+<div id="ggplot" class="section level2">
+<h2><code>ggplot</code></h2>
+<p><code>ggplot</code> works in layers, where the most simple layer is contained in the <code>ggplot()</code> function itself. Here, you set the x and y axes with a function called <code>aes()</code> (for the plot “aesthetics”). The primary inputs to <code>aes()</code> are <code>x</code> and <code>y</code>, although you can also set things like <code>color</code> and <code>fill</code> here.</p>
+<p>Let’s create the first layer of our plot by using the <code>%&gt;%</code> function to link our data with the <code>ggplot()</code> function.</p>
+<pre class="r"><code>df %&gt;%
+  ggplot(aes(x = adm_rate,y = sat_avg))</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>This gives us a rather ugly looking graph box (see the bottom right quadrant of RStudio), where we see the admissions rate on the x-axis (the horizontal axis) and the SAT scores on the y-axis (the vertical axis). However, there are no visuals like lines or bars or points to help us actually SEE the data. We know that ggplot has them on the axes we specified, but we haven’t drawn anything yet.</p>
+<p>The next step is to add a “layer” to this plot that contains the visuals we want. To add a layer, we use the <code>+</code> sign to link our blank canvas to the function to draw the graph. In this situation, we are going to create a scatterplot using the function named <code>geom_point()</code>. (There are <strong>many</strong> other functions that are included with ggplot which will draw different plots…<code>geom_line()</code> and <code>geom_bar()</code> for example.)</p>
+<pre class="r"><code>df %&gt;%
+  ggplot(aes(x = adm_rate,y = sat_avg)) + 
+  geom_point()</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+</div>
+<div id="tweaking-visuals" class="section level1">
+<h1>Tweaking Visuals</h1>
+<p>We have a visualization of our data! It suggests that there is a negative relationship between the admissions rate and SAT scores. When the admissions rate is very low (i.e., when schools are very selective), the average SAT scores of their students is above 1500 (top left part of the graph). When the admissions rate is very high, the average SAT scores is around 1000 (bottom right of the graph). Why might this be?</p>
+<p>We can easily see this pattern just by looking at the data. However, we can make it even more clear by overlaying a “line of best fit” using a different function called <code>geom_smooth()</code>. This is going to be our <strong>second</strong> layer, meaning we need another <code>+</code> sign to link the function.</p>
+<pre class="r"><code>df %&gt;%
+  ggplot(aes(x = adm_rate,y = sat_avg)) + 
+  geom_point() + 
+  geom_smooth()</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>The default behavior of <code>geom_smooth()</code> is to draw a slightly curvy line that bends. This is potentially useful, since it reveals that the negative relationship between the admissions rate and the SAT scores is stronger among more selective schools (i.e., those with an admissions rate less than 0.50 or 50%), but almost flat among less selective schools.</p>
+<p>However, if all we want is the <strong>overall</strong> relationship drawn with a straight line, we need to tell <code>geom_smooth()</code> to draw a straight line with the input <code>method = "lm"</code>. (“lm” stands for “linear model”, a topic we will come back to later in the semester.)</p>
+<pre class="r"><code>df %&gt;%
+  ggplot(aes(x = adm_rate,y = sat_avg)) + 
+  geom_point() + 
+  geom_smooth(method = &#39;lm&#39;)</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="colors" class="section level1">
+<h1>Colors</h1>
+<p>We can continue to tweak this plot by changing the colors of the points. For example, we could color EVERY point red as follows</p>
+<pre class="r"><code>df %&gt;%
+  ggplot(aes(x = adm_rate,y = sat_avg)) + 
+  geom_point(color = &#39;red&#39;)</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>However, we could instead color points <em>based on their value</em>. To do so, we want to move the <code>color</code> input <strong>inside</strong> the <code>aes()</code> function, and set it equal to the variable we want to visualize with color.</p>
+<pre class="r"><code>df %&gt;%
+  ggplot(aes(x = adm_rate,y = sat_avg,
+             color = region)) + 
+  geom_point()</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>We now have a legend added to the plot that tells us what each color refers to. In this example, we set the color equal to a categorical variable. We could instead set it equal to a continuous variable, which would give us a gradient.</p>
+<pre class="r"><code>df %&gt;%
+  ggplot(aes(x = adm_rate,y = sat_avg,
+             color = md_earn_wne_p6)) + 
+  geom_point()</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>Here we see two patterns. First, we continue to see the negative relationship between the admissions rate and the SAT scores. Second, we can <em>kinda</em> see a relationship between future wages of graduates and their SAT scores.</p>
+<p>If we don’t like the default choice of dark to light blue, we can modify this with <code>scale_color_gradient()</code>. As always, add another <code>+</code> to add the layer to the plot!</p>
+<pre class="r"><code>df %&gt;%
+  ggplot(aes(x = adm_rate,y = sat_avg,
+             color = md_earn_wne_p6)) + 
+  geom_point() + 
+  scale_color_gradient(low = &#39;grey90&#39;,high = &#39;darkred&#39;)</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>Note that some of the points are dark gray. These are schools that don’t report the median earnings of their recent graduates. These missing data default to a dark gray color. You can find more colors in the R color palette here: <a href="https://r-graph-gallery.com/color-palette-finder" class="uri">https://r-graph-gallery.com/color-palette-finder</a>.</p>
+<p><strong>Quick Exercise</strong> Re-do this plot but put <code>md_earn_wne_p6</code> on the y-axis, and <code>sat_avg</code> on the x-axis. Is there a relationship between SAT scores and earnings? Why might this be the case?</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<p>Write your answer to the questions here.</p>
+<div id="other-aesthetics" class="section level2">
+<h2>Other Aesthetics</h2>
+<p>We can also change the size of the points with the <code>size</code> input. As with <code>color</code>, this can either be set uniformly for all points, or we can make the size a function of another variable.</p>
+<pre class="r"><code>df %&gt;%
+  ggplot(aes(x = adm_rate,y = sat_avg)) + 
+  geom_point(size = 3) + 
+  labs(title = &#39;Uniform Size Setting for all points&#39;)</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<pre class="r"><code>df %&gt;%
+  ggplot(aes(x = adm_rate,y = sat_avg,
+             size = md_earn_wne_p6)) + 
+  geom_point() + 
+  labs(title = &#39;Sized by the future earnings&#39;)</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+</div>
+<div id="transparency" class="section level1">
+<h1>Transparency</h1>
+<p>With so many points overlapping, especially with larger points, it becomes harder for the reader to see details. We can therefore adjust the transparency of these points with the <code>alpha</code> parameter, which can be a value between 0 and 1. Values closer to zero make the points more transparent, while values closer to 1 make them more opaque.</p>
+<pre class="r"><code>df %&gt;%
+  ggplot(aes(x = adm_rate,y = sat_avg,
+             size = md_earn_wne_p6)) + 
+  geom_point(alpha = .3) + 
+  labs(title = &#39;Sized by the future earnings&#39;)</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+</div>
+<div id="other-types-of-plots" class="section level1">
+<h1>Other Types of Plots</h1>
+<p>This topic is very <strong>deep</strong> and you can spend years becoming an <code>R</code> expert and still find new ways of visualizing things. I encourage you to keep this link bookmarked: <a href="http://r-statistics.co/Complete-Ggplot2-Tutorial-Part1-With-R-Code.html" class="uri">http://r-statistics.co/Complete-Ggplot2-Tutorial-Part1-With-R-Code.html</a>.</p>
+<p>For now though, a few other types of plots:</p>
+<div id="histograms-densities" class="section level2">
+<h2>Histograms &amp; Densities</h2>
+<p>For visualization of a <strong>single measure</strong> (what we often call a univariate plot), a histogram is often useful. Here, we only need to set the x-axis variable. The <code>geom_histogram()</code> function will calculate the y-axis values for us, which is the number of schools falling into each bin. If we add all the bins together, we get the total number of schools in the data.</p>
+<pre class="r"><code>df %&gt;%
+  ggplot(aes(md_earn_wne_p6)) + 
+  geom_histogram()</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>We can also get the same result with a density plot, which replaces the histogram with a line. The y-axis becomes the fraction of schools at each point on the x-axis, and adds up to 1.</p>
+<pre class="r"><code>df %&gt;%
+  ggplot(aes(x = md_earn_wne_p6)) + 
+  geom_density()</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+</div>
+<div id="barplots" class="section level2">
+<h2>Barplots</h2>
+<p>Barplots are another common type of data visualization. These are more appropriate for categorical data, or for types of continuous data where there are only a handful of distinct values.</p>
+<pre class="r"><code>df %&gt;%
+  ggplot(aes(x = region)) + 
+  geom_bar()</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+</div>
+</div>
+<div id="univariate-data-analysis" class="section level1">
+<h1>Univariate Data Analysis</h1>
+<p>Univariate is pretty much what it sounds like: one variable. When undertaking univariate data analysis, we need first and foremost to figure what type of variable it is that we’re working with. Once we do that, we can choose the appropriate use of the variable, either as an outcome or as a possible predictor.</p>
+<div id="motivating-question" class="section level2">
+<h2>Motivating Question</h2>
+<p>We’ll be working with data from every NBA player who was active during the 2018-19 season.</p>
+<p>Here’s the data:</p>
+<pre class="r"><code>require(tidyverse)
+nba&lt;-read_rds(&quot;https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/nba_players_2018.Rds&quot;)</code></pre>
+<p>This data contains the following variables:</p>
+</div>
+</div>
+<div id="codebook-for-nba-data" class="section level1">
+<h1>Codebook for NBA Data</h1>
+<table>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th align="right">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>namePlayer</td>
+<td align="right">Player name</td>
+</tr>
+<tr class="even">
+<td>idPlayer</td>
+<td align="right">Unique player id</td>
+</tr>
+<tr class="odd">
+<td>slugSeason</td>
+<td align="right">Season start and end</td>
+</tr>
+<tr class="even">
+<td>numberPlayerSeason</td>
+<td align="right">Which season for this player</td>
+</tr>
+<tr class="odd">
+<td>isRookie</td>
+<td align="right">Rookie season, true or false</td>
+</tr>
+<tr class="even">
+<td>slugTeam</td>
+<td align="right">Team short name</td>
+</tr>
+<tr class="odd">
+<td>idTeam</td>
+<td align="right">Unique team id</td>
+</tr>
+<tr class="even">
+<td>gp</td>
+<td align="right">Games Played</td>
+</tr>
+<tr class="odd">
+<td>gs</td>
+<td align="right">Games Started</td>
+</tr>
+<tr class="even">
+<td>fgm</td>
+<td align="right">Field goals made</td>
+</tr>
+<tr class="odd">
+<td>fga</td>
+<td align="right">Field goals attempted</td>
+</tr>
+<tr class="even">
+<td>pctFG</td>
+<td align="right">Percent of field goals made</td>
+</tr>
+<tr class="odd">
+<td>fg3m</td>
+<td align="right">3 point field goals made</td>
+</tr>
+<tr class="even">
+<td>fg3a</td>
+<td align="right">3 point field goals attempted</td>
+</tr>
+<tr class="odd">
+<td>pctFG3</td>
+<td align="right">Percent of 3 point field goals made</td>
+</tr>
+<tr class="even">
+<td>pctFT</td>
+<td align="right">Free Throw percentage</td>
+</tr>
+<tr class="odd">
+<td>fg2m</td>
+<td align="right">2 point field goals made</td>
+</tr>
+<tr class="even">
+<td>fg2a</td>
+<td align="right">2 point field goals attempted</td>
+</tr>
+<tr class="odd">
+<td>pctFG2</td>
+<td align="right">Percent of 2 point field goals made</td>
+</tr>
+<tr class="even">
+<td>agePlayer</td>
+<td align="right">Player age</td>
+</tr>
+<tr class="odd">
+<td>minutes</td>
+<td align="right">Minutes played</td>
+</tr>
+<tr class="even">
+<td>ftm</td>
+<td align="right">Free throws made</td>
+</tr>
+<tr class="odd">
+<td>fta</td>
+<td align="right">Free throws attempted</td>
+</tr>
+<tr class="even">
+<td>oreb</td>
+<td align="right">Offensive rebounds</td>
+</tr>
+<tr class="odd">
+<td>dreb</td>
+<td align="right">Defensive rebounds</td>
+</tr>
+<tr class="even">
+<td>treb</td>
+<td align="right">Total rebounds</td>
+</tr>
+<tr class="odd">
+<td>ast</td>
+<td align="right">Assists</td>
+</tr>
+<tr class="even">
+<td>blk</td>
+<td align="right">Blocks</td>
+</tr>
+<tr class="odd">
+<td>tov</td>
+<td align="right">Turnovers</td>
+</tr>
+<tr class="even">
+<td>pf</td>
+<td align="right">Personal fouls</td>
+</tr>
+<tr class="odd">
+<td>pts</td>
+<td align="right">Total points</td>
+</tr>
+<tr class="even">
+<td>urlNBAAPI</td>
+<td align="right">Source url</td>
+</tr>
+</tbody>
+</table>
+<p>We’re interested in the following questions:</p>
+<ul>
+<li>Do certain colleges produce players that have more field goals? What about free throw percentage above a certain level? Are certain colleges in the east or the west more likely to produce higher scorers? How does this vary as a player has more seasons?</li>
+</ul>
+<p>To answer these questions we need to look at the following variables:</p>
+<ul>
+<li>Field goals</li>
+<li>Free throw percentage above .25</li>
+<li>Colleges</li>
+<li>Player seasons</li>
+<li>Region</li>
+</ul>
+<p>We’re going to go through a pretty standard set of steps for each variable. First, examine some cases. Second, based on our examination, we’ll try either a plot or a table. Once we’ve seen the plot or the table, we’ll think a bit about ordering, and then choose an appropriate measure of central tendency, and maybe variation.</p>
+<div id="types-of-variables" class="section level2">
+<h2>Types of Variables</h2>
+<p>It’s really important to understand the types of variables you’re working with. Many times analysts are indifferent to this step particularly with larger datasets. This can lead to a great deal of confusion down the road. Below are the variable types we’ll be working with this semester and the definition of each.</p>
+<div id="continuous-variables" class="section level3">
+<h3>Continuous Variables</h3>
+<p>A continuous variable can theoretically be subdivided at any arbitrarily small measure and can still be identified. You may have encountered further subdivision of continuous variables into “interval” or “ratio” data in other classes. We RARELY use these distinctions in practice. The distinction between a continuous and a categorical variable is hugely consequential, but the distinction between interval and ratio is not really all that important in practice.</p>
+<p>The mean is the most widely used measure of central tendency for a continuous variable. If the distribution of the variable isn’t very symmetric or there are large outliers, then the median is a much better measure of central tendency.</p>
+</div>
+<div id="categorical-variables" class="section level3">
+<h3>Categorical Variables</h3>
+<p>A categorical variables divides the sample up into a set of mutually exclusive and exhaustive categories. Mutually exclusive means that each case can only be one, and exhaustive means that the categories cover every possible option. Categorical is sort of the “top” level classification for variables of this type. Within the broad classification of categorical there are multiple types of other variables.</p>
+<div id="categorical-ordered" class="section level4">
+<h4>Categorical: ordered</h4>
+<p>an ordered categorical variable has– you guessed it– some kind of sensible order that can be applied. For instance, the educational attainment of an individual: high school diploma, associates degree, bachelor’s degree, graduate degree– is an ordered categorical variable.</p>
+<p>Ordered categorical variables should be arranged in the order of the variable, with proportions or percentages associated with each order. The mode, or the category with the highest proportion, is a reasonable measure of central tendency, but with fewer than ten categories the analyst should generally just show the proportion in each category.</p>
+<div id="categorical-ordered-binary" class="section level5">
+<h5>Categorical: ordered, binary</h5>
+<p>An ordered binary variable has just two levels, but can be ordered. For instance, is a bird undertaking its first migration: yes or no? A “no” means that the bird has more than one.</p>
+<p>The mean of a binary variable is exactly the same thing as the proportion of the sample with that characteristic. So, the mean of a binary variable for “first migration” where 1=“yes” will give the proportion of birds migrating for the first time.</p>
+<p>An ordered binary variable coded as 0 or 1 can be summarized using the mean which is the same thing as the proportion of the sample with that characteristic.</p>
+</div>
+</div>
+<div id="categorical-unordered" class="section level4">
+<h4>Categorical: unordered</h4>
+<p>An unordered categorical variable has no sensible ordering that can be applied. Think about something like college major. There’s no “number” we might apply to philosophy that has any meaningful distance from a number we might apply to chemical engineering.</p>
+<p>Unlike an ordered variable, an unordered categorical variable should be ordered in terms of the proportions falling into each of the categories. As with an unordered variable, it’s best just to show the proportions in each category for variables with less than ten levels. The mode is a reasonable single variable summary of an unordered categorical variable.</p>
+<div id="categorical-unordered-binary" class="section level5">
+<h5>Categorical: unordered, binary</h5>
+<p>This kind of variable has no particular order, but can be just binary. A “1” means that the case has that characteristics, a “0” means the case does not have that characteristic. For instance, whether a tree is deciduous or not.</p>
+<p>An unordered binary variable coded as 0 or 1 can also be summarized by the mean, which is the same thing as the proportion of the sample with that characteristic.</p>
+</div>
+</div>
+</div>
+<div id="formats-for-categorical-variables" class="section level3">
+<h3>Formats for categorical variables</h3>
+<p>In R, categorical variables CAN be stored as text, numbers or even logicals. Don’t count on the data to help you out– you as the analyst need to figure this out.</p>
+</div>
+</div>
+<div id="factors" class="section level2">
+<h2>Factors</h2>
+<p>We probably need to talk about factors. <SIGH> In R, a factor is a way of storing categorical variables. The factor provides additional information, including an ordering of the variable and a number assigned to each “level” of the factor. A categorical variable is a general term that’s understood across statistics. A factor variable is a specific R term. Most of the time it’s best not to have a categorical variable structured as a factor unless you know you want it to be a factor. More on this later . . .</p>
+</div>
+<div id="the-process-trusttheprocess" class="section level2">
+<h2>The Process: #TrustTheProcess</h2>
+<p>I’m going to walk you through how an analyst might typically decide what type of variables they’re working with. It generally works like this:</p>
+<ol style="list-style-type: decimal">
+<li>Take a look at a few observations and form a guess as to what type of variable it is.</li>
+<li>Based on that guess, create an appropriate plot or table.</li>
+<li>If the plot or table looks as expected, calculate some summary measures. If not, go back to 1.</li>
+</ol>
+</div>
+<div id="glimpse-to-start-whats-in-here-anyway" class="section level2">
+<h2>“Glimpse” to start: what’s in here anyway?</h2>
+<p>The first thing we’re going to do with any dataset is just to take a quick look. We can call the data itself, but that will just show the first few cases and the first few variables. Far better is the glimpse command, which shows us all variables and the first few observations for all of the variables. Here’s a link to the codebook for this dataset:</p>
+<p>The six variables we’re going to think about are field goals, free throw percentage, seasons played, rookie season, college attended, and conference played in.</p>
+<pre class="r"><code>glimpse(nba)</code></pre>
+<pre><code>## Rows: 530
+## Columns: 37
+## $ namePlayer         &lt;chr&gt; &quot;LaMarcus Aldridge&quot;, &quot;Quincy Acy&quot;, &quot;Steven Adams&quot;, …
+## $ idPlayer           &lt;dbl&gt; 200746, 203112, 203500, 203518, 1628389, 1628959, 1…
+## $ slugSeason         &lt;chr&gt; &quot;2018-19&quot;, &quot;2018-19&quot;, &quot;2018-19&quot;, &quot;2018-19&quot;, &quot;2018-1…
+## $ numberPlayerSeason &lt;dbl&gt; 12, 6, 5, 2, 1, 0, 0, 0, 0, 0, 8, 5, 4, 3, 1, 1, 1,…
+## $ isRookie           &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE…
+## $ slugTeam           &lt;chr&gt; &quot;SAS&quot;, &quot;PHX&quot;, &quot;OKC&quot;, &quot;OKC&quot;, &quot;MIA&quot;, &quot;CHI&quot;, &quot;UTA&quot;, &quot;C…
+## $ idTeam             &lt;dbl&gt; 1610612759, 1610612756, 1610612760, 1610612760, 161…
+## $ gp                 &lt;dbl&gt; 81, 10, 80, 31, 82, 10, 38, 19, 34, 7, 81, 72, 43, …
+## $ gs                 &lt;dbl&gt; 81, 0, 80, 2, 28, 1, 2, 3, 1, 0, 81, 72, 40, 4, 80,…
+## $ fgm                &lt;dbl&gt; 684, 4, 481, 56, 280, 13, 67, 11, 38, 3, 257, 721, …
+## $ fga                &lt;dbl&gt; 1319, 18, 809, 157, 486, 39, 178, 36, 110, 10, 593,…
+## $ pctFG              &lt;dbl&gt; 0.519, 0.222, 0.595, 0.357, 0.576, 0.333, 0.376, 0.…
+## $ fg3m               &lt;dbl&gt; 10, 2, 0, 41, 3, 3, 32, 6, 25, 0, 96, 52, 9, 24, 6,…
+## $ fg3a               &lt;dbl&gt; 42, 15, 2, 127, 15, 12, 99, 23, 74, 4, 280, 203, 34…
+## $ pctFG3             &lt;dbl&gt; 0.2380952, 0.1333333, 0.0000000, 0.3228346, 0.20000…
+## $ pctFT              &lt;dbl&gt; 0.847, 0.700, 0.500, 0.923, 0.735, 0.667, 0.750, 1.…
+## $ fg2m               &lt;dbl&gt; 674, 2, 481, 15, 277, 10, 35, 5, 13, 3, 161, 669, 1…
+## $ fg2a               &lt;dbl&gt; 1277, 3, 807, 30, 471, 27, 79, 13, 36, 6, 313, 1044…
+## $ pctFG2             &lt;dbl&gt; 0.5277995, 0.6666667, 0.5960347, 0.5000000, 0.58811…
+## $ agePlayer          &lt;dbl&gt; 33, 28, 25, 25, 21, 21, 23, 22, 23, 26, 28, 24, 25,…
+## $ minutes            &lt;dbl&gt; 2687, 123, 2669, 588, 1913, 120, 416, 194, 428, 22,…
+## $ ftm                &lt;dbl&gt; 349, 7, 146, 12, 166, 8, 45, 4, 7, 1, 150, 500, 37,…
+## $ fta                &lt;dbl&gt; 412, 10, 292, 13, 226, 12, 60, 4, 9, 2, 173, 686, 6…
+## $ oreb               &lt;dbl&gt; 251, 3, 391, 5, 165, 11, 3, 3, 11, 1, 112, 159, 48,…
+## $ dreb               &lt;dbl&gt; 493, 22, 369, 43, 432, 15, 20, 16, 49, 3, 498, 739,…
+## $ treb               &lt;dbl&gt; 744, 25, 760, 48, 597, 26, 23, 19, 60, 4, 610, 898,…
+## $ ast                &lt;dbl&gt; 194, 8, 124, 20, 184, 13, 25, 5, 65, 6, 104, 424, 1…
+## $ stl                &lt;dbl&gt; 43, 1, 117, 17, 71, 1, 6, 1, 14, 2, 68, 92, 54, 22,…
+## $ blk                &lt;dbl&gt; 107, 4, 76, 6, 65, 0, 6, 4, 5, 0, 33, 110, 37, 13, …
+## $ tov                &lt;dbl&gt; 144, 4, 135, 14, 121, 8, 33, 6, 28, 2, 72, 268, 58,…
+## $ pf                 &lt;dbl&gt; 179, 24, 204, 53, 203, 7, 47, 13, 45, 4, 143, 232, …
+## $ pts                &lt;dbl&gt; 1727, 17, 1108, 165, 729, 37, 211, 32, 108, 7, 760,…
+## $ urlNBAAPI          &lt;chr&gt; &quot;https://stats.nba.com/stats/playercareerstats?Leag…
+## $ n                  &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+## $ org                &lt;fct&gt; Texas, NA, Other, FC Barcelona Basquet, Kentucky, N…
+## $ country            &lt;chr&gt; NA, NA, NA, &quot;Spain&quot;, NA, NA, NA, NA, NA, NA, NA, &quot;S…
+## $ idConference       &lt;int&gt; 2, 2, 2, 2, 1, 1, 2, 1, 1, 2, 2, 1, 2, 1, 1, 1, 1, …</code></pre>
+</div>
+<div id="continuous" class="section level2">
+<h2>Continuous</h2>
+<p>Let’s start by taking a look at field goals. It seems pretty likely that this is a continuous variable. Let’s take a look at the top 50 spots.</p>
+<pre class="r"><code>nba%&gt;% ## Start with the dataset
+  select(namePlayer,slugTeam,fgm)%&gt;% ## and then select a few variables
+  arrange(-fgm)%&gt;% ## arrange in reverse order of field goals
+  print(n=50) ## print out the top 50</code></pre>
+<pre><code>## # A tibble: 530 × 3
+##    namePlayer            slugTeam   fgm
+##    &lt;chr&gt;                 &lt;chr&gt;    &lt;dbl&gt;
+##  1 James Harden          HOU        843
+##  2 Bradley Beal          WAS        764
+##  3 Kemba Walker          CHA        731
+##  4 Giannis Antetokounmpo MIL        721
+##  5 Kevin Durant          GSW        721
+##  6 Paul George           OKC        707
+##  7 Nikola Vucevic        ORL        701
+##  8 LaMarcus Aldridge     SAS        684
+##  9 Damian Lillard        POR        681
+## 10 Karl-Anthony Towns    MIN        681
+## 11 Donovan Mitchell      UTA        661
+## 12 D&#39;Angelo Russell      BKN        659
+## 13 Klay Thompson         GSW        655
+## 14 Stephen Curry         GSW        632
+## 15 DeMar DeRozan         SAS        631
+## 16 Russell Westbrook     OKC        630
+## 17 Buddy Hield           SAC        623
+## 18 Blake Griffin         DET        619
+## 19 Nikola Jokic          DEN        616
+## 20 Tobias Harris         MIN        611
+## 21 Kyrie Irving          BOS        604
+## 22 Devin Booker          PHX        586
+## 23 Joel Embiid           PHI        580
+## 24 CJ McCollum           POR        571
+## 25 Julius Randle         NOP        571
+## 26 Andre Drummond        DET        561
+## 27 Kawhi Leonard         TOR        560
+## 28 LeBron James          LAL        558
+## 29 Jrue Holiday          NOP        547
+## 30 Montrezl Harrell      LAC        546
+## 31 Ben Simmons           PHI        540
+## 32 Anthony Davis         NOP        530
+## 33 Zach LaVine           CHI        530
+## 34 Jordan Clarkson       CLE        529
+## 35 Trae Young            ATL        525
+## 36 Bojan Bogdanovic      IND        522
+## 37 Pascal Siakam         TOR        519
+## 38 Collin Sexton         CLE        519
+## 39 Jamal Murray          DEN        513
+## 40 Deandre Ayton         PHX        509
+## 41 Luka Doncic           DAL        506
+## 42 Khris Middleton       MIL        506
+## 43 De&#39;Aaron Fox          SAC        505
+## 44 Andrew Wiggins        MIN        498
+## 45 Kyle Kuzma            LAL        496
+## 46 Mike Conley           MEM        490
+## 47 Lou Williams          LAC        484
+## 48 Steven Adams          OKC        481
+## 49 Rudy Gobert           UTA        476
+## 50 Clint Capela          HOU        474
+## # ℹ 480 more rows</code></pre>
+<p>So what I’m seeing here is that field goals aren’t “clumped” at certain levels. Let’s confirm that by looking at a kernel density plot.</p>
+<pre class="r"><code>nba%&gt;%
+  ggplot(aes(x=fgm))+
+  geom_density()</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>We can also use a histogram to figure out much the same thing.</p>
+<pre class="r"><code>nba%&gt;%
+  ggplot(aes(x=fgm))+
+  geom_histogram()</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p>Now, technically field goals don’t meet the definition I set out above as being a continuous variable because they aren’t divisible below a certain amount. Usually in practice though we just ignore this– this variable is “as good as” continuous, given that it varies smoothly over the range and isn’t confined to a relatively small set of possible values.</p>
+<p><strong>Quick Exercise</strong>: Do the same thing for field goal percentage and think about what kind of variable it is.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="measures-for-continuous-variables" class="section level2">
+<h2>Measures for Continuous Variables</h2>
+<p>The mean is used most of the time for continuous variables, but it’s VERY sensitive to outliers. The median (50th percentile) is usually better, but it can be difficult to explain to general audiences.</p>
+<pre class="r"><code>nba%&gt;%
+  summarize(mean_fgm=mean(fgm))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   mean_fgm
+##      &lt;dbl&gt;
+## 1     191.</code></pre>
+<pre class="r"><code>nba%&gt;%
+  summarize(median_fgm=median(fgm))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   median_fgm
+##        &lt;dbl&gt;
+## 1        157</code></pre>
+<p>In this case I’d really prefer the mean as a single measure of field goal production, but depending on the audience I still might just go ahead and use the median.</p>
+<p><strong>Quick Exercise</strong> What measure would you prefer for field goal percentage? Calculate that measure.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="categorical-ordered-1" class="section level2">
+<h2>Categorical: ordered</h2>
+<p>Let’s take a look at player seasons.</p>
+<pre class="r"><code>nba%&gt;%
+  select(namePlayer,numberPlayerSeason)%&gt;%
+  arrange(-numberPlayerSeason)%&gt;%
+  print(n=50)</code></pre>
+<pre><code>## # A tibble: 530 × 2
+##    namePlayer        numberPlayerSeason
+##    &lt;chr&gt;                          &lt;dbl&gt;
+##  1 Vince Carter                      20
+##  2 Dirk Nowitzki                     20
+##  3 Jamal Crawford                    18
+##  4 Tony Parker                       17
+##  5 Tyson Chandler                    17
+##  6 Pau Gasol                         17
+##  7 Nene                              16
+##  8 Carmelo Anthony                   15
+##  9 Udonis Haslem                     15
+## 10 LeBron James                      15
+## 11 Zaza Pachulia                     15
+## 12 Dwyane Wade                       15
+## 13 Kyle Korver                       15
+## 14 Luol Deng                         14
+## 15 Devin Harris                      14
+## 16 Dwight Howard                     14
+## 17 Andre Iguodala                    14
+## 18 JR Smith                          14
+## 19 Trevor Ariza                      14
+## 20 Andrew Bogut                      13
+## 21 Jose Calderon                     13
+## 22 Raymond Felton                    13
+## 23 Amir Johnson                      13
+## 24 Shaun Livingston                  13
+## 25 Chris Paul                        13
+## 26 Marvin Williams                   13
+## 27 Lou Williams                      13
+## 28 CJ Miles                          13
+## 29 LaMarcus Aldridge                 12
+## 30 J.J. Barea                        12
+## 31 Channing Frye                     12
+## 32 Rudy Gay                          12
+## 33 Kyle Lowry                        12
+## 34 Paul Millsap                      12
+## 35 JJ Redick                         12
+## 36 Rajon Rondo                       12
+## 37 Thabo Sefolosha                   12
+## 38 Marco Belinelli                   11
+## 39 Mike Conley                       11
+## 40 Kevin Durant                      11
+## 41 Jared Dudley                      11
+## 42 Marcin Gortat                     11
+## 43 Gerald Green                      11
+## 44 Al Horford                        11
+## 45 Joakim Noah                       11
+## 46 Thaddeus Young                    11
+## 47 Nick Young                        11
+## 48 Corey Brewer                      11
+## 49 D.J. Augustin                     10
+## 50 Jerryd Bayless                    10
+## # ℹ 480 more rows</code></pre>
+<p>Looks like it might be continuous? Let’s plot it:</p>
+<pre class="r"><code>nba%&gt;%
+  ggplot(aes(x=numberPlayerSeason))+
+  geom_histogram(binwidth = 1)</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_4_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p>Nope. See how it falls into a small set of possible categories? This is an ordered categorical variable. That means we should calculate the proportions in each category</p>
+<pre class="r"><code>nba%&gt;%
+  group_by(numberPlayerSeason)%&gt;%
+  count(name=&quot;total_in_group&quot;)%&gt;%
+  ungroup()%&gt;%
+  mutate(proportion=total_in_group/sum(total_in_group))</code></pre>
+<pre><code>## # A tibble: 20 × 3
+##    numberPlayerSeason total_in_group proportion
+##                 &lt;dbl&gt;          &lt;int&gt;      &lt;dbl&gt;
+##  1                  0            105    0.198  
+##  2                  1             89    0.168  
+##  3                  2             56    0.106  
+##  4                  3             43    0.0811 
+##  5                  4             37    0.0698 
+##  6                  5             33    0.0623 
+##  7                  6             31    0.0585 
+##  8                  7             25    0.0472 
+##  9                  8             19    0.0358 
+## 10                  9             20    0.0377 
+## 11                 10             24    0.0453 
+## 12                 11             11    0.0208 
+## 13                 12              9    0.0170 
+## 14                 13              9    0.0170 
+## 15                 14              6    0.0113 
+## 16                 15              6    0.0113 
+## 17                 16              1    0.00189
+## 18                 17              3    0.00566
+## 19                 18              1    0.00189
+## 20                 20              2    0.00377</code></pre>
+<p>What does this tell us?</p>
+<p><strong>Quick Exercise</strong> Create a histogram for player age. What does that tell us about the NBA?</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="categorical-ordered-binary-1" class="section level2">
+<h2>Categorical: ordered, binary</h2>
+<p>Let’s take a look at the variable for Rookie season.</p>
+<pre class="r"><code>nba%&gt;%select(namePlayer,isRookie)</code></pre>
+<pre><code>## # A tibble: 530 × 2
+##    namePlayer             isRookie
+##    &lt;chr&gt;                  &lt;lgl&gt;   
+##  1 LaMarcus Aldridge      FALSE   
+##  2 Quincy Acy             FALSE   
+##  3 Steven Adams           FALSE   
+##  4 Alex Abrines           FALSE   
+##  5 Bam Adebayo            FALSE   
+##  6 Rawle Alkins           TRUE    
+##  7 Grayson Allen          TRUE    
+##  8 Deng Adel              TRUE    
+##  9 Jaylen Adams           TRUE    
+## 10 DeVaughn Akoon-Purcell TRUE    
+## # ℹ 520 more rows</code></pre>
+<p>Okay, so that’s set to a logical. In R, TRUE or FALSE are special values that indicate the result of a logical question. In this it’s whether or not the player is a rookie.</p>
+<p>Usually we want a binary variable to have at least one version that’s structured so that 1= TRUE and 2=FALSE. This makes data analysis much easier. Let’s do that with this variable.</p>
+<p>This code uses <code>ifelse</code> to create a new variable called <code>isRookiebin</code> that’s set to 1 if the <code>isRookie</code> variable is true, and 0 otherwise.</p>
+<pre class="r"><code>nba&lt;-nba%&gt;%
+  mutate(isRookie_bin=ifelse(isRookie==TRUE,1,0))</code></pre>
+<p>Now that it’s coded 0,1 we can calculate the mean, which is the same thing as the proportion of the players that are rookies.</p>
+<pre class="r"><code>nba%&gt;%summarize(mean=mean(isRookie_bin))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##    mean
+##   &lt;dbl&gt;
+## 1 0.198</code></pre>
+</div>
+<div id="categorical-unordered-1" class="section level2">
+<h2>Categorical: unordered</h2>
+<p>Let’s take a look at which college a player attended, which is a good example of an unordered categorical variable. The <code>org</code> variable tells us which organization the player was in before playing in the NBA.</p>
+<pre class="r"><code>nba%&gt;%
+  select(org)%&gt;%
+  glimpse()</code></pre>
+<pre><code>## Rows: 530
+## Columns: 1
+## $ org &lt;fct&gt; Texas, NA, Other, FC Barcelona Basquet, Kentucky, NA, Duke, NA, NA…</code></pre>
+<p>This look like team or college names, so this would be a categorical variable. Let’s take a look at the counts of players from different organizations:</p>
+<pre class="r"><code>nba%&gt;%
+  group_by(org)%&gt;%
+  count()%&gt;%
+  arrange(-n)%&gt;%
+  print(n=50)</code></pre>
+<pre><code>## # A tibble: 68 × 2
+## # Groups:   org [68]
+##    org                        n
+##    &lt;fct&gt;                  &lt;int&gt;
+##  1 &lt;NA&gt;                     157
+##  2 Other                     85
+##  3 Kentucky                  25
+##  4 Duke                      17
+##  5 California-Los Angeles    15
+##  6 Kansas                    11
+##  7 Arizona                   10
+##  8 Texas                     10
+##  9 North Carolina             9
+## 10 Michigan                   8
+## 11 Villanova                  7
+## 12 Indiana                    6
+## 13 Southern California        6
+## 14 Syracuse                   6
+## 15 California                 5
+## 16 Louisville                 5
+## 17 Ohio State                 5
+## 18 Wake Forest                5
+## 19 Colorado                   4
+## 20 Connecticut                4
+## 21 Creighton                  4
+## 22 FC Barcelona Basquet       4
+## 23 Florida                    4
+## 24 Georgia Tech               4
+## 25 Michigan State             4
+## 26 Oregon                     4
+## 27 Utah                       4
+## 28 Washington                 4
+## 29 Wisconsin                  4
+## 30 Boston College             3
+## 31 Florida State              3
+## 32 Georgetown                 3
+## 33 Gonzaga                    3
+## 34 Iowa State                 3
+## 35 Marquette                  3
+## 36 Maryland                   3
+## 37 Miami (FL)                 3
+## 38 North Carolina State       3
+## 39 Notre Dame                 3
+## 40 Oklahoma                   3
+## 41 Purdue                     3
+## 42 Southern Methodist         3
+## 43 Stanford                   3
+## 44 Tennessee                  3
+## 45 Virginia                   3
+## 46 Anadolu Efes S.K.          2
+## 47 Baylor                     2
+## 48 Butler                     2
+## 49 Cincinnati                 2
+## 50 Kansas State               2
+## # ℹ 18 more rows</code></pre>
+<p>Here we have a problem. If we’re interested just in colleges, we’re going to need to structure this a bit more. The code below filters out three categories that we don’t want: missing data, anything classified as others, and sports teams from other countries. The last is incomplete– I probably missed some! If I were doing this for real, I would use a list of colleges and only include those names.</p>
+<p>What I do below is to negate the <code>str_detect</code> variable by placing the <code>!</code> in front of it. This means I want all of the cases that don’t match the pattern the supplied. The pattern makes heavy use of the OR operator <code>|</code>. I’m saying I don’t want to include players whose organization included the letters <code>CB</code> r <code>KK</code> and so on (these are common prefixes for sports organizations in other countries, I definitely did not look that up on Wikipedia. Ok, I did.).</p>
+<pre class="r"><code>nba%&gt;%
+  filter(!is.na(org))%&gt;%
+  filter(!org==&quot;Other&quot;)%&gt;%
+  filter(!str_detect(org,&quot;CB|KK|rytas|FC|B.C.|S.K.|Madrid&quot;))%&gt;%
+  group_by(org)%&gt;%
+  count()%&gt;%
+  arrange(-n)%&gt;%
+  print(n=50)</code></pre>
+<pre><code>## # A tibble: 57 × 2
+## # Groups:   org [57]
+##    org                        n
+##    &lt;fct&gt;                  &lt;int&gt;
+##  1 Kentucky                  25
+##  2 Duke                      17
+##  3 California-Los Angeles    15
+##  4 Kansas                    11
+##  5 Arizona                   10
+##  6 Texas                     10
+##  7 North Carolina             9
+##  8 Michigan                   8
+##  9 Villanova                  7
+## 10 Indiana                    6
+## 11 Southern California        6
+## 12 Syracuse                   6
+## 13 California                 5
+## 14 Louisville                 5
+## 15 Ohio State                 5
+## 16 Wake Forest                5
+## 17 Colorado                   4
+## 18 Connecticut                4
+## 19 Creighton                  4
+## 20 Florida                    4
+## 21 Georgia Tech               4
+## 22 Michigan State             4
+## 23 Oregon                     4
+## 24 Utah                       4
+## 25 Washington                 4
+## 26 Wisconsin                  4
+## 27 Boston College             3
+## 28 Florida State              3
+## 29 Georgetown                 3
+## 30 Gonzaga                    3
+## 31 Iowa State                 3
+## 32 Marquette                  3
+## 33 Maryland                   3
+## 34 Miami (FL)                 3
+## 35 North Carolina State       3
+## 36 Notre Dame                 3
+## 37 Oklahoma                   3
+## 38 Purdue                     3
+## 39 Southern Methodist         3
+## 40 Stanford                   3
+## 41 Tennessee                  3
+## 42 Virginia                   3
+## 43 Baylor                     2
+## 44 Butler                     2
+## 45 Cincinnati                 2
+## 46 Kansas State               2
+## 47 Louisiana State            2
+## 48 Memphis                    2
+## 49 Missouri                   2
+## 50 Murray State               2
+## # ℹ 7 more rows</code></pre>
+<p>That looks better. Which are the most common colleges and universities that send players to the NBA?</p>
+<p><strong>Quick Exercise</strong> Arrange the number of players by team in descending order.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="categorical-unordered-binary-1" class="section level2">
+<h2>Categorical: unordered, binary</h2>
+<p>There are two conference in the NBA, eastern and western. Let’s take a look at the variable that indicates which conference the payer played in that season.</p>
+<pre class="r"><code>nba%&gt;%select(idConference)%&gt;%
+  glimpse()</code></pre>
+<pre><code>## Rows: 530
+## Columns: 1
+## $ idConference &lt;int&gt; 2, 2, 2, 2, 1, 1, 2, 1, 1, 2, 2, 1, 2, 1, 1, 1, 1, 2, 2, …</code></pre>
+<p>It looks like conference is structured as numeric, but a “1” or a “2”. Because it’s best to have binary variables structured as “has the characteristic” or “doesn’t have the characteristic” we’re going to create a variable for western conference that’s set to 1 if the player was playing in the western conference and 0 if the player was not (this is the same as playing in the eastern conference).</p>
+<pre class="r"><code>nba&lt;-nba%&gt;%
+  mutate(west_conference=ifelse(idConference==1,1,0))</code></pre>
+<p>Once we’ve done that, we can see how many players played in each conference.</p>
+<pre class="r"><code>nba%&gt;%
+  summarize(mean(west_conference))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   `mean(west_conference)`
+##                     &lt;dbl&gt;
+## 1                   0.508</code></pre>
+<p>Makes sense!</p>
+<p><strong>Quick Exercise</strong>:* create a variable for whether or not the player is from the USA. Calculate the proportion of players from the USA in the NBA. The coding on country is … decidedy US-centric, so you’ll need to think about this one a bit.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="analysis" class="section level2">
+<h2>Analysis</h2>
+<p>Ok, now that we know how this works, we can do some summary analysis. First of all, what does the total number of field goals made look like by college?</p>
+<p>We know that field goals are continuous (sort of) so let’s summarize them via the mean. We know that college is a categorical variable, so we’ll use that to group the data. This is one of our first examples of a conditiona mean, which we’ll use a lot.</p>
+</div>
+<div id="top-50-colleges-by-total-fg" class="section level2">
+<h2>Top 50 Colleges by Total FG</h2>
+<pre class="r"><code>nba%&gt;%
+  filter(!is.na(org))%&gt;%
+  filter(!org==&quot;Other&quot;)%&gt;%
+  filter(!str_detect(org,&quot;CB|KK|rytas|FC|B.C.|S.K.|Madrid&quot;))%&gt;%
+  group_by(org)%&gt;%
+  summarize(mean_fg=sum(fgm))%&gt;%
+  arrange(-mean_fg)%&gt;%
+  print(n=50)</code></pre>
+<pre><code>## # A tibble: 57 × 2
+##    org                    mean_fg
+##    &lt;fct&gt;                    &lt;dbl&gt;
+##  1 Kentucky                  6594
+##  2 Duke                      4623
+##  3 Texas                     3437
+##  4 California-Los Angeles    3382
+##  5 Kansas                    2765
+##  6 Arizona                   2101
+##  7 Oklahoma                  1767
+##  8 Southern California       1758
+##  9 Louisville                1679
+## 10 North Carolina            1659
+## 11 Indiana                   1522
+## 12 Ohio State                1486
+## 13 Michigan                  1392
+## 14 Wake Forest               1364
+## 15 Connecticut               1299
+## 16 Villanova                 1222
+## 17 Georgia Tech              1169
+## 18 Tennessee                 1095
+## 19 Stanford                   949
+## 20 Utah                       943
+## 21 Marquette                  873
+## 22 Gonzaga                    863
+## 23 Michigan State             820
+## 24 Colorado                   818
+## 25 Virginia                   816
+## 26 Maryland                   811
+## 27 Missouri                   756
+## 28 California                 734
+## 29 Florida State              733
+## 30 Georgetown                 717
+## 31 Memphis                    620
+## 32 Florida                    618
+## 33 North Carolina State       598
+## 34 Boston College             586
+## 35 Louisiana State            583
+## 36 Syracuse                   567
+## 37 Iowa State                 523
+## 38 Butler                     459
+## 39 Wisconsin                  456
+## 40 Creighton                  432
+## 41 Oregon                     352
+## 42 Texas A&amp;M                  322
+## 43 Baylor                     312
+## 44 Providence                 291
+## 45 Purdue                     275
+## 46 Notre Dame                 263
+## 47 Ulkerspor                  252
+## 48 Southern Methodist         246
+## 49 Oklahoma State             242
+## 50 West Virginia              236
+## # ℹ 7 more rows</code></pre>
+<p>Next, what about field goal percentage?</p>
+</div>
+<div id="top-50-colleges-by-average-field-goal-percent" class="section level2">
+<h2>Top 50 Colleges by Average Field Goal Percent</h2>
+<pre class="r"><code>nba%&gt;%
+  filter(!is.na(org))%&gt;%
+  filter(!org==&quot;Other&quot;)%&gt;%
+  filter(!str_detect(org,&quot;CB|KK|rytas|FC|B.C.|S.K.|Madrid&quot;))%&gt;%
+  group_by(org)%&gt;%
+  summarize(mean_ftp=mean(pctFT))%&gt;%
+  arrange(-mean_ftp)%&gt;%
+  print(n=50)</code></pre>
+<pre><code>## # A tibble: 57 × 2
+##    org                  mean_ftp
+##    &lt;fct&gt;                   &lt;dbl&gt;
+##  1 Tennessee               0.842
+##  2 Virginia                0.833
+##  3 Oklahoma                0.823
+##  4 North Carolina State    0.817
+##  5 West Virginia           0.804
+##  6 Ulkerspor               0.803
+##  7 Missouri                0.802
+##  8 Wake Forest             0.802
+##  9 Florida State           0.801
+## 10 Murray State            0.798
+## 11 Iowa State              0.795
+## 12 Notre Dame              0.792
+## 13 Memphis                 0.788
+## 14 Florida                 0.784
+## 15 Michigan                0.783
+## 16 Stanford                0.779
+## 17 Georgetown              0.775
+## 18 Marquette               0.774
+## 19 Utah                    0.770
+## 20 Kansas State            0.767
+## 21 Butler                  0.762
+## 22 Gonzaga                 0.761
+## 23 North Carolina          0.756
+## 24 Villanova               0.755
+## 25 Texas                   0.752
+## 26 Connecticut             0.748
+## 27 Providence              0.747
+## 28 Boston College          0.742
+## 29 Michigan State          0.730
+## 30 Kansas                  0.729
+## 31 Indiana                 0.729
+## 32 Duke                    0.728
+## 33 Baylor                  0.726
+## 34 Arizona                 0.721
+## 35 Pallacanestro Biella    0.718
+## 36 Wisconsin               0.712
+## 37 Kentucky                0.712
+## 38 Georgia Tech            0.712
+## 39 Louisiana State         0.709
+## 40 Creighton               0.698
+## 41 Maryland                0.695
+## 42 Vanderbilt              0.688
+## 43 Washington              0.680
+## 44 Louisville              0.679
+## 45 Ohio State              0.679
+## 46 California              0.675
+## 47 Southern Methodist      0.673
+## 48 Oregon                  0.662
+## 49 Texas A&amp;M               0.652
+## 50 Southern California     0.648
+## # ℹ 7 more rows</code></pre>
+<p><strong>Quick Exercise</strong> Calculate field goals made by player season.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<p><strong>Quick Exercise</strong> Calculate free throw percent made by player season.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+    
+    
+    
+    
+    
+    <div class="media author-card content-widget-hr">
+      
+
+      <div class="media-body">
+        <h5 class="card-title"><a href="/data-science-site/authors/authors/"></a></h5>
+        <h6 class="card-subtitle">Assistant Professor</h6>
+        
+        <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/data-science-site/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/RyanWeldzius" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=16VmMg4AAAAJ&amp;hl=en" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/rweldzius" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+</ul>
+
+      </div>
+    </div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+
+        
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" integrity="sha512-1+qUtKoh9XZW7j+6LhRMAyOrgSQKenQ4mluTR+cvxXjP1Z54RxZuzstR/H9kgPXQsVB8IW7DMDFUJpzLjvhGSQ==" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js" integrity="sha512-7t8APmYpzEsZP7CYoA7RfMPV9Bb+PJHa9x2WiUnDXZx3XHveuyWUtvNOexhkierl5flZ3tr92dP1mMS+SGlD+A==" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/languages/r.min.js"></script>
+        
+      
+
+    
+
+    
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    <script>const isSiteThemeDark = false;</script>
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <script src="/data-science-site/js/academic.min.36113c13f63e6c1889c2fede8fbd5f35.js"></script>
+
+    
+
+
+
+
+
+
+    
+    
+    <div class="container">
+        <footer>
+    <hr>
+
+    <div class="row course-info">
+        <div class="col-md-7">
+            <p>
+                <strong>PSC4175: Introduction to Data Science (Fall 2025)</strong><br>
+
+                <a href="https://www.villanova.edu" target="_blank" rel="noopener">Villanova University</a><br>
+                
+                <a href="https://www1.villanova.edu/university/liberal-arts-sciences/programs/political-science.html" target="_blank" rel="noopener">Department of Political Science</a>
+            </p>
+
+            <p>
+                <a href="http://www.ryanweldzius.com/" target="_blank" rel="noopener"><i class="fas fa-user"></i>
+                    Ryan Weldzius</a> &emsp;&emsp;
+                <a href="mailto:ryan.weldzius@villanova.edu"><i class="fas fa-envelope"></i>
+                    ryan.weldzius@villanova.edu</a>
+            </p>
+
+            <p>
+                <i class="far fa-calendar-alt"></i> Mondays &emsp;&emsp;
+                <i class="far fa-clock"></i> 3:20 pm -4:35pm <br>
+                <i class="fas fa-university"></i> Bartley Hall 2073
+            </p>
+        </div>
+
+        <div class="col-md-5 credits">
+            <p>All content licensed under a <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.</p>
+            
+            <p>Content <i class="fab fa-creative-commons"></i> 2025 <a href="http://www.ryanweldzius.com/" target="_blank" rel="noopener">Ryan Weldzius</a></p>                    
+            
+            <p><a href="https://github.com/rweldzius/data-science-site" target="_blank" rel="noopener"><i class="fab fa-github"></i> View the source at GitHub.</a></p>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+
+    
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+
+</html>

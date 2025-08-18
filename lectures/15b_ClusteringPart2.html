@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Clustering</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Prof. Weldzius" />
+    <script src="libs/header-attrs-2.29/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/lexis.css" type="text/css" />
+    <link rel="stylesheet" href="css/lexis-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Clustering
+]
+.subtitle[
+## Part 2b
+]
+.author[
+### Prof. Weldzius
+]
+.institute[
+### Villanova University
+]
+
+---
+
+
+&lt;style type="text/css"&gt;
+.small .remark-code { /*Change made here*/
+  font-size: 85% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+&lt;/style&gt;
+
+
+
+# Agenda
+
+1. Tweets as data
+
+2. Words &amp;rarr; topics
+
+3. Application
+
+
+``` r
+require(tidyverse)
+require(scales)
+tweet_words &lt;- read_rds(file="../Data/Trump_tweet_words.Rds")
+```
+
+---
+
+# NLP Definitions
+
+- Before we dig in, some important definitions
+
+--
+  
+1. **Word / Term:** The core unit of interest
+
+--
+
+  - Often pre-processed to remove "stop words" and to "stem" the words
+  
+  - "Stop word": an uninteresting, commonly used word
+  
+  - "Stem / Lemmatize": the core component of a word that contains its meaning (eat, ate, eaten &amp;rarr; eat)
+  
+--
+  
+2. **Document:** A collection of words with a single purpose / idea (i.e., a tweet, an essay)
+
+--
+  
+3. **Corpus:** A collection of documents
+
+--
+
+4. **BOW:** Bag-of-words. Convert a **document** into a count of how many times **words** appear
+
+--
+
+5. **DTM:** Document-term matrix. A dataset where rows are **documents**, columns are **words**, and the values are the counts from **BOW**
+
+
+---
+
+# What does Trump tweet about?
+
+- Core idea: word frequencies can help:
+
+--
+
+  - Help us understand **documents**
+  
+--
+
+  - Which help us understand **authors**
+  
+
+``` r
+counts &lt;- tweet_words %&gt;% 
+  count(word) %&gt;%
+  arrange(-n)
+```
+
+---
+
+# What does Trump tweet about?
+
+
+``` r
+counts
+```
+
+```
+## # A tibble: 45,221 × 2
+##    word          n
+##    &lt;chr&gt;     &lt;int&gt;
+##  1 trump      6269
+##  2 president  4637
+##  3 amp        4306
+##  4 people     3475
+##  5 country    2302
+##  6 america    2211
+##  7 time       1913
+##  8 donald     1891
+##  9 news       1842
+## 10 democrats  1824
+## # ℹ 45,211 more rows
+```
+
+---
+
+# What does Trump tweet about?
+
+
+``` r
+p &lt;- tweet_words %&gt;%
+  count(word, sort = TRUE) %&gt;% # New ways of doing old things
+  head(20) %&gt;%
+  ggplot(aes(x = n,y = reorder(word, n))) +
+  geom_bar(stat = "identity") +
+  ylab("Occurrences") +
+  scale_x_continuous(label=comma)
+```
+
+---
+
+# What does Trump tweet about?
+
+
+``` r
+p
+```
+
+&lt;img src="15b_ClusteringPart2_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Effect of becoming president
+
+- Did his focus change when he became president?
+
+
+``` r
+tweet_words &lt;- tweet_words %&gt;%
+  mutate(PostPresident = Tweeting.date &gt; as.Date("2016-11-03"))
+```
+
+--
+
+
+``` r
+p &lt;- tweet_words %&gt;%
+  count(PostPresident,word) %&gt;%
+  group_by(PostPresident) %&gt;%
+  arrange(-n) %&gt;%
+  slice(1:10) %&gt;%
+  ggplot(aes(x = n,y = reorder(word, n),
+             fill = PostPresident)) +
+  geom_bar(stat = "identity") +
+  ylab("Occurrences") +
+  scale_x_continuous(label=comma)
+```
+
+---
+
+# Effect of becoming president
+
+
+``` r
+p
+```
+
+&lt;img src="15b_ClusteringPart2_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Document Term Matrix
+
+- "DTM" counts all the words in each document
+
+--
+
+- In this case, a "document" is a tweet
+
+
+``` r
+dtm &lt;- tweet_words %&gt;%
+  count(document,word)
+glimpse(dtm)
+```
+
+```
+## Rows: 433,271
+## Columns: 3
+## $ document &lt;dbl&gt; 1698308935, 1698308935, 1698308935, 16983…
+## $ word     &lt;chr&gt; "david", "donald", "late", "letterman", "…
+## $ n        &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+```
+
+---
+
+# Document Term Matrix
+
+- However, each tweet is very short
+
+--
+
+- Let's consider the `Tweeting.date` the document
+
+--
+
+  - Concept: What is Trump tweeting about on a given day?
+  
+
+``` r
+dtm &lt;- tweet_words %&gt;%
+  count(Tweeting.date,word) %&gt;%
+  group_by(word) %&gt;%
+  mutate(tot_n = sum(n)) %&gt;% # Also calculate TOTAL number of times a word appears
+  ungroup()
+```
+
+---
+
+# Wrangle
+
+- Extremely rare words should be dropped (typos, etc.)
+
+
+``` r
+dtm %&gt;%
+  arrange(tot_n) %&gt;% head() # Trump tweeted "barnesandnoblecom" only once in his life
+```
+
+```
+## # A tibble: 6 × 4
+##   Tweeting.date word                                 n tot_n
+##   &lt;date&gt;        &lt;chr&gt;                            &lt;int&gt; &lt;int&gt;
+## 1 2009-05-08    httptinyurlcomooafwn                 1     1
+## 2 2009-05-08    httptinyurlcomqluxe                  1     1
+## 3 2009-05-12    cling                                1     1
+## 4 2009-05-12    wallflower                           1     1
+## 5 2009-05-13    httptinyurlcomqsvl                   1     1
+## 6 2009-05-15    contesthttpwwwtrumpthinklikeach…     1     1
+```
+
+``` r
+dtm &lt;- dtm %&gt;%
+  filter(tot_n &gt; 20) # Drop these rarely occurring words
+```
+
+
+---
+
+# Analyzing BOW
+
+- Some words are frequently found in many documents
+
+--
+
+- We want to find words that are **uniquely** used
+
+--
+
+  - "Unique" &amp;rarr; used frequently in one document but not in any others
+  
+--
+
+- "TF-IDF": Term frequency-inverse document frequency
+
+--
+
+- "TF": `\(\frac{\text{word count}}{\text{total words}}\)`
+
+- "DF": `\(\frac{\text{documents with word}}{\text{total documents}}\)`
+
+--
+
+  - "IDF": Just invert it `\(\frac{\text{total documents}}{\text{documents with word}}\)`
+  
+$$tf-idf(w,d) = tf(w,d) \times log \left( \frac{N}{df(w)}\right) $$
+
+---
+
+# TF-IDF
+
+
+``` r
+require(tidytext) # Required to calculate TF-IDF
+# install.packages("tm", repos="http://R-Forge.R-project.org") # may need to run this if the next chunk produces an error "there is no package called 'tm'"
+require(tm)
+dtm.tfidf &lt;- bind_tf_idf(tbl = dtm, term = word, document = Tweeting.date, n = n) # Calculate TF-IDF
+dtm.tfidf  %&gt;%
+  select(word,tf_idf) %&gt;%
+  distinct() %&gt;%
+  arrange(-tf_idf) %&gt;%
+  slice(1:10)
+```
+
+```
+## # A tibble: 10 × 2
+##    word       tf_idf
+##    &lt;chr&gt;       &lt;dbl&gt;
+##  1 gma          5.21
+##  2 generation   4.90
+##  3 dead         3.19
+##  4 apprentice   2.58
+##  5 weekly       2.40
+##  6 appearance   2.26
+##  7 answers      2.11
+##  8 sounds       2.10
+##  9 football     2.01
+## 10 defeat       1.90
+```
+
+---
+
+# `\(K\)`-means
+
+- How to summarize this? `\(k\)`-means clustering!
+
+--
+
+- Recall that `kmeans()` function clusters over every column in a data frame
+
+--
+
+- `dtm.tfidf` is organized "long" (i.e., each row is a word-by-document)
+
+--
+
+- Want to convert to "wide" (i.e., rows are documents, columns are words)
+
+--
+
+- Previously used `spread()`, but for *k*-means with text: `cast_dtm()`
+
+--
+
+
+``` r
+castdtm &lt;- tidytext::cast_dtm(data = dtm.tfidf, document = Tweeting.date, term = word, value = tf_idf)
+```
+
+--
+
+- Now let's calculate `kmeans()` (this will take a few seconds)
+
+
+``` r
+set.seed(42)
+km_out &lt;- kmeans(castdtm, 
+                 centers = 50, # Number of "topics"
+                 nstart = 5)
+```
+
+---
+
+# Looking at Clusters
+
+- Some quick wrangling
+
+
+``` r
+require(tidymodels)
+km_out_tidy &lt;- tidy(km_out) %&gt;%
+  gather(word,mean_tfidf,-size,-cluster,-withinss) %&gt;% # Convert to long data
+  mutate(mean_tfidf = as.numeric(mean_tfidf)) # Calculate average TF-IDF
+km_out_tidy
+```
+
+```
+## # A tibble: 158,850 × 5
+##     size withinss cluster word  mean_tfidf
+##    &lt;int&gt;    &lt;dbl&gt; &lt;fct&gt;   &lt;chr&gt;      &lt;dbl&gt;
+##  1    12    12.6  1       david   0       
+##  2     1     0    2       david   0       
+##  3     1     0    3       david   0       
+##  4     4     7.12 4       david   0       
+##  5    16    12.4  5       david   0       
+##  6    36    43.0  6       david   0       
+##  7   156    54.5  7       david   0.000647
+##  8     1     0    8       david   0       
+##  9     1     0    9       david   0       
+## 10     9     9.95 10      david   0       
+## # ℹ 158,840 more rows
+```
+
+---
+
+# Looking at Clusters
+
+- And can plot! (Just look at first 10 "topics")
+
+
+``` r
+p &lt;- km_out_tidy %&gt;%
+  filter(cluster %in% 1:9) %&gt;%
+  group_by(cluster) %&gt;%
+  arrange(-mean_tfidf) %&gt;%
+  slice(1:10) %&gt;%
+  ggplot(aes(x = mean_tfidf,y = reorder(word,mean_tfidf),
+             fill = factor(cluster))) + 
+  geom_bar(stat = 'identity') + 
+  facet_wrap(~cluster,scales = 'free') + 
+  labs(title = 'k-means Clusters',
+       subtitle = 'Clustered by TF-IDF',
+       x = 'Centroid',
+       y = NULL,
+       fill = 'Cluster ID')
+```
+
+---
+
+# Looking at Clusters
+
+
+``` r
+p
+```
+
+&lt;img src="15b_ClusteringPart2_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Looking at clusters
+
+- What are these clusters?
+
+--
+
+- Let's look at the most popular topics
+
+
+``` r
+(tops &lt;- km_out_tidy %&gt;%
+  select(size,withinss,cluster) %&gt;%
+  distinct() %&gt;%
+  arrange(desc(size)) %&gt;%
+    slice(1:5))
+```
+
+```
+## # A tibble: 5 × 3
+##    size withinss cluster
+##   &lt;int&gt;    &lt;dbl&gt; &lt;fct&gt;  
+## 1  3066    720.  13     
+## 2   156     54.5 7      
+## 3    36     43.0 6      
+## 4    34     28.1 12     
+## 5    17     13.9 44
+```
+
+---
+
+# Looking at clusters
+
+- What are these clusters?
+
+- Let's look at the most popular topics
+
+
+``` r
+p &lt;- km_out_tidy %&gt;%
+  filter(cluster %in% tops$cluster) %&gt;%
+  group_by(cluster) %&gt;%
+  arrange(-mean_tfidf) %&gt;%
+  slice(1:10) %&gt;%
+  ggplot(aes(x = mean_tfidf,y = reorder(word,mean_tfidf),
+             fill = factor(cluster))) + 
+  geom_bar(stat = 'identity') + 
+  facet_wrap(~cluster,scales = 'free') + 
+  labs(title = 'k-means Clusters',
+       subtitle = 'Clustered by TF-IDF',
+       x = 'Centroid',
+       y = NULL,
+       fill = 'Cluster ID')
+```
+
+---
+
+# Looking at clusters
+
+
+``` r
+p
+```
+
+&lt;img src="15b_ClusteringPart2_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Optimal number of clusters?
+
+- We know how to do this already! Elbow plot!
+
+
+``` r
+set.seed(42)
+totWSS &lt;- NULL
+for(k in c(1,10,50,100,250,500,1000)) {
+  km_out &lt;- kmeans(castdtm, 
+                 centers = k,
+                 nstart = 5)
+  
+  totWSS &lt;- data.frame(totWSS = km_out$tot.withinss,
+                       k = k) %&gt;%
+    bind_rows(totWSS)
+}
+
+p &lt;- totWSS %&gt;%
+  ggplot(aes(x = k,y = totWSS)) + 
+  geom_point() + 
+  geom_line()
+```
+
+---
+
+# Optimal number of clusters?
+
+
+``` r
+p
+```
+
+&lt;img src="15b_ClusteringPart2_files/figure-html/unnamed-chunk-24-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Conclusion
+
+- `\(k\)`-means clustering on text &amp;rarr; **topics**
+
+--
+
+- As always, this is a deep area of study
+
+--
+
+  - Superior methods are out there (Latent Dirichlet Allocation, Structural Topic Modeling, etc.)
+  
+--
+
+- NOTE: even with text, always start with simple descriptives
+
+--
+
+  - **Looking** at your data is the heart of data science
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="libs/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+  "highlightStyle": "github",
+  "highlightLines": true,
+  "countIncrementalSlides": false,
+  "ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

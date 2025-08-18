@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Intro to R (Part 1)</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Prof. Weldzius" />
+    <script src="libs/header-attrs-2.29/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/lexis.css" type="text/css" />
+    <link rel="stylesheet" href="css/lexis-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Intro to <code>R</code> (Part 1)
+]
+.author[
+### Prof. Weldzius
+]
+.institute[
+### Villanova University
+]
+.date[
+### Lecture Date: Slides Updated: 2025-05-28
+]
+
+---
+
+
+&lt;style type="text/css"&gt;
+.small .remark-code { /*Change made here*/
+  font-size: 85% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+&lt;/style&gt;
+
+
+
+&lt;!-- # Agenda --&gt;
+
+&lt;!-- 1. Getting set up --&gt;
+
+&lt;!-- -- --&gt;
+
+&lt;!--   - Folder structure + `setwd()` --&gt;
+
+&lt;!-- -- --&gt;
+
+&lt;!-- 2. Installing software --&gt;
+
+&lt;!-- -- --&gt;
+
+&lt;!--   - [`R: https://cran.r-project.org/`](https://cran.r-project.org/) --&gt;
+
+&lt;!-- -- --&gt;
+
+&lt;!--   - [`RStudio: https://rstudio.com/products/rstudio/download/`](https://rstudio.com/products/rstudio/download/) --&gt;
+
+&lt;!-- -- --&gt;
+
+&lt;!-- 3. Requiring packages --&gt;
+
+&lt;!-- -- --&gt;
+
+&lt;!--   - `install.packages("tidyverse")`  --&gt;
+
+&lt;!-- -- --&gt;
+
+&lt;!--   - `require(tidyverse)` --&gt;
+
+&lt;!-- -- --&gt;
+
+&lt;!-- 4. Loading and manipulating data --&gt;
+
+&lt;!-- -- --&gt;
+
+&lt;!--   - `readRDS()` --&gt;
+
+&lt;!-- -- --&gt;
+
+&lt;!--   - `%&gt;%` --&gt;
+
+---
+
+# Getting set up
+
+--
+
+- Folder structure + `setwd()`
+
+--
+
+  - Concept: keep everything together...
+  
+--
+
+  - ...and **related**
+
+--
+
+.center[&lt;img src="figs/directory_1.png" width = "75%"&gt;]
+
+
+---
+
+# Getting set up
+
+- Folder structure + `setwd()`
+
+  - Concept: keep everything together...
+
+  - ...and **related**
+
+.center[&lt;img src="figs/directory_2.png" width = "75%"&gt;]
+
+
+
+&lt;!-- --- --&gt;
+
+&lt;!-- # Installing software --&gt;
+
+&lt;!-- -- --&gt;
+
+&lt;!-- - [`R: https://cran.r-project.org/`](https://cran.r-project.org/) --&gt;
+
+&lt;!--   - Accept all defaults --&gt;
+
+&lt;!-- -- --&gt;
+
+&lt;!-- - [`RStudio: https://rstudio.com/products/rstudio/download/`](https://rstudio.com/products/rstudio/download/) --&gt;
+
+&lt;!--   - Download the version for your OS --&gt;
+
+&lt;!-- -- --&gt;
+
+&lt;!-- - Open `RStudio` and create a new rmarkdown (`.Rmd`) file --&gt;
+
+&lt;!-- -- --&gt;
+
+&lt;!--   - Accept defaults, give it a sensible name, delete the default text, then save it to your folder (again with a sensible name) --&gt;
+
+&lt;!-- -- --&gt;
+
+&lt;!--   - You should follow along with the lecture in this file! Take notes here! Try code here! --&gt;
+
+---
+
+# How to type in `.Rmd`
+
+``` markdown
+# This is a header
+
+## This is a subheader
+
+### This is a subsubheader
+
+This is plain text.
+```
+--
+
+# This is a header
+
+## This is a subheader
+
+### This is a subsubheader
+
+This is plain text.
+
+
+---
+
+# How to type in `.Rmd`
+
+``` markdown
+- This is
+
+- a bulleted
+
+  - List
+
+1. This is
+
+2. a numbered list
+```
+
+--
+
+- This is
+
+- a bulleted
+
+  - List
+
+1. This is
+
+2. a numbered list
+
+---
+
+# How to type in `.Rmd`
+
+
+``` markdown
+ **Bold font**, *italic font*, `code font`
+```
+--
+
+**Bold font**, *italic font*, `code font`
+
+--
+
+- Most Importantly! `R` code!
+
+
+```` markdown
+```{r}
+2+2
+```
+````
+
+
+
+--
+
+
+``` r
+2+2
+```
+
+```
+## [1] 4
+```
+
+---
+
+# How `R` Works
+
+--
+
+- **O**bject **O**riented **L**anguage (**OOL**)
+
+--
+
+  - Objects are created with the `&lt;-` command
+  
+--
+
+  - You *can* run code directly...
+  
+
+
+``` r
+2+2
+```
+
+```
+## [1] 4
+```
+
+---
+
+# How `R` Works
+
+
+- **O**bject **O**riented **L**anguage (**OOL**)
+
+  - Objects are created with the `&lt;-` command
+
+  - ...but most of what we'll do involves objects
+  
+
+
+``` r
+object1 &lt;- 2+2
+```
+
+--
+
+- Object assignment operator **saves** the output
+
+- It **does not print** the output
+
+--
+
+- To see, just call the object
+
+
+``` r
+object1
+```
+
+```
+## [1] 4
+```
+
+---
+
+# How `R` Works
+
+
+- **O**bject **O**riented **L**anguage (**OOL**)
+
+  - Objects are created with the `&lt;-` command
+
+  - They can be named anything (so be intuitive!)
+  
+
+
+``` r
+three_plus_three &lt;- 2+2
+three_plus_three
+```
+
+```
+## [1] 4
+```
+
+---
+
+# How `R` Works
+
+- **O**bject **O**riented **L**anguage (**OOL**)
+
+  - Objects are created with the `&lt;-` command
+
+  - Objects can store many different things
+  
+
+``` r
+an_element &lt;- 2+2
+a_vector &lt;- c(1,2,3)
+a_list &lt;- list('element1' = 2+2,
+               'element2' = "Go Nova!",
+               'element3' = runif(n = 10,min = 0,max = 10))
+a_function &lt;- function(x) {
+  avg_of_x &lt;- sum(x) / length(x)
+  return(avg_of_x)
+}
+```
+
+---
+
+# How `R` Works
+
+- Objects **persist!**
+
+``` r
+an_element # This object stores 2+2
+```
+
+```
+## [1] 4
+```
+
+``` r
+a_vector   # This object stores the integers 1, 2, and 3
+```
+
+```
+## [1] 1 2 3
+```
+
+``` r
+an_element*a_vector
+```
+
+```
+## [1]  4  8 12
+```
+
+``` r
+an_element-a_vector
+```
+
+```
+## [1] 3 2 1
+```
+
+---
+
+# A comment on comments
+
+- If you use a # sign inside a code chunk, you can write a comment
+
+
+``` r
+# This is a comment. If I compile the code, nothing will happen.
+
+# This is another comment. These are helpful for annotating my code.
+```
+
+---
+
+# How `R` Works
+
+- Objects **persist!**
+
+``` r
+# This object stores:
+  # 1) 2+2 (named "element1")
+  # 2) the text "hello world!" (named "element2")
+  # 3) 10 numbers randomly drawn between 0 and 10
+a_list
+```
+
+```
+## $element1
+## [1] 4
+## 
+## $element2
+## [1] "Go Nova!"
+## 
+## $element3
+##  [1] 2.875775 7.883051 4.089769 8.830174 9.404673 0.455565
+##  [7] 5.281055 8.924190 5.514350 4.566147
+```
+
+---
+
+# How `R` Works
+
+- Objects **persist!**
+
+``` r
+# Let's apply our function ("a_function") to "element3" in "a_list"
+a_function(x = a_list[['element3']])
+```
+
+```
+## [1] 5.782475
+```
+
+--
+
+- We could also call `element3` from `a_list` with a dollar sign
+
+
+``` r
+# This does the same thing as the previous slide...it just accesses element3 differently.
+a_function(x = a_list$element3)
+```
+
+```
+## [1] 5.782475
+```
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="libs/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+  "highlightStyle": "github",
+  "highlightLines": true,
+  "countIncrementalSlides": false,
+  "slideNumberFormat": "%current%",
+  "ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

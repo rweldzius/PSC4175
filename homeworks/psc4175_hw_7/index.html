@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en" 
+      xmlns:og="http://ogp.me/ns#" 
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+
+<head><script src="/data-science-site/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=data-science-site/livereload" data-no-instant defer></script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.8.0">
+
+  
+
+  
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  
+
+  
+  
+  
+    
+  
+  <meta name="description" content="
+Uncertainty
+When we calculate a summary statistic in univariate statistics, we’re making a statement about what we can expect to see in other situations. If I say that the average height of a cedar tree is 75 feet, that gives an expectation for the average height we might calculate for any given sample of cedar trees. However, there’s more information that we need to communicate. It’s not just the summary measure– it’s also our level of uncertainty around that summary measure. Sure, the average height might be 75 feet, but does that mean in every sample we ever collect we’re always going to see an average of 75 feet?">
+
+  
+  <link rel="alternate" hreflang="en" href="http://localhost:1313/data-science-site/homeworks/psc4175_hw_7/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#3498db">
+  
+
+  
+  
+  
+  <script src="/data-science-site/js/mathjax-config.js"></script>
+  
+
+  
+  
+  
+  
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha256-FMvZuGapsJLjouA6k7Eo2lusoAX9i0ShlWFG6qt7SLc=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+    
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed:400,400i,700,700i%7COverpass:400,400i,700,700i&display=swap">
+    
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/data-science-site/css/academic.css">
+
+  
+  
+
+
+  
+  
+
+  
+
+  <link rel="manifest" href="/data-science-site/index.webmanifest">
+  <link rel="icon" type="image/png" href="/data-science-site/images/icon_hu_eb1e217680dff947.png">
+  <link rel="apple-touch-icon" type="image/png" href="/data-science-site/images/icon_hu_f0a9735dbf069933.png">
+
+  <link rel="canonical" href="http://localhost:1313/data-science-site/homeworks/psc4175_hw_7/">
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@rweldzius">
+  <meta property="twitter:creator" content="@rweldzius">
+  
+  <meta property="og:site_name" content="Introduction to Data Science">
+  <meta property="og:url" content="http://localhost:1313/data-science-site/homeworks/psc4175_hw_7/">
+  <meta property="og:title" content="Confidence and Uncertainty | Introduction to Data Science">
+  <meta property="og:description" content="
+Uncertainty
+When we calculate a summary statistic in univariate statistics, we’re making a statement about what we can expect to see in other situations. If I say that the average height of a cedar tree is 75 feet, that gives an expectation for the average height we might calculate for any given sample of cedar trees. However, there’s more information that we need to communicate. It’s not just the summary measure– it’s also our level of uncertainty around that summary measure. Sure, the average height might be 75 feet, but does that mean in every sample we ever collect we’re always going to see an average of 75 feet?"><meta property="og:image" content="http://localhost:1313/data-science-site/media/social-image.png">
+  <meta property="twitter:image" content="http://localhost:1313/data-science-site/media/social-image.png"><meta property="og:locale" content="en">
+  
+    
+      <meta property="article:published_time" content="2025-07-24T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2025-07-25T00:25:05-04:00">
+  
+
+  
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Confidence and Uncertainty | Introduction to Data Science</title>
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70"
+    data-target="#TableOfContents"
+    >
+
+    <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/data-science-site">Introduction to Data Science</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/data-science-site/">Introduction to Data Science</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-end" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/syllabus/"><span>Syllabus</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/schedule/"><span>Schedule</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/weeks/"><span>Classes</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/resources/"><span>Resources</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/downloads/"><span>Downloads</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+            
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="https://campuswire.com/p/GF9F6AD11" target="_blank" rel="noopener"><span>CampusWire</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+            
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="https://elearning.villanova.edu" target="_blank" rel="noopener"><span>Blackboard</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+
+
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Confidence and Uncertainty</h1>
+
+  
+  <p class="page-subtitle">Homework 7</p>
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    July 25, 2025
+  </span>
+  
+
+  
+
+  
+
+  
+  
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    
+    <div class="article-metadata">
+      
+      
+      
+        <span class="meta-item">
+          <strong>Due:</strong> 2026-06-02 by 11:59PM
+        </span>
+        <span class="middot-divider"></span>
+      
+
+      
+      
+        <span class="meta-item">
+          Villanova University
+        </span>
+        <span class="middot-divider"></span>
+      
+      
+      
+      <p>
+        <a href="/data-science-site/homeworks/psc4175_hw_7.Rmd" download>
+          <i class="fa fa-download" aria-hidden="true" style="margin-right: 6px;"></i><Strong>Download R Markdown file</Strong>
+        </a>
+      </p>
+    
+
+    </div>
+    
+
+    <div class="article-style">
+      
+
+
+<div id="uncertainty" class="section level2">
+<h2>Uncertainty</h2>
+<p>When we calculate a summary statistic in univariate statistics, we’re making a statement about what we can expect to see in other situations. If I say that the average height of a cedar tree is 75 feet, that gives an expectation for the average height we might calculate for any given sample of cedar trees. However, there’s more information that we need to communicate. It’s not just the summary measure– it’s also our level of uncertainty around that summary measure. Sure, the average height might be 75 feet, but does that mean in every sample we ever collect we’re always going to see an average of 75 feet?</p>
+</div>
+<div id="motivating-question" class="section level2">
+<h2>Motivating Question</h2>
+<p>We’ll be working with data from every NBA player who was active during the 2018-19 season.</p>
+<p>Here’s the data:</p>
+<pre class="r"><code>require(tidyverse)
+nba&lt;-read_rds(&quot;https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/nba_players_2018.Rds&quot;)</code></pre>
+<p>This data contains the following variables:</p>
+</div>
+<div id="codebook-for-nba-data" class="section level1">
+<h1>Codebook for NBA Data</h1>
+<table>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th align="right">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>namePlayer</td>
+<td align="right">Player name</td>
+</tr>
+<tr class="even">
+<td>idPlayer</td>
+<td align="right">Unique player id</td>
+</tr>
+<tr class="odd">
+<td>slugSeason</td>
+<td align="right">Season start and end</td>
+</tr>
+<tr class="even">
+<td>numberPlayerSeason</td>
+<td align="right">Which season for this player</td>
+</tr>
+<tr class="odd">
+<td>isRookie</td>
+<td align="right">Rookie season, true or false</td>
+</tr>
+<tr class="even">
+<td>slugTeam</td>
+<td align="right">Team short name</td>
+</tr>
+<tr class="odd">
+<td>idTeam</td>
+<td align="right">Unique team id</td>
+</tr>
+<tr class="even">
+<td>gp</td>
+<td align="right">Games Played</td>
+</tr>
+<tr class="odd">
+<td>gs</td>
+<td align="right">Games Started</td>
+</tr>
+<tr class="even">
+<td>fgm</td>
+<td align="right">Field goals made</td>
+</tr>
+<tr class="odd">
+<td>fga</td>
+<td align="right">Field goals attempted</td>
+</tr>
+<tr class="even">
+<td>pctFG</td>
+<td align="right">Percent of field goals made</td>
+</tr>
+<tr class="odd">
+<td>fg3m</td>
+<td align="right">3 point field goals made</td>
+</tr>
+<tr class="even">
+<td>fg3a</td>
+<td align="right">3 point field goals attempted</td>
+</tr>
+<tr class="odd">
+<td>pctFG3</td>
+<td align="right">Percent of 3 point field goals made</td>
+</tr>
+<tr class="even">
+<td>pctFT</td>
+<td align="right">Free Throw percentage</td>
+</tr>
+<tr class="odd">
+<td>fg2m</td>
+<td align="right">2 point field goals made</td>
+</tr>
+<tr class="even">
+<td>fg2a</td>
+<td align="right">2 point field goals attempted</td>
+</tr>
+<tr class="odd">
+<td>pctFG2</td>
+<td align="right">Percent of 2 point field goals made</td>
+</tr>
+<tr class="even">
+<td>agePlayer</td>
+<td align="right">Player age</td>
+</tr>
+<tr class="odd">
+<td>minutes</td>
+<td align="right">Minutes played</td>
+</tr>
+<tr class="even">
+<td>ftm</td>
+<td align="right">Free throws made</td>
+</tr>
+<tr class="odd">
+<td>fta</td>
+<td align="right">Free throws attempted</td>
+</tr>
+<tr class="even">
+<td>oreb</td>
+<td align="right">Offensive rebounds</td>
+</tr>
+<tr class="odd">
+<td>dreb</td>
+<td align="right">Defensive rebounds</td>
+</tr>
+<tr class="even">
+<td>treb</td>
+<td align="right">Total rebounds</td>
+</tr>
+<tr class="odd">
+<td>ast</td>
+<td align="right">Assists</td>
+</tr>
+<tr class="even">
+<td>blk</td>
+<td align="right">Blocks</td>
+</tr>
+<tr class="odd">
+<td>tov</td>
+<td align="right">Turnovers</td>
+</tr>
+<tr class="even">
+<td>pf</td>
+<td align="right">Personal fouls</td>
+</tr>
+<tr class="odd">
+<td>pts</td>
+<td align="right">Total points</td>
+</tr>
+<tr class="even">
+<td>urlNBAAPI</td>
+<td align="right">Source url</td>
+</tr>
+</tbody>
+</table>
+<p>We might be interested in a variety of questions:</p>
+<ul>
+<li>Do certain colleges produce players that have more field goals? What about free throw percentage above a certain level? Are certain colleges in the east or the west more likely to produce higher scorers? How does this vary as a player has more seasons?</li>
+</ul>
+<p>To answer these questions we need to look at the following variables:</p>
+<ul>
+<li>Field goals</li>
+<li>Free throw percentage above .25</li>
+<li>Colleges</li>
+<li>Player seasons</li>
+<li>Region</li>
+</ul>
+<p>For me, I’m most curious if the Eastern or Western conferences have different styles of play. In particular, I want to know if one conference <em>fouls</em> more than the other.</p>
+<div id="continuous-by-categorical" class="section level2">
+<h2>Continuous by Categorical</h2>
+<p>Recall that there are two conference in the NBA, eastern and western. Let’s take a look at the variable that indicates which conference the player played in that season.</p>
+<pre class="r"><code>nba%&gt;%select(idConference)%&gt;%
+  glimpse()</code></pre>
+<pre><code>## Rows: 530
+## Columns: 1
+## $ idConference &lt;int&gt; 2, 2, 2, 2, 1, 1, 2, 1, 1, 2, 2, 1, 2, 1, 1, 1, 1, 2, 2, …</code></pre>
+<p>It looks like conference is structured as numeric, but a “1” or a “2”. Because it’s best to have binary variables structured as “has the characteristic” or “doesn’t have the characteristic” we’re going to create a variable for western conference that’s set to 1 if the player was playing in the western conference and 0 if the player was not (this is the same as playing in the eastern conference).</p>
+<pre class="r"><code>nba&lt;-nba%&gt;%
+  mutate(conference=ifelse(idConference==1,&#39;West&#39;,&#39;East&#39;))</code></pre>
+<p>Now that we’ve wrangled, let’s compare personal fouls among players in the east versus west conferences</p>
+<pre class="r"><code>nba %&gt;%
+  group_by(conference) %&gt;%
+  summarise(pf_mean = mean(pf,na.rm=T))</code></pre>
+<pre><code>## # A tibble: 2 × 2
+##   conference pf_mean
+##   &lt;chr&gt;        &lt;dbl&gt;
+## 1 East          98.0
+## 2 West          96.1</code></pre>
+<p>Players in the Eastern conference have an average of 98 personal fouls in the 2018-2019 seasons, compared to players in the Western conference who only had 96.1 (on average).</p>
+<p>But are these differences meaningful? Another way of expressing this is “how confident are we that they are significantly different?”</p>
+<p>Statistical significance can be expressed in many different ways, but for now think of it as if you were an all-powerful deity who could see across a thousand universes. In how many of those universes would our conclusion that Eastern conference players commit more personal fouls be true?</p>
+<p>This is all very heady, so let’s do something more mundane that winds up simulating this idea.</p>
+</div>
+<div id="sampling" class="section level2">
+<h2>Sampling</h2>
+<p>We’re going to start by building up a range of uncertainty from the data we already have. We’ll do this by sampling from the data itself.</p>
+<p>Let’s just take very small sample of players– 100 players– and calculate personal fouls for those in the Eastern and Western conferences. We are going to <code>set.seed</code> to ensure that we get the same/similar answers every time we run the “random number” generator.</p>
+<pre class="r"><code>set.seed(123)
+sample_size&lt;-100
+nba%&gt;%
+  sample_n(size=sample_size, replace=TRUE) %&gt;% ## Sample size is as set above.  Replacement is set to TRUE
+  group_by(conference)%&gt;% ## Group by the conference
+  summarize(mean(pf)) ## calculate mean</code></pre>
+<pre><code>## # A tibble: 2 × 2
+##   conference `mean(pf)`
+##   &lt;chr&gt;           &lt;dbl&gt;
+## 1 East             96.9
+## 2 West             86.6</code></pre>
+<p>An even bigger difference! Among this random sample of 100 players, there is more than a 10-personal foul difference between the East and the West!</p>
+<p>If we think of this random sample as a proxy for an alternate universe, in this universe our conclusion is even <strong>stronger</strong>!</p>
+<p>But what about a different universe?</p>
+</div>
+<div id="and-again" class="section level2">
+<h2>And again:</h2>
+<pre class="r"><code>nba%&gt;%
+  sample_n(size=sample_size, replace=TRUE) %&gt;% ## Sample size is as set above.  Replacement is set to TRUE
+  group_by(conference)%&gt;% ## Group by the conference
+  summarize(mean(pf)) ## calculate mean</code></pre>
+<pre><code>## # A tibble: 2 × 2
+##   conference `mean(pf)`
+##   &lt;chr&gt;           &lt;dbl&gt;
+## 1 East             100.
+## 2 West             102.</code></pre>
+<p>Oh wait…this time the conclusion is reversed? In this simulated alternate universe, Western conference players had more personal fouls (102 versus 100). What should we therefore conclude?</p>
+<p>These resamples on their own don’t appear to be particularly useful, but what would happen if we calculated a bunch (technical term) of them?</p>
+<p>I can continue this process of sampling and generating values many times using a loop. The code below resamples from the data 1,000 times, each time calculating the mean personal fouls for Eastern and Western conference players in a sample of size 100. It then adds those two means to a growing list, using the bind_rows function.
+## Warning: the code below will take a little while to run</p>
+<pre class="r"><code>bsRes&lt;-NULL ##  Create a NULL variable: will fill this in later
+for (i in 1:1000){ # Repeat the steps below 1000 times
+  bsRes&lt;-nba%&gt;%
+  sample_n(size=sample_size, replace=TRUE) %&gt;% ## Sample 100 players
+  group_by(conference)%&gt;% ## Group by conference
+  summarize(mean_pf=mean(pf))%&gt;% ## Calculate mean personal fouls for Eastern and Western players
+    mutate(bsInd = i) %&gt;% ## Save the indicator for which random sample we are on
+    bind_rows(bsRes) ## add this result to the existing dataset
+}</code></pre>
+<p>Now I have a dataset that is built up from a bunch of small resamples from the data, with average personal fouls for Eastern and Western conference players in each small sample. Let’s see what these look like.</p>
+<pre class="r"><code>bsRes</code></pre>
+<pre><code>## # A tibble: 2,000 × 3
+##    conference mean_pf bsInd
+##    &lt;chr&gt;        &lt;dbl&gt; &lt;int&gt;
+##  1 East          84.4  1000
+##  2 West          86.9  1000
+##  3 East          91.5   999
+##  4 West          93.2   999
+##  5 East         102.    998
+##  6 West          94.3   998
+##  7 East         112.    997
+##  8 West         102.    997
+##  9 East         113.    996
+## 10 West          94.5   996
+## # ℹ 1,990 more rows</code></pre>
+<p>This is a dataset that’s just a bunch of means. We can calculate the mean of all of these means and see what it looks like:</p>
+<pre class="r"><code>bsRes%&gt;%
+  group_by(conference)%&gt;%
+  summarise(mean_of_means=mean(mean_pf))</code></pre>
+<pre><code>## # A tibble: 2 × 2
+##   conference mean_of_means
+##   &lt;chr&gt;              &lt;dbl&gt;
+## 1 East                97.6
+## 2 West                96.4</code></pre>
+<p>So the average of these averages is actually pretty close to what we see in the actual data, right?</p>
+<pre class="r"><code>nba %&gt;%
+  group_by(conference) %&gt;%
+  summarise(mean_pf = mean(pf))</code></pre>
+<pre><code>## # A tibble: 2 × 2
+##   conference mean_pf
+##   &lt;chr&gt;        &lt;dbl&gt;
+## 1 East          98.0
+## 2 West          96.1</code></pre>
+<p><em>Quick Exercise</em> Repeat the above, but do it for points scored.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="distribution-of-resampled-means" class="section level2">
+<h2>Distribution of Resampled Means</h2>
+<p>That’s fine, but the other thing is that the <em>distribution</em> of those repeated samples will tell us about what we can expect to see in other, out of sample data that’s generated by the same process.</p>
+<p>Let’s take a look at the distribution of personal fouls by conference:</p>
+<pre class="r"><code>bsRes%&gt;%
+  ggplot(aes(x=mean_pf,fill=conference))+
+  geom_density(alpha=.3)</code></pre>
+<p><img src="/data-science-site/homeworks/psc4175_hw_7_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>It’s pretty hard to tell if these are different, right?</p>
+</div>
+<div id="so-what-using-percentiles-of-the-resampled-distribution" class="section level2">
+<h2>So What? Using Percentiles of the Resampled Distribution</h2>
+<p>Now we can make some statements about uncertainty. Based on this, we can pretend to be all-powerful voyager across universes, and conclude that Eastern conference players commit more personal fouls.</p>
+<p>The easiest way to do this is just to create a new variable that indicates whether the Eastern conference players had more personal fouls than the Western conference players in a given random sample. But currently, our data is organized in the “long” format, right?</p>
+<pre class="r"><code>bsRes</code></pre>
+<pre><code>## # A tibble: 2,000 × 3
+##    conference mean_pf bsInd
+##    &lt;chr&gt;        &lt;dbl&gt; &lt;int&gt;
+##  1 East          84.4  1000
+##  2 West          86.9  1000
+##  3 East          91.5   999
+##  4 West          93.2   999
+##  5 East         102.    998
+##  6 West          94.3   998
+##  7 East         112.    997
+##  8 West         102.    997
+##  9 East         113.    996
+## 10 West          94.5   996
+## # ℹ 1,990 more rows</code></pre>
+<p>We want to convert it to the “wide” format, which means that each row is a random sample simulation, and we have one column for the Eastern conference personal fouls, and one column for the Western conference personal fouls.</p>
+<p>Let’s create this using either <code>spread()</code> or <code>pivot_wider()</code>.</p>
+<pre class="r"><code># Spread approach
+bsRes %&gt;%
+  spread(conference,mean_pf)</code></pre>
+<pre><code>## # A tibble: 1,000 × 3
+##    bsInd  East  West
+##    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1     1 112.   92.3
+##  2     2 110.   92.5
+##  3     3  85.9 104. 
+##  4     4 103.   93.2
+##  5     5  93.5  79.5
+##  6     6  94.2  98.0
+##  7     7  93.8  94.1
+##  8     8  94.6  89.9
+##  9     9  91.8  79.8
+## 10    10  92.0 101. 
+## # ℹ 990 more rows</code></pre>
+<pre class="r"><code># Pivot-wider approach
+bsRes %&gt;%
+  pivot_wider(names_from = &#39;conference&#39;,values_from = &#39;mean_pf&#39;)</code></pre>
+<pre><code>## # A tibble: 1,000 × 3
+##    bsInd  East  West
+##    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1  1000  84.4  86.9
+##  2   999  91.5  93.2
+##  3   998 102.   94.3
+##  4   997 112.  102. 
+##  5   996 113.   94.5
+##  6   995 117.   84.6
+##  7   994  92.5  92.3
+##  8   993 106.   98.1
+##  9   992 101.   85.5
+## 10   991  97.2  99.7
+## # ℹ 990 more rows</code></pre>
+<p>With the data organized in “wide” format, it is now trivial to calculate whether the Eastern players had more personal fouls than the Western players.</p>
+<pre class="r"><code>bsRes %&gt;%
+  pivot_wider(names_from = &#39;conference&#39;,values_from = &#39;mean_pf&#39;) %&gt;%
+  mutate(diff = East - West,
+         EastMore = diff &gt; 0)</code></pre>
+<pre><code>## # A tibble: 1,000 × 5
+##    bsInd  East  West   diff EastMore
+##    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;lgl&gt;   
+##  1  1000  84.4  86.9 -2.47  FALSE   
+##  2   999  91.5  93.2 -1.73  FALSE   
+##  3   998 102.   94.3  7.53  TRUE    
+##  4   997 112.  102.   9.75  TRUE    
+##  5   996 113.   94.5 18.3   TRUE    
+##  6   995 117.   84.6 32.8   TRUE    
+##  7   994  92.5  92.3  0.235 TRUE    
+##  8   993 106.   98.1  7.37  TRUE    
+##  9   992 101.   85.5 15.9   TRUE    
+## 10   991  97.2  99.7 -2.44  FALSE   
+## # ℹ 990 more rows</code></pre>
+</div>
+<div id="expressing-confidence" class="section level2">
+<h2>Expressing confidence</h2>
+<p>To express our “confidence” in the conclusion that Eastern conference players made more personal fouls than Western conference players in the 2018-2019 season, we can simply calculate the proportion of the 1,000 simulated alternate universes in which this conclusion was true! To do this, we just take the overall average of our new column <code>EastMore</code>!</p>
+<pre class="r"><code>bsRes %&gt;%
+  pivot_wider(names_from = &#39;conference&#39;,values_from = &#39;mean_pf&#39;) %&gt;%
+  mutate(diff = East - West,
+         EastMore = diff &gt; 0) %&gt;%
+  summarise(conf = mean(EastMore))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##    conf
+##   &lt;dbl&gt;
+## 1 0.531</code></pre>
+<p>0.531. Or, approximately 53.1%. In other words, in the data, Eastern conference players committed more personal fouls in a little more than half of the 1,000 simulated realities.</p>
+<p>How strong is our argument do you think? Typically social scientists adhere to a norm of at least 95% confidence before we feel comfortable defending our conclusion. Otherwise, how can we be certain that it’s not just a fluke of the data?</p>
+</div>
+<div id="try-it-yourself" class="section level2">
+<h2>Try it yourself</h2>
+<p>How confident are you that Eastern conference players are better than Western conference players on any of these metrics?</p>
+<ul>
+<li>Turnovers</li>
+<li>Rebounds</li>
+<li>Field goals</li>
+</ul>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+    
+    
+    
+    
+    
+    <div class="media author-card content-widget-hr">
+      
+
+      <div class="media-body">
+        <h5 class="card-title"><a href="/data-science-site/authors/authors/"></a></h5>
+        <h6 class="card-subtitle">Assistant Professor</h6>
+        
+        <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/data-science-site/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/RyanWeldzius" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=16VmMg4AAAAJ&amp;hl=en" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/rweldzius" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+</ul>
+
+      </div>
+    </div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+
+        
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" integrity="sha512-1+qUtKoh9XZW7j+6LhRMAyOrgSQKenQ4mluTR+cvxXjP1Z54RxZuzstR/H9kgPXQsVB8IW7DMDFUJpzLjvhGSQ==" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js" integrity="sha512-7t8APmYpzEsZP7CYoA7RfMPV9Bb+PJHa9x2WiUnDXZx3XHveuyWUtvNOexhkierl5flZ3tr92dP1mMS+SGlD+A==" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/languages/r.min.js"></script>
+        
+      
+
+    
+
+    
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    <script>const isSiteThemeDark = false;</script>
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <script src="/data-science-site/js/academic.min.36113c13f63e6c1889c2fede8fbd5f35.js"></script>
+
+    
+
+
+
+
+
+
+    
+    
+    <div class="container">
+        <footer>
+    <hr>
+
+    <div class="row course-info">
+        <div class="col-md-7">
+            <p>
+                <strong>PSC4175: Introduction to Data Science (Fall 2025)</strong><br>
+
+                <a href="https://www.villanova.edu" target="_blank" rel="noopener">Villanova University</a><br>
+                
+                <a href="https://www1.villanova.edu/university/liberal-arts-sciences/programs/political-science.html" target="_blank" rel="noopener">Department of Political Science</a>
+            </p>
+
+            <p>
+                <a href="http://www.ryanweldzius.com/" target="_blank" rel="noopener"><i class="fas fa-user"></i>
+                    Ryan Weldzius</a> &emsp;&emsp;
+                <a href="mailto:ryan.weldzius@villanova.edu"><i class="fas fa-envelope"></i>
+                    ryan.weldzius@villanova.edu</a>
+            </p>
+
+            <p>
+                <i class="far fa-calendar-alt"></i> Mondays &emsp;&emsp;
+                <i class="far fa-clock"></i> 3:20 pm -4:35pm <br>
+                <i class="fas fa-university"></i> Bartley Hall 2073
+            </p>
+        </div>
+
+        <div class="col-md-5 credits">
+            <p>All content licensed under a <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.</p>
+            
+            <p>Content <i class="fab fa-creative-commons"></i> 2025 <a href="http://www.ryanweldzius.com/" target="_blank" rel="noopener">Ryan Weldzius</a></p>                    
+            
+            <p><a href="https://github.com/rweldzius/data-science-site" target="_blank" rel="noopener"><i class="fab fa-github"></i> View the source at GitHub.</a></p>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+
+    
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+
+</html>

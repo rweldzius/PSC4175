@@ -1,0 +1,1612 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Problemsets | Introduction to Data Science</title>
+    <link>http://localhost:1313/data-science-site/problemsets/</link>
+      <atom:link href="http://localhost:1313/data-science-site/problemsets/index.xml" rel="self" type="application/rss+xml" />
+    <description>Problemsets</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><lastBuildDate>Thu, 07 Aug 2025 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>http://localhost:1313/data-science-site/media/social-image.png</url>
+      <title>Problemsets</title>
+      <link>http://localhost:1313/data-science-site/problemsets/</link>
+    </image>
+    
+    <item>
+      <title>Problem Set 3</title>
+      <link>http://localhost:1313/data-science-site/problemsets/psc4175_pset_3/</link>
+      <pubDate>Thu, 07 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/data-science-site/problemsets/psc4175_pset_3/</guid>
+      <description>
+
+
+&lt;div id=&#34;getting-set-up&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Getting Set Up&lt;/h1&gt;
+&lt;p&gt;Open &lt;code&gt;RStudio&lt;/code&gt; and create a new RMarkDown file (&lt;code&gt;.Rmd&lt;/code&gt;) by going to &lt;code&gt;File -&amp;gt; New File -&amp;gt; R Markdown...&lt;/code&gt;.
+Accept defaults and save this file as &lt;code&gt;[LAST NAME]_ps3.Rmd&lt;/code&gt; to your &lt;code&gt;code&lt;/code&gt; folder.&lt;/p&gt;
+&lt;p&gt;Copy and paste the contents of this &lt;code&gt;.Rmd&lt;/code&gt; file into your &lt;code&gt;[LAST NAME]_ps3.Rmd&lt;/code&gt; file. Then change the &lt;code&gt;author: [Your Name]&lt;/code&gt; to your name.&lt;/p&gt;
+&lt;p&gt;All of the following questions should be answered in this &lt;code&gt;.Rmd&lt;/code&gt; file. There are code chunks with incomplete code that need to be filled in. To submit, compile (i.e., &lt;code&gt;knit as pdf&lt;/code&gt;) the completed problem set and upload the PDF file to Blackboard on Friday by midnight. Be sure to check your knitted PDF for mistakes before submitting!&lt;/p&gt;
+&lt;p&gt;This problem set is worth 18 total points, plus 1 extra credit point (and an additional extra credit point for the winner; more below). The point values for each question are indicated in brackets below. To receive full credit, you must have the correct code. In addition, some questions ask you to provide a written response in addition to the code.&lt;/p&gt;
+&lt;p&gt;You will be deducted 1 point for each day late the problem set is submitted, and 1 point for failing to submit in the correct format (i.e., not knitting as a PDF).&lt;/p&gt;
+&lt;p&gt;You are free to rely on whatever resources you need to complete this problem set, including lecture notes, lecture presentations, Google, your classmates…you name it. However, the final submission must be complete by you. There are no group assignments.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Note that the professor will not respond to Campuswire posts after 2PM on Friday, so don’t wait until the last minute to get started!&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Good luck!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;If you collaborated with a colleague and/or used AI for any help on this problem set, document here.&lt;/strong&gt; Write the names of your classmates and/or upload a PDF of your AI prompt and output with your problem set:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;part-1-maximizing-accuracy&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Part 1: Maximizing Accuracy&lt;/h1&gt;
+&lt;div id=&#34;question-0&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 0&lt;/h2&gt;
+&lt;p&gt;Require &lt;code&gt;tidyverse&lt;/code&gt; and load the &lt;a href=&#34;https://github.com/rweldzius/PSC4175_SUM2025/raw/main/data/fn_cleaned_final.Rds&amp;#39;&#34;&gt;&lt;code&gt;fn_cleaned_final.Rds&lt;/code&gt;&lt;/a&gt; data to an object called &lt;code&gt;fn&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# INSERT CODE HERE&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-1-2-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 1 [2 points]&lt;/h2&gt;
+&lt;p&gt;In this problem set, we are interested in developing a classifier that maximizes our accuracy for predicting Fortnite victories. To do so we will use both a linear probability model and a logit, and then compare their predictive accuracy. We will use two &lt;span class=&#34;math inline&#34;&gt;\(X\)&lt;/span&gt; variables to predict the probability of winning: accuracy (&lt;code&gt;accuracy&lt;/code&gt;), and head shots (&lt;code&gt;head_shots&lt;/code&gt;). Our outcome variable of interest &lt;span class=&#34;math inline&#34;&gt;\(Y\)&lt;/span&gt; is whether the player won the game (&lt;code&gt;won&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;Start by &lt;strong&gt;looking&lt;/strong&gt; at these variables. Why types of variables are they? How much missingness do they have? What do their univariate visualizations look like? Then create two multivariate visualizations of the relationship between &lt;code&gt;won&lt;/code&gt; and each of the two &lt;span class=&#34;math inline&#34;&gt;\(X\)&lt;/span&gt; variables one-by-one. Finally, use &lt;code&gt;geom_tile()&lt;/code&gt; to create a heatmap of the three-way relationship, where quintiles of &lt;code&gt;accuracy&lt;/code&gt; is on the x-axis, quintiles of &lt;code&gt;head_shots&lt;/code&gt; is on the y-axis, and tiles are filled according to the average winning probability. (NB: look up what “quintile” means if you are not sure.) Is there anything surprising about this result?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# What types?
+# INSERT CODE HERE
+
+# How much missingness?
+# INSERT CODE HERE
+
+# Univariate
+# INSERT CODE HERE
+
+# Multivariate: one-by-one
+# INSERT CODE HERE
+
+# Multivariate: 3-dimensions
+# INSERT CODE HERE&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-2-2-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 2 [2 points]&lt;/h2&gt;
+&lt;p&gt;Now let’s run a linear model and evaluate it in terms of overall accuracy, sensitivity and specificity using a threshold of 0.5. Then, determine the threshold that maximizes both specificity and sensitivity. Finally, calculate the area under the curve (AUC).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;require(...) # Require the scales package&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error: &amp;#39;...&amp;#39; used in an incorrect context&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Running linear model
+model_lm &amp;lt;- lm(formula = ..., # Define the regression equation
+               data = ...) # Provide the dataset&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error: &amp;#39;...&amp;#39; used in an incorrect context&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Calculating accuracy, sensitivity, and specificity
+fn %&amp;gt;%
+  mutate(prob_win = ...) %&amp;gt;% # Calculate the probability of winning
+  mutate(pred_win = ...) %&amp;gt;% # Convert the probability to a 1 if the probability is greater than 0.5, or zero otherwise
+  group_by(...) %&amp;gt;% # Calculate the total games by whether they were actually won or lost
+  mutate(total_games = ...) %&amp;gt;%
+  group_by(....) %&amp;gt;% # Calculate the number of games by whether they were actually won or lost, and by whether they were predicted to be won or lost
+  summarise(nGames=...,.groups = &amp;#39;drop&amp;#39;) %&amp;gt;%
+  mutate(prop = ...) %&amp;gt;% # Calculate the proportion of game by the total games
+  ungroup() %&amp;gt;%
+  mutate(accuracy = ...) # Calculate the overall accuracy&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in fn %&amp;gt;% mutate(prob_win = ...) %&amp;gt;% mutate(pred_win = ...) %&amp;gt;% : could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Create the sensitivity vs specificity plot
+toplot &amp;lt;- NULL # Instantiate an empty object
+for(thresh in seq(0,1,by = .025)) {
+  toplot &amp;lt;- fn %&amp;gt;%
+  mutate(prob_win = ...) %&amp;gt;% # Calculate the probability of winning
+  mutate(pred_win = ...) %&amp;gt;% # Convert the probability to a 1 if the probability is greater than the given threshold, or zero otherwise
+  group_by(...) %&amp;gt;% # Calculate the total games by whether they were actually won or lost
+  mutate(total_games = ...) %&amp;gt;%
+  group_by(...) %&amp;gt;% # Calculate the number of games by whether they were actually won or lost, and by whether they were predicted to be won or lost
+  summarise(nGames=...,.groups = &amp;#39;drop&amp;#39;) %&amp;gt;%
+  mutate(prop = ...) %&amp;gt;% # Calculate the proportion of game by the total games
+  ungroup() %&amp;gt;%
+  mutate(accuracy = ...) %&amp;gt;% # Calculate the overall accuracy
+  mutate(threshold = ...) %&amp;gt;% # Record the threshold level
+    bind_rows(toplot) # Add it to the toplot object
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in fn %&amp;gt;% mutate(prob_win = ...) %&amp;gt;% mutate(pred_win = ...) %&amp;gt;% : could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;toplot %&amp;gt;%
+  mutate(metric = ifelse(...,
+                         ifelse(...,...))) %&amp;gt;% # Using a nested ifelse() function, label each row as either Sensitivity (if the predicted win is 1 and the true win is 1), Specificity (if the predicted win is 0 and the true win is 0), or NA
+  drop_na(...) %&amp;gt;% # Drop rows that are neither sensitivity nor specificity measures
+  ggplot(aes(x = ...,y = ...,color = ...)) + # Visualize the Sensitivity and Specificity curves by putting the threshold on the x-axis, the proportion of all games on the y-axis, and coloring by Sensitivity or Specificity
+  geom_...() + 
+  geom_vline(xintercept = ...) # Tweak the x-intercept to find the optimal threshold&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in toplot %&amp;gt;% mutate(metric = ifelse(..., ifelse(..., ...))) %&amp;gt;% : could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Plot the AUC
+toplot %&amp;gt;%
+  mutate(metric = ifelse(...,
+                         ifelse(...,...))) %&amp;gt;% # Using a nested ifelse() function, label each row as either Sensitivity (if the predicted win is 1 and the true win is 1), Specificity (if the predicted win is 0 and the true win is 0), or NA
+  drop_na(...) %&amp;gt;% # Drop rows that are neither sensitivity nor specificity measures
+  select(...) %&amp;gt;% # Select only the prop, metric, and threshold columns
+  spread(...) %&amp;gt;% # Pivot the data to wide format using either spread() or pivot_wider(), where the new columns should be the metric
+  arrange(...) %&amp;gt;% # Arrange by descending specificity, and then by sensitivity
+  ggplot(aes(x = ..., # Plot 1 minus the Specificity on the x-axis
+             y = ...)) +  # Plot the Sensitivity on the y-axis
+  geom_...() + 
+  xlim(...) + ylim(...) + # Expand the x and y-axis limits to be between 0 and 1
+  geom_abline(...) + # Add a 45-degree line using geom_abline()
+  labs(x = &amp;#39;&amp;#39;, # Add clear labels! (Make sure to indicate that this is the result of a linear regression model)
+       y = &amp;#39;&amp;#39;,
+       title = &amp;#39;&amp;#39;,
+       subtitle = &amp;#39;&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in toplot %&amp;gt;% mutate(metric = ifelse(..., ifelse(..., ...))) %&amp;gt;% : could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Calculate the AUC
+require(...) # Require the tidymodels package&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error: &amp;#39;...&amp;#39; used in an incorrect context&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;forAUC &amp;lt;- fn %&amp;gt;%
+  mutate(prob_win = ..., # Generate predicted probabilities of winning from our model
+         truth = ...) %&amp;gt;% # Convert the outcome to a factor with levels c(&amp;#39;1&amp;#39;,&amp;#39;0&amp;#39;)
+  select(truth,prob_win) # Select only the probability and true outcome columns&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in fn %&amp;gt;% mutate(prob_win = ..., truth = ...) %&amp;gt;% select(truth, : could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;roc_auc(data = forAUC, # Run the roc_auc() function on the dataset we just created
+        truth, # Tell it which column contains the true outcomes
+        prob_win) # Tell it which column contains our model&amp;#39;s predicted probabilities&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in roc_auc(data = forAUC, truth, prob_win): could not find function &amp;quot;roc_auc&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-3-2-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 3 [2 points]&lt;/h2&gt;
+&lt;p&gt;Now let’s re-do the exact same work, except use a logit model instead of a linear model. Based on your analysis, which model has a larger AUC?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# INSERT CODE HERE&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-4-2-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 4 [2 points]&lt;/h2&gt;
+&lt;p&gt;Use 100-fold cross validation with a 60-40 split to calculate the average AUC for both the linear and logit models. Which is better?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(123)
+cvRes &amp;lt;- NULL
+for(i in 1:100) {
+  # Cross validation prep
+  # INSERT CODE HERE
+
+  # Training models
+  mLM &amp;lt;- lm(...)
+  mGLM &amp;lt;- glm(...)
+  
+  # Predicting models
+  toEval &amp;lt;- test %&amp;gt;%
+    mutate(mLMPreds = ..., # Calculate the probability of winning from the linear model
+           mGLMPreds = ..., # Calculate the probability of winning from the logit
+           truth = ...) # Convert the outcome to a factor with levels c(&amp;#39;1&amp;#39;,&amp;#39;0&amp;#39;)
+
+  # Evaluating models
+  rocLM &amp;lt;- roc_auc(...) %&amp;gt;% # Calculate the AUC for the linear model
+    mutate(model = ...) %&amp;gt;% # Record the model type
+    rename(auc = .estimate) # Rename to &amp;#39;auc&amp;#39;
+    
+  rocGLM &amp;lt;- roc_auc(...) %&amp;gt;% # Calculate the AUC for the logit model
+    mutate(model = ...) %&amp;gt;% # Record the model type
+    rename(auc = .estimate) # Rename to &amp;#39;auc&amp;#39;
+
+  cvRes &amp;lt;- rocLM %&amp;gt;%
+    bind_rows(rocGLM) %&amp;gt;%
+    mutate(cvInd = i) %&amp;gt;%
+    bind_rows(cvRes)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in lm(...): &amp;#39;...&amp;#39; used in an incorrect context&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cvRes %&amp;gt;%
+  group_by(model) %&amp;gt;%
+  summarise(mean_auc = mean(auc))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in cvRes %&amp;gt;% group_by(model) %&amp;gt;% summarise(mean_auc = mean(auc)): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;extra-credit-1-point&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Extra Credit [1 Point]&lt;/h2&gt;
+&lt;p&gt;Can you improve on the best model identified above? You will receive one extra credit points for executing the analysis correctly. The student(s) who achieve the best cross-validated AUC in class will receive an additional 1 extra point on top of the EC.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# INSERT CODE HERE&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;part-2-random-forest-time&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Part 2: Random Forest Time!&lt;/h1&gt;
+&lt;div id=&#34;question-5-2-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 5 [2 points]&lt;/h2&gt;
+&lt;p&gt;Let’s consider two possible &lt;span class=&#34;math inline&#34;&gt;\(X\)&lt;/span&gt; variables which might help us predict whether a player wins a Fortnite match: &lt;code&gt;revives&lt;/code&gt; and &lt;code&gt;eliminations&lt;/code&gt;. &lt;code&gt;revives&lt;/code&gt; counts the total number of times a player is brought back to life by a teammate. &lt;code&gt;eliminations&lt;/code&gt; is a measure of how many times the player killed an opponent. Which variable do you think is more helpful for predicting whether a player wins a game of Fortnite? Why?&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write response here.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-6-2-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 6 [2 points]&lt;/h2&gt;
+&lt;p&gt;Look at the data and provide univariate and multivariate visualizations of both variables. Make sure to think carefully about what types of variables these are, and justify your visualization choices accordingly!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Look to determine variable types
+# INSERT CODE HERE
+
+# Univariate #1
+# INSERT CODE HERE
+
+# Univariate #1
+# INSERT CODE HERE
+
+# Multivariate (many different options will work)
+# INSERT CODE HERE&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-7-2-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 7 [2 points]&lt;/h2&gt;
+&lt;p&gt;Let’s test your intuition. Starting with the full data, calculate the AUC for both models. Then, using 100 cross validation with a logit model and a 60-40 split, calculate the AUC for the model which uses the variable you think is best, compared to the model you think is the worst. Pay attention to the things you need to change to use a logit model! Is your assumption from Q1 supported in the data?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Require the tidymodels package
+# Running logit model #1
+# INSERT CODE HERE
+
+# Running logit model #2
+# INSERT CODE HERE
+
+# Calculate the AUC #1
+# INSERT CODE HERE
+
+# Calculate the AUC #1
+# INSERT CODE HERE
+
+
+# Calculate cross validation
+set.seed(123)
+cvRes &amp;lt;- NULL
+for(i in 1:100) {
+  # Cross validation prep
+  # INSERT CODE HERE
+
+  # Training models
+  # INSERT CODE HERE
+  
+  # Predicting models
+  # INSERT CODE HERE
+
+  # Evaluating models
+  # INSERT CODE HERE
+
+  # Binding data
+  # INSERT CODE HERE
+}
+
+# Calculate overall mean AUC
+# INSERT CODE HERE
+
+# Visualize distribution of AUC by variable (optional)
+# INSERT CODE HERE
+
+# Calculate Proportion of time the &amp;quot;best&amp;quot; model is better than the &amp;quot;worst&amp;quot; (optional)
+# INSERT CODE HERE&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-8-2-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 8 [2 points]&lt;/h2&gt;
+&lt;p&gt;Now let’s run a kitchen sink model using a random forest (make sure to install and require the &lt;code&gt;ranger&lt;/code&gt; package). Use the following &lt;span class=&#34;math inline&#34;&gt;\(X\)&lt;/span&gt; variables:
+- &lt;code&gt;hits&lt;/code&gt;
+- &lt;code&gt;assists&lt;/code&gt;
+- &lt;code&gt;accuracy&lt;/code&gt;
+- &lt;code&gt;head_shots&lt;/code&gt;
+- &lt;code&gt;damage_to_players&lt;/code&gt;
+- &lt;code&gt;eliminations&lt;/code&gt;
+- &lt;code&gt;revives&lt;/code&gt;
+- &lt;code&gt;distance_traveled&lt;/code&gt;
+- &lt;code&gt;materials_gathered&lt;/code&gt;
+- &lt;code&gt;mental_state&lt;/code&gt;
+- &lt;code&gt;startTime&lt;/code&gt;
+- &lt;code&gt;gameIdSession&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Run it on the full data and use &lt;code&gt;importance = &#39;permutation&#39;&lt;/code&gt; to see which variables the random forest thinks are most important. Visualize these results with a barplot. Where do the variables you thought would be best and worst appear?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Require ranger
+# INSERT CODE HERE
+
+# Run RF model with permutation-based importance calculation
+model_rf  &amp;lt;- ranger(..., # Insert regression equation here
+                    ..., # Insert data here
+                    ...) # Set importance calculation here&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in ranger(..., ..., ...): could not find function &amp;quot;ranger&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Visualize variable importance results
+# First, create a toplot object
+toplot &amp;lt;- data.frame(vimp = ..., # Get variable importance values from model_rf
+                     vars = names(...)) # Get variable importance value names from model_rf&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error: &amp;#39;...&amp;#39; used in an incorrect context&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Second, visualize the results (make sure to reorder the variables in order of importance)
+# INSERT CODE HERE&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write response here.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Problem Set 4 (last one!)</title>
+      <link>http://localhost:1313/data-science-site/problemsets/psc4175_pset_4/</link>
+      <pubDate>Thu, 07 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/data-science-site/problemsets/psc4175_pset_4/</guid>
+      <description>
+
+
+&lt;div id=&#34;getting-set-up&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Getting Set Up&lt;/h2&gt;
+&lt;p&gt;Open &lt;code&gt;RStudio&lt;/code&gt; and create a new RMarkDown file (&lt;code&gt;.Rmd&lt;/code&gt;) by going to &lt;code&gt;File -&amp;gt; New File -&amp;gt; R Markdown...&lt;/code&gt;.
+Accept defaults and save this file as &lt;code&gt;[LAST NAME]_ps4.Rmd&lt;/code&gt; to your &lt;code&gt;code&lt;/code&gt; folder.&lt;/p&gt;
+&lt;p&gt;Copy and paste the contents of this &lt;code&gt;.Rmd&lt;/code&gt; file into your &lt;code&gt;[LAST NAME]_ps4.Rmd&lt;/code&gt; file. Then change the &lt;code&gt;author: [Your Name]&lt;/code&gt; to your name.&lt;/p&gt;
+&lt;p&gt;All of the following questions should be answered in this &lt;code&gt;.Rmd&lt;/code&gt; file. There are code chunks with incomplete code that need to be filled in. To submit, compile (i.e., &lt;code&gt;knit as pdf&lt;/code&gt;) the completed problem set and upload the PDF file to Blackboard on Friday by midnight. Be sure to check your knitted PDF for mistakes before submitting!&lt;/p&gt;
+&lt;p&gt;This problem set is worth 9 total points, plus 1 extra credit point. &lt;strong&gt;This is due on Thursday (6/26), the final day of the semester; not on Friday.&lt;/strong&gt; The point values for each question are indicated in brackets below. To receive full credit, you must have the correct code. In addition, some questions ask you to provide a written response in addition to the code.&lt;/p&gt;
+&lt;p&gt;You will be deducted 1 point for each day late the problem set is submitted, and 1 point for failing to submit in the correct format (i.e., not knitting as a PDF).&lt;/p&gt;
+&lt;p&gt;You are free to rely on whatever resources you need to complete this problem set, including lecture notes, lecture presentations, Google, your classmates…you name it. However, the final submission must be complete by you. There are no group assignments.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Note that the professor will not respond to Campuswire posts after 2PM on Friday, so don’t wait until the last minute to get started!&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Good luck!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;If you collaborated with a colleague and/or used AI for any help on this problem set, document here.&lt;/strong&gt; Write the names of your classmates and/or upload a PDF of your AI prompt and output with your problem set:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-0&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 0&lt;/h2&gt;
+&lt;p&gt;Require &lt;code&gt;tidyverse&lt;/code&gt; and &lt;code&gt;tidymodels&lt;/code&gt;, and then load the &lt;a href=&#34;https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/pres_elec.rds&#34;&gt;&lt;code&gt;pres_elec.rds&lt;/code&gt;&lt;/a&gt; data to an object called &lt;code&gt;dat&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-1-0.5-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 1 [0.5 points]&lt;/h2&gt;
+&lt;p&gt;Describe the data. What is the unit of analysis? What information do the columns provide? What is the period described (i.e., how far back in time does the data go?). Is there any missing data? If so, “where” is it, in terms of both columns and in terms of the observations that have missing data?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# INSERT CODE HERE&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Write response here&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-2-1.5-point&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 2 [1.5 point]&lt;/h2&gt;
+&lt;p&gt;Perform &lt;em&gt;k&lt;/em&gt;-means analysis on the Republican and Democrat votes with &lt;em&gt;k&lt;/em&gt; = 2, and then plot the results, coloring the points by cluster assignment. Then predict the &lt;code&gt;GOP_win&lt;/code&gt; binary outcome as a function of the cluster assignment using a logit regression. Make sure to &lt;code&gt;factor(cluster)&lt;/code&gt; in the regression. What is the AUC for this model? Finally, use cross validation with an 80-20% split to re-calculate the AUC. Overall, would you say that the &lt;em&gt;k&lt;/em&gt;-means algorithm helps you predict which counties vote Republican?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(123)
+# K-means with k = 2
+# INSERT CODE HERE
+
+# Plotting the result
+dat %&amp;gt;%
+  select(...) %&amp;gt;%
+  drop_na() %&amp;gt;%
+  mutate(cluster = ...) %&amp;gt;%
+  ggplot(aes(x = ...,y = ...,color = factor(...),group = 1)) + 
+  geom_point() + 
+  labs(x = &amp;#39;&amp;#39;,
+       y = &amp;#39;&amp;#39;,
+       color = &amp;#39;&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in dat %&amp;gt;% select(...) %&amp;gt;% drop_na() %&amp;gt;% mutate(cluster = ...) %&amp;gt;% : could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Create dataset for analysis
+toanal &amp;lt;- dat %&amp;gt;%
+  select(...,...,...) %&amp;gt;%
+  drop_na() %&amp;gt;%
+  mutate(cluster = ...)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in dat %&amp;gt;% select(..., ..., ...) %&amp;gt;% drop_na() %&amp;gt;% mutate(cluster = ...): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Estimate logit model
+summary(m &amp;lt;- glm(...,toanal,family = binomial))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in summary(m &amp;lt;- glm(..., toanal, family = binomial)): &amp;#39;...&amp;#39; used in an incorrect context&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Calculate AUC
+roc_auc(toanal %&amp;gt;%
+          mutate(prob_win = ...,
+                 truth = ...),
+        truth,prob_win)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in roc_auc(toanal %&amp;gt;% mutate(prob_win = ..., truth = ...), truth, : could not find function &amp;quot;roc_auc&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Calculate cross-validated result
+cvRes &amp;lt;- NULL
+for(i in 1:100) {
+  # INSERT CODE HERE
+}
+
+# Cross-validated AUC
+# INSERT CODE HERE&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Write response here.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-3-2-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 3 [2 points]&lt;/h2&gt;
+&lt;p&gt;Now create an elbow plot by looping over potential values of &lt;em&gt;k&lt;/em&gt; from 1 to 30 and plotting the &lt;em&gt;k&lt;/em&gt; on the x-axis and the total Within Sum of Squares (total WSS) on the y-axis. What value of &lt;em&gt;k&lt;/em&gt; would you use? Then re-run the preceding analysis with that value of &lt;em&gt;k&lt;/em&gt; and interpret the results. Does the model improve?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Looking at multiple values of k
+kRes &amp;lt;- NULL
+for(k in 1:30) {
+  # Calculate k-means cluster solution for given value of k
+  kResTmp &amp;lt;- # INSERT CODE HERE
+  
+  # Save result including value of k and the total WSS
+  kRes &amp;lt;- data.frame(withinSS = ...,
+             k = ...) %&amp;gt;%
+    bind_rows(kRes)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in data.frame(withinSS = ..., k = ...) %&amp;gt;% bind_rows(kRes): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Plotting the elbow plot. Looks like k=4 is the elbow?
+# INSERT CODE HERE
+
+# Rerunning with optimal k
+# INSERT CODE HERE
+
+# Plotting again
+# INSERT CODE HERE
+
+# Create dataset for analysis 
+# INSERT CODE HERE
+
+# Estimate logit model
+# INSERT CODE HERE
+
+# Calculate AUC
+# INSERT CODE HERE
+
+# Calculate cross-validated result
+# INSERT CODE HERE
+
+# Cross-validated AUC
+# INSERT CODE HERE&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Write response here&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-0.b&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 0.B&lt;/h2&gt;
+&lt;p&gt;Require &lt;code&gt;tidyverse&lt;/code&gt;, &lt;code&gt;tidytext&lt;/code&gt; and &lt;code&gt;tidymodels&lt;/code&gt;, and then load the &lt;a href=&#34;https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/Trump_tweet_words.Rds&#34;&gt;&lt;code&gt;Trump_tweet_words.Rds&lt;/code&gt;&lt;/a&gt; data to an object called &lt;code&gt;tweet_words&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# INSERT CODE HERE&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-4-1-point&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 4 [1 point]&lt;/h2&gt;
+&lt;ol style=&#34;list-style-type: lower-alpha&#34;&gt;
+&lt;li&gt;&lt;p&gt;Plot the total number of times the word “trump” is used each year. Then, plot the proportion of times the word “trump” is used each year. Make sure to justify your choice of &lt;code&gt;geom_...()&lt;/code&gt;!&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Why are these plots so different? Which measure is better? Why?&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Total number of times
+tweet_words %&amp;gt;%
+  count(...) %&amp;gt;% # Calculate total number of times each word was used in each year
+  filter(...) %&amp;gt;% # Filter to the word of interest
+  ggplot(aes(x = ...,
+             y = ...)) +  # Plot results
+  geom_...() + # Choose appropriate geom_...()
+  labs(x = &amp;#39;&amp;#39;, # Provide descriptive labels
+       y = &amp;#39;&amp;#39;,
+       title = &amp;#39;&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in tweet_words %&amp;gt;% count(...) %&amp;gt;% filter(...) %&amp;gt;% ggplot(aes(x = ..., : could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Proportion of times
+tweet_words %&amp;gt;%
+  count(...) %&amp;gt;% # Calculate total number of times each word was used in each year
+  group_by(...) %&amp;gt;% # Calculate total number of words used each year
+  mutate(...) %&amp;gt;%
+  ungroup() %&amp;gt;%
+  mutate(prop = ...) %&amp;gt;% # Calculate proportion
+  filter(...) %&amp;gt;% # Filter to the word of interest
+  ggplot(aes(x = ...,
+             y = ...)) +  # Plot results
+  geom_...() + # Choose appropriate geom_...()
+  labs(x = &amp;#39;&amp;#39;, # Provide descriptive labels
+       y = &amp;#39;&amp;#39;,
+       title = &amp;#39;&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in tweet_words %&amp;gt;% count(...) %&amp;gt;% group_by(...) %&amp;gt;% mutate(...) %&amp;gt;% : could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Write answer here&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-5-2-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 5 [2 points]&lt;/h2&gt;
+&lt;p&gt;We want to only look at tweets written during Trump’s first year as president (January 20th, 2017 through December 31st, 2017), and are interested if there are patterns in what he talks about.&lt;/p&gt;
+&lt;p&gt;We will use &lt;span class=&#34;math inline&#34;&gt;\(k\)&lt;/span&gt;-means clustering to learn about this data. To do so, follow these steps.&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: lower-alpha&#34;&gt;
+&lt;li&gt;&lt;p&gt;Create a document-term matrix (&lt;code&gt;dtm&lt;/code&gt;), dropping any words that appear fewer than 20 times total, and using the &lt;code&gt;document&lt;/code&gt; column as the document indicator. &lt;strong&gt;NB: Drop the word &lt;code&gt;&#39;amp&#39;&lt;/code&gt;.&lt;/strong&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Calculate the TF-IDF using the appropriate function from the &lt;code&gt;tidytext&lt;/code&gt; package.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Cast the DTM to wide format using the &lt;code&gt;cast_dtm()&lt;/code&gt; function, also from the &lt;code&gt;tidytext&lt;/code&gt; package.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Determine the optimal number of clusters / centers / topics / &lt;span class=&#34;math inline&#34;&gt;\(k\)&lt;/span&gt; by creating and manually inspecting an elbow plot. To save time, only examine the following sizes: &lt;code&gt;c(1,10,50,100,250,500,1000)&lt;/code&gt; and set &lt;code&gt;nstart = 5&lt;/code&gt; with &lt;code&gt;set.seed(123)&lt;/code&gt;. (This will still take a little while to run so be patient!).&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Using the optimal value from the elbow plot, run &lt;span class=&#34;math inline&#34;&gt;\(k\)&lt;/span&gt;-means on the data with &lt;code&gt;nstart&lt;/code&gt; set to 5 and &lt;code&gt;set.seed(123)&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Which are the top 3 most popular topics for Donald Trump in this period? Plot the top 10 highest scoring words for each of the top 3 most popular topics. What is each “about”?&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# a.
+dtm &amp;lt;- tweet_words %&amp;gt;% 
+  filter(..., # Filter to the correct period
+         ...) %&amp;gt;%  # Drop the word &amp;#39;amp&amp;#39;
+  count(...) %&amp;gt;%  # Count the number of times each word appears in each document
+  group_by(...) %&amp;gt;%  # Count the total number of times a word appears overall
+  mutate(tot_n = sum(...)) %&amp;gt;% 
+  ungroup() %&amp;gt;% 
+  filter(...) # Filter to only words that appear more than 20 times in total&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in tweet_words %&amp;gt;% filter(..., ...) %&amp;gt;% count(...) %&amp;gt;% group_by(...) %&amp;gt;% : could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#b.
+dtm.tfidf &amp;lt;- bind_tf_idf(tbl = ...,  # Calculate the TF-IDF metric
+                         term = ..., 
+                         document = ..., 
+                         n = ...)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in bind_tf_idf(tbl = ..., term = ..., document = ..., n = ...): could not find function &amp;quot;bind_tf_idf&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#c.
+castdtm &amp;lt;- cast_dtm(data = ...,  # Cast to a DTM
+                    document = ..., 
+                    term = ..., 
+                    value = ...)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in cast_dtm(data = ..., document = ..., term = ..., value = ...): could not find function &amp;quot;cast_dtm&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#d. 
+# INSERT CODE HERE (see pset 10 if you need a refresher)
+
+#e. 
+# INSERT CODE HERE (see pset 10 if you need a refresher)
+
+km_out_tidy &amp;lt;- tidy(...) %&amp;gt;% # Tidy the kmeans result
+  gather(...) %&amp;gt;% # Pivot to long format
+  mutate(...) # Convert the average TF-IDF value to numeric&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in tidy(...) %&amp;gt;% gather(...) %&amp;gt;% mutate(...): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# For students who can&amp;#39;t load tidymodels
+# km_out_tidy &amp;lt;- as_tibble(km_out$centers) %&amp;gt;%
+#   mutate(size = km_out$size,
+#          withinss = km_out$withinss,
+#          cluster = factor(row_number())) %&amp;gt;%
+#   gather(word,mean_tfidf,-size,-cluster,-withinss)
+
+#f. Find the top 3 topics tweeted by Trump
+tops &amp;lt;- km_out_tidy %&amp;gt;%
+  select(...) %&amp;gt;% # Select only the size and cluster
+  distinct() %&amp;gt;% # Keep only distinct rows
+  arrange(...) %&amp;gt;% # Arrange by size in descending order
+    slice(...) # Get top 3 topics&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in km_out_tidy %&amp;gt;% select(...) %&amp;gt;% distinct() %&amp;gt;% arrange(...) %&amp;gt;% : could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Visualize the top 10 words in the top 3 most used topics
+km_out_tidy %&amp;gt;%
+  filter(cluster %in% ...) %&amp;gt;% # Filter to the topics found above
+  group_by(...) %&amp;gt;% # Arrange in descending order of average TF-IDF
+  arrange(...) %&amp;gt;%
+  slice(...) %&amp;gt;% # Get top 10 words
+  ggplot(aes(x = ...,
+             y = ..., # Reorder words by highest scoring TF-IDF
+             fill = ...)) + # Fill by topic
+  geom_...(...) + # Choose the appropriate geom_...()
+  facet_wrap(~...,scales = &amp;#39;free&amp;#39;) + # Create facets by topics
+  labs(title = &amp;#39;&amp;#39;, # Good labels!
+       subtitle = &amp;#39;&amp;#39;,
+       x = &amp;#39;&amp;#39;,
+       y = &amp;#39;&amp;#39;,
+       fill = &amp;#39;&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in km_out_tidy %&amp;gt;% filter(cluster %in% ...) %&amp;gt;% group_by(...) %&amp;gt;% : could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Write answer here&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-6-2-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 6 [2 points]&lt;/h2&gt;
+&lt;p&gt;Now load the sentiment dictionary &lt;code&gt;nrc&lt;/code&gt; from the &lt;code&gt;tidytext&lt;/code&gt; package, and look at the clusters with sentiment scores by merging the &lt;code&gt;km_out_tidy&lt;/code&gt; dataset with the &lt;code&gt;nrc&lt;/code&gt; dataset using the &lt;code&gt;inner_join()&lt;/code&gt; function. (If you can’t open the &lt;code&gt;nrc&lt;/code&gt; object from the &lt;code&gt;tidytext&lt;/code&gt; package, you can just load it from GitHub with this link: &lt;code&gt;https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/nrc.Rds&lt;/code&gt;)&lt;/p&gt;
+&lt;p&gt;Filter to only look at &lt;code&gt;positive&lt;/code&gt; and &lt;code&gt;negative&lt;/code&gt; categories and then &lt;code&gt;select()&lt;/code&gt; only the &lt;code&gt;size&lt;/code&gt;, &lt;code&gt;cluster&lt;/code&gt;, &lt;code&gt;word&lt;/code&gt;, &lt;code&gt;mean_tfidf&lt;/code&gt;, and &lt;code&gt;sentiment&lt;/code&gt; columns. Then use either &lt;code&gt;spread()&lt;/code&gt; or &lt;code&gt;pivot_wider()&lt;/code&gt; to create two columns of &lt;code&gt;mean_tfidf&lt;/code&gt; values: one for &lt;code&gt;positive&lt;/code&gt; and one for &lt;code&gt;negative&lt;/code&gt;. Replace &lt;code&gt;NA&lt;/code&gt; values with 0! Finally, filter to only look at clusters with more than 10 tweets in them. Save this processed data to an object named &lt;code&gt;cluster_sentiment&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Using this data, plot the top 10 words for the three most positive clusters and the top 10 words for the three most negative clusters. Describe what you see. What are Trump’s most positive and negative topics about?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Load the NRC dictionary
+
+cluster_sentiment &amp;lt;- km_out_tidy %&amp;gt;%
+  inner_join(nrc %&amp;gt;% # Join on the words that appear in both (ignore the warning)
+               filter(...)) %&amp;gt;% # Filter the nrc to only positive and negative labels
+  select(...) %&amp;gt;% # Select the columns size, cluster, word, mean_tfidf, and sentiment
+  spread(...) %&amp;gt;% # Spread the data into two columns, one for 
+  mutate(net_sentiment = ...) %&amp;gt;% # Calculate the net_sentiment as positive - negative
+  group_by(cluster,size) %&amp;gt;% # Calculate the average sentiment by cluster and size
+  summarise(net_sentiment = ...) %&amp;gt;%
+  ungroup() %&amp;gt;%
+  filter(...) # Drop clusters with fewer than 10 tweets&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in km_out_tidy %&amp;gt;% inner_join(nrc %&amp;gt;% filter(...)) %&amp;gt;% select(...) %&amp;gt;% : could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Calculate the top 3 most positive clusters
+top_sentiment &amp;lt;- cluster_sentiment %&amp;gt;%
+  arrange(...) %&amp;gt;%  # Arrange in descending order of net sentiment
+  slice(...) # Get top 3&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in cluster_sentiment %&amp;gt;% arrange(...) %&amp;gt;% slice(...): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Visualize the top 10 words in the top 3 most positive clusters
+km_out_tidy %&amp;gt;%
+  filter(cluster %in% ...) %&amp;gt;% # Filter to the topics found above
+  group_by(...) %&amp;gt;% # Arrange in descending order of average TF-IDF
+  arrange(...) %&amp;gt;%
+  slice(...) %&amp;gt;% # Get top 10 words
+  ggplot(aes(x = ...,
+             y = ..., # Reorder words by highest scoring TF-IDF
+             fill = ...)) + # Fill by topic
+  geom_...(...) + # Choose the appropriate geom_...()
+  facet_wrap(~...,scales = &amp;#39;free&amp;#39;) + # Create facets by topics
+  labs(title = &amp;#39;&amp;#39;, # Good labels!
+       subtitle = &amp;#39;&amp;#39;,
+       x = &amp;#39;&amp;#39;,
+       y = &amp;#39;&amp;#39;,
+       fill = &amp;#39;&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in km_out_tidy %&amp;gt;% filter(cluster %in% ...) %&amp;gt;% group_by(...) %&amp;gt;% : could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Calculate the bottom 3 most negative clusters
+bottom_sentiment &amp;lt;- cluster_sentiment %&amp;gt;%
+  arrange(...) %&amp;gt;%  # Arrange in ascending order of net sentiment
+  slice(...) # Get bottom 3&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in cluster_sentiment %&amp;gt;% arrange(...) %&amp;gt;% slice(...): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Visualize the top 10 words in the bottom 3 most negative clusters
+km_out_tidy %&amp;gt;%
+  filter(cluster %in% ...) %&amp;gt;% # Filter to the topics found above
+  group_by(...) %&amp;gt;% # Arrange in descending order of average TF-IDF
+  arrange(...) %&amp;gt;%
+  slice(...) %&amp;gt;% # Get top 10 words
+  ggplot(aes(x = ...,
+             y = ..., # Reorder words by highest scoring TF-IDF
+             fill = ...)) + # Fill by topic
+  geom_...(...) + # Choose the appropriate geom_...()
+  facet_wrap(~...,scales = &amp;#39;free&amp;#39;) + # Create facets by topics
+  labs(title = &amp;#39;&amp;#39;, # Good labels!
+       subtitle = &amp;#39;&amp;#39;,
+       x = &amp;#39;&amp;#39;,
+       y = &amp;#39;&amp;#39;,
+       fill = &amp;#39;&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in km_out_tidy %&amp;gt;% filter(cluster %in% ...) %&amp;gt;% group_by(...) %&amp;gt;% : could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Write answer here&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;extra-credit-1-point&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Extra Credit [1 point]&lt;/h2&gt;
+&lt;p&gt;Which of Trump’s topics are the most “popular”, measured by total retweets? You will need to get creative with this final extra credit question. Broadly, you will need to link each tweet to the topic it was assigned as well as the number of retweets it received. This will require you to exploit the fact that the &lt;code&gt;km_out$cluster&lt;/code&gt; data includes both the cluster to which each observation was assigned, as well as the tweet ID associated with that observation. Once you have created this lookup object, you can then link the original &lt;code&gt;tweet_words&lt;/code&gt; dataset with the clusters. (NOTE: not every tweet will be assigned to a cluster, since we are dropping many of them.) This will require you to pay attention to object types (the names of the &lt;code&gt;km_out$cluster&lt;/code&gt; are character, but the document IDs are stored as numeric in the &lt;code&gt;tweet_words&lt;/code&gt; object), think creatively about how to merge the datasets, be aware of &lt;code&gt;NA&lt;/code&gt;’s and think about how to deal with them, and then finally analyze the data once you have built it. Your end result should be, as above, the top 10 words associated with the top 3 most popular topics. Good luck!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# INSERT CODE HERE&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Write answer here.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Problem Set 2</title>
+      <link>http://localhost:1313/data-science-site/problemsets/psc4175_pset_2/</link>
+      <pubDate>Tue, 08 Jul 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/data-science-site/problemsets/psc4175_pset_2/</guid>
+      <description>
+
+
+&lt;div id=&#34;getting-set-up&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Getting Set Up&lt;/h2&gt;
+&lt;p&gt;Open &lt;code&gt;RStudio&lt;/code&gt; and create a new RMarkDown file (&lt;code&gt;.Rmd&lt;/code&gt;) by going to &lt;code&gt;File -&amp;gt; New File -&amp;gt; R Markdown...&lt;/code&gt;.
+Accept defaults and save this file as &lt;code&gt;[LAST NAME]_ps2.Rmd&lt;/code&gt; to your &lt;code&gt;code&lt;/code&gt; folder.&lt;/p&gt;
+&lt;p&gt;Copy and paste the contents of this &lt;code&gt;.Rmd&lt;/code&gt; file into your &lt;code&gt;[LAST NAME]_ps2.Rmd&lt;/code&gt; file. Then change the &lt;code&gt;author: [Your Name]&lt;/code&gt; to your name.&lt;/p&gt;
+&lt;p&gt;All of the following questions should be answered in this &lt;code&gt;.Rmd&lt;/code&gt; file. There are code chunks with incomplete code that need to be filled in. To submit, compile (i.e., &lt;code&gt;knit as pdf&lt;/code&gt;) the completed problem set and upload the PDF file to Blackboard on Friday by midnight. Be sure to check your knitted PDF for mistakes before submitting!&lt;/p&gt;
+&lt;p&gt;This problem set is worth 27 total points, plus 3.5 extra credit points. The point values for each question are indicated in brackets below. To receive full credit, you must have the correct code. In addition, some questions ask you to provide a written response in addition to the code.&lt;/p&gt;
+&lt;p&gt;You will be deducted 1 point for each day late the problem set is submitted, and 1 point for failing to submit in the correct format (i.e., not knitting as a PDF).&lt;/p&gt;
+&lt;p&gt;You are free to rely on whatever resources you need to complete this problem set, including lecture notes, lecture presentations, Google, your classmates…you name it. However, the final submission must be complete by you. There are no group assignments.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Note that the professor will not respond to Campuswire posts after 2PM on Friday, so don’t wait until the last minute to get started!&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Good luck!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;If you collaborated with a colleague and/or used AI for any help on this problem set, document here.&lt;/strong&gt; Write the names of your classmates and/or upload a PDF of your AI prompt and output with your problem set:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;part-1-2020-presidential-election-10-points-1-extra-credit&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Part 1: 2020 Presidential Election (10 points; +1 extra credit)&lt;/h1&gt;
+&lt;div id=&#34;question-0-0-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 0 (0 points)&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Require &lt;code&gt;tidyverse&lt;/code&gt; and load the &lt;a href=&#34;https://github.com/rweldzius/PSC4175_SUM2025/raw/main/data/Pres2020_PV.Rds&amp;#39;&#34;&gt;&lt;code&gt;Pres2020_PV.Rds&lt;/code&gt;&lt;/a&gt; data to an object called &lt;code&gt;pres&lt;/code&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;require()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Loading required package:&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;pres &amp;lt;- read_rds()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in read_rds(): could not find function &amp;quot;read_rds&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-1-2-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 1 [2 points]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Consider the following hypothesis: “Most Americans don’t pay very much attention to politics, and don’t know who they will vote for until very close to the election. Therefore polling predictions should be more accurate closer to the election.” Based on this hypothesis and theoretical intuition, which variable is the &lt;span class=&#34;math inline&#34;&gt;\(X\)&lt;/span&gt; variable and which is the &lt;span class=&#34;math inline&#34;&gt;\(Y\)&lt;/span&gt; variable(s)?&lt;/em&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Write answer here&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;em&gt;Now let’s first look at each variable by itself using univariate visualization. First, plot the total number of polls per start date in the data. NB: you will have convert &lt;code&gt;StartDate&lt;/code&gt; to a &lt;code&gt;date&lt;/code&gt; class with &lt;code&gt;as.Date()&lt;/code&gt;. If you need help, see &lt;a href=&#34;https://www.r-bloggers.com/2013/08/date-formats-in-r/&#34;&gt;this post&lt;/a&gt;. Do you observe a pattern in the number of polls over time? Why do you think this is?&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;pres %&amp;gt;%
+  mutate(StartDate = as.Date(StartDate,&amp;#39;%m/%d/%Y&amp;#39;)) %&amp;gt;% # Convert to date
+  ggplot(aes(x = StartDate)) + # Visualize the variable using univariate principles
+  geom_...() + # Choose the correct `geom`
+  labs() # Make sure it is clearly labeled&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in pres %&amp;gt;% mutate(StartDate = as.Date(StartDate, &amp;quot;%m/%d/%Y&amp;quot;)) %&amp;gt;% : could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Write answer here&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-2-2-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 2 [2 points]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Next, let’s look at the other variables. Calculate the&lt;/em&gt; &lt;strong&gt;prediction error&lt;/strong&gt; &lt;em&gt;for Biden (call this variable &lt;code&gt;demErr&lt;/code&gt;) and Trump (call this variable &lt;code&gt;repErr&lt;/code&gt;) such that positive values mean that the poll&lt;/em&gt; &lt;strong&gt;overestimated&lt;/strong&gt; &lt;em&gt;the candidate’s popular vote share (&lt;code&gt;DemCertVote&lt;/code&gt; for Biden and &lt;code&gt;RepCertVote&lt;/code&gt; for Trump).&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;pres &amp;lt;- pres %&amp;gt;%
+  mutate() # Create the two new variables &lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in pres %&amp;gt;% mutate(): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;Plot the Biden and Trump prediction errors on a single plot using &lt;code&gt;geom_bar()&lt;/code&gt;, with red indicating Trump and blue indicating Biden (make sure to set alpha to some value less than 1 to increase the transparency!). Add vertical lines for the average prediction error for both candidates (colored appropriately) as well as a vertical line indicating no prediction error.&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;pres %&amp;gt;%
+  ggplot() + # Instantiate an EMPTY ggplot object
+  geom_bar(aes(...), # Put the first variable in the first `geom_bar()`
+           ...) + # Set the color and opacity
+  geom_bar(aes(...), # Put the second variable in the second `geom_bar()`
+           ...) + # Set the color and opacity
+  labs(...) + # Make sure it is clearly labeled
+  geom_vline(...) + # Put a black vertical line at 0
+  geom_vline() + # Put a dashed blue vertical line at the Democrat prediction error
+  geom_vline() + # Put a dashed red vertical line at the Republican prediction error&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in parse(text = input): &amp;lt;text&amp;gt;:11:0: unexpected end of input
+## 9:   geom_vline() + # Put a dashed blue vertical line at the Democrat prediction error
+## 10:   geom_vline() + # Put a dashed red vertical line at the Republican prediction error
+##    ^&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;Do you observe a systematic bias toward one candidate or the other?&lt;/em&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Write answer here&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-3-2-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 3 [2 points]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Plot the average prediction error for Trump (red) and Biden (blue) by start date using &lt;code&gt;geom_point()&lt;/code&gt; and add two curvey lines of best fit using &lt;code&gt;geom_smooth()&lt;/code&gt;. Make sure that the curvey line for Trump is also red, and the curvey line for Biden is also blue!&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;pres %&amp;gt;%
+  mutate(...) %&amp;gt;% # Convert to date
+  group_by(...) %&amp;gt;% # Calculate the average error for Biden and Trump by date
+  summarise(...,
+            ...) %&amp;gt;%
+  ggplot() + # Instantiate an empty ggplot
+  geom_point(aes(x = ...,y = ...), # Put the first variable in the first `geom_point()`
+           ...) + # Set the color
+  geom_point(aes(x = ...,y = ...), # Put the second variable in the second `geom_point()`
+           ...) + # Set the color
+  geom_smooth(aes(x = ...,y = ...), # Put the first variable in the first geom_smooth()
+              ...) + # Set the color
+  geom_smooth(aes(x = ...,y = ...), # Put the second variable in the second geom_smooth()
+              ...) + # Set the color
+  labs(...) + # Make sure it is clearly labeled
+  geom_hline(...) # Add a horizontal dashed line at 0&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in pres %&amp;gt;% mutate(...) %&amp;gt;% group_by(...) %&amp;gt;% summarise(..., ...) %&amp;gt;% : could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;What pattern do you observe over time, if any? Does this support the hypothesis presented in Question 1 above?&lt;/em&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Write answer here&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-4-2-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 4 [2 points]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Can we do better by aggregating state-level polls? Load the [Pres2020_StatePolls.Rds] to an object called &lt;code&gt;state&lt;/code&gt;. First, create two new variables &lt;code&gt;demErr&lt;/code&gt; and &lt;code&gt;repErr&lt;/code&gt; just as you did in Question 2. Then recreate the same overtime plot comparing Biden and Trump prediction errors as you did in Question 3. What do you observe?&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;state &amp;lt;- read_rds(...) # Read in the data&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in read_rds(...): could not find function &amp;quot;read_rds&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;state &amp;lt;- state %&amp;gt;%
+  mutate(...) # Create the two new variables for Democrat and Republican prediction errors&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in state %&amp;gt;% mutate(...): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;state %&amp;gt;%
+  mutate(...) %&amp;gt;% # Convert to date
+  group_by(...) %&amp;gt;% # Calculate the average error for Biden and Trump by date
+  summarise(...,
+            ...) %&amp;gt;%
+  ggplot() + # Instantiate an empty ggplot
+  geom_point(aes(x = ...,y = ...), # Put the first variable in the first `geom_point()`
+           ...) + # Set the color
+  geom_point(aes(x = ...,y = ...), # Put the second variable in the second `geom_point()`
+           ...) + # Set the color
+  geom_smooth(aes(x = ...,y = ...), # Put the first variable in the first geom_smooth()
+              ...) + # Set the color
+  geom_smooth(aes(x = ...,y = ...), # Put the second variable in the second geom_smooth()
+              ...) + # Set the color
+  labs(...) + # Make sure it is clearly labeled
+  geom_hline(...) # Add a horizontal dashed line at 0&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in state %&amp;gt;% mutate(...) %&amp;gt;% group_by(...) %&amp;gt;% summarise(..., ...) %&amp;gt;% : could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Write answer here&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-5-2-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 5 [2 points]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;One other explanation for inaccurate state polls is that some states do not have many polls run. Calculate the anti-Trump/pro-Biden bias for each state by subtracting the &lt;code&gt;repErr&lt;/code&gt; from the &lt;code&gt;demErr&lt;/code&gt; (call this new variable &lt;code&gt;bidenBias&lt;/code&gt;). Then calculate the average bias by state AND calculate the number of polls in that state. Finally, plot the relationship between the number of polls and the extent of bias. Does the data support the theory that states with more polls were predicted more accurately?&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;state &amp;lt;- state %&amp;gt;%
+  mutate(...) # Create the bidenBias variable here&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in state %&amp;gt;% mutate(...): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;state %&amp;gt;%
+  group_by(...) %&amp;gt;%
+  summarise(...,   # Calculate the average bidenBias by state
+            ...) %&amp;gt;% # Calculate the number of polls by state
+  ungroup() %&amp;gt;%
+  ggplot(aes(x = ...,      # Put the correct variable on the x-axis
+             y = ...)) +   # Put the correct variable on the y-axis
+  geom_...() + # Choose the correct geom
+  geom_...(...) + # Add a straight line of best fit
+  labs(...) # Give it some good labels&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in state %&amp;gt;% group_by(...) %&amp;gt;% summarise(..., ...) %&amp;gt;% ungroup() %&amp;gt;% : could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Write answer here&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;extra-credit-1-point&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Extra Credit [1 point]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Do polls that underestimate Trump’s support overestimate Biden’s support? Investigate this question using both the national data (&lt;code&gt;pres&lt;/code&gt;) and the state data (&lt;code&gt;state&lt;/code&gt;). Use a scatterplot to test, combined with a (straight) line of best fit. Then, calculate the proportion of polls that (1) underestimate both Trump and Biden, (2) underestimate Trump and overestimate Biden, (3) overestimate Trump and underestimate Biden, (4) overestimate both candidates. In these analyses, define “overestimate” as prediction errors greater than or equal to zero, whereas “underestimate” should be prediction errors less than zero. What do you conclude? Is there any evidence of an anti-Trump bias in national polling? What about state polling?&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# National scatterplot
+# INSERT CODE HERE
+
+# National proportions: 4 different types of polls
+# INSERT CODE HERE
+
+# State scatterplot
+# INSERT CODE HERE
+
+# State proportions: 4 different types of polls
+# INSERT CODE HERE&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Write answer here&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;part-2-new-yorkvillanova-knicks-8-points-1-extra-credit-point&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Part 2: New York/Villanova Knicks (8 points; 1 extra credit point)&lt;/h1&gt;
+&lt;div id=&#34;question-0&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 0&lt;/h2&gt;
+&lt;p&gt;Require &lt;code&gt;tidyverse&lt;/code&gt; and load the &lt;a href=&#34;https://github.com/rweldzius/PSC4175_SUM2025/blob/main/data/game_summary.Rds?raw=true&amp;#39;&#34;&gt;&lt;code&gt;game_summary.rds&lt;/code&gt;&lt;/a&gt; data to an object called &lt;code&gt;games&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# INSERT CODE HERE&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-1-2-points-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 1 [2 points]&lt;/h2&gt;
+&lt;p&gt;How many points, on average, did the New York Knicks score at home and away games in the 2017 season? Calculate this answer and also plot the multivariate relationship. Explain why your chosen visualization is justified. Draw two vertical lines for the average points at home and away.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Create extra object to plot vertical lines for average points at home and away
+vertLines &amp;lt;- games %&amp;gt;%
+filter() %&amp;gt;% # Filter to the 2017 season (yearSeason) AND to the New York Knicks (nameTeam)
+  group_by() %&amp;gt;% # Group by the location of the game
+  summarise() # Calculate the average points (pts)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in games %&amp;gt;% filter() %&amp;gt;% group_by() %&amp;gt;% summarise(): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;games %&amp;gt;%
+  filter() %&amp;gt;% # Filter to the 2017 season (yearSeason) AND to the New York Knicks (nameTeam)
+  ggplot() + # Create a multivariate plot comparing points scored between home and away games
+  geom_...() + # Choose the appropriate geom_... for this plot (i.e., geom_histogram(), geom_density(), geom_bar(), etc.)
+  labs(title = &amp;#39;&amp;#39;, # Add clear descriptions for the title, subtitle, axes, and legend
+       subtitle = &amp;#39;&amp;#39;,
+       x = &amp;#39;&amp;#39;,
+       y = &amp;#39;&amp;#39;,
+       color = &amp;#39;&amp;#39;) + 
+  geom_vline() # add vertical lines for the average points scored at home and away.&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in games %&amp;gt;% filter() %&amp;gt;% ggplot(): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-2-2-points-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 2 [2 points]&lt;/h2&gt;
+&lt;p&gt;Now recreate the same plot for the 2018, 2019, and combined seasons. Imagine that you work for the Knicks organization and Scott Perry (the GM), asks you if the team scores more points at home or away? Based on your analysis, what would you tell him?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# By season
+vertLines &amp;lt;- games %&amp;gt;%
+filter() %&amp;gt;% # Filter to the New York Knicks (nameTeam)
+  group_by() %&amp;gt;% # Group by the location and the season
+  summarise() # Calculate the average points (pts)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in games %&amp;gt;% filter() %&amp;gt;% group_by() %&amp;gt;% summarise(): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;games %&amp;gt;%
+  filter() %&amp;gt;% # Filter to the New York Knicks (nameTeam)
+  ggplot() + # Create a multivariate plot comparing points scored between home and away games
+  geom_...() + # Choose the appropriate geom_... for this plot (i.e., geom_histogram(), geom_density(), geom_bar(), etc.)
+  labs(title = &amp;#39;&amp;#39;, # Add clear descriptions for the title, subtitle, axes, and legend
+       subtitle = &amp;#39;&amp;#39;,
+       x = &amp;#39;&amp;#39;,
+       y = &amp;#39;&amp;#39;,
+       color = &amp;#39;&amp;#39;) + 
+  facet_wrap() + # Create separate panels for each season (facet_wrap())
+  geom_vline() # add vertical lines for the average points scored at home and away.&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in games %&amp;gt;% filter() %&amp;gt;% ggplot(): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Over all seasons combined
+vertLines &amp;lt;- games %&amp;gt;%
+filter() %&amp;gt;% # Filter to the New York Knicks (nameTeam)
+  group_by() %&amp;gt;% # Group by the location
+  summarise() # Calculate the average points (pts)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in games %&amp;gt;% filter() %&amp;gt;% group_by() %&amp;gt;% summarise(): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;games %&amp;gt;%
+  filter() %&amp;gt;% # Filter to the New York Knicks (nameTeam)
+  ggplot() + # Create a multivariate plot comparing points scored between home and away games
+  geom_...() + # Choose the appropriate geom_... for this plot (i.e., geom_histogram(), geom_density(), geom_bar(), etc.)
+  labs(title = &amp;#39;&amp;#39;, # Add clear descriptions for the title, subtitle, axes, and legend
+       subtitle = &amp;#39;&amp;#39;,
+       x = &amp;#39;&amp;#39;,
+       y = &amp;#39;&amp;#39;,
+       color = &amp;#39;&amp;#39;) + 
+  geom_vline() # add vertical lines for the average points scored at home and away.&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in games %&amp;gt;% filter() %&amp;gt;% ggplot(): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-3-2-points-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 3 [2 points]&lt;/h2&gt;
+&lt;p&gt;Scott Perry thanks you for your answer, but is a well-trained statistician in his own right, and wants to know how confident you are in your claim. Bootstrap sample the data 1,000 times to provide him with a more sophisticated answer. How confident are you in your conclusion that the Knicks score more points at home games than away games? Make sure to &lt;code&gt;set.seed(123)&lt;/code&gt; to ensure you get the same answer every time you &lt;code&gt;knit&lt;/code&gt; your code!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(123) # Set the seed!
+forBS &amp;lt;- games %&amp;gt;% # To make things easier, create a new data object that is filtered to just the Knicks so we don&amp;#39;t have to do this every time in the loop
+    filter() # Filter to the Knicks (nameTeam)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in games %&amp;gt;% filter(): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;bsRes &amp;lt;- NULL # Instantiate an empty object to store data from the loop
+for(i in 1:1000) { # Loop 1,000 times
+  bsRes &amp;lt;- forBS %&amp;gt;%
+    sample_n() %&amp;gt;% # Sample the data with replacement using all possible rows
+    group_by() %&amp;gt;% # Group by the location of the game
+    summarise() %&amp;gt;% # Calculate the average points (pts)
+    ungroup() %&amp;gt;% # Best practices!
+    spread() %&amp;gt;% # Spread the data to get one column for average points at home and another for average points away
+    mutate(, # Calculate the difference between home and away points
+           ) %&amp;gt;% # Save the bootstrap index
+    bind_rows(bsRes) # Append the result to the empty object from above
+} &lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in forBS %&amp;gt;% sample_n() %&amp;gt;% group_by() %&amp;gt;% summarise() %&amp;gt;% ungroup() %&amp;gt;% : could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Calculate the confidence
+bsRes %&amp;gt;%
+  summarise(, # Calculate the proportion of bootstrap simulations where the home points are greater than the away points
+            ) # Calculate the overall average difference&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in bsRes %&amp;gt;% summarise(, ): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-4-2-points-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 4 [2 points]&lt;/h2&gt;
+&lt;p&gt;Re-do this analysis for three other statistics of interest to Scott: total rebounds (treb), turnovers (tov), and field goal percent (pctFG). Do you notice anything strange in these results? What might explain it?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;bsRes &amp;lt;- NULL # Instantiate an empty object to store data from the loop
+for(i in 1:1000) { # Loop 1,000 times
+  bsRes &amp;lt;- forBS %&amp;gt;%
+    sample_n() %&amp;gt;% # Sample the data with replacement using all possible rows
+    group_by() %&amp;gt;% # Group by the location of the game
+    summarise(, # Calculate the average total rebounds (treb)
+              , # Calculate the average turnovers (tov)
+              ) %&amp;gt;% # Calculate the average field goal shooting percentage (pctFG)
+    ungroup() %&amp;gt;% # Best practices!
+    pivot_wider(, # Pivot wider to get each measure in its own colunm for home and away games
+                ) %&amp;gt;% # Use the values from the variables you created above
+    mutate(, # Calculate the difference between home and away total rebounds
+           , # Calculate the difference between home and away turnovers
+           , # Calculate the difference between home and away field goal percentages
+           ) %&amp;gt;% # Save the bootstrap index
+    bind_rows(bsRes) # Append the result to the empty object from above
+} &lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in forBS %&amp;gt;% sample_n() %&amp;gt;% group_by() %&amp;gt;% summarise(, , ) %&amp;gt;% ungroup() %&amp;gt;% : could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Calculate the confidence
+bsRes %&amp;gt;%
+  summarise(, # Calculate the confidence for rebounds being greater than zero
+            , # Calculate the confidence for turnovers being greater than zero
+            )&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in bsRes %&amp;gt;% summarise(, , ): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;extra-credit-1-point-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Extra Credit [1 point]&lt;/h2&gt;
+&lt;p&gt;Now Scott is asking for a similar analysis of other teams. Calculate the difference between home and away points for every team in the league and prepare a summary table that includes both the average difference for each team, as well as your confidence about whether the difference is not zero. Based on these data, would you argue that there is an &lt;strong&gt;overall&lt;/strong&gt; home court advantage in terms of points across the NBA writ large? Visualize these summary results by plotting the difference on the x-axis, the teams (reordered) on the y-axis, and the points colored by whether you are more than 90% confident in your answer. How should we interpret confidence levels less than 50%?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# INSERT CODE HERE&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;part-3-youtube-bias-9-points-1.5-extra-credit-points&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Part 3: Youtube Bias (9 points; 1.5 extra credit points)&lt;/h1&gt;
+&lt;p&gt;We will be using a new dataset called &lt;code&gt;youtube_individual.rds&lt;/code&gt; which can be found on the course &lt;a href=&#34;https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/youtube_individual.rds&#34;&gt;github page&lt;/a&gt;. The codebook for this dataset is produced below. All ideology measures are coded such that negative values indicate more liberal content and positive values indicate more conservative content.&lt;/p&gt;
+&lt;table&gt;
+&lt;colgroup&gt;
+&lt;col width=&#34;14%&#34; /&gt;
+&lt;col width=&#34;85%&#34; /&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;ResponseId&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;A unique code for each respondent to the survey&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;ideo_recommendation&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;The average ideology of all recommendations shown to the respondent&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;ideo_current&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;The average ideology of all current videos the respondent was watching when they were shown recommendations&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;ideo_watch&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;The average ideology of all videos the respondent has ever watched on YouTube (their “watch history”)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;nReccs&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;The total number of recommendations the respondent was shown during the survey&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;YOB&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;The year the respondent was born&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;education&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;The respondent’s highest level of education&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;gender&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;The respondent’s gender&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;income&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;The respondent’s total household income&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;party_id&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;The respondent’s self-reported partisanship&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;ideology&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;The respondent’s self-reported ideology&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;race&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;The respondent’s race&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;age&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;The respondent’s age at the time of the survey&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div id=&#34;question-0-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 0&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Require &lt;code&gt;tidyverse&lt;/code&gt; and load the &lt;a href=&#34;https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/youtube_individual.rds&#34;&gt;&lt;code&gt;youtube_individual.rds&lt;/code&gt;&lt;/a&gt; data to an object called &lt;code&gt;yt&lt;/code&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# INSERT CODE HERE&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-1-1-point&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 1 [1 point]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;We are interested in how the YouTube recommendation algorithm works. These data are collected from real users, logged into their real YouTube accounts, allowing us to see who gets recommended which videos. We will investigate three research questions in this problem set:&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;1. What is the relationship between average ideology of recommendations shown to each user, and the average ideology of all the videos the user has watched?&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;2. What is the relationship between the average ideology of recommendations shown to each user, and the average ideology of the current video the user was watching when they were shown the recommendation?&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;3. Which of these relationships is stronger? Why?&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Start by answering all three of these research questions, and explaining your thinking. Be very precise about your assumptions!&lt;/em&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-2-2-points-2&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 2 [2 points]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Based on your previous answer, which variables are the &lt;span class=&#34;math inline&#34;&gt;\(X\)&lt;/span&gt; (predictors) and which are the &lt;span class=&#34;math inline&#34;&gt;\(Y\)&lt;/span&gt; (outcome) variables?&lt;/em&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;em&gt;Now create univariate visualizations of all three variables, making sure to label your plots clearly.&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Univariate visualization of Y
+# INSERT CODE HERE
+
+# Univariate visualization of X1
+# INSERT CODE HERE
+
+# Univariate visualization of X2
+# INSERT CODE HERE&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-3-2-points-2&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 3 [2 points]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Let’s focus on the first research question. Create a multivariate visualization of the relationship between these two variables, making sure to put the &lt;span class=&#34;math inline&#34;&gt;\(X\)&lt;/span&gt; variable on the x-axis, and the &lt;span class=&#34;math inline&#34;&gt;\(Y\)&lt;/span&gt; variable on the y-axis. Add a straight line of best fit. Does the data support your theory?&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Multviariate visualization of Y and X1
+# INSERT CODE HERE&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;em&gt;Now run a linear regression using the &lt;code&gt;lm()&lt;/code&gt; function and save the result to an object called &lt;code&gt;model_watch&lt;/code&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;model_watch &amp;lt;- lm(formula = ..., # Write the regression equation here (remember to use the tilde ~!)
+             data = ...) # Indicate where the data is stored here.&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error: &amp;#39;...&amp;#39; used in an incorrect context&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;Using either the &lt;code&gt;summary()&lt;/code&gt; function (from base &lt;code&gt;R&lt;/code&gt;) or the &lt;code&gt;tidy()&lt;/code&gt; function (from the &lt;code&gt;broom&lt;/code&gt; package), print the regression result.&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;require(broom)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Loading required package: broom&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tidy(model_watch)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error: object &amp;#39;model_watch&amp;#39; not found&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;In a few sentences, summarize the results of the regression output. This requires you to translate the statistical measures into plain English, making sure to refer to the units for both the &lt;span class=&#34;math inline&#34;&gt;\(X\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(Y\)&lt;/span&gt; variables. In addition, you must determine whether the regression result supports your hypothesis, and discuss your confidence in your answer, referring to the p-value.&lt;/em&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-4-2-points-2&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 4 [2 points]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Now let’s do the same thing for the second research question. First, create the multivariate visualization and determine whether it is consistent with your theory.&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Multviariate visualization of Y and X2
+# INSERT CODE HERE&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;em&gt;Second, run a new regression and save the result to &lt;code&gt;model_current&lt;/code&gt;. Then print the result using either &lt;code&gt;summary()&lt;/code&gt; or &lt;code&gt;tidy()&lt;/code&gt;, as before.&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# [RUBRIC: 0.25 points - either right or wrong.]
+model_current &amp;lt;- lm(formula = ..., # Write the regression equation here (remember to use the tilde ~!)
+             data = ...) # Indicate where the data is stored here.&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error: &amp;#39;...&amp;#39; used in an incorrect context&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tidy(model_current)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error: object &amp;#39;model_current&amp;#39; not found&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;Finally, describe the result in plain English, and interpret it in light of your hypothesis. How confident are you?&lt;/em&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;em&gt;Based&lt;/em&gt; &lt;strong&gt;ONLY&lt;/strong&gt; &lt;em&gt;on the preceding analysis, are you able to answer research question 3?&lt;/em&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-5-2-points-0.5-ec-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 5 [2 points + 0.5 EC points]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Now let’s evaluate the models. Start by calculating the “mistakes” (i.e., the “errors” or the “residuals”) generated by both models and saving these as new columns (&lt;code&gt;errors_watch&lt;/code&gt; and &lt;code&gt;errors_current&lt;/code&gt;) in the &lt;code&gt;yt&lt;/code&gt; dataset.&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Calculating errors 
+yt &amp;lt;- yt %&amp;gt;%
+  mutate(preds_watch = ..., # Get the predicted values from the first model (Yhat)
+         preds_current = ...) %&amp;gt;% # Get the predicted values from the second model (Yhat)
+  mutate(errors_watch = ..., # Calculate errors for the first model (Y - Yhat)
+         errors_current = ...) # Calculate errors for the second model (Y - Yhat)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in yt %&amp;gt;% mutate(preds_watch = ..., preds_current = ...) %&amp;gt;% mutate(errors_watch = ..., : could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;Now create two univariate visualization of these errors. Based on this result, which model looks better? Why? EC [+1 point]: Plot both errors on the same graph using &lt;code&gt;pivot_longer()&lt;/code&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Univariate visualization of watch history model errors 
+yt %&amp;gt;%
+  ggplot(aes(x = ...)) + # Put the errors from the first model on the x-axis
+  geom_...() +  # Choose the best geom_...() to visualize based on the variable&amp;#39;s type
+  labs(...) # Provide clear labels to help a stranger understand!&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in yt %&amp;gt;% ggplot(aes(x = ...)): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Univariate visualization of current video model errors 
+yt %&amp;gt;%
+  ggplot(aes(x = ...)) + # Put the errors from the first model on the x-axis
+  geom_...() +  # Choose the best geom_...() to visualize based on the variable&amp;#39;s type
+  labs(...) # Provide clear labels to help a stranger understand!&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in yt %&amp;gt;% ggplot(aes(x = ...)): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# EC [0.5 points]: Plot both errors on a single plot. Hint: use pivot_longer().&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;em&gt;Finally, create a multivariate visualization of both sets of errors, comparing them against the &lt;span class=&#34;math inline&#34;&gt;\(X\)&lt;/span&gt; variable. Based on this result, which model looks better? Why? EC [+1 point]: Create two plots side-by-side using facet_wrap(). This is SUPER HARD, so don’t worry if you can’t get it.&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Multivariate visualization of watch history errors
+yt %&amp;gt;%
+  ggplot(aes(x = ...,      # Put the predictor on the x-axis
+             y = ...)) + # Put the errors on the y-axis
+  geom_...() + # Choose the best geom_...()
+  geom_...() + # Add a curvey line of best fit
+  geom_hline(...) + # Add a horizontal dashed line at zero
+  labs(...) # Provide clear labels to help a stranger understand!&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in yt %&amp;gt;% ggplot(aes(x = ..., y = ...)): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Multivariate visualization of current video errors
+yt %&amp;gt;%
+  ggplot(aes(x = ...,      # Put the predictor on the x-axis
+             y = ...)) + # Put the errors on the y-axis
+  geom_...() + # Choose the best geom_...()
+  geom_...() + # Add a curvey line of best fit
+  geom_hline(...) + # Add a horizontal dashed line at zero
+  labs(...) # Provide clear labels to help a stranger understand!&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in yt %&amp;gt;% ggplot(aes(x = ..., y = ...)): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# EC [1 point]: Try to create two plots side-by-side. (SUPER HARD)&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;extra-credit-1-point-2&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Extra Credit [1 point]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Calculate the&lt;/em&gt; &lt;strong&gt;R&lt;/strong&gt;&lt;em&gt;oot&lt;/em&gt; &lt;strong&gt;M&lt;/strong&gt;&lt;em&gt;ean&lt;/em&gt; &lt;strong&gt;S&lt;/strong&gt;&lt;em&gt;quared&lt;/em&gt; &lt;strong&gt;E&lt;/strong&gt;&lt;em&gt;rror (RMSE) using 100-fold cross validation with a 50-50 split for both models. How bad are the first model’s mistakes on average? How bad are the second model’s mistakes? Which model seems better? Remember to talk about the result in terms of the range of values of the outcome variable! Plot the errors by the model using geom_boxplot(). HINT: you’ll need to use pivot_longer() to get the data shaped correctly.&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# INSERT CODE HERE&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Problem Set 1</title>
+      <link>http://localhost:1313/data-science-site/problemsets/psc4175_pset_1/</link>
+      <pubDate>Fri, 06 Jun 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/data-science-site/problemsets/psc4175_pset_1/</guid>
+      <description>
+
+
+&lt;div id=&#34;getting-set-up&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Getting Set Up&lt;/h1&gt;
+&lt;p&gt;Open &lt;code&gt;RStudio&lt;/code&gt; and create a new RMarkDown file (&lt;code&gt;.Rmd&lt;/code&gt;) by going to &lt;code&gt;File -&amp;gt; New File -&amp;gt; R Markdown...&lt;/code&gt;.
+Accept defaults and save this file as &lt;code&gt;[LAST NAME]_ps1.Rmd&lt;/code&gt; to your &lt;code&gt;code&lt;/code&gt; folder.&lt;/p&gt;
+&lt;p&gt;Copy and paste the contents of this &lt;code&gt;.Rmd&lt;/code&gt; file into your &lt;code&gt;[LAST NAME]_ps1.Rmd&lt;/code&gt; file. Then change the &lt;code&gt;author: [Your Name]&lt;/code&gt; to your name.&lt;/p&gt;
+&lt;p&gt;All of the following questions should be answered in this &lt;code&gt;.Rmd&lt;/code&gt; file. There are code chunks with incomplete code that need to be filled in.&lt;/p&gt;
+&lt;p&gt;This problem set is worth 22 total points, plus 2.5 extra credit points. The point values for each question are indicated in brackets below. To receive full credit, you must have the correct code. In addition, some questions ask you to provide a written response in addition to the code.&lt;/p&gt;
+&lt;p&gt;You are free to rely on whatever resources you need to complete this problem set, including lecture notes, lecture presentations, Google, your classmates…you name it. However, the final submission must be complete by you. There are no group assignments. To submit, compile the completed problem set and upload the PDF file to Drobox on Friday by midnight. If you use AI for help, choose to save your output as a PDF and submit this with the problem set as well. Also note that I will not respond to Campuswire messages after 2PM ET on Friday, so don’t wait until the last minute to get started!&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Good luck!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;If you collaborated with a colleague and/or used AI for any help on this problem set, document here.&lt;/strong&gt; Write the names of your classmates and/or upload a PDF of your AI prompt and output with your problem set:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;part-1-all-about-college&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Part 1: All about college&lt;/h1&gt;
+&lt;div id=&#34;points-possible-0.5-extra-credit-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;[10 points possible; 0.5 extra credit points]&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-0-0-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 0 [0 points]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Require &lt;code&gt;tidyverse&lt;/code&gt; and load the &lt;a href=&#34;../../data/sc_debt.Rds&#34;&gt;&lt;code&gt;sc_debt.Rds&lt;/code&gt;&lt;/a&gt; data by assigning it to an object named &lt;code&gt;df&lt;/code&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;require() # Load tidyverse&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Loading required package:&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df &amp;lt;- read_rds() # Load the dataset directly from github&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in read_rds(): could not find function &amp;quot;read_rds&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-1-1-point&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 1 [1 point]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Which school has the lowest admission rate (&lt;code&gt;adm_rate&lt;/code&gt;) and which state is it in (&lt;code&gt;stabbr&lt;/code&gt;)?&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df %&amp;gt;% 
+  arrange() %&amp;gt;% # Arrange by the admission rate
+  select() # Select the school name, the admission rate, and the state&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in df %&amp;gt;% arrange() %&amp;gt;% select(): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-2-1-point&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 2 [1 point]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Which are the top 10 schools by average SAT score (&lt;code&gt;sat_avg&lt;/code&gt;)?&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df %&amp;gt;%
+  arrange() %&amp;gt;% # arrange by SAT scores in descending order
+  select() %&amp;gt;% # Select the school name and SAT score
+  print() # Print the first 12 rows (hint: there is a tie)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in df %&amp;gt;% arrange() %&amp;gt;% select() %&amp;gt;% print(): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-3-1-point&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 3 [1 point]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Create a new variable called &lt;code&gt;adm_rate_pct&lt;/code&gt; which is the admissions rate multiplied by 100 to convert from a 0-to-1 decimal to a 0-to-100 percentage point.&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df &amp;lt;- df %&amp;gt;% # Use the object assignment operator to overwrite the df object
+  mutate() # Create the new variable adm_rate_pct&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in df %&amp;gt;% mutate(): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-4-1-point&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 4 [1 point]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Calculate the average SAT score and median earnings of recent graduates by state.&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df %&amp;gt;%
+  group_by() %&amp;gt;% # Calculate state-by-state with group_by()
+  summarise(sat_avg = , # Summarise the average SAT
+            earn_avg = ) # Summarise the average earnings&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in df %&amp;gt;% group_by() %&amp;gt;% summarise(sat_avg = , earn_avg = ): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;extra-credit-0.5-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Extra Credit [0.5 points]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Plot the average SAT score (x-axis) against the median earnings of recent graduates (y-axis) by school, and add the line of best fit. What relationship do you observe? Why do you think this relationship exists?&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# INSERT CODE HERE&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-5-3-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 5 [3 points]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Research Question: Do students who graduate from smaller schools (i.e., schools with smaller student bodies) make more money in their future careers? Before looking at the data, write out what you think the answer is, and explain why you think so.&lt;/em&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write a few sentences here.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;em&gt;Based on this research question, what is the outcome / dependent / &lt;span class=&#34;math inline&#34;&gt;\(Y\)&lt;/span&gt; variable and what is the explanatory / independent / &lt;span class=&#34;math inline&#34;&gt;\(X\)&lt;/span&gt; variable? Create the scatterplot of the data based on this answer, along with a line of best fit. Is your answer to the research question supported?&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df %&amp;gt;%
+  ggplot(aes(x = , # Put the explanatory variable on the x-axis
+             y = )) +  # Put the outcome variable on the y-axis
+  geom_point() + # Create a scatterplot
+  geom_smooth() + # Add line of best fit
+  labs(title = &amp;#39;&amp;#39;, # give the plot meaningful labels to help the viewer understand it
+       x = &amp;#39;&amp;#39;,
+       y = &amp;#39;&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in df %&amp;gt;% ggplot(aes(x = , y = )): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write a few sentences here.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-6-2-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 6 [2 points]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Does this relationship change by whether the school is a research university? Using the filter() function, create two versions of the plot, one for research universities and the other for non-research universities.&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df %&amp;gt;%
+  filter() %&amp;gt;% # Filter to non-research universities
+  ggplot(aes(x = , # Put the explanatory variable on the x-axis
+             y = )) +  # Put the outcome variable on the y-axis
+  geom_point() + # Create a scatterplot
+  geom_smooth() + # Add line of best fit
+  labs(title = &amp;#39;&amp;#39;, # give the plot meaningful labels to help the viewer understand it
+       subtitle = &amp;#39;&amp;#39;, 
+       x = &amp;#39;&amp;#39;,
+       y = &amp;#39;&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in df %&amp;gt;% filter() %&amp;gt;% ggplot(aes(x = , y = )): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df %&amp;gt;%
+  filter() %&amp;gt;% # Filter to research universities
+  ggplot(aes(x = , # Put the explanatory variable on the x-axis
+             y = )) +  # Put the outcome variable on the y-axis
+  geom_point() + # Create a scatterplot
+  geom_smooth() + # Add line of best fit
+  labs(title = &amp;#39;&amp;#39;, # give the plot meaningful labels to help the viewer understand it
+       subtitle = &amp;#39;&amp;#39;, 
+       x = &amp;#39;&amp;#39;,
+       y = &amp;#39;&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in df %&amp;gt;% filter() %&amp;gt;% ggplot(aes(x = , y = )): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-7-1-point&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 7 [1 point]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Instead of creating two separate plots, color the points by whether the school is a research university. To do this, you first need to modify the research_u variable to be categorical (it is currently stored as numeric). To do this, use the mutate command with &lt;code&gt;ifelse()&lt;/code&gt; to create a new variable called &lt;code&gt;research_u_cat&lt;/code&gt; which is either “Research” if &lt;code&gt;research_u&lt;/code&gt; is equal to 1, and “Non-Research” otherwise.&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df &amp;lt;- df %&amp;gt;%
+  mutate(research_u_cat = ifelse()) # Create a labeled version of the research_u variable&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in df %&amp;gt;% mutate(research_u_cat = ifelse()): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df %&amp;gt;%
+  ggplot(aes(x = , # Put the explanatory variable on the x-axis
+             y = , # Put the outcome variable on the y-axis
+             color = )) + # Color the points by the new variable you created above
+  geom_point() + # Create a scatterplot
+  geom_smooth() + # Add line of best fit
+  labs(title = &amp;#39;&amp;#39;, # give the plot meaningful labels to help the viewer understand it
+       x = &amp;#39;&amp;#39;,
+       color = &amp;#39;&amp;#39;,
+       y = &amp;#39;&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in df %&amp;gt;% ggplot(aes(x = , y = , color = )): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;part-2-learning-about-the-2020-elections-from-michigan-exit-polling&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Part 2: Learning about the 2020 elections from Michigan exit polling&lt;/h1&gt;
+&lt;div id=&#34;points-1-extra-credit-points-available&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;[6 points; +1 extra credit points available]&lt;/h2&gt;
+&lt;p&gt;For part 2 of this problem set, we will be using the &lt;code&gt;MI2020_ExitPoll.Rds&lt;/code&gt; file from the course &lt;a href=&#34;https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/MI2020_ExitPoll.Rds&#34;&gt;github page&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-8-1-point&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 8 [1 point]&lt;/h2&gt;
+&lt;p&gt;Require an additional package called &lt;code&gt;labelled&lt;/code&gt; (remember to &lt;code&gt;install.packages(&#34;labelled&#34;)&lt;/code&gt; if you don’t have it yet) and load the &lt;code&gt;MI2020_ExitPoll.Rds&lt;/code&gt; data to an object called &lt;code&gt;MI_raw&lt;/code&gt;. (Tip: use the &lt;code&gt;read_rds()&lt;/code&gt; function with the link to the raw data.)&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;require()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Loading required package:&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;MI_raw &amp;lt;- read_rds(&amp;#39;&amp;#39;) &lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in read_rds(&amp;quot;&amp;quot;): could not find function &amp;quot;read_rds&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;What is the unit of analysis in this dataset? How many variables does it have? How many observations?&lt;/em&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-9-1-point&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 9 [1 point]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;This has too much information that we don’t care about. Create a new object called &lt;code&gt;MI_clean&lt;/code&gt; that contains only the following variables:&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;AGE10&lt;/li&gt;
+&lt;li&gt;SEX&lt;/li&gt;
+&lt;li&gt;PARTYID&lt;/li&gt;
+&lt;li&gt;EDUC18&lt;/li&gt;
+&lt;li&gt;PRSMI20&lt;/li&gt;
+&lt;li&gt;QLT20&lt;/li&gt;
+&lt;li&gt;LGBT&lt;/li&gt;
+&lt;li&gt;BRNAGAIN&lt;/li&gt;
+&lt;li&gt;LATINOS&lt;/li&gt;
+&lt;li&gt;QRACEAI&lt;/li&gt;
+&lt;li&gt;WEIGHT&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;and then list which of these variables contain missing data recorded as &lt;code&gt;NA&lt;/code&gt;. How many respondents were not asked certain questions?&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;MI_clean &amp;lt;- MI_raw %&amp;gt;% 
+  select() # Select the requested variables&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in MI_raw %&amp;gt;% select(): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary() # Identify which have missing data recorded as NA&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in summary.default(): argument &amp;quot;object&amp;quot; is missing, with no default&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-10-1-point&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 10 [1 point]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Are there&lt;/em&gt; &lt;strong&gt;unit non-response&lt;/strong&gt; &lt;em&gt;data in the &lt;code&gt;PRSMI20&lt;/code&gt; variable? If so, how are they recorded? What about the &lt;code&gt;PARTYID&lt;/code&gt; variable? How many people refused to answer both of these questions?&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;MI_clean %&amp;gt;%
+  count() # Tip: use count() function to look at your variables.&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in MI_clean %&amp;gt;% count(): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-11-1-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 11 [1 points]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Let’s create a new variable called &lt;code&gt;preschoice&lt;/code&gt; that converts &lt;code&gt;PRSMI20&lt;/code&gt; to a character. To do this, install the &lt;code&gt;labelled&lt;/code&gt; package if you haven’t already, then use the &lt;code&gt;to_character()&lt;/code&gt; function from the &lt;code&gt;labelled&lt;/code&gt; package. Now &lt;code&gt;count()&lt;/code&gt; the number of respondents who reported voting for each candidate. How many respondents voted for candidate Trump in 2020? How many respondents refused to tell us who they voted for?&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;MI_clean &amp;lt;- MI_clean %&amp;gt;%
+  mutate(preschoice = ) # Convert to character&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in MI_clean %&amp;gt;% mutate(preschoice = ): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;MI_clean %&amp;gt;%
+  count()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in MI_clean %&amp;gt;% count(): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-12-2-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 12 [2 points]&lt;/h2&gt;
+&lt;p&gt;What proportion of women supported Trump?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Women Trump supporters
+MI_clean %&amp;gt;%
+  drop_na() %&amp;gt;% # Drop any missing values for preschoice
+  filter() %&amp;gt;% # Filter to only women
+  count() %&amp;gt;% # Count the number of women who supported each candidate
+  mutate(share = ) # Calculate the proportion of women who supported Trump&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in MI_clean %&amp;gt;% drop_na() %&amp;gt;% filter() %&amp;gt;% count() %&amp;gt;% mutate(share = ): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Alternative approach
+MI_clean %&amp;gt;%
+  drop_na() %&amp;gt;% # Drop any missing values for preschoice
+  mutate(trumpSupp = ifelse()) %&amp;gt;% # Create &amp;quot;dummy&amp;quot; variable for whether the person voted for Trump or not that is either 1 (they voted for Trump) or 0
+  group_by() %&amp;gt;% # Group by gender
+  summarise(share = mean(trumpSupp)) # Calculate proportion who supported Trump&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in MI_clean %&amp;gt;% drop_na() %&amp;gt;% mutate(trumpSupp = ifelse()) %&amp;gt;% group_by() %&amp;gt;% : could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;extra-credit-1-point&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Extra Credit [1 point]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Among women, which age group sees the highest support for Trump? To answer, you will need to calculate the proportion of women who supported Trump by age-group to determine which age-group had the highest Trump support among women. You will need to clean the AGE10 variable before completing this problem, just like we did with the PRSMI20 variable. Call the new variable “Age”. HINT: to make your life easier (and not write a 10-level nested ifelse() function), try asking ChatGPT for help with this prompt: “I have a labelled variable in R that I want to convert to text. How can I do this?”&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Insert code here.&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;part-3-nba-jam-boom-shakalaka&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Part 3: NBA Jam, “Boom-shakalaka!”&lt;/h1&gt;
+&lt;div id=&#34;points-1-extra-credit-point-available&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;[6 points; +1 extra credit point available]&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-13-1-point&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 13 [1 point]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Plot the distribution of field goals attempted by all NBA players in the 2018-2019 season. Explain why you chose the visualization that you did. Then add a vertical line indicating the mean and median number of points in the data. Color the median line blue and the mean line red. Why is the median lower than the mean?&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;nba %&amp;gt;%
+  ggplot() + # Put the fga variable on the x-axis of a ggplot.
+   geom_...() + # Choose the appropriate geom function to visualize.
+  labs() + # Add labels
+      geom_vline() + # Median vertical line (blue)
+      geom_vline() # Mean vertical line (red)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in nba %&amp;gt;% ggplot(): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-14-1-point&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 14 [1 point]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Now examine the &lt;code&gt;country&lt;/code&gt; variable. Visualize this variable using the appropriate &lt;code&gt;geom_...&lt;/code&gt;, and justify your reason for choosing it. Tweak the plot to put the country labels on the y-axis, ordered by frequency. Which country are most NBA players from? What is weird about your answer, and what might explain it? &lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;nba %&amp;gt;%
+  count() %&amp;gt;% # count the number of players by country
+  ggplot() + # place the country on the y-axis, reordered by the number of players. Put the number of players on the x-axis
+  geom_...() + # Choose the best geom
+  labs() # Add labels&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in nba %&amp;gt;% count() %&amp;gt;% ggplot(): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-15-3-points&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 15 [3 points]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Let’s pretend we are consulting for an NBA organization. The owner and GM tell us they are interested in the relationship between the player’s age (&lt;code&gt;agePlayer&lt;/code&gt;) and the amount of points they score (&lt;code&gt;pts&lt;/code&gt;). Please answer the following research question and provide a theory supporting your answer: “Do older NBA players score more points than younger players?”&lt;/em&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;em&gt;Based on your answer above, what is the outcome / dependent / &lt;span class=&#34;math inline&#34;&gt;\(Y\)&lt;/span&gt; variable and what is the explanatory / independent / &lt;span class=&#34;math inline&#34;&gt;\(X\)&lt;/span&gt; variable? Why?&lt;/em&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;em&gt;Create a univariate visualization of both the &lt;span class=&#34;math inline&#34;&gt;\(X\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(Y\)&lt;/span&gt; variables. Choose the best &lt;code&gt;geom_...()&lt;/code&gt; based on the variable type, and make sure to label your plots!&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# X variable
+nba %&amp;gt;%
+  ggplot() + # Put the X variable on the x-axis
+  geom_...() +  # Choose the best geom given the variable type (make sure to look at it if you aren&amp;#39;t sure)
+  labs()     # Add labels&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in nba %&amp;gt;% ggplot(): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Y variable
+nba %&amp;gt;%
+  ggplot(...) + # Put the Y variable on the x-axis
+  geom_...() +  # Choose the best geom given the variable type (make sure to look at it if you aren&amp;#39;t sure)
+  labs(...)     # Add labels&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in nba %&amp;gt;% ggplot(...): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;question-16-1-point&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 16 [1 point]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Now analyze the data by creating a multivariate visualization that shows the relationship between age and points. Add a STRAIGHT line of best fit with &lt;code&gt;geom_smooth()&lt;/code&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;nba %&amp;gt;%
+  ggplot() + # Put the X variable on the x-axis, and the Y variable on the y-axis
+  geom_...() +  # Choose the best geom given both variable types
+  geom_smooth() + # Add a STRAIGHT line of best fit
+  labs()     # Add labels&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in nba %&amp;gt;% ggplot(): could not find function &amp;quot;%&amp;gt;%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;Based on your analysis, does the data support or reject your hypothesis from Question 3?&lt;/em&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;extra-credit-1-point-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Extra Credit [1 point]&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Let’s look for evidence of a “curvelinear” relationship between player age and points scored. To do so, first calculate the average points scored by age. Then plot this relationship using a multivariate visualization. Add a line of best fit with &lt;code&gt;geom_smooth()&lt;/code&gt; but DON’T use &lt;code&gt;method = &#34;lm&#34;&lt;/code&gt;. What do you conclude? Why?&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# INSERT CODE HERE&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Write answer here&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Problem Set 0</title>
+      <link>http://localhost:1313/data-science-site/problemsets/psc4175_pset_0/</link>
+      <pubDate>Fri, 30 May 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/data-science-site/problemsets/psc4175_pset_0/</guid>
+      <description>
+
+
+&lt;p&gt;At the top of all problem sets I will have the following statement. You should follow the statement with the names of classmates with whom you worked and/or upload a PDF of your AI prompt/output.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;If you collaborated with a colleague and/or used AI for any help on this problem set, document here.&lt;/strong&gt; Write the names of your classmates and/or upload a PDF of your AI prompt and output with your problem set:&lt;/p&gt;
+&lt;div id=&#34;problem-set-0-getting-set-up&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Problem Set 0: Getting Set Up!&lt;/h2&gt;
+&lt;p&gt;The rest of the semester will see you working on data science questions using &lt;code&gt;R&lt;/code&gt;. As such, your first problem set will have you:&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;Install &lt;code&gt;R&lt;/code&gt; on your computer.&lt;/li&gt;
+&lt;li&gt;Install &lt;code&gt;RStudio&lt;/code&gt; on your computer.&lt;/li&gt;
+&lt;li&gt;Create a &lt;code&gt;directory&lt;/code&gt; (i.e., a folder with a set of subfolders) for this class.&lt;/li&gt;
+&lt;li&gt;Create a new &lt;code&gt;.Rmd&lt;/code&gt; file and &lt;code&gt;Save as...&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Modify the &lt;code&gt;.Rmd&lt;/code&gt; file and &lt;code&gt;knit&lt;/code&gt; it.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div id=&#34;installing-r&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;1. Installing R&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;R&lt;/code&gt; is going to be the only programming language we will use. &lt;code&gt;R&lt;/code&gt; is an extensible statistical programming environment that can handle all of the main tasks that we’ll need to cover this semester: getting data, analyzing data and communicating data analysis.&lt;/p&gt;
+&lt;p&gt;Download R here: &lt;a href=&#34;https://cran.r-project.org/&#34; class=&#34;uri&#34;&gt;https://cran.r-project.org/&lt;/a&gt;. Make sure to choose the version that works with your operating system!&lt;/p&gt;
+&lt;center&gt;
+&lt;img src=&#34;../Lectures/figs/download_R.png&#34; width = 80%&gt;
+&lt;/center&gt;
+&lt;/div&gt;
+&lt;div id=&#34;installing-rstudio&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;2. Installing RStudio&lt;/h2&gt;
+&lt;p&gt;When we work with &lt;code&gt;R&lt;/code&gt;, we communicate via the command line. To help automate this process, we can write scripts, which contain all of the commands to be executed. These scripts generate various kinds of output, like numbers on the screen, graphics or reports in common formats (pdf, word). Most programming languages have several &lt;strong&gt;I&lt;/strong&gt; ntegrated &lt;strong&gt;D&lt;/strong&gt; evelopment &lt;strong&gt;E&lt;/strong&gt; nvironments (IDEs) that encompass all of these elements (scripts, command line interface, output). The primary IDE for R is RStudio.&lt;/p&gt;
+&lt;p&gt;Download RStudio here: &lt;a href=&#34;https://rstudio.com/products/rstudio/download/&#34; class=&#34;uri&#34;&gt;https://rstudio.com/products/rstudio/download/&lt;/a&gt;. You need the free RStudio desktop version.&lt;/p&gt;
+&lt;center&gt;
+&lt;img src=&#34;../../lectures/figs/download_RStudio.png&#34; width = 80%&gt;
+&lt;/center&gt;
+&lt;/div&gt;
+&lt;div id=&#34;setting-up-directories&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;3. Setting up Directories&lt;/h2&gt;
+&lt;p&gt;In each class, we’re going to include some code and text in one file, and data in another file. You’ll need
+to download both of these files to your computer. You need to have a particular place to put these files. Computers are organized using named directories (sometimes called folders). Don’t just put the files in your Downloads directory. One common solution is to created a folder on your computer named after the class: &lt;code&gt;PSC4175&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;You could just throw everything related to the class into this folder. However, this will quickly get messy. I recommend you create a “sub-folder” (or “sub-directory”) within &lt;code&gt;PSC4175&lt;/code&gt; called &lt;code&gt;Lecture_1&lt;/code&gt;. (You might also want to create similar sub-folders for &lt;code&gt;Lecture_2&lt;/code&gt;.) Inside &lt;code&gt;Lecture_1&lt;/code&gt;, create two additional sub-folders: &lt;code&gt;code&lt;/code&gt; and &lt;code&gt;data&lt;/code&gt;. When you’re done, your class directory should look like this:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;PSC4175
+&lt;ul&gt;
+&lt;li&gt;Lecture_1
+&lt;ul&gt;
+&lt;li&gt;code&lt;/li&gt;
+&lt;li&gt;data&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;create-an-.rmd-file&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;4. Create an &lt;code&gt;.Rmd&lt;/code&gt; file&lt;/h2&gt;
+&lt;p&gt;Open &lt;code&gt;RStudio&lt;/code&gt;, then create a new &lt;code&gt;.Rmd&lt;/code&gt; file. To do this, click on &lt;code&gt;File&lt;/code&gt; → &lt;code&gt;New File&lt;/code&gt; → &lt;code&gt;R Markdown...&lt;/code&gt;.&lt;/p&gt;
+&lt;center&gt;
+&lt;img src=&#34;../../lecturesfigs/create_rmd.png&#34; width = 70%&gt;
+&lt;/center&gt;
+&lt;div id=&#34;settings-for-.rmd-file&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Settings for &lt;code&gt;.Rmd&lt;/code&gt; file&lt;/h3&gt;
+&lt;p&gt;You will then be asked to determine a bunch of settings for this &lt;code&gt;.Rmd&lt;/code&gt; document. For example, you can choose whether you want to create a “Document”, “Presentation”, “Shiny”, or “From Template” on the left. You can set the “Title:” “Author:” and “Date:” on the top-right. And you can choose the “Default Output Format:” to be either “HTML”, “PDF”, or “Word”. You should &lt;strong&gt;not change any of these settings&lt;/strong&gt;. Their defaults (“Document”, “Untitled”, “[Your name]”, “[Today’s Date]”, and “HTML”) are sufficient. Just click “OK”.&lt;/p&gt;
+&lt;center&gt;
+&lt;img src=&#34;../../lectures/figs/create_rmd_2.png&#34; width = 70%&gt;
+&lt;/center&gt;
+&lt;/div&gt;
+&lt;div id=&#34;saving-.rmd-file&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Saving &lt;code&gt;.Rmd&lt;/code&gt; file&lt;/h3&gt;
+&lt;p&gt;This will open a new &lt;code&gt;.Rmd&lt;/code&gt; file! Now you should change the title of the file to “Problem Set 0” and the author to your name. You should then save the file in your &lt;code&gt;code&lt;/code&gt; folder with the file name &lt;code&gt;[Last Name]_PS0.Rmd&lt;/code&gt; by clicking &lt;code&gt;File&lt;/code&gt; → &lt;code&gt;Save As...&lt;/code&gt;.&lt;/p&gt;
+&lt;center&gt;
+&lt;img src=&#34;../../lectures/figs/rmd_ps0.png&#34; width = 70%&gt;
+&lt;/center&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;modify-and-knit&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;5. Modify and &lt;code&gt;knit&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;Now, &lt;strong&gt;delete all of the default text&lt;/strong&gt; in your &lt;code&gt;.Rmd&lt;/code&gt; file from line 12 down to the bottom. Then write the following on line 12:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# Problem Set 0
+I can take notes by just typing normally.&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now let’s &lt;code&gt;knit&lt;/code&gt; the file by clicking the &lt;code&gt;Knit&lt;/code&gt; button on the top of the window. You should see a new window pop-up that shows the processed code! This &lt;code&gt;.html&lt;/code&gt; document should also appear in your &lt;code&gt;code&lt;/code&gt; folder with the same file name as your &lt;code&gt;.Rmd&lt;/code&gt; file.&lt;/p&gt;
+&lt;center&gt;
+&lt;img src=&#34;../../lectures/figs/knit_rmd.png&#34; width = 70%&gt;
+&lt;/center&gt;
+&lt;div id=&#34;inserting-r-code&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Inserting R Code&lt;/h3&gt;
+&lt;p&gt;The final part of the homework assignment is to insert a &lt;code&gt;chunk&lt;/code&gt; of &lt;code&gt;R&lt;/code&gt; code. On line 15 type the following:&lt;/p&gt;
+&lt;pre class=&#34;default&#34;&gt;&lt;code&gt;```{r}
+2+2
+```&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then &lt;code&gt;knit&lt;/code&gt; a final time and open the .html file that is created in your &lt;code&gt;code&lt;/code&gt; folder. It should be called [Your Last Name]_PS0.html. You should open this in your internet browser (Safari, Google Chrome, FireFox, etc.), and then right-click anywhere on the opened file and click “Print…”.&lt;/p&gt;
+&lt;center&gt;
+&lt;img src=&#34;../../lectures/figs/save_pdf_safari.png&#34; width = 70%&gt;
+&lt;/center&gt;
+&lt;p&gt;Then choose “Save as PDF…”&lt;/p&gt;
+&lt;center&gt;
+&lt;img src=&#34;../../lectures/figs/save_pdf_safari_2.png&#34; width = 70%&gt;
+&lt;/center&gt;
+&lt;p&gt;and save it as &lt;code&gt;[Your Last Name]_ps0.pdf&lt;/code&gt;.&lt;/p&gt;
+&lt;center&gt;
+&lt;img src=&#34;../../lectures/figs/save_pdf_safari_3.png&#34; width = 70%&gt;
+&lt;/center&gt;
+&lt;p&gt;Finally, upload the PDF to Blackboard under the Problem Set 0 assignment!&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

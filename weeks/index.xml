@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Class details | Introduction to Data Science</title>
+    <link>http://localhost:1313/data-science-site/weeks/</link>
+      <atom:link href="http://localhost:1313/data-science-site/weeks/index.xml" rel="self" type="application/rss+xml" />
+    <description>Class details</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language>
+    <image>
+      <url>http://localhost:1313/data-science-site/media/social-image.png</url>
+      <title>Class details</title>
+      <link>http://localhost:1313/data-science-site/weeks/</link>
+    </image>
+    
+    <item>
+      <title>Introduction</title>
+      <link>http://localhost:1313/data-science-site/weeks/01-intro/</link>
+      <pubDate>Mon, 25 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/data-science-site/weeks/01-intro/</guid>
+      <description>
+
+
+</description>
+    </item>
+    
+    <item>
+      <title>Regression 2</title>
+      <link>http://localhost:1313/data-science-site/weeks/10-regression2/</link>
+      <pubDate>Mon, 25 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/data-science-site/weeks/10-regression2/</guid>
+      <description>
+
+
+</description>
+    </item>
+    
+    <item>
+      <title>Regression 3</title>
+      <link>http://localhost:1313/data-science-site/weeks/11-regression3/</link>
+      <pubDate>Mon, 25 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/data-science-site/weeks/11-regression3/</guid>
+      <description>
+
+
+</description>
+    </item>
+    
+    <item>
+      <title>Classfication 1</title>
+      <link>http://localhost:1313/data-science-site/weeks/12-classification1/</link>
+      <pubDate>Mon, 25 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/data-science-site/weeks/12-classification1/</guid>
+      <description>
+
+
+</description>
+    </item>
+    
+    <item>
+      <title>Classfication 2</title>
+      <link>http://localhost:1313/data-science-site/weeks/13-classification2/</link>
+      <pubDate>Mon, 25 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/data-science-site/weeks/13-classification2/</guid>
+      <description>
+
+
+</description>
+    </item>
+    
+    <item>
+      <title>Clustering</title>
+      <link>http://localhost:1313/data-science-site/weeks/14-clustering/</link>
+      <pubDate>Mon, 25 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/data-science-site/weeks/14-clustering/</guid>
+      <description>
+
+
+</description>
+    </item>
+    
+    <item>
+      <title>Introduction to R</title>
+      <link>http://localhost:1313/data-science-site/weeks/02-intro-r/</link>
+      <pubDate>Mon, 25 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/data-science-site/weeks/02-intro-r/</guid>
+      <description>
+
+
+</description>
+    </item>
+    
+    <item>
+      <title>Data Wrangling</title>
+      <link>http://localhost:1313/data-science-site/weeks/03-data-wrangling/</link>
+      <pubDate>Mon, 25 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/data-science-site/weeks/03-data-wrangling/</guid>
+      <description>
+
+
+</description>
+    </item>
+    
+    <item>
+      <title>Data Visualization and Univariate Analysis</title>
+      <link>http://localhost:1313/data-science-site/weeks/04-data-visualization/</link>
+      <pubDate>Mon, 25 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/data-science-site/weeks/04-data-visualization/</guid>
+      <description>
+
+
+</description>
+    </item>
+    
+    <item>
+      <title>Multivariate 1</title>
+      <link>http://localhost:1313/data-science-site/weeks/05-multivariate1/</link>
+      <pubDate>Mon, 25 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/data-science-site/weeks/05-multivariate1/</guid>
+      <description>
+
+
+</description>
+    </item>
+    
+    <item>
+      <title>Multivariate 2</title>
+      <link>http://localhost:1313/data-science-site/weeks/06-multivariate2/</link>
+      <pubDate>Mon, 25 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/data-science-site/weeks/06-multivariate2/</guid>
+      <description>
+
+
+</description>
+    </item>
+    
+    <item>
+      <title>Uncertainty 1</title>
+      <link>http://localhost:1313/data-science-site/weeks/07-uncertainty1/</link>
+      <pubDate>Mon, 25 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/data-science-site/weeks/07-uncertainty1/</guid>
+      <description>
+
+
+</description>
+    </item>
+    
+    <item>
+      <title>Uncertainty 2</title>
+      <link>http://localhost:1313/data-science-site/weeks/08-uncertainty2/</link>
+      <pubDate>Mon, 25 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/data-science-site/weeks/08-uncertainty2/</guid>
+      <description>
+
+
+</description>
+    </item>
+    
+    <item>
+      <title>Regression 1</title>
+      <link>http://localhost:1313/data-science-site/weeks/09-regression1/</link>
+      <pubDate>Mon, 25 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/data-science-site/weeks/09-regression1/</guid>
+      <description>
+
+
+</description>
+    </item>
+    
+  </channel>
+</rss>

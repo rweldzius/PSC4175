@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="en" 
+      xmlns:og="http://ogp.me/ns#" 
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+
+<head><script src="/data-science-site/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=data-science-site/livereload" data-no-instant defer></script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.8.0">
+
+  
+
+  
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  
+
+  
+  
+  
+    
+  
+  <meta name="description" content="
+Learning Objectives
+
+Review: how to get data into R?
+What is “wrangling” and how do we do it?
+Fun with pipes in R: %&gt;% (“and then”)
+Functions: filter , select , mutate , summarize, arrange, count
+Applications: 2020 National Election Poll Michigan Exit Poll
+
+
+Data Wrangling?
+
+
+We Need a Horse, Lasso
+
+Data Wrangling: The process of getting the data ready for analysis, including: accessing data, reformatting in appropriate ways (format, orientation), creating variables, recoding values, and selecting variables and/or observations of interest for analysis.">
+
+  
+  <link rel="alternate" hreflang="en" href="http://localhost:1313/data-science-site/homeworks/psc4175_hw_3/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#3498db">
+  
+
+  
+  
+  
+  <script src="/data-science-site/js/mathjax-config.js"></script>
+  
+
+  
+  
+  
+  
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha256-FMvZuGapsJLjouA6k7Eo2lusoAX9i0ShlWFG6qt7SLc=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+    
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed:400,400i,700,700i%7COverpass:400,400i,700,700i&display=swap">
+    
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/data-science-site/css/academic.css">
+
+  
+  
+
+
+  
+  
+
+  
+
+  <link rel="manifest" href="/data-science-site/index.webmanifest">
+  <link rel="icon" type="image/png" href="/data-science-site/images/icon_hu_eb1e217680dff947.png">
+  <link rel="apple-touch-icon" type="image/png" href="/data-science-site/images/icon_hu_f0a9735dbf069933.png">
+
+  <link rel="canonical" href="http://localhost:1313/data-science-site/homeworks/psc4175_hw_3/">
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@rweldzius">
+  <meta property="twitter:creator" content="@rweldzius">
+  
+  <meta property="og:site_name" content="Introduction to Data Science">
+  <meta property="og:url" content="http://localhost:1313/data-science-site/homeworks/psc4175_hw_3/">
+  <meta property="og:title" content="Data Wrangling | Introduction to Data Science">
+  <meta property="og:description" content="
+Learning Objectives
+
+Review: how to get data into R?
+What is “wrangling” and how do we do it?
+Fun with pipes in R: %&gt;% (“and then”)
+Functions: filter , select , mutate , summarize, arrange, count
+Applications: 2020 National Election Poll Michigan Exit Poll
+
+
+Data Wrangling?
+
+
+We Need a Horse, Lasso
+
+Data Wrangling: The process of getting the data ready for analysis, including: accessing data, reformatting in appropriate ways (format, orientation), creating variables, recoding values, and selecting variables and/or observations of interest for analysis."><meta property="og:image" content="http://localhost:1313/data-science-site/media/social-image.png">
+  <meta property="twitter:image" content="http://localhost:1313/data-science-site/media/social-image.png"><meta property="og:locale" content="en">
+  
+    
+      <meta property="article:published_time" content="2025-07-24T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2025-07-24T11:24:37-04:00">
+  
+
+  
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Data Wrangling | Introduction to Data Science</title>
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70"
+    data-target="#TableOfContents"
+    >
+
+    <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/data-science-site">Introduction to Data Science</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/data-science-site/">Introduction to Data Science</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-end" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/syllabus/"><span>Syllabus</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/schedule/"><span>Schedule</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/weeks/"><span>Classes</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/resources/"><span>Resources</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/downloads/"><span>Downloads</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+            
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="https://campuswire.com/p/GF9F6AD11" target="_blank" rel="noopener"><span>CampusWire</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+            
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="https://elearning.villanova.edu" target="_blank" rel="noopener"><span>Blackboard</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+
+
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Data Wrangling</h1>
+
+  
+  <p class="page-subtitle">Homework 3</p>
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    July 24, 2025
+  </span>
+  
+
+  
+
+  
+
+  
+  
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    
+    <div class="article-metadata">
+      
+      
+      
+        <span class="meta-item">
+          <strong>Due:</strong> 2026-06-02 by 11:59PM
+        </span>
+        <span class="middot-divider"></span>
+      
+
+      
+      
+        <span class="meta-item">
+          Villanova University
+        </span>
+        <span class="middot-divider"></span>
+      
+      
+      
+      <p>
+        <a href="/data-science-site/homeworks/psc4175_hw_3.Rmd" download>
+          <i class="fa fa-download" aria-hidden="true" style="margin-right: 6px;"></i><Strong>Download R Markdown file</Strong>
+        </a>
+      </p>
+    
+
+    </div>
+    
+
+    <div class="article-style">
+      
+
+
+<div id="learning-objectives" class="section level1">
+<h1>Learning Objectives</h1>
+<ul>
+<li><p>Review: how to get data into R?</p></li>
+<li><p>What is “wrangling” and how do we do it?</p></li>
+<li><p>Fun with pipes in R: <code>%&gt;%</code> (“and then”)</p></li>
+<li><p>Functions: <code>filter</code> , <code>select</code> , <code>mutate</code> , <code>summarize</code>, <code>arrange</code>, <code>count</code></p></li>
+<li><p>Applications: 2020 National Election Poll Michigan Exit Poll</p></li>
+</ul>
+<div id="data-wrangling" class="section level2">
+<h2>Data Wrangling?</h2>
+<div class="float">
+<img src="../../lectures/figs/Wrangler.png" scale="50%" alt="We Need a Horse, Lasso" />
+<div class="figcaption">We Need a Horse, Lasso</div>
+</div>
+<p><em>Data Wrangling:</em> The process of getting the data ready for analysis, including: accessing data, reformatting in appropriate ways (format, orientation), creating variables, recoding values, and selecting variables and/or observations of interest for analysis.</p>
+<p>How you process and recode data is critical! Principles that should guide us include:</p>
+<ul>
+<li><p><em>Replication:</em> Can others do what you did? Art depends on <em>personality</em>, science depends on <em>replication</em>.</p></li>
+<li><p><em>Understanding:</em> Can others understand what you did and why? Can you follow what you did if you come back to the code in a year?</p></li>
+</ul>
+<p>We want to do things that are understandable and sensible. Always imagine that you are handing the code off to someone else – can they understand what you are doing? Can they follow what you have done to the data? The goal in data wrangling is to provide a set of steps that will take you from the raw data to the data being analyzed in clear and understandable steps so that others can see exactly the choices that you have made (and make other choices if desired to see the robustness of your inferences).</p>
+<ul>
+<li><em>Robustness:</em> Does your code “break” easily? You cannot (easily) fix in your analysis what you screw up in your data! (Especially if you are unaware!)</li>
+</ul>
+<p>Data wrangling in R gives us the ability to do this because we can document and explain the exact steps we are taking to organize the data. Using code to make changes means anyone and everyone can observe what we did.</p>
+<div class="float">
+<img src="../../lectures/figs/Excel.png" style="width:50.0%" alt="Don’t Be This Guy" />
+<div class="figcaption">Don’t Be This Guy</div>
+</div>
+<p>In contrast, if you make changes to your data in a spreadsheet like Excel or Google Sheets or Numbers it can be impossible for someone else to figure out what you did. What variables did you rename, what transformations did you do, how did you recode values?</p>
+<p>People using Excel for analysis have been identified as being (partially) responsible for what is widely believed to be a <a href="https://www.washingtonpost.com/news/wonk/wp/2013/04/16/is-the-best-evidence-for-austerity-based-on-an-excel-spreadsheet-error/">failed global economic policy</a>.</p>
+<div class="float">
+<img src="../../lectures/figs/WashPoRR.png" style="width:50.0%" alt="Source of many, many errors: World Economy" />
+<div class="figcaption">Source of many, many errors: World Economy</div>
+</div>
+<p>And using Excel for data entry has resulted in well-documented errors in <a href="https://www.nature.com/articles/d41586-021-02211-4">Medical Research</a> due to “auto-correct” changing value names.</p>
+<div class="float">
+<img src="../../lectures/figs/GeneExcel.png" style="width:50.0%" alt="Source of many, many errors: Medical Research" />
+<div class="figcaption">Source of many, many errors: Medical Research</div>
+</div>
+<p>In fact, Dr. Jennifer Byrne - named a top 10 person in science in 2017 because of her data sleuthing in <a href="https://www.nature.com/immersive/d41586-017-07763-y/index.html">2017</a> has developed an entire program to find and correct errors produced by data entry in Excel! Link <a href="https://www.eurekalert.org/news-releases/810347">here</a>.</p>
+<div class="float">
+<img src="../../lectures/figs/Byrne.png" style="width:50.0%" alt="Dr. Byrne, Cancer Researcher, Data Detective" />
+<div class="figcaption">Dr. Byrne, Cancer Researcher, Data Detective</div>
+</div>
+<p>So the goal of this topic is to give you some basic tools to be able to manipulate data and get it ready for analysis. This includes inspecting your data and getting a sense of the type of data you have.</p>
+</div>
+<div id="recap-starting-out" class="section level2">
+<h2>RECAP: Starting out</h2>
+<p>When you start out (in this class) it is always a good idea to have a clean – i.e., empty – workspace so that your analysis is based on the code that you are doing rather than some manipulations that were done previously. Do not be one of those students at the end of the class who has every dataset they worked with in class saved and loaded in their Environment.</p>
+<p>If you are starting out with an empty workspace your R Studio should say the “Environment is empty” in the Environment tab. it is always a good idea to always start with an empty environment because the data manipulations we are doing will not be cumulative.</p>
+<div class="float">
+<img src="../../lectures/figs/StartScreen.png" style="width:50.0%" alt="Starting Out" />
+<div class="figcaption">Starting Out</div>
+</div>
+<p>To that end, when you quit RStudio, <strong>DO NOT</strong> save workspace image. This will ensure that you are always starting with a clean and empty workspace which means that there is never a possibility of using “old” data in your analyses. If you are working on a larger project across several sessions it sometimes makes sense to save it, but for this class you should get in the practice of writing self-contained code that reads and wrangles the data you need to analyses every time rather than relying on earlier work.</p>
+<div class="float">
+<img src="../../lectures/figs/SaveEnvironment.png" style="width:25.0%" alt="DO NOT SAVE YOUR WORKSPACE WHEN YOU EXIT" />
+<div class="figcaption">DO NOT SAVE YOUR WORKSPACE WHEN YOU EXIT</div>
+</div>
+<p>When starting out it can be easy to forget that R needs to be told where to look to find things!</p>
+<ol style="list-style-type: decimal">
+<li>For <strong>every</strong> assignment/lecture create a new folder on your computer (e.g., “Topic 3”).<br />
+</li>
+<li>Download the code and data into this folder. (Or move them from the Download folder to that folder). Or create a new RMarkdown file and <em>save</em> the code to this folder.<br />
+</li>
+<li>In the Console window of RStudio figure out where R thinks it is by looking at the title bar or using <code>getwd</code> (get working directory)!</li>
+</ol>
+<pre class="r"><code>getwd()</code></pre>
+<pre><code>## [1] &quot;/Users/sankalpa/Documents/HugoBlogdown/data-science-site/content/homeworks&quot;</code></pre>
+<p>If this is different than where your code and data is there will be trouble!</p>
+<p>Because R is object-oriented, we can actually save this as an object and use it!</p>
+<pre class="r"><code>mydir &lt;- getwd()</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Manually set the working directory to be the directory where your code and data is located using <code>setwd</code> (set working directory) and the location we just saved to the object <code>mydir</code>!</li>
+</ol>
+<pre class="r"><code>setwd(mydir)</code></pre>
+<p>We can also use RStudio to accomplish the same task.</p>
+<ol style="list-style-type: decimal">
+<li><p>Open your code in R-Studio.</p></li>
+<li><div class="float">
+<img src="../../lectures/figs/Setwd.png" style="width:50.0%" alt="Using the GUI to Select Directory" />
+<div class="figcaption">Using the GUI to Select Directory</div>
+</div></li>
+<li><p>The GUI will automatically change the directory, but you should also copy and paste the resulting code snippet in Console to your code!</p></li>
+</ol>
+<p><strong>Warning!</strong></p>
+<p>What R “sees” when working in the Console window (or using an R Script) is different from what it “sees” using RMarkdown! You can <code>Knit</code> a RMarkdown document to conduct analysis without any object ever appearing in the Global Environment.</p>
+<ul>
+<li>Knitting RMarkdown (*.RMD) files does <em>not</em> create tibbles/objects in the Global Environment!</li>
+</ul>
+<p><em>Quick Exercise</em> Clear out the Global Environment and <code>Knit</code> this document. Confirm that the code will run and nothing will be created in the Global Environment.</p>
+<p>While this makes sense once the code/project is completed, it can make coding more difficult because we often want to be able to manipulate the code and objects while working. To do so we are going to write and evaluate chunks one-at-a-time to ensure the objects are created in the Global Environment.</p>
+<p>So getting started we <em>always</em> start our code by:</p>
+<ol style="list-style-type: decimal">
+<li>Loading the <code>tidyverse</code> library and any other libraries we are going to use.</li>
+</ol>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Checking to sure that R is looking in right spot to find your data and code. It typically makes sense to <code>setwd</code> to tell R where in your computer it should be looking for additional data (and code).</li>
+</ol>
+<pre class="r"><code>getwd()
+setwd()</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Now get that data! One method is to use the Graphical User Interface (GUI) to select menus that will find and read in the data of interest. If you are getting data from some other format (e.g., data saved in a basic text format (comma or tab delimted) or in another statistical package (e.g., STATA or SAS)) we want to <code>Import Dataset</code>.</li>
+</ol>
+<div class="float">
+<img src="../../lectures/figs/GUIImport.png" style="width:50.0%" alt="RStudio Starting Out" />
+<div class="figcaption">RStudio Starting Out</div>
+</div>
+<p>If you are loading in data that is already formatted in R then you go to the RStudio menu: <code>File &gt; Open File...</code>. (Note that this menu also has the <code>File &gt; Import Dataset</code> option.)</p>
+<p>Because we want to document what dataset we are using, for replicability we want to copy and paste the resulting code into our RMarkdown file so that next time we can run the code directly!</p>
+<p>A second way to access data is to use some functions directly in R. This is what the GUI is actually doing behind the scenes. We are going to focus on three functions in this class:
+- <code>load</code>
+- <code>read_rds</code>
+- <code>url</code></p>
+<p>A <code>tidyverse</code> function we will sometimes use is <code>read_rds</code> (Read R Data Structure). This will load a single object into memory. Here we are reading in a subset of the 2020 Michigan Exit Poll and naming it the tibble <code>mi_ep</code>.</p>
+<pre class="r"><code>mi_ep &lt;- read_rds(&quot;../../static/data/MI2020_ExitPoll_small.rds&quot;)</code></pre>
+<p>The first part of the code is defining a new object called <code>mi_ep</code> (short for Michigan exit poll) and then assigning (<code>&lt;-</code>) that object to be defined by the dataset being read in by the <code>read_rds</code> function. The filepath within <code>read_rds</code> starts with “..” which tells R to go back one folder from your current working directory, then find the folder <code>data</code>, and finally read in the <code>MI2020_ExitPoll_small.rds</code> file. If you haven’t saved the <code>MI2020_ExitPoll_small.rds</code> to your <code>data</code> folder and set your working directory (as explained above) then this chunk of code won’t work. Go back and make adjustments as needed.</p>
+<p>To highlight the syntax, consider what happens when you run the following code?</p>
+<pre class="r"><code>read_rds(&quot;../../data/MI2020_ExitPoll_small.rds&quot;)</code></pre>
+<p>If we read in data without assigning it to an object R will simply print the results to the console window. Nothing will be saved and we cannot use the data in future analyses! When reading in an R data object using <code>read_rds</code> we always need to define a new object associated with that file!</p>
+<p>Before moving on, let’s clean up our Environment – always a good idea between lectures and assignments! – using either the broom icon in the Environment GUI to delete every object or the <code>rm</code> (remove) command to remove specific objects. Since we only have one object in our Environment so far we can use <code>rm</code> to remove it.</p>
+<pre class="r"><code>rm(mi_ep)</code></pre>
+<p>A nice thing about R is that it can have multiple objects in the Global Environment at the same time. This allows you to work with multiple datasets and objects. Instead of loading them all into memory one at a time using <code>read_rds</code>, we can also use the <code>load</code> function to load several R objects that have been saved into a single file (using the <code>save</code> function) all at once.</p>
+<p>In the file named <code>MI2020_ExitPoll.Rdata</code> I have previously saved the entire 2020 Michigan Exit Poll (the object named <code>MI_final</code>) as well as a subset of the exit poll that focuses on variables we are going to analyze in class (named <code>MI_final_small</code>). To give you a chance to do your own analyses, I have saved both files together so you can access either one.</p>
+<p>Note that when we are <code>load</code>ing an <code>.Rdata</code> file we <strong>do not</strong> need to assign it to an object because the objects are already defined within the <code>.Rdata</code> object. You can see this when you use the <code>objects</code> function to print to the console window the objects that are loaded into memory (which will also match the Global Environment list when we run the code chunk-by-chunk):</p>
+<pre class="r"><code>load(file = &quot;../../static/data/MI2020_ExitPoll.Rdata&quot;)
+objects()</code></pre>
+<pre><code>## [1] &quot;MI_final&quot;       &quot;MI_final_small&quot; &quot;mydir&quot;</code></pre>
+<p>Relatedly, because we are loading several objects at once the name of the file will not be the same as the name of the objects being loaded.</p>
+<p>NOTE: R will look for this file relative to where it is (as is given by <code>getwd</code>). Here I have created a <code>data</code> folder located within the current directory and telling R to look for my data in that folder!</p>
+<p>We can also read in non-R files. For example, we can read in comma-delimited files (<code>read.csv</code>), tab-delimited files (<code>read.delim</code>), Excel-created files (<code>read.xls</code>, <code>read.xlsx</code>), and files from other statistical languages (e.g., <code>read.dta</code>, <code>read.sav</code>). Reading in non-R objects/data requires reading in the data and also assigning the data to a new R object.</p>
+</div>
+</div>
+<div id="trouble-with-tibbles" class="section level1">
+<h1>Trouble with tibbles?</h1>
+<ul>
+<li>Data objects in <code>tidyverse</code> are called <code>tibbles</code>. Why? As with most things, it seems Twitter is to blame…</li>
+</ul>
+<div class="float">
+<img src="../../lectures/figs/Whytibble.png" style="width:50.0%" alt="Tibble?" />
+<div class="figcaption">Tibble?</div>
+</div>
+<ul>
+<li><code>tibbles</code> can be thought of as a matrix with rows and columns and we can extract the dimensions of the data using the <code>dim</code> (dimensions) command where the output is a vector of length two consisting of the number of rows – here 1231 and then the number of columns 14.</li>
+</ul>
+<pre class="r"><code>dim(MI_final_small)</code></pre>
+<pre><code>## [1] 1231   14</code></pre>
+<p>In most of the work that we will do in DSCI 1000 rows typically refer to observations – e.g., survey respondents – and columns refer to characteristics of those observations (e.g., survey responses) which we call variables.</p>
+<p>We can use matrix indexing to examine/extract specific rows and columns of tibbles/dataframes. To select the first three rows we would use:</p>
+<pre class="r"><code>MI_final_small[1:3,]</code></pre>
+<pre><code>## # A tibble: 3 × 14
+##     SEX AGE10 PRSMI20 PARTYID WEIGHT QRACEAI EDUC18  LGBT BRNAGAIN LATINOS
+##   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+## 1     2     2       1       3  0.405       1      4    NA       NA       2
+## 2     2    10       1       1  1.81        2      1     2        1       2
+## 3     2     7       1       1  0.860       1      5     2        2       2
+## # ℹ 4 more variables: RACISM20 &lt;dbl&gt;, QLT20 &lt;fct&gt;, preschoice &lt;chr&gt;,
+## #   Quality &lt;chr&gt;</code></pre>
+<p>To select the first three columns…</p>
+<pre class="r"><code>MI_final_small[,1:3]</code></pre>
+<pre><code>## # A tibble: 1,231 × 3
+##      SEX AGE10 PRSMI20
+##    &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+##  1     2     2       1
+##  2     2    10       1
+##  3     2     7       1
+##  4     1     9       1
+##  5     2     8       1
+##  6     2     7       1
+##  7     1     9       1
+##  8     1     8       1
+##  9     2     6       2
+## 10     1     8       1
+## # ℹ 1,221 more rows</code></pre>
+<p>Selecting the first two rows and first four columns</p>
+<pre class="r"><code>MI_final_small[1:2,1:4]</code></pre>
+<pre><code>## # A tibble: 2 × 4
+##     SEX AGE10 PRSMI20 PARTYID
+##   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+## 1     2     2       1       3
+## 2     2    10       1       1</code></pre>
+<p>Selecting a collection/combination of rows and all columns we would use:</p>
+<pre class="r"><code>MI_final_small[c(1:2,45,100),]</code></pre>
+<pre><code>## # A tibble: 4 × 14
+##     SEX AGE10 PRSMI20 PARTYID WEIGHT QRACEAI EDUC18  LGBT BRNAGAIN LATINOS
+##   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+## 1     2     2       1       3  0.405       1      4    NA       NA       2
+## 2     2    10       1       1  1.81        2      1     2        1       2
+## 3     2     7       1       3  0.488       1      3    NA       NA       2
+## 4     2    10       2       4  0.299       1      2     2        1       2
+## # ℹ 4 more variables: RACISM20 &lt;dbl&gt;, QLT20 &lt;fct&gt;, preschoice &lt;chr&gt;,
+## #   Quality &lt;chr&gt;</code></pre>
+</div>
+<div id="outline-for-the-next-few-lectures" class="section level1">
+<h1>Outline for the Next Few Lectures</h1>
+<ul>
+<li><p>Introduce some basic tools and techniques to answer a series of questions relevant for politics, political science, society, etc.</p></li>
+<li><p>Think about the data we have available data and its’ limitations!</p></li>
+<li><p>Enable you to be the next political-media star.</p></li>
+</ul>
+</div>
+<div id="mi-exit-poll" class="section level1">
+<h1>2020 MI Exit Poll</h1>
+<p>To do our data wrangling we are going to wrangle the 2020 National Exit Poll from the National Election Pool in the state of Michigan.</p>
+<ul>
+<li><p>We are going to use the actual data we got on Election Night!</p></li>
+<li><p>To answer some of the same questions we were answering.</p></li>
+<li><p>But not much has been cleaned up since then so lots of work to do! (Ugh…)</p></li>
+</ul>
+</div>
+<div id="exit-polls-in-us-elections" class="section level1">
+<h1>Exit Polls in US Elections</h1>
+<p>Exit polls are polls that are done on (or immediately before) elections in the United States. They are used to help interpret the meaning of an election – i.e., why voters voted the way they did, whether some types of voters were more likely to support one candidate over the other, etc. – but intelligent prognosticators do not use them to actually project who is going to win. Put differently, they are used to help intepret an election, but they are not used to predict it (which is what voting data is used for).</p>
+<div class="float">
+<img src="../../lectures/figs/ExitPollImage.png" style="width:50.0%" alt="Filling Out an Exit Poll" />
+<div class="figcaption">Filling Out an Exit Poll</div>
+</div>
+<p>In class we are goign to focus on an Exit Poll from the National Election Pool for the state of Michigan. Michigan is increasingly thought of as a ``swing state” that could be won by either a Democrat or a Republican in a presidential contest following is surprising support for President Trump in the 2016 presidential election. Michigan is also a rather diverse state in terms of its population and interests and some have worked to identify groups of like-minded voters within the state. (Note that we will also do this when we get to the “clustering” topic!)</p>
+<div class="float">
+<img src="../../lectures/figs/MISwing.png" style="width:50.0%" alt="Why Michigan?" />
+<div class="figcaption">Why Michigan?</div>
+</div>
+<p>The Exit Poll data we will analyze is based on the following questionaire that reports the precise questions that were asked, as well as the value labels associated with each response. So while the data that we will read in will have responses that are coded as a “1” or “3” or “4”, interpreting the meaning of those values requires comparing the values to the questions below.</p>
+<div class="float">
+<img src="../../lectures/figs/EPQuex.png" style="width:50.0%" alt="2020 MI Exit Poll" />
+<div class="figcaption">2020 MI Exit Poll</div>
+</div>
+</div>
+<div id="lots-of-interesting-questions" class="section level1">
+<h1>Lots of interesting questions!</h1>
+<p><em>Predictive:</em> Use the data to <em>predict</em> an outcome of interest.</p>
+<ul>
+<li>How many voters report voting for Biden vs. Trump?</li>
+<li>What predicts who supports Trump? And Biden?</li>
+</ul>
+<p><em>Descriptive:</em> Use the data to <em>describe</em> an event.</p>
+<ul>
+<li>How did the support for Trump and Biden vary by: gender? race? age? education?</li>
+<li>When did they make up their minds?</li>
+<li><em>Why</em> did voters choose to vote for Trump? Or Biden?</li>
+<li>How do Trump and Biden voters vary in their opinions toward: COVID? Race relations?</li>
+</ul>
+<p>THINKING: Is any of it <em>causal</em>? Can we determine what causes a voter to support a candidate from this data?</p>
+<p>Whenever we do anything using data we should first inspect our data to make sure it makes sense. The function <code>glimpse</code> gives us a quick summary by printing the first few observations of every variable to the screen. Note that the presentation of the data is flipped (technically transposed) so that the columns are presented as rows.</p>
+<pre class="r"><code>glimpse(MI_final_small)</code></pre>
+<pre><code>## Rows: 1,231
+## Columns: 14
+## $ SEX        &lt;dbl&gt; 2, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 2,…
+## $ AGE10      &lt;dbl&gt; 2, 10, 7, 9, 8, 7, 9, 8, 6, 8, 9, 10, 1, 5, 9, 10, 8, 4, 1,…
+## $ PRSMI20    &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 2, 1, 2, 1, 1, 2, 1, 1, 1,…
+## $ PARTYID    &lt;dbl&gt; 3, 1, 1, 3, 3, 3, 1, 1, 2, 1, 3, 2, 4, 4, 1, 1, 3, 3, 3, 1,…
+## $ WEIGHT     &lt;dbl&gt; 0.4045421, 1.8052619, 0.8601966, 0.1991648, 0.1772090, 0.49…
+## $ QRACEAI    &lt;dbl&gt; 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 9, 1, 1, 1, 1, 1, 3, 1, 1, 1,…
+## $ EDUC18     &lt;dbl&gt; 4, 1, 5, 4, 5, 3, 3, 3, 4, 4, 5, 5, 4, 1, 1, 1, 5, 2, 4, 2,…
+## $ LGBT       &lt;dbl&gt; NA, 2, 2, NA, NA, 2, 2, 2, NA, NA, NA, NA, NA, 2, NA, 2, 2,…
+## $ BRNAGAIN   &lt;dbl&gt; NA, 1, 2, NA, NA, 2, 1, 2, NA, NA, NA, NA, NA, 2, NA, 2, 1,…
+## $ LATINOS    &lt;dbl&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2,…
+## $ RACISM20   &lt;dbl&gt; NA, 2, 2, NA, NA, 2, 2, 2, NA, NA, NA, NA, NA, 2, NA, 9, 4,…
+## $ QLT20      &lt;fct&gt; Has good judgment, NA, NA, Has good judgment, Cares about p…
+## $ preschoice &lt;chr&gt; &quot;Joe Biden, the Democrat&quot;, &quot;Joe Biden, the Democrat&quot;, &quot;Joe …
+## $ Quality    &lt;chr&gt; &quot;Has good judgment&quot;, NA, NA, &quot;Has good judgment&quot;, &quot;Cares ab…</code></pre>
+<p>This is a useful representation as we can immediately see what variables we have as well as what some of the values are. Here, for example, we see that we have missing data – denoted as <code>NA</code> in R - in quite a few variables. We also see that some variables have numbers for values while others have strings of letters (e.g., <code>QLT20</code>, <code>preschoice</code>).</p>
+<p>This variation highlights the fact that there are several types of data:</p>
+<ol style="list-style-type: decimal">
+<li><p><code>&lt;dbl&gt;</code> Double. “Numbers as a number.” Numbers stored to a high level of scientific precision. Mathematical operations are defined. (At least in theory!) e.g., <code>SEX</code></p></li>
+<li><p><code>&lt;int&gt;</code> Integer. “Numbers as a number.” Mathematical operations are defined. (At least in theory!) R treats <code>&lt;dbl&gt;</code> and <code>&lt;int&gt;</code> as largely interchangeable.</p></li>
+<li><p><code>&lt;chr&gt;</code> Character. A variable with letter and/or number values. Mathematical operations are <em>not</em> defined, but other functions exist (e.g., extract the first and last characters, etc.) e.g., <code>preschoice</code></p></li>
+<li><p><code>&lt;fct&gt;</code> Factor. A variable defining group membership. Mathematical operations are <em>not</em> defined, but they can be used in special ways in R. e.g. <code>QLT20</code>. Note how the values of a character variable like <code>preschoice</code> are in quotes while the values of a factor variable like <code>QLT20</code> are not. Factor variable can “look” like numeric or character variables in that the values they take on may be numbers or letters (or both), but R interprets them differently than numeric and character variables and they can be used to do special things.</p></li>
+</ol>
+<p>NOTE: There are also <code>list</code> objects, but we will cover them when needed.</p>
+<p>A second way to get a sense of the data is to use the <code>summary</code> command which will report the quantiles for any integer or numeric variable, the count of every value for a factor variable, and a note if the variable is a character variable. Unlike <code>glimpse</code> which gives you a rough approximation of how much the data may vary, <code>summary</code> quantifies the variation of each numeric variable in a bit more detail.</p>
+<pre class="r"><code>summary(MI_final_small)</code></pre>
+<pre><code>##       SEX           AGE10           PRSMI20        PARTYID     
+##  Min.   :1.00   Min.   : 1.000   Min.   :0.00   Min.   :1.000  
+##  1st Qu.:1.00   1st Qu.: 6.000   1st Qu.:1.00   1st Qu.:1.000  
+##  Median :2.00   Median : 8.000   Median :1.00   Median :2.000  
+##  Mean   :1.53   Mean   : 8.476   Mean   :1.63   Mean   :2.236  
+##  3rd Qu.:2.00   3rd Qu.: 9.000   3rd Qu.:2.00   3rd Qu.:3.000  
+##  Max.   :2.00   Max.   :99.000   Max.   :9.00   Max.   :9.000  
+##                                                                
+##      WEIGHT          QRACEAI          EDUC18           LGBT      
+##  Min.   :0.1003   Min.   :1.000   Min.   :1.000   Min.   :1.000  
+##  1st Qu.:0.3775   1st Qu.:1.000   1st Qu.:2.000   1st Qu.:2.000  
+##  Median :0.8020   Median :1.000   Median :3.000   Median :2.000  
+##  Mean   :1.0000   Mean   :1.572   Mean   :3.288   Mean   :2.224  
+##  3rd Qu.:1.4498   3rd Qu.:1.000   3rd Qu.:5.000   3rd Qu.:2.000  
+##  Max.   :5.0853   Max.   :9.000   Max.   :9.000   Max.   :9.000  
+##                                                   NA&#39;s   :615    
+##     BRNAGAIN        LATINOS         RACISM20    
+##  Min.   :1.000   Min.   :1.000   Min.   :1.000  
+##  1st Qu.:1.000   1st Qu.:2.000   1st Qu.:2.000  
+##  Median :2.000   Median :2.000   Median :2.000  
+##  Mean   :1.907   Mean   :2.175   Mean   :2.325  
+##  3rd Qu.:2.000   3rd Qu.:2.000   3rd Qu.:3.000  
+##  Max.   :9.000   Max.   :9.000   Max.   :9.000  
+##  NA&#39;s   :615                     NA&#39;s   :615    
+##                              QLT20      preschoice          Quality         
+##  [DON&#39;T READ] Don’t know/refused: 26   Length:1231        Length:1231       
+##  Can unite the country          :125   Class :character   Class :character  
+##  Cares about people like me     :121   Mode  :character   Mode  :character  
+##  Has good judgment              :205                                        
+##  Is a strong leader             :138                                        
+##  NA&#39;s                           :616                                        
+## </code></pre>
+<p>This is useful because it can reveal potential issues that we need to deal with. If we look at the maximum value for <code>AGE10</code> for example, we can see that it has a value of <code>99</code> even though the Exit Poll questionaire indicates that the largest value should only be a <code>10</code> (for those selecting “75 and over”). This is because respondents who skipped that question were coded as having a value of 99. We also see that in other variables (e.g., <code>PARTYID</code>) there are values of <code>9</code> even though there is no value associated with that in the questionannire. These are again missing data!</p>
+<p>Recall that this is the actual data that was used and we we see right away that while some variables have explicit missing data (e.g., <code>LGBT</code>, <code>BRNAGAIN</code>, <code>RACISM20</code>, <code>QLT20</code>) others have missing data that is not recognized as missing by R because of how it was coded. Moreover, the code for missing data varies between variables in this case! A <code>9</code> indicates missing data in <code>PARTYID</code> but it means something real in <code>AGE10</code> (which uses <code>99</code> to denote missing data).</p>
+<p>There are several functions depending on the type of data. For data that takes on discrete values – either numeric or character – it can be helpful to see the distribution of values that occur within a variable. To do so we are going to get a <code>count</code> of each unique value associated with a variable in a tibble.</p>
+<p>In the code that follows we are using the <code>tidyverse</code> pipe command <code>%&gt;%</code> which you should interpret as meaning “and then”. Using piping (<code>%&gt;%</code>), we can <code>count</code> the variable <code>preschoice</code> within the tibble <code>MI_final</code>. This is what we will do as we are going to pipe multiple commands to accomplish our intended tasks. Note that the default reporting is to arrange the rows from lowest to smallest according to the values of the <strong>variable being counted</strong> (here <code>preschoice</code> which is being reported in alphabetical order).</p>
+<pre class="r"><code>MI_final_small %&gt;% 
+  count(preschoice)</code></pre>
+<pre><code>## # A tibble: 6 × 2
+##   preschoice                          n
+##   &lt;chr&gt;                           &lt;int&gt;
+## 1 Another candidate                  25
+## 2 Donald Trump, the Republican      459
+## 3 Joe Biden, the Democrat           723
+## 4 Refused                            14
+## 5 Undecided/Don’t know                4
+## 6 Will/Did not vote for president     6</code></pre>
+<p>Note that here we are printing creating a table that is printed to the console window and disappears.</p>
+<p><em>Quick Exercise</em> Can you create a tibble containing a table of vote choice?</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<p>If we try to count several variables what R will do is to present the count within each ordered value. So the following code will first <code>count</code> each value of <code>preschoice</code> and then count how that breaks down according to the values given in the variable <code>SEX</code>.</p>
+<pre class="r"><code>MI_final_small %&gt;% 
+  count(preschoice,SEX)</code></pre>
+<pre><code>## # A tibble: 12 × 3
+##    preschoice                        SEX     n
+##    &lt;chr&gt;                           &lt;dbl&gt; &lt;int&gt;
+##  1 Another candidate                   1    17
+##  2 Another candidate                   2     8
+##  3 Donald Trump, the Republican        1   247
+##  4 Donald Trump, the Republican        2   212
+##  5 Joe Biden, the Democrat             1   304
+##  6 Joe Biden, the Democrat             2   419
+##  7 Refused                             1     7
+##  8 Refused                             2     7
+##  9 Undecided/Don’t know                1     3
+## 10 Undecided/Don’t know                2     1
+## 11 Will/Did not vote for president     1     1
+## 12 Will/Did not vote for president     2     5</code></pre>
+<p>This is an important reminder to always inspect your data and then you often, if not always, need to wrangle data before doing analysis!</p>
+<p><em>Quick Exercise</em> How many Democrats and Republicans are in our sample?</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<p>Note that <code>count</code> is not useful for many-valued (continuous) variables because each value is likely to occur only a small number of times.</p>
+<pre class="r"><code>MI_final %&gt;% 
+  count(WEIGHT)</code></pre>
+<pre><code>## # A tibble: 411 × 2
+##    WEIGHT     n
+##     &lt;dbl&gt; &lt;int&gt;
+##  1  0.100     1
+##  2  0.113     1
+##  3  0.119     1
+##  4  0.133     2
+##  5  0.141     1
+##  6  0.142     1
+##  7  0.144     1
+##  8  0.146     1
+##  9  0.147     1
+## 10  0.149     5
+## # ℹ 401 more rows</code></pre>
+<p>Here the <code>summary</code> function is more useful for describing the variation in our data. In addition to summarizing the entire dataset we can also <code>select</code> a specific variable and use <code>summary</code>.</p>
+<pre class="r"><code>MI_final %&gt;% 
+  select(WEIGHT) %&gt;%
+  summary(WEIGHT) </code></pre>
+<pre><code>##      WEIGHT      
+##  Min.   :0.1003  
+##  1st Qu.:0.3775  
+##  Median :0.8020  
+##  Mean   :1.0000  
+##  3rd Qu.:1.4498  
+##  Max.   :5.0853</code></pre>
+</div>
+<div id="selecting-variables-and-observations" class="section level1">
+<h1>Selecting Variables and Observations</h1>
+<p>Once we load a dataset into active memory and take a look to get a sense of what we have we often want to be able to focus on particular variables or observations. Not every variable or observation will be valuable for the analyses that we do and we want the ability to extract the relevant data either for future analyses (e.g., creating a new tibble with just the relevant data) or for the analysis that we want to do right now (e.g., perform a calculation using a specific variable in the tibble on a subset of the observations). If we are interested in the how respondents who self-identify as “born again” reported voting in 2020 in Michigan, for example, we only need to analyze the presidential vote choice of born-again voters.</p>
+<p>For the data in this class, columns are variables and rows are observations. That is, each row is a unique data point and each column is a description of one feature of that data point. When doing analysis we often want to focus on observations with particular features – e.g., voters from a particular state in a nationwide survey.</p>
+<div id="selecting-variables-columns-using-select" class="section level2">
+<h2>Selecting variables (columns) using <code>select</code></h2>
+<p>To begin, let’s create a new tibble called <code>MI_small</code> by extracting/selecting 4 variables from <code>MI_final</code>. If we have a large dataset it can be useful to create a smaller dataset to save computer memory and speed processing time. This is not a concern for any of the data we will use, but it is a useful illustration. Beyond creating new tibbles that are a subset of existing tibbles, the other use of <code>select</code> is to extract particular variables for analysis within the tibble.</p>
+<p>In the code that follows we are using the <code>tidyverse</code> pipe command <code>%&gt;%</code> which you should interpret as meaning “and then”. So, in English we would read this code as: “MI_Small is defined to be MI_final and then select the variables SEX, AGE10, PRSMI20, PARTYID and then glimpse the results”.</p>
+<pre class="r"><code>MI_small &lt;- MI_final_small %&gt;%
+  select(SEX,AGE10,PRSMI20,PARTYID) %&gt;%
+  glimpse()</code></pre>
+<pre><code>## Rows: 1,231
+## Columns: 4
+## $ SEX     &lt;dbl&gt; 2, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 2, 1,…
+## $ AGE10   &lt;dbl&gt; 2, 10, 7, 9, 8, 7, 9, 8, 6, 8, 9, 10, 1, 5, 9, 10, 8, 4, 1, 8,…
+## $ PRSMI20 &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 2, 1, 2, 1, 1, 2, 1, 1, 1, 1,…
+## $ PARTYID &lt;dbl&gt; 3, 1, 1, 3, 3, 3, 1, 1, 2, 1, 3, 2, 4, 4, 1, 1, 3, 3, 3, 1, 1,…</code></pre>
+<p>What this code does is to create a new tibble called <code>MI_small</code> that consists of the variables <code>SEX</code>, <code>AGE10</code>, <code>PRSMI20</code>, and <code>PARTYID</code> from the <code>MI_final</code> tibble and then prints a glimpse of the new tibble to the screen so we can check to confirm that it did what we wanted it to do. While <code>MI_final</code> had a dimension of 1231, 63, the new tibble <code>MI_small</code> has a dimension of 1231, 4.</p>
+<p>We can also drop variables from a tibble by negatively selecting them. To drop <code>AGE10</code> we just “subtract” the variable from the selection as follows:</p>
+<pre class="r"><code>MI_small %&gt;% 
+  select(-AGE10) %&gt;%
+  glimpse()</code></pre>
+<pre><code>## Rows: 1,231
+## Columns: 3
+## $ SEX     &lt;dbl&gt; 2, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 2, 1,…
+## $ PRSMI20 &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 2, 1, 2, 1, 1, 2, 1, 1, 1, 1,…
+## $ PARTYID &lt;dbl&gt; 3, 1, 1, 3, 3, 3, 1, 1, 2, 1, 3, 2, 4, 4, 1, 1, 3, 3, 3, 1, 1,…</code></pre>
+<p>Note that I am piping through the <code>glimpse</code> to confirm that the code is doing what I think it is doing. A large number of coding and analysis mistakes are caused by differences in what the data scientists <em>thinks</em> the data is relative to what the data <em>actually</em> is so it is usually a good ideal to confirm that you have done what you think you have done</p>
+<p><em>Quick Exercise</em> Create a new tibble called <code>MI_small_2</code> that contains the variables <code>EDUC18</code>, <code>PARTYID</code>, and <code>SEX</code>.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<p>We can also <code>select</code> variables based on features of the variable names. To select all variables that start with the letter “P”, for example, we would use:</p>
+<pre class="r"><code>MI_small %&gt;%
+  select(starts_with(&quot;P&quot;)) %&gt;%
+  glimpse()</code></pre>
+<pre><code>## Rows: 1,231
+## Columns: 2
+## $ PRSMI20 &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 2, 1, 2, 1, 1, 2, 1, 1, 1, 1,…
+## $ PARTYID &lt;dbl&gt; 3, 1, 1, 3, 3, 3, 1, 1, 2, 1, 3, 2, 4, 4, 1, 1, 3, 3, 3, 1, 1,…</code></pre>
+<p>Why would we ever do this? If you are working with a large number of variables it can sometimes be useful to have uniform naming conventions (e.g., have all demographic variables start with the prefix “d_” as in “d_age”).</p>
+<p>We can also select variables that end with (or do not end with) a particular set of values. The code below selects all variables that <strong>do not</strong> – hence the <code>!</code> that tells R to do the opposite of the function (i.e., “does not”) – end in a <code>0</code>.</p>
+<pre class="r"><code>MI_small %&gt;% 
+  select(!ends_with(&quot;0&quot;)) %&gt;%
+  glimpse()</code></pre>
+<pre><code>## Rows: 1,231
+## Columns: 2
+## $ SEX     &lt;dbl&gt; 2, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 2, 1,…
+## $ PARTYID &lt;dbl&gt; 3, 1, 1, 3, 3, 3, 1, 1, 2, 1, 3, 2, 4, 4, 1, 1, 3, 3, 3, 1, 1,…</code></pre>
+<p>These functions are admittedly a bit specific and we won’t really use them much in class, but it is good to know the functionality exists. Note that we are not limited to a single character, we could select variables that <code>starts_with("PAR")</code> or <code>ends_with("20")</code>.</p>
+<p>We can also select a range of variables using the sequence notation <code>:</code> (all values between) that takes all variables between the two variables– including the two variable. For example, to select all variables between <code>SEX</code> and <code>PRSMI20</code> in the tibble we could do the following.</p>
+<pre class="r"><code>MI_final_small %&gt;% 
+  select(SEX:PRSMI20) %&gt;%
+  glimpse()</code></pre>
+<pre><code>## Rows: 1,231
+## Columns: 3
+## $ SEX     &lt;dbl&gt; 2, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 2, 1,…
+## $ AGE10   &lt;dbl&gt; 2, 10, 7, 9, 8, 7, 9, 8, 6, 8, 9, 10, 1, 5, 9, 10, 8, 4, 1, 8,…
+## $ PRSMI20 &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 2, 1, 2, 1, 1, 2, 1, 1, 1, 1,…</code></pre>
+<p>Before reading the next sentence, can you think why this is <strong>not</strong> good coding practice? Answer: it makes the code depend on the arrangement of the variables in your data such that a different arrangement of variables will produce differences in output. We always want our code to be replicable and it is therefore desirable to use coding practices that are not going to be affected by reorderings that do not change the underlying data.</p>
+</div>
+<div id="reordering-observations-rows-using-arrange" class="section level2">
+<h2>Reordering observations (rows) using <code>arrange</code></h2>
+<p>When working with the rows of a tibble it can sometimes be useful to rearrange their order. The exit poll data we are working with, for example, has no natural ordering – the order of the data is the order in which it was collected. But we may want to rearrange the data to sort it in increasing (or decreasing) order according to selected variables. To do so we can use the <code>arrange</code> function to sort the tibble according to the values of the specified variables. To rearrange the <code>MI_small</code> tibble by <code>SEX</code> (from smallest value to largest value) we would use:</p>
+<pre class="r"><code>MI_final_small %&gt;% 
+  arrange(SEX) %&gt;%
+  glimpse()</code></pre>
+<pre><code>## Rows: 1,231
+## Columns: 14
+## $ SEX        &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+## $ AGE10      &lt;dbl&gt; 9, 9, 8, 8, 9, 10, 5, 9, 8, 4, 1, 1, 6, 7, 7, 4, 99, 9, 10,…
+## $ PRSMI20    &lt;dbl&gt; 1, 1, 1, 1, 2, 2, 2, 1, 2, 1, 1, 1, 1, 2, 2, 2, 2, 1, 0, 2,…
+## $ PARTYID    &lt;dbl&gt; 3, 1, 1, 1, 3, 2, 4, 1, 3, 3, 3, 1, 1, 4, 3, 4, 3, 1, 3, 2,…
+## $ WEIGHT     &lt;dbl&gt; 0.1991648, 1.3713049, 1.1540513, 1.3000787, 0.1469731, 0.84…
+## $ QRACEAI    &lt;dbl&gt; 1, 1, 1, 2, 9, 1, 1, 1, 3, 1, 1, 1, 2, 1, 1, 1, 5, 1, 1, 1,…
+## $ EDUC18     &lt;dbl&gt; 4, 3, 3, 4, 5, 5, 1, 1, 5, 2, 4, 1, 2, 5, 2, 2, 9, 2, 5, 1,…
+## $ LGBT       &lt;dbl&gt; NA, 2, 2, NA, NA, NA, 2, NA, 2, NA, 2, 1, 2, NA, NA, NA, NA…
+## $ BRNAGAIN   &lt;dbl&gt; NA, 1, 2, NA, NA, NA, 2, NA, 1, NA, 2, 2, 2, NA, NA, NA, NA…
+## $ LATINOS    &lt;dbl&gt; 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,…
+## $ RACISM20   &lt;dbl&gt; NA, 2, 2, NA, NA, NA, 2, NA, 4, NA, 3, 1, 2, NA, NA, NA, NA…
+## $ QLT20      &lt;fct&gt; Has good judgment, NA, NA, Cares about people like me, Is a…
+## $ preschoice &lt;chr&gt; &quot;Joe Biden, the Democrat&quot;, &quot;Joe Biden, the Democrat&quot;, &quot;Joe …
+## $ Quality    &lt;chr&gt; &quot;Has good judgment&quot;, NA, NA, &quot;Cares about people like me&quot;, …</code></pre>
+<p>Note now how all of the values for <code>SEX</code> being glimpsed consist of the value <code>1</code>. Also note that we have <strong>not</strong> saved this rearrangement - we have just rearranged the tibble. How would you save the rearrangement?</p>
+<p>The default is to sort from smallest to largest, but to sort from largest to smallest we need to tell R to take the variable in descending (<code>desc</code>) order as follows.</p>
+<pre class="r"><code>MI_small %&gt;% 
+  arrange(desc(SEX)) %&gt;%
+  glimpse()</code></pre>
+<pre><code>## Rows: 1,231
+## Columns: 4
+## $ SEX     &lt;dbl&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,…
+## $ AGE10   &lt;dbl&gt; 2, 10, 7, 8, 7, 6, 1, 10, 8, 9, 7, 8, 9, 1, 10, 6, 10, 5, 7, 9…
+## $ PRSMI20 &lt;dbl&gt; 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 9,…
+## $ PARTYID &lt;dbl&gt; 3, 1, 1, 3, 3, 2, 4, 1, 1, 3, 2, 1, 1, 1, 1, 1, 3, 3, 1, 3, 4,…</code></pre>
+<p><em>Quick Exercise</em> Sort the new tibble <code>MI_small_2</code> you created by education level and save the sorted data.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<p>We can also sort using multiple variables. If we arrange using several variables R will process them sequentially — sort by the first variable, then sort again within each of the sorted variables according to the values of the second variable, and so on. So if we wanted to sort by age by gender in ascending order we would use:</p>
+<pre class="r"><code>MI_small %&gt;% 
+  arrange(SEX, AGE10) %&gt;%
+  glimpse()</code></pre>
+<pre><code>## Rows: 1,231
+## Columns: 4
+## $ SEX     &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+## $ AGE10   &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2,…
+## $ PRSMI20 &lt;dbl&gt; 1, 1, 1, 2, 2, 2, 1, 2, 2, 2, 1, 1, 1, 1, 2, 1, 2, 1, 9, 8, 1,…
+## $ PARTYID &lt;dbl&gt; 3, 1, 3, 2, 2, 4, 4, 2, 2, 2, 3, 1, 3, 4, 4, 1, 3, 3, 3, 9, 4,…</code></pre>
+<p>So you can now see that the data is sorted by <code>AGE10</code> within each value of <code>SEX</code>. There is no limit to the number of sorts we can do, or to whether we sort by ascending or descending order.</p>
+<p>As a test of what we have done so far, can you predict what the following code will produce?</p>
+<pre class="r"><code>MI_small %&gt;% 
+  select(SEX,AGE10,PARTYID) %&gt;%
+  arrange(SEX, AGE10, desc(PARTYID)) %&gt;%
+  glimpse()</code></pre>
+<pre><code>## Rows: 1,231
+## Columns: 3
+## $ SEX     &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+## $ AGE10   &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2,…
+## $ PARTYID &lt;dbl&gt; 4, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2, 2, 2, 1, 1, 1, 9, 9, 4, 4, 3,…</code></pre>
+<p>To be honest, we don’t really do much with <code>arrange</code> other than if we are inspecting the data visually or if we are making the output a bit more sensible.<br />
+Recall that the <code>count</code> function produces a tibble that is sorted according to the values of the variable being counted. This is not always sensible as we may want to sort the tibble according to the most-frequently occuring value in the data. If we wanted to produce a table of values sorted in descending order so that the top row was the most frequently occurring value we could <code>arrange</code> after piping thru a <code>count</code>.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
+<pre class="r"><code>MI_final_small %&gt;% 
+  count(preschoice) %&gt;%
+  arrange(desc(n))</code></pre>
+<pre><code>## # A tibble: 6 × 2
+##   preschoice                          n
+##   &lt;chr&gt;                           &lt;int&gt;
+## 1 Joe Biden, the Democrat           723
+## 2 Donald Trump, the Republican      459
+## 3 Another candidate                  25
+## 4 Refused                            14
+## 5 Will/Did not vote for president     6
+## 6 Undecided/Don’t know                4</code></pre>
+</div>
+<div id="selecting-observations-rows-using-filter" class="section level2">
+<h2>Selecting observations (rows) using <code>filter</code></h2>
+<p>So far all we have done is to rearrange the observations (rows) in a tibble. If we want to extract particular observations then we need to use the <code>filter</code> function.</p>
+<p>To select all the male respondents (i.e., <code>SEX</code> takes on the value of “1”), we could use <code>filter</code> as follows:</p>
+<pre class="r"><code>MI_final_small %&gt;%
+  filter(SEX == 2) %&gt;%
+  glimpse()</code></pre>
+<pre><code>## Rows: 652
+## Columns: 14
+## $ SEX        &lt;dbl&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,…
+## $ AGE10      &lt;dbl&gt; 2, 10, 7, 8, 7, 6, 1, 10, 8, 9, 7, 8, 9, 1, 10, 6, 10, 5, 7…
+## $ PRSMI20    &lt;dbl&gt; 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1,…
+## $ PARTYID    &lt;dbl&gt; 3, 1, 1, 3, 3, 2, 4, 1, 1, 3, 2, 1, 1, 1, 1, 1, 3, 3, 1, 3,…
+## $ WEIGHT     &lt;dbl&gt; 0.4045421, 1.8052619, 0.8601966, 0.1772090, 0.4921975, 1.50…
+## $ QRACEAI    &lt;dbl&gt; 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2,…
+## $ EDUC18     &lt;dbl&gt; 4, 1, 5, 5, 3, 4, 4, 1, 2, 2, 4, 2, 3, 2, 4, 3, 2, 5, 4, 4,…
+## $ LGBT       &lt;dbl&gt; NA, 2, 2, NA, 2, NA, NA, 2, 2, NA, NA, 2, NA, 2, 2, NA, 2, …
+## $ BRNAGAIN   &lt;dbl&gt; NA, 1, 2, NA, 2, NA, NA, 2, 2, NA, NA, 2, NA, 2, 1, NA, 9, …
+## $ LATINOS    &lt;dbl&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,…
+## $ RACISM20   &lt;dbl&gt; NA, 2, 2, NA, 2, NA, NA, 9, 2, NA, NA, 3, NA, 1, 2, NA, 2, …
+## $ QLT20      &lt;fct&gt; Has good judgment, NA, NA, Cares about people like me, NA, …
+## $ preschoice &lt;chr&gt; &quot;Joe Biden, the Democrat&quot;, &quot;Joe Biden, the Democrat&quot;, &quot;Joe …
+## $ Quality    &lt;chr&gt; &quot;Has good judgment&quot;, NA, NA, &quot;Cares about people like me&quot;, …</code></pre>
+<p>When we glimpse the results we can see that every value for <code>SEX</code> is a <code>2</code> as requested.</p>
+<p>Note the syntax: we use <code>==</code> to denote “is equal to” and we use the value <code>2</code> because it is a numeric.</p>
+<p>We can also obviously combine <code>filter</code> with <code>select</code> to extract a subset of variables and observations as follows:</p>
+<pre class="r"><code>MI_final_small %&gt;%
+  select(SEX,PARTYID,preschoice) %&gt;%
+  filter(SEX == 2) %&gt;%
+  glimpse()</code></pre>
+<pre><code>## Rows: 652
+## Columns: 3
+## $ SEX        &lt;dbl&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,…
+## $ PARTYID    &lt;dbl&gt; 3, 1, 1, 3, 3, 2, 4, 1, 1, 3, 2, 1, 1, 1, 1, 1, 3, 3, 1, 3,…
+## $ preschoice &lt;chr&gt; &quot;Joe Biden, the Democrat&quot;, &quot;Joe Biden, the Democrat&quot;, &quot;Joe …</code></pre>
+<p>If we wanted to select observations for based on a character or factor variable the syntax would be somewhat different because of the difference in a numeric and character value. To select only respondents who supported Joe Biden using the <code>preschoice</code> variable, for example, we would use quotes to denote that the value we are filtering is a character:</p>
+<pre class="r"><code>MI_final_small %&gt;%
+  filter(preschoice == &quot;Joe Biden, the Democrat&quot;) %&gt;%
+  glimpse()</code></pre>
+<pre><code>## Rows: 723
+## Columns: 14
+## $ SEX        &lt;dbl&gt; 2, 2, 2, 1, 2, 2, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 2, 2, 2,…
+## $ AGE10      &lt;dbl&gt; 2, 10, 7, 9, 8, 7, 9, 8, 8, 1, 9, 10, 4, 1, 8, 1, 6, 9, 1, …
+## $ PRSMI20    &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+## $ PARTYID    &lt;dbl&gt; 3, 1, 1, 3, 3, 3, 1, 1, 1, 4, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1,…
+## $ WEIGHT     &lt;dbl&gt; 0.4045421, 1.8052619, 0.8601966, 0.1991648, 0.1772090, 0.49…
+## $ QRACEAI    &lt;dbl&gt; 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1,…
+## $ EDUC18     &lt;dbl&gt; 4, 1, 5, 4, 5, 3, 3, 3, 4, 4, 1, 1, 2, 4, 2, 1, 2, 3, 2, 4,…
+## $ LGBT       &lt;dbl&gt; NA, 2, 2, NA, NA, 2, 2, 2, NA, NA, NA, 2, NA, 2, 2, 1, 2, N…
+## $ BRNAGAIN   &lt;dbl&gt; NA, 1, 2, NA, NA, 2, 1, 2, NA, NA, NA, 2, NA, 2, 2, 2, 2, N…
+## $ LATINOS    &lt;dbl&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,…
+## $ RACISM20   &lt;dbl&gt; NA, 2, 2, NA, NA, 2, 2, 2, NA, NA, NA, 9, NA, 3, 2, 1, 2, N…
+## $ QLT20      &lt;fct&gt; Has good judgment, NA, NA, Has good judgment, Cares about p…
+## $ preschoice &lt;chr&gt; &quot;Joe Biden, the Democrat&quot;, &quot;Joe Biden, the Democrat&quot;, &quot;Joe …
+## $ Quality    &lt;chr&gt; &quot;Has good judgment&quot;, NA, NA, &quot;Has good judgment&quot;, &quot;Cares ab…</code></pre>
+</div>
+</div>
+<div id="selecting-and-filtering-based-on-conditional-statements" class="section level1">
+<h1>Selecting and Filtering based on conditional statements</h1>
+<p>Many times we want to select observations (and/or variables) depending on whehter or not several conditions are satisfied. To do so we use the fact that:</p>
+<ul>
+<li><p><code>&amp;</code> (AND) selects if <em>all</em> conditions are true.</p></li>
+<li><p><code>|</code> (OR) selects if <em>any</em> condition is true</p></li>
+</ul>
+<p>So if we are considering condition A and condition B, filtering based on <code>&amp;</code> will select observations for which both A and B are satisfied (i.e., the intersection) whereas <code>|</code> will select observations for which either A or B are satisfied (i.e., the union). Note that there is no limit to the number of conditions we can use and we can also combine them.</p>
+<ul>
+<li><code>A | B</code> means either condition A or B is satisfied.</li>
+<li><code>A &amp; B</code> means that both conditions A and B are satisfied.</li>
+<li><code>A | B | C</code> means that either condition A OR condition B OR condition C are satisfied.</li>
+<li><code>(A &amp; B) | C</code> means that either conditions A and B OR condition C is satisfied.</li>
+<li><code>A &amp; (B | C)</code> means that condition A AND conditions B or C are satisfied.</li>
+</ul>
+<p>** <em>SELF-TEST:</em> If A = self-identified Democrat, B = self-identified Republican, and C = self-identified Independent how would you interpret each of the conditions above in terms of which respondents would be filtered?</p>
+<p>Let’s see how to implement this in R. According to the values coded in the Michigan Exit Poll we see that:</p>
+<ul>
+<li><code>SEX</code>: 1 = Male, 2 = Female</li>
+<li><code>AGE10</code>: 1 = “under 24”, … , 9 = “64-75”, 10 = “75+”</li>
+</ul>
+<p>To select the self-reported vote choices of females under the age of 24 we would want to select observations from individuals who are both female <strong>and</strong> under the age of 24. To do so, we use the following (note that we are <code>select</code>ing to focus on the most relevant variables as practice – the code also works without this step):</p>
+<pre class="r"><code>MI_final_small %&gt;%
+  select(SEX,AGE10,preschoice) %&gt;%
+    filter(SEX == 2 &amp; AGE10 == 1) %&gt;%
+    glimpse()</code></pre>
+<pre><code>## Rows: 17
+## Columns: 3
+## $ SEX        &lt;dbl&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
+## $ AGE10      &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+## $ preschoice &lt;chr&gt; &quot;Joe Biden, the Democrat&quot;, &quot;Joe Biden, the Democrat&quot;, &quot;Joe …</code></pre>
+<p>OK, but it is hard to know what to take away from this. How about pulling together content from above to produce the following?</p>
+<pre class="r"><code>MI_final_small %&gt;%
+    filter(SEX == 2 &amp; AGE10 == 1) %&gt;%
+    count(preschoice) %&gt;%
+    arrange(desc(n))</code></pre>
+<pre><code>## # A tibble: 3 × 2
+##   preschoice                       n
+##   &lt;chr&gt;                        &lt;int&gt;
+## 1 Joe Biden, the Democrat         15
+## 2 Another candidate                1
+## 3 Donald Trump, the Republican     1</code></pre>
+<p>Note that here we have dropped the <code>select</code> code because the point of our code is summarize the distribution of self-reported voting behavior, not produce a new tibble for subsequent analysis. Because we are using the <code>count</code> function applied to the variable <code>preschoice</code> the piping will automatically select the relevant variable.</p>
+<p>Notice the difference in the nature and dimensions of the resulting tibbles from these two code snippets. The first code snippet produced a tibble with 17 observations and 3 columns – it is a new data set we can analyze (if we had saved it!). But the second code snippet is a tibble that consists only of 3 observations and 2 columns because it is counting the number of times that each of the 3 unique values occur among the filtered set of respondents.</p>
+<p><em>Quick Exercise</em> Replicate the analysis using male respondents (i.e., <code>SEX==1</code>)? What do you observe about the number and distribution of vote choice?</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<p>In addition to selecting cases for which both conditions are satisfied we can also select conditions for which either condition A or condition B is satisfied. If we want to focus on voters who voted for either Biden or Trump – and ignore those who self-reported voting for some other candidate – we can <code>filter</code> the data accordingly:</p>
+<pre class="r"><code>MI_final_small %&gt;%
+    filter(preschoice == &quot;Joe Biden, the Democrat&quot; | preschoice == &quot;Donald Trump, the Republican&quot;) %&gt;%
+    glimpse()</code></pre>
+<pre><code>## Rows: 1,182
+## Columns: 14
+## $ SEX        &lt;dbl&gt; 2, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 2,…
+## $ AGE10      &lt;dbl&gt; 2, 10, 7, 9, 8, 7, 9, 8, 6, 8, 9, 10, 1, 5, 9, 10, 8, 4, 1,…
+## $ PRSMI20    &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 2, 1, 2, 1, 1, 2, 1, 1, 1,…
+## $ PARTYID    &lt;dbl&gt; 3, 1, 1, 3, 3, 3, 1, 1, 2, 1, 3, 2, 4, 4, 1, 1, 3, 3, 3, 1,…
+## $ WEIGHT     &lt;dbl&gt; 0.4045421, 1.8052619, 0.8601966, 0.1991648, 0.1772090, 0.49…
+## $ QRACEAI    &lt;dbl&gt; 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 9, 1, 1, 1, 1, 1, 3, 1, 1, 1,…
+## $ EDUC18     &lt;dbl&gt; 4, 1, 5, 4, 5, 3, 3, 3, 4, 4, 5, 5, 4, 1, 1, 1, 5, 2, 4, 2,…
+## $ LGBT       &lt;dbl&gt; NA, 2, 2, NA, NA, 2, 2, 2, NA, NA, NA, NA, NA, 2, NA, 2, 2,…
+## $ BRNAGAIN   &lt;dbl&gt; NA, 1, 2, NA, NA, 2, 1, 2, NA, NA, NA, NA, NA, 2, NA, 2, 1,…
+## $ LATINOS    &lt;dbl&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2,…
+## $ RACISM20   &lt;dbl&gt; NA, 2, 2, NA, NA, 2, 2, 2, NA, NA, NA, NA, NA, 2, NA, 9, 4,…
+## $ QLT20      &lt;fct&gt; Has good judgment, NA, NA, Has good judgment, Cares about p…
+## $ preschoice &lt;chr&gt; &quot;Joe Biden, the Democrat&quot;, &quot;Joe Biden, the Democrat&quot;, &quot;Joe …
+## $ Quality    &lt;chr&gt; &quot;Has good judgment&quot;, NA, NA, &quot;Has good judgment&quot;, &quot;Cares ab…</code></pre>
+<p>Note that this produces a new tibble that could be used for subsequent analysis containing only respondents who report voting for either Biden or Trump. Because the number of rows decreases from <code>1231</code> in <code>MI_Final_small</code> to <code>1182</code> after the filter we have just performed, we can determine that <code>49</code> respondents reported voting for a candidate other than Biden or Trump.</p>
+<p>To reiterate how piped functions can change the meaning of a tibble, consider how the size and content of the code we just ran compares to the following:</p>
+<pre class="r"><code>MI_final_small %&gt;%
+    filter(preschoice == &quot;Joe Biden, the Democrat&quot; | preschoice == &quot;Donald Trump, the Republican&quot;) %&gt;%
+    count(preschoice) %&gt;%
+    arrange(desc(n))</code></pre>
+<pre><code>## # A tibble: 2 × 2
+##   preschoice                       n
+##   &lt;chr&gt;                        &lt;int&gt;
+## 1 Joe Biden, the Democrat        723
+## 2 Donald Trump, the Republican   459</code></pre>
+<p>Again, once we pipe (<code>%&gt;%</code>) thru the <code>count</code> function to the filtered tibble, the tibble changes from being organized by observations (1182 x 14) to being organized by the number of unique values in the variable being counted (2). Moreover, the meaning of the columns changes from being variables associated with each observation to being the number of observations taking on each value.</p>
+<p><strong>Always know what your tibble looks like and what it contains!</strong></p>
+<p>NOTE: We can also use conditionals when <code>select</code>ing variables. For example:</p>
+<ul>
+<li>Select variables “if and only if” multiple conditions are true: <code>&amp;</code> (AND)</li>
+</ul>
+<pre class="r"><code>MI_final %&gt;%
+  select(SEX &amp; starts_with(&quot;P&quot;)) %&gt;%
+  glimpse()</code></pre>
+<pre><code>## Rows: 1,231
+## Columns: 0</code></pre>
+<ul>
+<li>Select variables “if and only if” any condition is true: <code>|</code> (OR)</li>
+</ul>
+<pre class="r"><code>MI_final %&gt;%
+  select(SEX | starts_with(&quot;P&quot;)) %&gt;%
+  glimpse()</code></pre>
+<pre><code>## Rows: 1,231
+## Columns: 4
+## $ SEX     &lt;hvn_lbl_&gt; 2, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, …
+## $ PRSMI20 &lt;hvn_lbl_&gt; 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 2, 1, 2, 1, 1, 2, 1, 1, …
+## $ PARTYID &lt;hvn_lbl_&gt; 3, 1, 1, 3, 3, 3, 1, 1, 2, 1, 3, 2, 4, 4, 1, 1, 3, 3, 3, …
+## $ PHIL3   &lt;hvn_lbl_&gt; 2, 2, 1, 9, 1, 2, 9, 2, 3, 2, 3, 3, 1, 3, 9, 2, 2, 1, 3, …</code></pre>
+<div id="combining-filters-and-tibbles" class="section level2">
+<h2>Combining filters and tibbles</h2>
+<p>Using piping (<code>%&gt;%</code>), we <code>count</code> the variable <code>preschoice</code> within the tibble <code>MI_final</code>. This is what we will do as we are going to pipe multiple commands to accomplish our intended tasks.</p>
+<pre class="r"><code>MI_final_small %&gt;% 
+  count(preschoice)</code></pre>
+<pre><code>## # A tibble: 6 × 2
+##   preschoice                          n
+##   &lt;chr&gt;                           &lt;int&gt;
+## 1 Another candidate                  25
+## 2 Donald Trump, the Republican      459
+## 3 Joe Biden, the Democrat           723
+## 4 Refused                            14
+## 5 Undecided/Don’t know                4
+## 6 Will/Did not vote for president     6</code></pre>
+<p>Note that here we are printing creating a table that is printed to the console window and disappears.</p>
+<p>If we wanted to save it for later we could assign this to a new object and then manipulate it.</p>
+<pre class="r"><code>MI_prescount &lt;- MI_final_small %&gt;% 
+  count(preschoice)</code></pre>
+<p>To access this I can then manipulate it. Note that calling <code>MI_prescount</code> directly reveals that it contains two variables – a variable of value labels with the same name as the variable that was counted (here <code>preschoice</code>) and a variable of the number of observations associated with each value (here <code>n</code>).</p>
+<pre class="r"><code>MI_prescount</code></pre>
+<pre><code>## # A tibble: 6 × 2
+##   preschoice                          n
+##   &lt;chr&gt;                           &lt;int&gt;
+## 1 Another candidate                  25
+## 2 Donald Trump, the Republican      459
+## 3 Joe Biden, the Democrat           723
+## 4 Refused                            14
+## 5 Undecided/Don’t know                4
+## 6 Will/Did not vote for president     6</code></pre>
+<p>You can then access this using all of the tools we have already talked about. For example, to get the number of Biden supporters we can select the relevant row using <code>filter</code> via</p>
+<pre class="r"><code>MI_prescount %&gt;%
+  filter(preschoice == &quot;Joe Biden, the Democrat&quot;)</code></pre>
+<pre><code>## # A tibble: 1 × 2
+##   preschoice                  n
+##   &lt;chr&gt;                   &lt;int&gt;
+## 1 Joe Biden, the Democrat   723</code></pre>
+<p><em>Quick Exercise</em> Extract the number of respondents who chose either Biden or Trump.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<p>Consider what happens if we instead do:</p>
+<pre class="r"><code>MI_final_small %&gt;% 
+  select(preschoice) %&gt;%
+  count()</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##       n
+##   &lt;int&gt;
+## 1  1231</code></pre>
+<p>What did we do ?!?! Now we have selected the variable <code>preschoice</code> and then counted up the number of observations. Before, we were counting the variable <code>preschoice</code> which was counting each value.</p>
+</div>
+</div>
+<div id="missing-data" class="section level1">
+<h1>Missing Data</h1>
+<p>Several of our variables were only asked of half the sample (the 2020 Michigan exit poll used two different sets of questionaires to try to ask more questions) and it is important to account for that when thinking about the amount of data we have and what might be possible.</p>
+<p>For example, let’s see why respondents reported voting for a candidate.</p>
+<pre class="r"><code>MI_final_small %&gt;%
+  count(Quality)</code></pre>
+<pre><code>## # A tibble: 6 × 2
+##   Quality                             n
+##   &lt;chr&gt;                           &lt;int&gt;
+## 1 Can unite the country             125
+## 2 Cares about people like me        121
+## 3 Has good judgment                 205
+## 4 Is a strong leader                138
+## 5 [DON&#39;T READ] Don’t know/refused    26
+## 6 &lt;NA&gt;                              616</code></pre>
+<p>So here we see based on the number of <code>NA</code> that nearly half of the respondents do not have a valid reply. We can use the <code>drop_na</code> function to remove missing data <em>that R recognizes</em> (more on this next lecture!). Note that the responses also contain an actual value for missing data, but we will deal with that later.</p>
+<p>If we want to drop all of the missing observations in <code>Quality</code> we can use the following – note that <code>drop_na</code> is essentially applying a filter to remove missing data.</p>
+<pre class="r"><code>MI_final_small %&gt;%
+    drop_na(Quality) %&gt;%
+    count(Quality)</code></pre>
+<pre><code>## # A tibble: 5 × 2
+##   Quality                             n
+##   &lt;chr&gt;                           &lt;int&gt;
+## 1 Can unite the country             125
+## 2 Cares about people like me        121
+## 3 Has good judgment                 205
+## 4 Is a strong leader                138
+## 5 [DON&#39;T READ] Don’t know/refused    26</code></pre>
+<p>We can include multiple variables in this list. Note that if we do not supply a list of variables it will default to the entire data set! Given that some questions are only asked to half of the sample, why does the following code produce a tibble with 0 rows?</p>
+<pre class="r"><code>MI_final_small %&gt;%
+    drop_na() %&gt;%
+    count(Quality)</code></pre>
+<pre><code>## # A tibble: 0 × 2
+## # ℹ 2 variables: Quality &lt;chr&gt;, n &lt;int&gt;</code></pre>
+<p>This highlights the importance of knowing what your data looks like in terms of missing data and also why it can be important to use <code>select</code> to first remove the variables of most interest. You do not want to remove data because of missingness in variables that you do not care about! As we will see, some functions have a built-in parameter to deal with missing data (e.g., <code>mean</code>) while others do not so always know your data!</p>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>Note that in this instance we could also use <code>arrange(-n)</code> to sort in descending order. We use <code>desc</code> because it is slightly more generic (i.e., if we tried to use <code>arrange(-SEX)</code> above it would not work).<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+    
+    
+    
+    
+    
+    <div class="media author-card content-widget-hr">
+      
+
+      <div class="media-body">
+        <h5 class="card-title"><a href="/data-science-site/authors/authors/"></a></h5>
+        <h6 class="card-subtitle">Assistant Professor</h6>
+        
+        <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/data-science-site/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/RyanWeldzius" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=16VmMg4AAAAJ&amp;hl=en" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/rweldzius" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+</ul>
+
+      </div>
+    </div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+
+        
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" integrity="sha512-1+qUtKoh9XZW7j+6LhRMAyOrgSQKenQ4mluTR+cvxXjP1Z54RxZuzstR/H9kgPXQsVB8IW7DMDFUJpzLjvhGSQ==" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js" integrity="sha512-7t8APmYpzEsZP7CYoA7RfMPV9Bb+PJHa9x2WiUnDXZx3XHveuyWUtvNOexhkierl5flZ3tr92dP1mMS+SGlD+A==" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/languages/r.min.js"></script>
+        
+      
+
+    
+
+    
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    <script>const isSiteThemeDark = false;</script>
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <script src="/data-science-site/js/academic.min.36113c13f63e6c1889c2fede8fbd5f35.js"></script>
+
+    
+
+
+
+
+
+
+    
+    
+    <div class="container">
+        <footer>
+    <hr>
+
+    <div class="row course-info">
+        <div class="col-md-7">
+            <p>
+                <strong>PSC4175: Introduction to Data Science (Fall 2025)</strong><br>
+
+                <a href="https://www.villanova.edu" target="_blank" rel="noopener">Villanova University</a><br>
+                
+                <a href="https://www1.villanova.edu/university/liberal-arts-sciences/programs/political-science.html" target="_blank" rel="noopener">Department of Political Science</a>
+            </p>
+
+            <p>
+                <a href="http://www.ryanweldzius.com/" target="_blank" rel="noopener"><i class="fas fa-user"></i>
+                    Ryan Weldzius</a> &emsp;&emsp;
+                <a href="mailto:ryan.weldzius@villanova.edu"><i class="fas fa-envelope"></i>
+                    ryan.weldzius@villanova.edu</a>
+            </p>
+
+            <p>
+                <i class="far fa-calendar-alt"></i> Mondays &emsp;&emsp;
+                <i class="far fa-clock"></i> 3:20 pm -4:35pm <br>
+                <i class="fas fa-university"></i> Bartley Hall 2073
+            </p>
+        </div>
+
+        <div class="col-md-5 credits">
+            <p>All content licensed under a <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.</p>
+            
+            <p>Content <i class="fab fa-creative-commons"></i> 2025 <a href="http://www.ryanweldzius.com/" target="_blank" rel="noopener">Ryan Weldzius</a></p>                    
+            
+            <p><a href="https://github.com/rweldzius/data-science-site" target="_blank" rel="noopener"><i class="fab fa-github"></i> View the source at GitHub.</a></p>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+
+    
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+
+</html>

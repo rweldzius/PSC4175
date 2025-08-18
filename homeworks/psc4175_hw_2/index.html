@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en" 
+      xmlns:og="http://ogp.me/ns#" 
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+
+<head><script src="/data-science-site/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=data-science-site/livereload" data-no-instant defer></script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.8.0">
+
+  
+
+  
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  
+
+  
+  
+  
+    
+  
+  <meta name="description" content="
+Agenda
+We’re going to go quickly back over loading data and then return to the topic of filtering, selecting and arranging data. We’ll then turn to some calculations using the concepts of summarizing (self explanatory) and mutating (creating new variables).
+
+
+Rmarkdown
+To recap, an Rmarkdown file contains two basic elements: text and code. That text and code can be combined or “knitted” into a variety of different document formats. Lets get you started by creating your own Rmarkdown file and knitting it.">
+
+  
+  <link rel="alternate" hreflang="en" href="http://localhost:1313/data-science-site/homeworks/psc4175_hw_2/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#3498db">
+  
+
+  
+  
+  
+  <script src="/data-science-site/js/mathjax-config.js"></script>
+  
+
+  
+  
+  
+  
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha256-FMvZuGapsJLjouA6k7Eo2lusoAX9i0ShlWFG6qt7SLc=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+    
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed:400,400i,700,700i%7COverpass:400,400i,700,700i&display=swap">
+    
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/data-science-site/css/academic.css">
+
+  
+  
+
+
+  
+  
+
+  
+
+  <link rel="manifest" href="/data-science-site/index.webmanifest">
+  <link rel="icon" type="image/png" href="/data-science-site/images/icon_hu_eb1e217680dff947.png">
+  <link rel="apple-touch-icon" type="image/png" href="/data-science-site/images/icon_hu_f0a9735dbf069933.png">
+
+  <link rel="canonical" href="http://localhost:1313/data-science-site/homeworks/psc4175_hw_2/">
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@rweldzius">
+  <meta property="twitter:creator" content="@rweldzius">
+  
+  <meta property="og:site_name" content="Introduction to Data Science">
+  <meta property="og:url" content="http://localhost:1313/data-science-site/homeworks/psc4175_hw_2/">
+  <meta property="og:title" content="Manipulating data in `R` | Introduction to Data Science">
+  <meta property="og:description" content="
+Agenda
+We’re going to go quickly back over loading data and then return to the topic of filtering, selecting and arranging data. We’ll then turn to some calculations using the concepts of summarizing (self explanatory) and mutating (creating new variables).
+
+
+Rmarkdown
+To recap, an Rmarkdown file contains two basic elements: text and code. That text and code can be combined or “knitted” into a variety of different document formats. Lets get you started by creating your own Rmarkdown file and knitting it."><meta property="og:image" content="http://localhost:1313/data-science-site/media/social-image.png">
+  <meta property="twitter:image" content="http://localhost:1313/data-science-site/media/social-image.png"><meta property="og:locale" content="en">
+  
+    
+      <meta property="article:published_time" content="2025-07-24T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2025-07-24T11:24:37-04:00">
+  
+
+  
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Manipulating data in `R` | Introduction to Data Science</title>
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70"
+    data-target="#TableOfContents"
+    >
+
+    <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/data-science-site">Introduction to Data Science</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/data-science-site/">Introduction to Data Science</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-end" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/syllabus/"><span>Syllabus</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/schedule/"><span>Schedule</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/weeks/"><span>Classes</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/resources/"><span>Resources</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/data-science-site/downloads/"><span>Downloads</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+            
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="https://campuswire.com/p/GF9F6AD11" target="_blank" rel="noopener"><span>CampusWire</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+            
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="https://elearning.villanova.edu" target="_blank" rel="noopener"><span>Blackboard</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+
+
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Manipulating data in `R`</h1>
+
+  
+  <p class="page-subtitle">Homework 2</p>
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    July 24, 2025
+  </span>
+  
+
+  
+
+  
+
+  
+  
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    
+    <div class="article-metadata">
+      
+      
+      
+        <span class="meta-item">
+          <strong>Due:</strong> 2026-06-02 by 11:59PM
+        </span>
+        <span class="middot-divider"></span>
+      
+
+      
+      
+        <span class="meta-item">
+          Villanova University
+        </span>
+        <span class="middot-divider"></span>
+      
+      
+      
+      <p>
+        <a href="/data-science-site/homeworks/psc4175_hw_2.Rmd" download>
+          <i class="fa fa-download" aria-hidden="true" style="margin-right: 6px;"></i><Strong>Download R Markdown file</Strong>
+        </a>
+      </p>
+    
+
+    </div>
+    
+
+    <div class="article-style">
+      
+
+
+<div id="agenda" class="section level2">
+<h2>Agenda</h2>
+<p>We’re going to go quickly back over loading data and then return to the topic of filtering, selecting and arranging data. We’ll then turn to some calculations using the concepts of summarizing (self explanatory) and mutating (creating new variables).</p>
+</div>
+<div id="rmarkdown" class="section level2">
+<h2>Rmarkdown</h2>
+<p>To recap, an Rmarkdown file contains two basic elements: text and code. That text and code can be combined or “knitted” into a variety of different document formats. Lets get you started by creating your own Rmarkdown file and knitting it.</p>
+</div>
+<div id="load-relevant-libraries" class="section level2">
+<h2>Load relevant libraries</h2>
+<pre class="r"><code>library(tidyverse)</code></pre>
+</div>
+<div id="load-the-data" class="section level2">
+<h2>Load The Data</h2>
+<p>Remember to load the data from <a href="&#39;https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/sc_debt.Rds">GitHub</a> and save it to the <code>data</code> folder you created. You should then open it in <code>R</code> by assigning it to an object with the <code>&lt;-</code> command.</p>
+<pre class="r"><code>df&lt;-read_rds(&quot;https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/sc_debt.Rds&quot;) 
+names(df)</code></pre>
+<pre><code>##  [1] &quot;unitid&quot;         &quot;instnm&quot;         &quot;stabbr&quot;         &quot;grad_debt_mdn&quot; 
+##  [5] &quot;control&quot;        &quot;region&quot;         &quot;preddeg&quot;        &quot;openadmp&quot;      
+##  [9] &quot;adm_rate&quot;       &quot;ccbasic&quot;        &quot;sat_avg&quot;        &quot;md_earn_wne_p6&quot;
+## [13] &quot;ugds&quot;           &quot;costt4_a&quot;       &quot;selective&quot;      &quot;research_u&quot;</code></pre>
+<table>
+<colgroup>
+<col width="7%" />
+<col width="92%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>unitid</td>
+<td>Unit ID</td>
+</tr>
+<tr class="even">
+<td>instnm</td>
+<td>Institution Name</td>
+</tr>
+<tr class="odd">
+<td>stabbr</td>
+<td>State Abbreviation</td>
+</tr>
+<tr class="even">
+<td>grad_debt_mdn</td>
+<td>Median Debt of Graduates</td>
+</tr>
+<tr class="odd">
+<td>control</td>
+<td>Control Public or Private</td>
+</tr>
+<tr class="even">
+<td>region</td>
+<td>Census Region</td>
+</tr>
+<tr class="odd">
+<td>preddeg</td>
+<td>Predominant Degree Offered: Associates or Bachelors</td>
+</tr>
+<tr class="even">
+<td>openadmp</td>
+<td>Open Admissions Policy: 1= Yes, 2=No,3=No 1st time students</td>
+</tr>
+<tr class="odd">
+<td>adm_rate</td>
+<td>Admissions Rate: proportion of applications accepted</td>
+</tr>
+<tr class="even">
+<td>ccbasic</td>
+<td>Type of institution– see <a href="https://data.ed.gov/dataset/9dc70e6b-8426-4d71-b9d5-70ce6094a3f4/resource/658b5b83-ac9f-4e41-913e-9ba9411d7967/download/collegescorecarddatadictionary_01192021.xlsx">here</a></td>
+</tr>
+<tr class="odd">
+<td>selective</td>
+<td>Institution admits fewer than 10 % of applicants, 1=Yes, 0=No</td>
+</tr>
+<tr class="even">
+<td>research_u</td>
+<td>Institution is a research university 1=Yes, 0=No</td>
+</tr>
+<tr class="odd">
+<td>sat_avg</td>
+<td>Average Sat Scores</td>
+</tr>
+<tr class="even">
+<td>md_earn_wne_p6</td>
+<td>Average Earnings of Recent Graduates</td>
+</tr>
+<tr class="odd">
+<td>ugds</td>
+<td>Number of undergraduates</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="looking-at-datasets" class="section level2">
+<h2>Looking at datasets</h2>
+<p>We can use “glimpse” to see what’s in a dataset. This gives a very quick rundown of the variables and the first few observations.</p>
+<pre class="r"><code>glimpse(df)</code></pre>
+<pre><code>## Rows: 2,546
+## Columns: 16
+## $ unitid         &lt;int&gt; 100654, 100663, 100690, 100706, 100724, 100751, 100760,…
+## $ instnm         &lt;chr&gt; &quot;Alabama A &amp; M University&quot;, &quot;University of Alabama at B…
+## $ stabbr         &lt;chr&gt; &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;…
+## $ grad_debt_mdn  &lt;int&gt; 33375, 22500, 27334, 21607, 32000, 23250, 12500, 19500,…
+## $ control        &lt;chr&gt; &quot;Public&quot;, &quot;Public&quot;, &quot;Private&quot;, &quot;Public&quot;, &quot;Public&quot;, &quot;Pub…
+## $ region         &lt;chr&gt; &quot;Southeast&quot;, &quot;Southeast&quot;, &quot;Southeast&quot;, &quot;Southeast&quot;, &quot;So…
+## $ preddeg        &lt;chr&gt; &quot;Bachelor&#39;s&quot;, &quot;Bachelor&#39;s&quot;, &quot;Associate&quot;, &quot;Bachelor&#39;s&quot;, …
+## $ openadmp       &lt;int&gt; 2, 2, 1, 2, 2, 2, 1, NA, 2, 2, 2, 1, 1, 2, 1, 1, 2, 2, …
+## $ adm_rate       &lt;dbl&gt; 0.9175, 0.7366, NA, 0.8257, 0.9690, 0.8268, NA, NA, 0.9…
+## $ ccbasic        &lt;int&gt; 18, 15, 20, 16, 19, 15, 2, 22, 18, 15, 21, 1, 5, 19, 7,…
+## $ sat_avg        &lt;int&gt; 939, 1234, NA, 1319, 946, 1261, NA, NA, 1082, 1300, 123…
+## $ md_earn_wne_p6 &lt;int&gt; 25200, 35100, 30700, 36200, 22600, 37400, 23100, 33400,…
+## $ ugds           &lt;int&gt; 5271, 13328, 365, 7785, 3750, 31900, 1201, 2677, 4407, …
+## $ costt4_a       &lt;int&gt; 23053, 24495, 14800, 23917, 21866, 29872, 10493, NA, 19…
+## $ selective      &lt;dbl&gt; 0, 0, NA, 0, 0, 0, NA, NA, 0, 0, 0, NA, NA, 0, NA, NA, …
+## $ research_u     &lt;dbl&gt; 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</code></pre>
+</div>
+<div id="types-of-variables" class="section level2">
+<h2>Types of Variables</h2>
+<p>Notice that for each variable, it shows a different type, in angle brackets <code>&lt;&gt;</code>. So for instance, <code>instnm</code> has a type of <code>&lt;chr&gt;</code>. This is short for character– it’s also called a string variable.</p>
+<p>Here are the types of data in this dataset</p>
+<ul>
+<li><code>&lt;int&gt;</code> Integer data</li>
+<li><code>&lt;chr&gt;</code> Character or string data</li>
+<li><code>&lt;dbl&gt;</code> Double, (double-precision floating point) or just numeric data– can be measured down to an arbitrary number of data points.</li>
+</ul>
+<p>This information is useful, because we wouldn’t want to try to run some kind of numeric analysis on string data. The average of institution names wouldn’t make a lot of sense (but it would probably be Southeast State College University of the Northwest).</p>
+<p>We’ll talk more about data types later, but we should also quickly note that there are some variables in this dataset where the numbers represent a characteristic, rather and a measurement. For instance, the variable <code>research_u</code> is set up—coded— such that a “1” indicates that the college is a research university and a “0” indicates that it is not a research university. The 1 and 0 don’t measure anything, they just indicate a characteristic.</p>
+</div>
+<div id="filter-select-arrange" class="section level2">
+<h2>Filter, Select, Arrange</h2>
+<p>Today, we’ll pick up where we left off– with the key commands of filter, select, and arrange.</p>
+<p>In exploring data, many times we want to look at smaller parts of the dataset. There are three commands we’ll use today that help with this.</p>
+<p>-<code>filter</code> selects only those cases or rows that meet some logical criteria.</p>
+<p>-<code>select</code> selects only those variables or columns that meet some criteria</p>
+<p>-<code>arrange</code> arranges the rows of a dataset in the way we want.</p>
+<p>For more on these, please see this <a href="https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html">vignette</a>.</p>
+<p>We can look at the first 5 rows:</p>
+<pre class="r"><code>head(df)</code></pre>
+<pre><code>## # A tibble: 6 × 16
+##   unitid instnm    stabbr grad_debt_mdn control region preddeg openadmp adm_rate
+##    &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;int&gt;    &lt;dbl&gt;
+## 1 100654 Alabama … AL             33375 Public  South… Bachel…        2    0.918
+## 2 100663 Universi… AL             22500 Public  South… Bachel…        2    0.737
+## 3 100690 Amridge … AL             27334 Private South… Associ…        1   NA    
+## 4 100706 Universi… AL             21607 Public  South… Bachel…        2    0.826
+## 5 100724 Alabama … AL             32000 Public  South… Bachel…        2    0.969
+## 6 100751 The Univ… AL             23250 Public  South… Bachel…        2    0.827
+## # ℹ 7 more variables: ccbasic &lt;int&gt;, sat_avg &lt;int&gt;, md_earn_wne_p6 &lt;int&gt;,
+## #   ugds &lt;int&gt;, costt4_a &lt;int&gt;, selective &lt;dbl&gt;, research_u &lt;dbl&gt;</code></pre>
+<p>Or the last 5 rows:</p>
+<pre class="r"><code>tail(df)</code></pre>
+<pre><code>## # A tibble: 6 × 16
+##   unitid instnm    stabbr grad_debt_mdn control region preddeg openadmp adm_rate
+##    &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;int&gt;    &lt;dbl&gt;
+## 1 493716 Yeshiva … NJ                NA Private North… Associ…        2    0.477
+## 2 493725 Universi… AR                NA Public  South… Bachel…        1   NA    
+## 3 493822 College … RI                NA Private New E… Bachel…        1   NA    
+## 4 494630 Christ M… TX                NA Private South… Bachel…        1   NA    
+## 5 494685 Urshan C… MO                NA Private Plains Bachel…        2    0.836
+## 6 494737 Yeshiva … NY                NA Private North… Bachel…        1   NA    
+## # ℹ 7 more variables: ccbasic &lt;int&gt;, sat_avg &lt;int&gt;, md_earn_wne_p6 &lt;int&gt;,
+## #   ugds &lt;int&gt;, costt4_a &lt;int&gt;, selective &lt;dbl&gt;, research_u &lt;dbl&gt;</code></pre>
+</div>
+<div id="using-filter-in-combination-with-other-commands" class="section level2">
+<h2>Using filter in combination with other commands</h2>
+<p><code>filter</code> can be used with any command that retruns true or false. This can be really powerful, for instance the command <code>str_detect</code> “detects” the relevant string in the data, so we can look for any college with the word “Colorado” in its name.</p>
+<pre class="r"><code>df%&gt;%
+  filter(str_detect(instnm,&quot;Colorado&quot;))%&gt;%
+  select(instnm,adm_rate,sat_avg)</code></pre>
+<pre><code>## # A tibble: 12 × 3
+##    instnm                                                adm_rate sat_avg
+##    &lt;chr&gt;                                                    &lt;dbl&gt;   &lt;int&gt;
+##  1 University of Colorado Denver/Anschutz Medical Campus    0.673    1124
+##  2 University of Colorado Colorado Springs                  0.872    1136
+##  3 University of Colorado Boulder                           0.784    1276
+##  4 Colorado Christian University                           NA          NA
+##  5 Colorado College                                         0.135      NA
+##  6 Colorado School of Mines                                 0.531    1342
+##  7 Colorado State University-Fort Collins                   0.814    1204
+##  8 Colorado Mesa University                                 0.782    1063
+##  9 University of Northern Colorado                          0.908    1096
+## 10 Colorado State University Pueblo                         0.930    1047
+## 11 Western Colorado University                              0.842    1114
+## 12 Colorado State University-Global Campus                  0.986    1048</code></pre>
+<p>We can combine this with the <code>|</code> operator, which remember stands for “or.” Let’s say we want all the institutions in Colorado OR California.</p>
+<pre class="r"><code>df%&gt;%
+  filter(str_detect(instnm,&quot;Colorado&quot;) | str_detect(instnm,&quot;California&quot;))%&gt;%
+  select(instnm,adm_rate,sat_avg)</code></pre>
+<pre><code>## # A tibble: 57 × 3
+##    instnm                                                  adm_rate sat_avg
+##    &lt;chr&gt;                                                      &lt;dbl&gt;   &lt;int&gt;
+##  1 California Institute of Integral Studies                 NA           NA
+##  2 California Baptist University                             0.783     1096
+##  3 California College of the Arts                            0.850       NA
+##  4 California Institute of Technology                        0.0642    1557
+##  5 California Lutheran University                            0.714     1168
+##  6 California Polytechnic State University-San Luis Obispo   0.284     1342
+##  7 California State University-Bakersfield                   0.807       NA
+##  8 California State University-Stanislaus                    0.893       NA
+##  9 California State University-San Bernardino                0.686      985
+## 10 California State Polytechnic University-Pomona            0.546     1143
+## # ℹ 47 more rows</code></pre>
+<p>We can also put this together in one (notice that everything goes inside the quotes)</p>
+<pre class="r"><code>df%&gt;%
+  filter(str_detect(instnm,&quot;Colorado|California&quot;))%&gt;%
+  select(instnm,adm_rate,sat_avg)</code></pre>
+<pre><code>## # A tibble: 57 × 3
+##    instnm                                                  adm_rate sat_avg
+##    &lt;chr&gt;                                                      &lt;dbl&gt;   &lt;int&gt;
+##  1 California Institute of Integral Studies                 NA           NA
+##  2 California Baptist University                             0.783     1096
+##  3 California College of the Arts                            0.850       NA
+##  4 California Institute of Technology                        0.0642    1557
+##  5 California Lutheran University                            0.714     1168
+##  6 California Polytechnic State University-San Luis Obispo   0.284     1342
+##  7 California State University-Bakersfield                   0.807       NA
+##  8 California State University-Stanislaus                    0.893       NA
+##  9 California State University-San Bernardino                0.686      985
+## 10 California State Polytechnic University-Pomona            0.546     1143
+## # ℹ 47 more rows</code></pre>
+</div>
+<div id="reminder-logical-operators" class="section level2">
+<h2>Reminder: logical operators</h2>
+<p>Here are (many of) the logical operators that we use in R:</p>
+<ul>
+<li><code>&gt;</code>, <code>&lt;</code>: greater than, less than</li>
+<li><code>&gt;=</code>, <code>&lt;=</code>: greater than or equal to, less than or equal to</li>
+<li><code>!</code> :not, as in <code>!=</code> not equal to</li>
+<li><code>&amp;</code> AND</li>
+<li><code>|</code> OR</li>
+</ul>
+<p><em>Quick Exercise</em> Select colleges that are from Texas AND have the word “community” in their name (the name variable is <code>instnm</code>).</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="extending-select" class="section level2">
+<h2>Extending Select</h2>
+<p>Select can also be used with other characteristics.</p>
+<p>For quick guide on this: <a href="https://dplyr.tidyverse.org/reference/select.html" class="uri">https://dplyr.tidyverse.org/reference/select.html</a></p>
+<p>For example, we can select just variables that contain the word “region”</p>
+<pre class="r"><code>df%&gt;%
+  select(contains(&quot;region&quot;))</code></pre>
+<pre><code>## # A tibble: 2,546 × 1
+##    region   
+##    &lt;chr&gt;    
+##  1 Southeast
+##  2 Southeast
+##  3 Southeast
+##  4 Southeast
+##  5 Southeast
+##  6 Southeast
+##  7 Southeast
+##  8 Southeast
+##  9 Southeast
+## 10 Southeast
+## # ℹ 2,536 more rows</code></pre>
+<p><code>contains()</code> and <code>matches()</code> are equivalent functions</p>
+<pre class="r"><code>df %&gt;%
+  select(matches(&#39;region&#39;))</code></pre>
+<pre><code>## # A tibble: 2,546 × 1
+##    region   
+##    &lt;chr&gt;    
+##  1 Southeast
+##  2 Southeast
+##  3 Southeast
+##  4 Southeast
+##  5 Southeast
+##  6 Southeast
+##  7 Southeast
+##  8 Southeast
+##  9 Southeast
+## 10 Southeast
+## # ℹ 2,536 more rows</code></pre>
+<p>We can augment these with the logical operators listed above</p>
+<pre class="r"><code># Removes columns with &quot;inst&quot; in their names
+df %&gt;%
+  select(!matches(&#39;inst&#39;))</code></pre>
+<pre><code>## # A tibble: 2,546 × 15
+##    unitid stabbr grad_debt_mdn control region  preddeg openadmp adm_rate ccbasic
+##     &lt;int&gt; &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;      &lt;int&gt;    &lt;dbl&gt;   &lt;int&gt;
+##  1 100654 AL             33375 Public  Southe… Bachel…        2    0.918      18
+##  2 100663 AL             22500 Public  Southe… Bachel…        2    0.737      15
+##  3 100690 AL             27334 Private Southe… Associ…        1   NA          20
+##  4 100706 AL             21607 Public  Southe… Bachel…        2    0.826      16
+##  5 100724 AL             32000 Public  Southe… Bachel…        2    0.969      19
+##  6 100751 AL             23250 Public  Southe… Bachel…        2    0.827      15
+##  7 100760 AL             12500 Public  Southe… Associ…        1   NA           2
+##  8 100812 AL             19500 Public  Southe… Bachel…       NA   NA          22
+##  9 100830 AL             24826 Public  Southe… Bachel…        2    0.904      18
+## 10 100858 AL             21281 Public  Southe… Bachel…        2    0.807      15
+## # ℹ 2,536 more rows
+## # ℹ 6 more variables: sat_avg &lt;int&gt;, md_earn_wne_p6 &lt;int&gt;, ugds &lt;int&gt;,
+## #   costt4_a &lt;int&gt;, selective &lt;dbl&gt;, research_u &lt;dbl&gt;</code></pre>
+<pre class="r"><code># Selects columns with either &quot;inst&quot; or an underline in their names
+df %&gt;%
+  select(matches(&#39;inst|_&#39;))</code></pre>
+<pre><code>## # A tibble: 2,546 × 7
+##    instnm      grad_debt_mdn adm_rate sat_avg md_earn_wne_p6 costt4_a research_u
+##    &lt;chr&gt;               &lt;int&gt;    &lt;dbl&gt;   &lt;int&gt;          &lt;int&gt;    &lt;int&gt;      &lt;dbl&gt;
+##  1 Alabama A …         33375    0.918     939          25200    23053          0
+##  2 University…         22500    0.737    1234          35100    24495          0
+##  3 Amridge Un…         27334   NA          NA          30700    14800          0
+##  4 University…         21607    0.826    1319          36200    23917          1
+##  5 Alabama St…         32000    0.969     946          22600    21866          0
+##  6 The Univer…         23250    0.827    1261          37400    29872          0
+##  7 Central Al…         12500   NA          NA          23100    10493          0
+##  8 Athens Sta…         19500   NA          NA          33400       NA          0
+##  9 Auburn Uni…         24826    0.904    1082          30100    19849          0
+## 10 Auburn Uni…         21281    0.807    1300          39500    31590          0
+## # ℹ 2,536 more rows</code></pre>
+<p>We can also select just variables by their type using <code>where()</code></p>
+<pre class="r"><code># Select only numeric variables
+df%&gt;%
+  select(where(is.numeric))</code></pre>
+<pre><code>## # A tibble: 2,546 × 11
+##    unitid grad_debt_mdn openadmp adm_rate ccbasic sat_avg md_earn_wne_p6  ugds
+##     &lt;int&gt;         &lt;int&gt;    &lt;int&gt;    &lt;dbl&gt;   &lt;int&gt;   &lt;int&gt;          &lt;int&gt; &lt;int&gt;
+##  1 100654         33375        2    0.918      18     939          25200  5271
+##  2 100663         22500        2    0.737      15    1234          35100 13328
+##  3 100690         27334        1   NA          20      NA          30700   365
+##  4 100706         21607        2    0.826      16    1319          36200  7785
+##  5 100724         32000        2    0.969      19     946          22600  3750
+##  6 100751         23250        2    0.827      15    1261          37400 31900
+##  7 100760         12500        1   NA           2      NA          23100  1201
+##  8 100812         19500       NA   NA          22      NA          33400  2677
+##  9 100830         24826        2    0.904      18    1082          30100  4407
+## 10 100858         21281        2    0.807      15    1300          39500 24209
+## # ℹ 2,536 more rows
+## # ℹ 3 more variables: costt4_a &lt;int&gt;, selective &lt;dbl&gt;, research_u &lt;dbl&gt;</code></pre>
+<p><em>Quick Exercise</em> Use the same setup to select only character variables (<code>is.character</code>)</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="summarizing-data" class="section level2">
+<h2>Summarizing Data</h2>
+<p>To summarize data, we use the <code>summarize</code> command. Inside that command, we tell R two things: what to call the new object (a data frame, really) that we’re creating, and what numerical summary we would like. The code below summarizes median debt for the colleges in the dataset by calculating the average of median debt for all institutions.</p>
+<p>Notice that inside the <code>mean</code> command</p>
+<pre class="r"><code>df%&gt;%
+  summarize(mean_debt=mean(grad_debt_mdn,na.rm=TRUE))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   mean_debt
+##       &lt;dbl&gt;
+## 1    19646.</code></pre>
+<p><em>Quick Exercise</em> Summarize the average entering SAT scores in this dataset.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="combining-commands" class="section level2">
+<h2>Combining Commands</h2>
+<p>We can also combine commands, so that summaries are done on only a part of the dataset. Below, we summarize median debt for selective schools, and not very selective schools.</p>
+<pre class="r"><code>df%&gt;%
+  filter(stabbr==&quot;CA&quot;)%&gt;%
+  summarize(mean_adm_rate=mean(adm_rate,na.rm=TRUE))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   mean_adm_rate
+##           &lt;dbl&gt;
+## 1         0.592</code></pre>
+<p><em>Quick Exercise</em> Calculate average earnings for schools where SAT&gt;1200 &amp; the admissions rate is between 10 and 20 percent.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="mutate" class="section level2">
+<h2>Mutate</h2>
+<p><code>mutate</code> is the verb for changing variables in R. Let’s say we want to create a variable that’s set to 1 if the college admits less than 10 percent of the students who apply.</p>
+<pre class="r"><code>df&lt;-df%&gt;%
+  mutate(selective=ifelse(adm_rate&lt;=.1,1,0))</code></pre>
+<p>The <code>ifelse()</code> function is powerful. It allows us to create one value if a logical expression is <code>TRUE</code>, and another value if the logical expression is <code>FALSE</code>. The inputs are: <code>ifelse([LOGIC],[VALUE IF TRUE],[VALUE IF FALSE])</code>. In this example, the “logical expression” is <code>adm_rate &lt;= 0.1</code>. For every row where this is <code>TRUE</code>, we get the value <code>1</code>. For every row where this is <code>FALSE</code>, we get the value <code>0</code>.</p>
+<p><em>Quick Exercise</em> Create a new variable that’s set to 1 if the college has more than 10,000 undergraduate students</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<p>Or what if we want to create another new variable that changes the admissions rate from its current proportion to a percent?</p>
+<pre class="r"><code>df&lt;-df%&gt;%
+  mutate(adm_rate_pct=adm_rate*100)</code></pre>
+<p>To figure out if that worked we can use <code>summarize</code></p>
+<pre class="r"><code>df%&gt;%
+  summarize(mean_adm_rate_pct=mean(adm_rate_pct,na.rm=TRUE))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   mean_adm_rate_pct
+##               &lt;dbl&gt;
+## 1              67.9</code></pre>
+</div>
+<div id="grouping" class="section level2">
+<h2>Grouping</h2>
+<p>Above, we calculated the <code>mean_adm_rate</code> for schools in California by combining a <code>filter()</code> command with a <code>summarise()</code> command. Let’s use the same approach to calculate the average SAT score for schools that are selective and for those that aren’t.</p>
+<pre class="r"><code># Mean SAT for selective schools
+df %&gt;%
+  filter(selective == 1) %&gt;%
+  summarise(SATavg = mean(sat_avg,na.rm=T))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   SATavg
+##    &lt;dbl&gt;
+## 1  1510.</code></pre>
+<pre class="r"><code># Mean SAT for non-selective schools
+df %&gt;%
+  filter(selective == 0) %&gt;%
+  summarise(SATavg = mean(sat_avg,na.rm=T))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   SATavg
+##    &lt;dbl&gt;
+## 1  1135.</code></pre>
+<p>This works, but requires two separate chunks of code. We can streamline this analysis with the <code>group_by()</code> function, which tells <code>R</code> to run a command on each group separately. Thus:</p>
+<pre class="r"><code>df %&gt;%
+  group_by(selective) %&gt;%
+  summarise(SATavg = mean(sat_avg,na.rm=T))</code></pre>
+<pre><code>## # A tibble: 3 × 2
+##   selective SATavg
+##       &lt;dbl&gt;  &lt;dbl&gt;
+## 1         0  1135.
+## 2         1  1510.
+## 3        NA   NaN</code></pre>
+<p><em>Quick Exercise</em> Do the same, but calculate the average SAT score for each state, using <code>group_by()</code>.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+    
+    
+    
+    
+    
+    <div class="media author-card content-widget-hr">
+      
+
+      <div class="media-body">
+        <h5 class="card-title"><a href="/data-science-site/authors/authors/"></a></h5>
+        <h6 class="card-subtitle">Assistant Professor</h6>
+        
+        <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/data-science-site/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/RyanWeldzius" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=16VmMg4AAAAJ&amp;hl=en" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/rweldzius" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+</ul>
+
+      </div>
+    </div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+
+        
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" integrity="sha512-1+qUtKoh9XZW7j+6LhRMAyOrgSQKenQ4mluTR+cvxXjP1Z54RxZuzstR/H9kgPXQsVB8IW7DMDFUJpzLjvhGSQ==" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js" integrity="sha512-7t8APmYpzEsZP7CYoA7RfMPV9Bb+PJHa9x2WiUnDXZx3XHveuyWUtvNOexhkierl5flZ3tr92dP1mMS+SGlD+A==" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/languages/r.min.js"></script>
+        
+      
+
+    
+
+    
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    <script>const isSiteThemeDark = false;</script>
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <script src="/data-science-site/js/academic.min.36113c13f63e6c1889c2fede8fbd5f35.js"></script>
+
+    
+
+
+
+
+
+
+    
+    
+    <div class="container">
+        <footer>
+    <hr>
+
+    <div class="row course-info">
+        <div class="col-md-7">
+            <p>
+                <strong>PSC4175: Introduction to Data Science (Fall 2025)</strong><br>
+
+                <a href="https://www.villanova.edu" target="_blank" rel="noopener">Villanova University</a><br>
+                
+                <a href="https://www1.villanova.edu/university/liberal-arts-sciences/programs/political-science.html" target="_blank" rel="noopener">Department of Political Science</a>
+            </p>
+
+            <p>
+                <a href="http://www.ryanweldzius.com/" target="_blank" rel="noopener"><i class="fas fa-user"></i>
+                    Ryan Weldzius</a> &emsp;&emsp;
+                <a href="mailto:ryan.weldzius@villanova.edu"><i class="fas fa-envelope"></i>
+                    ryan.weldzius@villanova.edu</a>
+            </p>
+
+            <p>
+                <i class="far fa-calendar-alt"></i> Mondays &emsp;&emsp;
+                <i class="far fa-clock"></i> 3:20 pm -4:35pm <br>
+                <i class="fas fa-university"></i> Bartley Hall 2073
+            </p>
+        </div>
+
+        <div class="col-md-5 credits">
+            <p>All content licensed under a <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.</p>
+            
+            <p>Content <i class="fab fa-creative-commons"></i> 2025 <a href="http://www.ryanweldzius.com/" target="_blank" rel="noopener">Ryan Weldzius</a></p>                    
+            
+            <p><a href="https://github.com/rweldzius/data-science-site" target="_blank" rel="noopener"><i class="fab fa-github"></i> View the source at GitHub.</a></p>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+
+    
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+
+</html>
