@@ -2,9 +2,9 @@
 
 ## Prof. Ryan Weldzius
 
-The repository for the Hugo/Blogdown site for the course PSC 4175: Introduction to Data Science. Prof. Weldzius is teaching this course at Villanova University in Fal 2025.
+The repository for the Hugo/Blogdown site for the course PSC 4175: Introduction to Data Science. Prof. Weldzius is teaching this course at Villanova University in Fall 2025.
 
-The architecture, and framework of this site were borrowed and appropriated from [Matthew Blackwell](https://mattblackwell.org/). His course on Data Analysis and Politics
+The architecture and framework of this site were borrowed and appropriated from [Matthew Blackwell](https://mattblackwell.org/). His course on Data Analysis and Politics
 can be found here: [https://gov51.mattblackwell.org/]().
 
 This site uses the Academic Hugo theme by the [https://github.com/orgs/HugoBlox/repositories](HugoBlox). The themes section of the repository had to be copied form Prof. Blackwell's site's repository, as hugo-academic repository is changed and upgraded.
