@@ -1,4 +1,4 @@
-Package: data-science-site
+Package: PSC4175
 Version: 1.0
 Imports:
   rmarkdown,
