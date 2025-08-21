@@ -13,20 +13,14 @@ output:
 ## Head Instructor
 
 Prof. Ryan Weldzius  
-[ryan.weldzius@villanova.edu](mailto:ryan.weldzius@villanova.edu)  
-[http://ryanweldzius.com](http://ryanweldzius.com)  
+Email: [ryan.weldzius@villanova.edu](mailto:ryan.weldzius@villanova.edu)  
+Web: [ryanweldzius.com](http://ryanweldzius.com)  
 
 ### Office Hours
 
-  * Thursdays, 10am-12pm Villanova time
+  * Tuesdays, 2:30pm-4:30pm Villanova time
   * You must make an appointment for office hours here: https://calendly.com/weldzius/officehours
   * If you cannot make my office hours, please email me your availability at least 24-hours in advance and we can try to find a time that works.
-
-## Teaching Assistants
-
-TBD  
-[TBD@villanova.edu](mailto:)  
-Office Hours: TBD
 
 ## Course Description
 
@@ -38,7 +32,7 @@ The main text for the course is "R For Data Science" which can be assessed free 
 
 Villanova has an enterprise site license for Microsoft’s Copilot chat application, which is built off of Open A.I.  Copilot is available to all faculty, staff, and students [here](https://copilot.microsoft.com).
 
-**Class time and location**: Asynchronous (online), Monday-Thursday May 28 - June 2, 2025.
+**Class time and location**: Asynchronous (online) Tuesdays; Synchronous (online) Thursdays 2:30-3:45pm.
 
 ## Required Applications
 
@@ -48,7 +42,7 @@ This is the course management software used at Villanova University to support c
 
 ### Campuswire
 
-I have set up a Campuswire workspace for our use this semester to help us better communicate with each other. You will need to create an account and join our workspace by following [this link](https://campuswire.com/p/GF9F6AD11). The Code/PIN can be found on the first email I sent to the class. You are encouraged to adopt these [Slack etiquette tips](https://slack.com/blog/collaboration/etiquette-tips-in-slack). Most likely, you will utilize a similar communication system at a future job, so use this time wisely as you adopt best practices. 
+I have set up a Campuswire workspace for our use this semester to help us better communicate with each other. You will need to create an account and join our workspace by following [this link](https://campuswire.com/p/G9062A201). The Code/PIN can be found on the first email I sent to the class. You are encouraged to adopt these [Slack etiquette tips](https://slack.com/blog/collaboration/etiquette-tips-in-slack). Most likely, you will utilize a similar communication system at a future job, so use this time wisely as you adopt best practices. 
 
 Here is the list of channels you should see upon joining the Campuswire workspace:
 
@@ -79,15 +73,19 @@ Here is the list of channels you should see upon joining the Campuswire workspac
 
 ## Evaluation & Responsibilities  
 
-As with learning any new topic or language, the best strategy is to put in a little effort every day. To this end, you will be assigned homework assignments for each class (see "workflow" above) that correspond with readings from the text. I recommend you read through the book first to get an overview of the topic and then attack the homework. 
+As with learning any new topic or language, the best strategy is to put in a little effort every day. To this end, you will be assigned homework assignments for each class. These are your primary readings, so take your time working through them. You must submit each homework to Blackboard by Tuesday at 10:00pm on the date they are assigned. 
 
-You will be assigned weekly problem sets that will test your ability to apply what you've learned in the lectures. These problem sets are assigned on the Monday of each week and are due by **11:59PM Villanova time the following Friday**. You are welcome to collaborate on these problem sets, and are encouraged to ask questions on the Class feed on Campuswire.
+You will be assigned bi-weekly problem sets that will test your ability to apply what you've learned in the lectures. These problem sets are assigned on the Monday of each week and are due by **11:59PM Villanova time the following Friday**. You are welcome to collaborate on these problem sets, and are encouraged to ask questions on the Class feed on Campuswire.
 
 The final grade is calculated as a weighted average of these components with the following weights:
 
-  * **Problem sets**: 4 in total, total of 76 points available across all four. There will be a total of eight extra credit points available across the four problem sets.
+  * **Homeworks**: There are 15 homeworks over the semester. Each will be worth 2 points (total 30 points). Due on Tuesdays by 10:00pm. 
 
-  * **Homeworks**: There are 14 homeworks over the four weeks of class. Each will be worth 2 points, but only 12 will be graded (total 24 points). Thus, you can either miss two homeworks (two freebies) or you can use these two extra homeworks as extra credit. 
+  * **Problem sets**: 8 in total worth 6 points each. Only 7 will be graded. There will be one extra credit point available in each of the problem sets. 7 problem sets: 42 total points (42% of your final grade). But, there are also 7 extra credit points available (+7 points) and I will still count the ungraded problem set as extra credit (+7 points). 
+
+  * **Final Project**: Worth 20 points (write-up 15 points, presentation and comments 5 points). The final project for the course will be a data analysis project where students will find a dataset of interest, state an interesting research question about that data, and answer this question using that data. Students may work individually, or can work in groups of up to 3 students. Your proposal is due by Week 7 (a short description of your research question, argument, and potential data sources). In the final week of classes, you will present your work to the class in a short 5 minute presentation (recorded). Each student will watch your video and provide one positive comment, one looming question, and one helpful tip to improve the project. Final papers due by **Tuesday, December 16 at 5:00pm.**
+
+  * **Attendance & Participation**: Worth 8 points (0.5 points per Thursday class). You are required to show up to our Thursday classes and participate. 
 
 See the table below for a breakdown of the percentages, points, and extra credit.
 
