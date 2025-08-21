@@ -103,7 +103,7 @@ course:
   semester: "Fall 2025"
   days: "Mondays"
   time: "3:20 pm -4:35pm"
-  location: "[Zoom](https://villanova.zoom.us/j/95488566865)"
+  location: [Zoom](https://villanova.zoom.us/j/95488566865)
   dates: "August 26th - December 11th"
   github: "rweldzius/PSC4175"
   copyrightYear: "2025"
