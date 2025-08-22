@@ -92,9 +92,18 @@ See the table below for a breakdown of the percentages, points, and extra credit
 | Item | Percent | Points | EC | Max |
 |:-----|:-----:|:-----:|:-----:|:-----:|
 | pset0 | 0% | 0 | 0 | 0 |
-| pset1-pset4 | 76% | 76 | 8 | 84 |
-| Homeworks | 24% | 24 | 4 | 26 |
-| **Totals** | **100%** | **100** | **12** | **112** |
+| pset1 | 6% | 6 | 1 | 7 |
+| pset2 | 6% | 6 | 1 | 7 |
+| pset3 | 6% | 6 | 1 | 7 |
+| pset4 | 6% | 6 | 1 | 7 |
+| pset5 | 6% | 6 | 1 | 7 |
+| pset6 | 6% | 6 | 1 | 7 |
+| pset7 | 6% | 6 | 1 | 7 |
+| pset8 | 0% | 0 | 7 | 7 |
+| Homeworks | 30% | 30 | 0 | 30 |
+| Final Project | 20% | 20 | 0 | 20 |
+| Attendance/Participation | 8% | 8 | 0 | 8 |
+| **Totals** | **100%** | **100** | **14** | **114** |
 
 Letter grades are determined as per the standard Villanova grading system:
 
