@@ -13,7 +13,7 @@ output:
 ## Head Instructor
 
 Prof. Ryan Weldzius  
-Email: [ryan.weldzius@villanova.edu](mailto:ryan.weldzius@villanova.edu)  
+Email: [ryan.weldzius@villanova.edu](mailto:ryan.weldzius@villanova.edu)
 Web: [ryanweldzius.com](http://ryanweldzius.com)  
 
 ### Office Hours
