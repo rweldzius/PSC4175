@@ -9,7 +9,7 @@ main:
     url: /weeks/
     weight: 3
   - name: Resources
-    url: /resources/ 
+    url: /resources/
     weight: 4
   - name: Downloads
     url: /downloads/
