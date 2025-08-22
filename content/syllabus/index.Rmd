@@ -79,31 +79,29 @@ You will be assigned bi-weekly problem sets that will test your ability to apply
 
 The final grade is calculated as a weighted average of these components with the following weights:
 
-  * **Homeworks**: There are 15 homeworks over the semester. Each will be worth 2 points (total 30 points). Due on Tuesdays by 10:00pm. 
+  * **Homeworks** (35 points): There are 14 homeworks over the semester. Each will be worth between 1 and 3 points depending on their length/difficulty (total 35 points). Due on Tuesdays by 10:00pm. 
 
-  * **Problem sets**: 8 in total worth 6 points each. Only 7 will be graded. There will be one extra credit point available in each of the problem sets. 7 problem sets: 42 total points (42% of your final grade). But, there are also 7 extra credit points available (+7 points) and I will still count the ungraded problem set as extra credit (+7 points). 
+  * **Problem sets** (35 points): 6 in total worth 7 points each, but only 5 will be graded (one freebie!). There will be one extra credit point available in each of the problem sets. 5 problem sets: 35 total points (35% of your final grade), plus 5 extra credit points available (+5 points) and I will still count the ungraded problem set as extra credit (+8 points). 
 
   * **Final Project**: Worth 20 points (write-up 15 points, presentation and comments 5 points). The final project for the course will be a data analysis project where students will find a dataset of interest, state an interesting research question about that data, and answer this question using that data. Students may work individually, or can work in groups of up to 3 students. Your proposal is due by Week 7 (a short description of your research question, argument, and potential data sources). In the final week of classes, you will present your work to the class in a short 5 minute presentation (recorded). Each student will watch your video and provide one positive comment, one looming question, and one helpful tip to improve the project. Final papers due by **Tuesday, December 16 at 5:00pm.**
 
-  * **Attendance & Participation**: Worth 8 points (0.5 points per Thursday class). You are required to show up to our Thursday classes and participate. 
+  * **Attendance & Participation**: Worth 10 points. You are required to show up to our Thursday classes and participate. 
 
 See the table below for a breakdown of the percentages, points, and extra credit.
 
 | Item | Percent | Points | EC | Max |
 |:-----|:-----:|:-----:|:-----:|:-----:|
 | pset0 | 0% | 0 | 0 | 0 |
-| pset1 | 6% | 6 | 1 | 7 |
-| pset2 | 6% | 6 | 1 | 7 |
-| pset3 | 6% | 6 | 1 | 7 |
-| pset4 | 6% | 6 | 1 | 7 |
-| pset5 | 6% | 6 | 1 | 7 |
-| pset6 | 6% | 6 | 1 | 7 |
-| pset7 | 6% | 6 | 1 | 7 |
-| pset8 | 0% | 0 | 7 | 7 |
-| Homeworks | 30% | 30 | 0 | 30 |
+| pset1 | 7% | 7 | 1 | 8 |
+| pset2 | 7% | 7 | 1 | 8 |
+| pset3 | 7% | 7 | 1 | 8 |
+| pset4 | 7% | 7 | 1 | 8 |
+| pset5 | 7% | 7 | 1 | 8 |
+| pset6 | 0% | 0 | 8 | 8 |
+| Homeworks | 35% | 35 | 0 | 35 |
 | Final Project | 20% | 20 | 0 | 20 |
-| Attendance/Participation | 8% | 8 | 0 | 8 |
-| **Totals** | **100%** | **100** | **14** | **114** |
+| Attendance/Participation | 10% | 10 | 0 | 10 |
+| **Totals** | **100%** | **100** | **13** | **113** |
 
 Letter grades are determined as per the standard Villanova grading system:
 
@@ -126,11 +124,11 @@ Letter grades are determined as per the standard Villanova grading system:
 
 ### Attendance
 
-This course is entirely asynchronous, thus there is no official attendance policy. However, there are specific due dates for assignments, so you must be organized and be sure to submit everything on time. 
+This course is a mix of asynchronous (Tuesdays) and synchronous (Thursdays, 2:30-3:45pm). You are required to attend all synchronous sessions and participate in the discussion. 
 
 ### Late Assignments
 
-Homework assignments are due on the day they are assigned by **11:59PM Villanova time**. Late homeworks will not be accepted. Every problem set is assigned on a Monday and due on Blackboard by **11:59PM Villanova time on the following Friday**. Problem sets should be submitted via Blackboard. The problem sets are designed to require no more than a few hours to complete. Late submissions will be **penalized 1 point off for each day late**. After three days, problem sets will no longer be accepted and will be scored 0. 
+Late homeworks will not be accepted. Every problem set is assigned on a Monday and due on Blackboard by **11:59PM Villanova time on the following Friday**. Problem sets should be submitted via Blackboard. The problem sets are designed to require no more than a few hours to complete. Late submissions will be **penalized 1 point off for each day late**. After three days, problem sets will no longer be accepted and will be scored 0. 
 
 ### Academic Honor Code
 
@@ -140,7 +138,7 @@ If a student is found responsible for an academic integrity violation, which res
 
 Collaboration is the heart of data science, but your work on your assignments should be your own. Please be careful not to plagiarize. The above link is a very helpful guide to understanding plagiarism. In particular, while students are invited to work on problem sets together, collaboration is prohibited on the midterm and final exams.
 
-Copilot and related Large Language Models (LLMs) are essential tools in the data scientist's toolkit, and acceptable resources for completing the assignments and learning concepts at a deeper level. However, graded assignments cannot be generated purely by these tools. All assignments must include a log of the Copilot (or other AI programs) prompts and resulting output used to complete the assignment.
+Copilot and related Large Language Models (LLMs) are essential tools in the data scientist's toolkit, and acceptable resources for completing the assignments and learning concepts at a deeper level. However, graded assignments cannot be generated purely by these tools. All assignments must include a log of the Copilot (or other AI programs) prompts and resulting output used to complete the assignment. **If you are found to have used AI to complete an assignment with no citation and printed output, you will receive a zero for that assignment. A second infraction will lead to a failure of the class.**
 
 ### Office for Access & Disability Services (ADS) and Learning Support Services (LSS)
 
@@ -157,4 +155,4 @@ See [Resources](/resources/)
 
 ## Acknowledgements
 
-The contents of this course are influenced by and often come directly from Prof. James H. Bisbee who teaches a similar course at Vanderbilt University. I am indebted to him for making his course materials available. 
+The contents of this course are influenced by Prof. James H. Bisbee who teaches a similar course at Vanderbilt University. I am indebted to him for making his course materials available. The design of the webpage is inspired by Matthew Blackwell. 
