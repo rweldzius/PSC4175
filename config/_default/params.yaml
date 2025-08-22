@@ -101,8 +101,8 @@ instructor:
 course:
   number: "PSC4175"
   semester: "Fall 2025"
-  days: "Mondays"
-  time: "3:20 pm -4:35pm"
+  days: "Tuesdays (asynchronous) and Thursdays (synchronous)"
+  time: "2:30-3:45pm"
   location: [Zoom](https://villanova.zoom.us/j/95488566865)
   dates: "August 26th - December 11th"
   github: "rweldzius/PSC4175"
