@@ -1,8 +1,7 @@
 ---
 title: "Intro to Data Science"
 author: "Prof. Weldzius"
-date: 2025-07-24
-Due_Date: "2026-06-02 by 11:59PM"
+date: "Homework 1"
 output:
   html_document: default
   pdf_document: default
@@ -57,21 +56,21 @@ In each class, we're going to include some code and text in one file, and data i
 
 Open `RStudio`, then create a new `.Rmd` file. To do this, click on `File` &rarr; `New File` &rarr; `R Markdown...`.
 
-<center><img src="../../lectures/figs/create_rmd.png" width = 70%></center>
+<center><img src="../figures/create_rmd.png" width = 70%></center>
 
 You will then be asked to determine a bunch of settings for this `.Rmd` document. For example, you can choose whether you want to create a "Document", "Presentation", "Shiny", or "From Template" on the left. You can set the "Title:" "Author:" and "Date:" on the top-right. And you can choose the "Default Output Format:" to be either "HTML", "PDF", or "Word". You should **not change any of these settings**. Their defaults ("Document", "Untitled", "[Your name]", "[Today's Date]", and "HTML") are sufficient. Just click "OK".
 
-<center><img src="../../lectures/figs/create_rmd_2.png" width = 70%></center>
+<center><img src="../figures/create_rmd_2.png" width = 70%></center>
 
-Copy the raw code from the [`psc4175_hw_1.Rmd`](https://github.com/rweldzius/PSC4175_SUM2025/blob/main/Homeworks/psc4175_hw_1.Rmd) file by clicking on the copy button as shown in the image below.
+Copy the raw code from the `psc4175_hw_1.Rmd` file by clicking on the copy button as shown in the image below.
 
-<center><img src="../../lectures/figs/copy_raw.png" width = 70%></center>
+<center><img src="../figures/copy_raw.png" width = 70%></center>
 
 Finally, replace the default code in your R Markdown file with the copied code from the GitHub!
 
 If viewing this as an html file, you can view this gif for more help!
 
-<center><img src="../../lectures/figs/Rmd_how_to.gif" width = 70%></center>
+<center><img src="../figures/Rmd_how_to.gif" width = 70%></center>
 
 **Helpful tip!** You can also simply download the `.Rmd` file for the homeworks/problem sets and work directly from them. Just be sure you save it to your preferred folder on your computer system! 
 
@@ -107,7 +106,7 @@ Then, once that has installed successfully, type the following:
 # tinytex::install_tinytex() # Uncomment this to install
 ```
 
-Remember, once these are loaded, you do not need to install them every time; they are saved in your library!
+Remember, once these are loaded, you do not need to install them every time; they are saved in your library! You can comment them out again by adding a "#" before the line of code. 
 
 Now, go back and "Knit to PDF". If you're still having problems, let me know in Campuswire. 
 
@@ -138,13 +137,12 @@ It's a good practice to shutdown R/Rstudio once you're no longer working on it, 
 
 ## Loading Datasets
 
-Now we're ready to load in data. The data frame will be our basic way of interacting with everything in this class. The `sc_debt.Rds` (found here:
-https://github.com/rweldzius/PSC4175_SUM2025/blob/main/Data/sc_debt.Rds) data frame contains information from the college scorecard on different colleges and universities.
+Now we're ready to load in data. The data frame will be our basic way of interacting with everything in this class. The `sc_debt.Rds` data frame contains information from the college scorecard on different colleges and universities.
 
 `tidyverse` includes a `read_rds()` function that can read data directly from the internet.
 
 ```{r}
-df <- read_rds('https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/sc_debt.Rds')
+df <- read_rds('https://github.com/rweldzius/PSC4175/raw/main/static/data/sc_debt.Rds')
 ```
 
 You'll notice that the code above starts with `df`. This is just an arbitrary name for an object. You could name it `dat` or `raw` or `debt` or whatever you want. Then there's an arrow `<-`. This is an assignment operator. Then there's a  function, `readRDS`, with parentheses, and an argument "sc_debt.Rds". Here's how to think about this.
@@ -270,7 +268,7 @@ df%>%
   print(n=40)
 ```
 
-*Quick Exercise* Choose a different college and two different things about that college. Have R print the output.
+**Quick Exercise 1:** Choose a different college and two different things about that college. Have R print the output.
 
 ```{r}
 # INSERT CODE HERE
@@ -289,7 +287,7 @@ df%>%
 
 ```
 
-*Quick Exercise* Summarize the average entering SAT scores in this dataset.
+**Quick Exercise 2:** Summarize the average entering SAT scores in this dataset.
 
 ```{r}
 # INSERT CODE HERE
@@ -313,13 +311,13 @@ df%>%
   summarize(mean_debt=mean(grad_debt_mdn,na.rm=TRUE))
 ```
 
-*Quick Exercise* Calculate average earnings for schools where SAT\>1200
+**Quick Exercise 3:** Calculate average earnings for schools where SAT\>1200
 
 ```{r}
 # INSERT CODE HERE
 ```
 
-*Quick Exercise* Calculate the average debt for schools that admit over 50% of the students who apply.  
+**Quick Exercise 4:** Calculate the average debt for schools that admit over 50% of the students who apply.  
 
 ```{r}
 # INSERT CODE HERE
