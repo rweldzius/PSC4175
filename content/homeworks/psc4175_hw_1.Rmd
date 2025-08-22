@@ -1,6 +1,6 @@
 ---
 title: "Intro to Data Science"
-author: "Prof. Weldzius"
+author: "[Your Name]"
 date: "Homework 1"
 output:
   html_document: default
