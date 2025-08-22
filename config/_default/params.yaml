@@ -97,13 +97,13 @@ instructor:
   github: rweldzius
   office: "SAC 257"
   contact_policy: >-
-    For course-related questions, visit our [CampusWire](https://campuswire.com/p/G9062A201) page. You can also email me or [sign-up for office hours](https://calendly.com/weldzius/officehours).
+    "For course-related questions, visit our [CampusWire](https://campuswire.com/p/G9062A201) page. You can also email me or [sign-up for office hours](https://calendly.com/weldzius/officehours)."
 course:
   number: "PSC4175"
   semester: "Fall 2025"
   days: "Tuesdays (asynchronous) and Thursdays (synchronous)"
   time: "2:30-3:45pm"
-  location: [Zoom](https://villanova.zoom.us/j/95488566865)
+  location: "[Zoom](https://villanova.zoom.us/j/95488566865)"
   dates: "August 26th - December 11th"
   github: "rweldzius/PSC4175"
   copyrightYear: "2025"
