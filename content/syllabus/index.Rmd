@@ -13,20 +13,14 @@ output:
 ## Head Instructor
 
 Prof. Ryan Weldzius  
-[ryan.weldzius@villanova.edu](mailto:ryan.weldzius@villanova.edu)  
-[http://ryanweldzius.com](http://ryanweldzius.com)  
+Email: [ryan.weldzius@villanova.edu](mailto:ryan.weldzius@villanova.edu)  
+Web: [ryanweldzius.com](http://ryanweldzius.com)  
 
 ### Office Hours
 
-  * Thursdays, 10am-12pm Villanova time
+  * Tuesdays, 2:30pm-4:30pm Villanova time
   * You must make an appointment for office hours here: https://calendly.com/weldzius/officehours
   * If you cannot make my office hours, please email me your availability at least 24-hours in advance and we can try to find a time that works.
-
-## Teaching Assistants
-
-TBD  
-[TBD@villanova.edu](mailto:)  
-Office Hours: TBD
 
 ## Course Description
 
@@ -38,7 +32,7 @@ The main text for the course is "R For Data Science" which can be assessed free 
 
 Villanova has an enterprise site license for Microsoft’s Copilot chat application, which is built off of Open A.I.  Copilot is available to all faculty, staff, and students [here](https://copilot.microsoft.com).
 
-**Class time and location**: Asynchronous (online), Monday-Thursday May 28 - June 2, 2025.
+**Class time and location**: Asynchronous (online) Tuesdays; Synchronous (online) Thursdays 2:30-3:45pm.
 
 ## Required Applications
 
@@ -48,7 +42,7 @@ This is the course management software used at Villanova University to support c
 
 ### Campuswire
 
-I have set up a Campuswire workspace for our use this semester to help us better communicate with each other. You will need to create an account and join our workspace by following [this link](https://campuswire.com/p/GF9F6AD11). The Code/PIN can be found on the first email I sent to the class. You are encouraged to adopt these [Slack etiquette tips](https://slack.com/blog/collaboration/etiquette-tips-in-slack). Most likely, you will utilize a similar communication system at a future job, so use this time wisely as you adopt best practices. 
+I have set up a Campuswire workspace for our use this semester to help us better communicate with each other. You will need to create an account and join our workspace by following [this link](https://campuswire.com/p/G9062A201). The Code/PIN can be found on the first email I sent to the class. You are encouraged to adopt these [Slack etiquette tips](https://slack.com/blog/collaboration/etiquette-tips-in-slack). Most likely, you will utilize a similar communication system at a future job, so use this time wisely as you adopt best practices. 
 
 Here is the list of channels you should see upon joining the Campuswire workspace:
 
@@ -79,24 +73,35 @@ Here is the list of channels you should see upon joining the Campuswire workspac
 
 ## Evaluation & Responsibilities  
 
-As with learning any new topic or language, the best strategy is to put in a little effort every day. To this end, you will be assigned homework assignments for each class (see "workflow" above) that correspond with readings from the text. I recommend you read through the book first to get an overview of the topic and then attack the homework. 
+As with learning any new topic or language, the best strategy is to put in a little effort every day. To this end, you will be assigned homework assignments for each class. These are your primary readings, so take your time working through them. You must submit each homework to Blackboard by Tuesday at 10:00pm on the date they are assigned. 
 
-You will be assigned weekly problem sets that will test your ability to apply what you've learned in the lectures. These problem sets are assigned on the Monday of each week and are due by **11:59PM Villanova time the following Friday**. You are welcome to collaborate on these problem sets, and are encouraged to ask questions on the Class feed on Campuswire.
+You will be assigned bi-weekly problem sets that will test your ability to apply what you've learned in the lectures. These problem sets are assigned on the Monday of each week and are due by **11:59PM Villanova time the following Friday**. You are welcome to collaborate on these problem sets, and are encouraged to ask questions on the Class feed on Campuswire.
 
 The final grade is calculated as a weighted average of these components with the following weights:
 
-  * **Problem sets**: 4 in total, total of 76 points available across all four. There will be a total of eight extra credit points available across the four problem sets.
+  * **Homeworks** (35 points): There are 14 homeworks over the semester. Each will be worth between 1 and 3 points depending on their length/difficulty (total 35 points). Due on Tuesdays by 10:00pm. 
 
-  * **Homeworks**: There are 14 homeworks over the four weeks of class. Each will be worth 2 points, but only 12 will be graded (total 24 points). Thus, you can either miss two homeworks (two freebies) or you can use these two extra homeworks as extra credit. 
+  * **Problem sets** (35 points): 6 in total worth 7 points each, but only 5 will be graded (one freebie!). There will be one extra credit point available in each of the problem sets. 5 problem sets: 35 total points (35% of your final grade), plus 5 extra credit points available (+5 points) and I will still count the ungraded problem set as extra credit (+8 points). 
+
+  * **Final Project**: Worth 20 points (write-up 15 points, presentation and comments 5 points). The final project for the course will be a data analysis project where students will find a dataset of interest, state an interesting research question about that data, and answer this question using that data. Students may work individually, or can work in groups of up to 3 students. Your proposal is due by Week 7 (a short description of your research question, argument, and potential data sources). In the final week of classes, you will present your work to the class in a short 5 minute presentation (recorded). Each student will watch your video and provide one positive comment, one looming question, and one helpful tip to improve the project. Final papers due by **Tuesday, December 16 at 5:00pm.**
+
+  * **Attendance & Participation**: Worth 10 points. You are required to show up to our Thursday classes and participate. 
 
 See the table below for a breakdown of the percentages, points, and extra credit.
 
 | Item | Percent | Points | EC | Max |
 |:-----|:-----:|:-----:|:-----:|:-----:|
 | pset0 | 0% | 0 | 0 | 0 |
-| pset1-pset4 | 76% | 76 | 8 | 84 |
-| Homeworks | 24% | 24 | 4 | 26 |
-| **Totals** | **100%** | **100** | **12** | **112** |
+| pset1 | 7% | 7 | 1 | 8 |
+| pset2 | 7% | 7 | 1 | 8 |
+| pset3 | 7% | 7 | 1 | 8 |
+| pset4 | 7% | 7 | 1 | 8 |
+| pset5 | 7% | 7 | 1 | 8 |
+| pset6 | 0% | 0 | 8 | 8 |
+| Homeworks | 35% | 35 | 0 | 35 |
+| Final Project | 20% | 20 | 0 | 20 |
+| Attendance/Participation | 10% | 10 | 0 | 10 |
+| **Totals** | **100%** | **100** | **13** | **113** |
 
 Letter grades are determined as per the standard Villanova grading system:
 
@@ -119,11 +124,11 @@ Letter grades are determined as per the standard Villanova grading system:
 
 ### Attendance
 
-This course is entirely asynchronous, thus there is no official attendance policy. However, there are specific due dates for assignments, so you must be organized and be sure to submit everything on time. 
+This course is a mix of asynchronous (Tuesdays) and synchronous (Thursdays, 2:30-3:45pm). You are required to attend all synchronous sessions and participate in the discussion. 
 
 ### Late Assignments
 
-Homework assignments are due on the day they are assigned by **11:59PM Villanova time**. Late homeworks will not be accepted. Every problem set is assigned on a Monday and due on Blackboard by **11:59PM Villanova time on the following Friday**. Problem sets should be submitted via Blackboard. The problem sets are designed to require no more than a few hours to complete. Late submissions will be **penalized 1 point off for each day late**. After three days, problem sets will no longer be accepted and will be scored 0. 
+Late homeworks will not be accepted. Every problem set is assigned on a Monday and due on Blackboard by **11:59PM Villanova time on the following Friday**. Problem sets should be submitted via Blackboard. The problem sets are designed to require no more than a few hours to complete. Late submissions will be **penalized 1 point off for each day late**. After three days, problem sets will no longer be accepted and will be scored 0. 
 
 ### Academic Honor Code
 
@@ -133,7 +138,7 @@ If a student is found responsible for an academic integrity violation, which res
 
 Collaboration is the heart of data science, but your work on your assignments should be your own. Please be careful not to plagiarize. The above link is a very helpful guide to understanding plagiarism. In particular, while students are invited to work on problem sets together, collaboration is prohibited on the midterm and final exams.
 
-Copilot and related Large Language Models (LLMs) are essential tools in the data scientist's toolkit, and acceptable resources for completing the assignments and learning concepts at a deeper level. However, graded assignments cannot be generated purely by these tools. All assignments must include a log of the Copilot (or other AI programs) prompts and resulting output used to complete the assignment.
+Copilot and related Large Language Models (LLMs) are essential tools in the data scientist's toolkit, and acceptable resources for completing the assignments and learning concepts at a deeper level. However, graded assignments cannot be generated purely by these tools. All assignments must include a log of the Copilot (or other AI programs) prompts and resulting output used to complete the assignment. **If you are found to have used AI to complete an assignment with no citation and printed output, you will receive a zero for that assignment. A second infraction will lead to a failure of the class.**
 
 ### Office for Access & Disability Services (ADS) and Learning Support Services (LSS)
 
@@ -150,4 +155,4 @@ See [Resources](/resources/)
 
 ## Acknowledgements
 
-The contents of this course are influenced by and often come directly from Prof. James H. Bisbee who teaches a similar course at Vanderbilt University. I am indebted to him for making his course materials available. 
+The contents of this course are influenced by Prof. James H. Bisbee who teaches a similar course at Vanderbilt University. I am indebted to him for making his course materials available. The design of the webpage is inspired by Matthew Blackwell. 

@@ -72,7 +72,7 @@ privacy_pack: false
 # Enable visitors to edit pages?
 #   `repo` defines the repository URL. `editable` defines which page types can be edited.
 edit_page:
-  repo_url: "https://github.com/rweldzius/data-science-site"
+  repo_url: "https://github.com/rweldzius/PSC4175"
   content_dir: ""
   repo_branch: main
   editable:
@@ -97,15 +97,15 @@ instructor:
   github: rweldzius
   office: "SAC 257"
   contact_policy: >-
-    If you have questions or want to discuss things that we're doing in class, it's best to email me.
+    For course-related questions, visit our [CampusWire](https://campuswire.com/p/G9062A201) page. You can also email me or [sign-up for office hours](https://calendly.com/weldzius/officehours).
 course:
   number: "PSC4175"
   semester: "Fall 2025"
   days: "Mondays"
   time: "3:20 pm -4:35pm"
-  location: "Bartley Hall 2073"
-  dates: "August 25th - December 8th"
-  github: "rweldzius/data-science-site"
+  location: [Zoom](https://villanova.zoom.us/j/95488566865)
+  dates: "August 26th - December 11th"
+  github: "rweldzius/PSC4175"
   copyrightYear: "2025"
 
 university:
