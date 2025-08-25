@@ -53,7 +53,7 @@ jobs:
           Rscript -e 'blogdown::install_hugo(version = Sys.getenv("HUGO_VERSION"), force = TRUE)'
           Rscript -e 'blogdown::build_site()'
 
-      - name: Disable Jekyll
+      - name: Add .nojekyll
         run: touch public/.nojekyll    
 
       - name: Upload public dir as artifact
