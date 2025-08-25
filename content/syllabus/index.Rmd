@@ -13,7 +13,9 @@ output:
 ## Head Instructor
 
 Prof. Ryan Weldzius  
+
 Email: [ryan.weldzius@villanova.edu](mailto:ryan.weldzius@villanova.edu)
+
 Web: [ryanweldzius.com](http://ryanweldzius.com)  
 
 ### Office Hours
@@ -36,6 +38,10 @@ Villanova has an enterprise site license for Microsoft’s Copilot chat applicat
 
 ## Required Applications
 
+### R and R Studio
+
+This course uses the open-source program R and its user interface R Studio. In order to use this program for all graded assignments (See Week 1), you will need a personal computer (laptop or desktop) capable of running this software. Notebooks, Chromebooks, and most tablets will not suffice. Falvey Library has computers on loan if needed. 
+
 ### Blackboard
 
 This is the course management software used at Villanova University to support course learning. It is clunky, not user-friendly, and is thankfully on its way out soon. For these reasons, I will only utilize Blackboard to post course materials (e.g., additional readings), for you to submit your assignments, and to see your grades.
@@ -52,9 +58,9 @@ Here is the list of channels you should see upon joining the Campuswire workspac
 
   * #general: A space for you to share and discuss stories you've seen in the news or on social media that are relevant to our class.
 
-  * Calendar: Not used. See [Schedule](/schedule). 
+  * Calendar: Not used. See Schedule. 
 
-  * Files: Not used. See [Resources](/resources). 
+  * Files: Not used. See Resources. 
 
   * Grades: Not used. See Blackboard. 
 
@@ -73,13 +79,13 @@ Here is the list of channels you should see upon joining the Campuswire workspac
 
 ## Evaluation & Responsibilities  
 
-As with learning any new topic or language, the best strategy is to put in a little effort every day. To this end, you will be assigned homework assignments for each class. These are your primary readings, so take your time working through them. You must submit each homework to Blackboard by Tuesday at 10:00pm on the date they are assigned. 
+As with learning any new topic or language, the best strategy is to put in a little effort every day. To this end, you will be assigned homework assignments for each class. These are your primary readings, so take your time working through them. You must submit each homework to Blackboard by **Tuesday at 11:59pm** on the date they are assigned. 
 
 You will be assigned bi-weekly problem sets that will test your ability to apply what you've learned in the lectures. These problem sets are assigned on the Monday of each week and are due by **11:59PM Villanova time the following Friday**. You are welcome to collaborate on these problem sets, and are encouraged to ask questions on the Class feed on Campuswire.
 
 The final grade is calculated as a weighted average of these components with the following weights:
 
-  * **Homeworks** (35 points): There are 14 homeworks over the semester. Each will be worth between 1 and 3 points depending on their length/difficulty (total 35 points). Due on Tuesdays by 10:00pm. 
+  * **Homeworks** (35 points): There are 14 homeworks over the semester. Each will be worth between 1 and 3 points depending on their length/difficulty (total 35 points). Due on Tuesdays by 11:59pm. 
 
   * **Problem sets** (35 points): 6 in total worth 7 points each, but only 5 will be graded (one freebie!). There will be one extra credit point available in each of the problem sets. 5 problem sets: 35 total points (35% of your final grade), plus 5 extra credit points available (+5 points) and I will still count the ungraded problem set as extra credit (+8 points). 
 
@@ -128,7 +134,7 @@ This course is a mix of asynchronous (Tuesdays) and synchronous (Thursdays, 2:30
 
 ### Late Assignments
 
-Late homeworks will not be accepted. Every problem set is assigned on a Monday and due on Blackboard by **11:59PM Villanova time on the following Friday**. Problem sets should be submitted via Blackboard. The problem sets are designed to require no more than a few hours to complete. Late submissions will be **penalized 1 point off for each day late**. After three days, problem sets will no longer be accepted and will be scored 0. 
+**Late homeworks will not be accepted.** Every problem set is assigned on a Monday and due on Blackboard by 11:59PM Villanova time on the following Friday. All graded work should be submitted via Blackboard. The problem sets are designed to require no more than a few hours to complete. Late submissions will be **penalized 1 point off for each day late**. After three days, problem sets will no longer be accepted and will be scored 0. 
 
 ### Academic Honor Code
 
@@ -146,11 +152,11 @@ It is the policy of Villanova to make reasonable academic accommodations for qua
 
 ### Absences for Religious Holidays
 
-Villanova University makes every reasonable effort to allow members of the community to observe their religious holidays, consistent with the University’s obligations, responsibilities, and policies. Students who expect to miss a class or assignment due to the observance of a religious holiday should discuss the matter with their professors as soon as possible, normally at least two weeks in advance. Absence from classes or examinations for religious reasons does not relieve students from responsibility for any part of the course work required during the absence. [https://www1.villanova.edu/villanova/provost/resources/student/policies/religiousholidays.html]().
+Villanova University makes every reasonable effort to allow members of the community to observe their religious holidays, consistent with the University’s obligations, responsibilities, and policies. Students who expect to miss a class or assignment due to the observance of a religious holiday should discuss the matter with their professors as soon as possible, normally at least two weeks in advance. Absence from classes or examinations for religious reasons does not relieve students from responsibility for any part of the course work required during the absence. https://www1.villanova.edu/villanova/provost/resources/student/policies/religiousholidays.html.
 
-## Helpful Resources
+<!-- ## Helpful Resources -->
 
-See [Resources](/resources/)
+<!-- See [Resources](/resources/) -->
 
 
 ## Acknowledgements
