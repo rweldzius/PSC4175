@@ -56,21 +56,21 @@ In each class, we're going to include some code and text in one file, and data i
 
 Open `RStudio`, then create a new `.Rmd` file. To do this, click on `File` &rarr; `New File` &rarr; `R Markdown...`.
 
-<center><img src="../figures/create_rmd.png" width = 70%></center>
+<center><img src="https://github.com/rweldzius/PSC4175/raw/main/static/images/create_rmd.png" width = 70%></center>
 
 You will then be asked to determine a bunch of settings for this `.Rmd` document. For example, you can choose whether you want to create a "Document", "Presentation", "Shiny", or "From Template" on the left. You can set the "Title:" "Author:" and "Date:" on the top-right. And you can choose the "Default Output Format:" to be either "HTML", "PDF", or "Word". You should **not change any of these settings**. Their defaults ("Document", "Untitled", "[Your name]", "[Today's Date]", and "HTML") are sufficient. Just click "OK".
 
-<center><img src="../figures/create_rmd_2.png" width = 70%></center>
+<center><img src="https://github.com/rweldzius/PSC4175/raw/main/static/images/create_rmd_2.png" width = 70%></center>
 
 Copy the raw code from the `psc4175_hw_1.Rmd` file by clicking on the copy button as shown in the image below.
 
-<center><img src="../figures/copy_raw.png" width = 70%></center>
+<center><img src="https://github.com/rweldzius/PSC4175/raw/main/static/images/copy_raw.png" width = 70%></center>
 
 Finally, replace the default code in your R Markdown file with the copied code from the GitHub!
 
 If viewing this as an html file, you can view this gif for more help!
 
-<center><img src="../figures/Rmd_how_to.gif" width = 70%></center>
+<center><img src="https://github.com/rweldzius/PSC4175/raw/main/static/images/Rmd_how_to.gif" width = 70%></center>
 
 **Helpful tip!** You can also simply download the `.Rmd` file for the homeworks/problem sets and work directly from them. Just be sure you save it to your preferred folder on your computer system! 
 
