@@ -321,33 +321,6 @@ lessons:
         - name: "Lecture 14b - Clustering Part 1"
           link: "14b_ClusteringPart1.html"
 
-    extraMaterials:
-      homework:
-        - link: "psc4175_hw_15/"
-        - link: "psc4175_hw_16/"
-
-      video:
-        - name: "PSC 4175 - Lecture 15a - Clustering Part 2"
-          url: "wcPuKwJkXKk"
-        - name: "PSC 4175 - Lecture 15b - Clustering Part 2"
-          url: "QUBt_jGP40U"
-
-        - name: "PSC 4175 - Lecture 16a - Clustering Part 3"
-          url: "WrseDirnIL8"
-
-        - name: "PSC 4175 - Lecture 16b - Clustering Part 3"
-          url: "q_dxgKiKY50"
-
-      slides:
-        - name: "Lecture 15a - Clustering Part 2"
-          link: "15a_ClusteringPart2.html"
-        - name: "Lecture 15b - Clustering Part 2"
-          link: "15b_ClusteringPart2.html"
-        - name: "Lecture 16a - Clustering Part 3"
-          link: "16a_ClusteringPart3.html"
-        - name: "Lecture 16b - Clustering Part 3"
-          link: "16b_ClusteringPart3.html"
-
   - title: "Final project presentations"
     weeknum: 15
     date: 2025-12-08
