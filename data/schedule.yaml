@@ -45,7 +45,7 @@ lessons:
         - name: "Lecture 2 - Introduction to R (part 2)"
           link: "2_Rintro_part2.html"
 
-  - title: "Data Wrangligng"
+  - title: "Data Wrangling"
     goal: "Replicability and tabular data"
     weeknum: 3
     date: 2025-09-08
@@ -54,7 +54,6 @@ lessons:
     materials:
       homework:
         link: "psc4175_hw_3/"
-        extra: "Final project reserach question and potential data sources"
 
       video:
         - name: "PSC 4175 - Lecture 3 - Data Wrangling"
@@ -64,7 +63,7 @@ lessons:
         - name: "Lecture 3 - Data Wrangling"
           link: "3_DataWrangling.html"
 
-  - title: "Data visualization and univeriate analysis"
+  - title: "Data visualization and univariate analysis"
     goal: "Summaries of variables"
     weeknum: 4
     date: 2025-09-15
@@ -99,7 +98,6 @@ lessons:
     materials:
       homework:
         link: "psc4175_hw_5/"
-        extra: "Final project data wrangling and visualization"
 
       video:
         - name: "PSC 4175 - Lecture 5 - Multivariate Analysis, Part 1"
@@ -126,7 +124,6 @@ lessons:
 
       homework:
         link: "psc4175_hw_6/"
-        extra: "Incorporate plotly into your data visualization"
 
       video:
         - name: "PSC 4175 - Lecture 6 - Multivariate Analysis, Part 3"
@@ -156,7 +153,7 @@ lessons:
 
   - title: "Fall Break"
     date: 2025-10-13
-    weeknum: --
+    weeknum: "--"
 
   - title: "Uncertainty 2"
     goal: "Confidence statements"
@@ -168,7 +165,7 @@ lessons:
       assignment:
         name: "PS3"
         link: "psc4175_pset_3/"
-        
+ 
       homework:
         link: "psc4175_hw_8/"
 
@@ -193,7 +190,6 @@ lessons:
     materials:
       homework:
         link: "psc4175_hw_9/"
-        extra: "test hypotheses from research question"
 
       video:
         - name: "PSC 4175 - Lecture 9a - Regression 1"
@@ -239,10 +235,9 @@ lessons:
       assignment:
         name: "PS4"
         link: "psc4175_pset_4/"
-        
+  
       homework:
         link: "psc4175_hw_11/"
-        extra: "Test hypotheses including potential confounding variables"
 
       video:
         - name: "PSC 4175 - Lecture 11a - Regression Part 3"
@@ -310,7 +305,7 @@ lessons:
       assignment:
         name: "PS5"
         link: "psc4175_pset_5/"
-      
+  
       homework:
         link: "psc4175_hw_14/"
 
@@ -325,33 +320,6 @@ lessons:
           link: "14a_ClusteringPart1.html"
         - name: "Lecture 14b - Clustering Part 1"
           link: "14b_ClusteringPart1.html"
-
-    extraMaterials:
-      homework:
-        - link: "psc4175_hw_15/"
-        - link: "psc4175_hw_16/"
-
-      video:
-        - name: "PSC 4175 - Lecture 15a - Clustering Part 2"
-          url: "wcPuKwJkXKk"
-        - name: "PSC 4175 - Lecture 15b - Clustering Part 2"
-          url: "QUBt_jGP40U"
-
-        - name: "PSC 4175 - Lecture 16a - Clustering Part 3"
-          url: "WrseDirnIL8"
-
-        - name: "PSC 4175 - Lecture 16b - Clustering Part 3"
-          url: "q_dxgKiKY50"
-
-      slides:
-        - name: "Lecture 15a - Clustering Part 2"
-          link: "15a_ClusteringPart2.html"
-        - name: "Lecture 15b - Clustering Part 2"
-          link: "15b_ClusteringPart2.html"
-        - name: "Lecture 16a - Clustering Part 3"
-          link: "16a_ClusteringPart3.html"
-        - name: "Lecture 16b - Clustering Part 3"
-          link: "16b_ClusteringPart3.html"
 
   - title: "Final project presentations"
     weeknum: 15

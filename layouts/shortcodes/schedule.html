@@ -9,7 +9,6 @@
       <td style="width:15%;text-align:left" class="mid-table-header">Title</td>
       <td style="width:15%;text-align:left" class="mid-table-header">Goal</td>
       <td style="width:10%;text-align:center" class="mid-table-header">Assignment</td>
-      <td style="width:10%;text-align:center" class="mid-table-header">Due Date</td>
       <td style="width:15%;text-align:left" class="mid-table-header">Homeworks</td>
       <td style="width:10%;text-align:center" class="mid-table-header">
         <a href="{{ $.Site.BaseURL }}/weeks/">Materials</a>
@@ -38,15 +37,6 @@
         </a>
         {{- else }}
         <font color="f1f1f1"><i class="fas fa-file"></i></font>
-        {{- end }}
-      </td>
-
-      <!-- Due Date -->
-      <td align="center">
-        {{with .materials.assignment}}
-        {{ dateFormat "Jan 2" .due }}
-        {{- else }}
-        <font color="f1f1f1">—</font>
         {{- end }}
       </td>
 
