@@ -3,7 +3,7 @@ authors:
 - ryanweldzius
 name: Ryan Weldzius
 superuser: true
-email: "ruan.weldzius@villanova.edu"
+email: "ryan.weldzius@villanova.edu"
 organizations:
 - name: Villanova University
   url: ""

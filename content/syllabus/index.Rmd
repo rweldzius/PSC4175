@@ -85,9 +85,9 @@ You will be assigned bi-weekly problem sets that will test your ability to apply
 
 The final grade is calculated as a weighted average of these components with the following weights:
 
-  * **Homeworks** (35 points): There are 14 homeworks over the semester. Each will be worth between 1 and 3 points depending on their length/difficulty (total 35 points). Due on Tuesdays by 11:59pm. 
+  * **Homeworks** (35 points): There are 14 homeworks over the semester. Each will be worth between 1 and 3 points depending on their length/difficulty. Due on Tuesdays by 11:59pm. 
 
-  * **Problem sets** (35 points): 6 in total worth 7 points each, but only 5 will be graded (one freebie!). There will be one extra credit point available in each of the problem sets. 5 problem sets: 35 total points (35% of your final grade), plus 5 extra credit points available (+5 points) and I will still count the ungraded problem set as extra credit (+8 points). 
+  * **Problem sets** (35 points): 5 in total worth 7 points each. There will be 1 extra credit point available on each of the problem sets (occassionaly I'll include an extra hard question for another potential extra credit point).
 
   * **Final Project**: Worth 20 points (write-up 15 points, presentation and comments 5 points). The final project for the course will be a data analysis project where students will find a dataset of interest, state an interesting research question about that data, and answer this question using that data. Students may work individually, or can work in groups of up to 3 students. Your proposal is due by Week 7 (a short description of your research question, argument, and potential data sources). In the final week of classes, you will present your work to the class in a short 5 minute presentation (recorded). Each student will watch your video and provide one positive comment, one looming question, and one helpful tip to improve the project. Final papers due by **Tuesday, December 16 at 5:00pm.**
 
@@ -103,11 +103,10 @@ See the table below for a breakdown of the percentages, points, and extra credit
 | pset3 | 7% | 7 | 1 | 8 |
 | pset4 | 7% | 7 | 1 | 8 |
 | pset5 | 7% | 7 | 1 | 8 |
-| pset6 | 0% | 0 | 8 | 8 |
 | Homeworks | 35% | 35 | 0 | 35 |
 | Final Project | 20% | 20 | 0 | 20 |
 | Attendance/Participation | 10% | 10 | 0 | 10 |
-| **Totals** | **100%** | **100** | **13** | **113** |
+| **Totals** | **100%** | **100** | **5** | **105** |
 
 Letter grades are determined as per the standard Villanova grading system:
 
