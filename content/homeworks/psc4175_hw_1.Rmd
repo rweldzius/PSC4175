@@ -1,7 +1,7 @@
 ---
-title: "Intro to Data Science"
+title: "HW1: Intro to Data Science"
 author: "[Your Name]"
-date: "Homework 1"
+# date: "Homework 1"
 output:
   html_document: default
   pdf_document: default

@@ -1,8 +1,8 @@
 ---
 title: "Problem Set 0"
-subtitle: "Practice (not graded)"
-author: "[YOUR NAME]"
-institute: "Villanova University"
+author: '[YOUR NAME]'
+subtitle: Practice (not graded)
+institute: Villanova University
 Due_Date: "2025-08-29 by 11:59 PM"
 type: homeworks
 ---
@@ -31,7 +31,7 @@ The rest of the semester will see you working on data science questions using `R
 
 Download R here: <https://cran.r-project.org/>. Make sure to choose the version that works with your operating system!
 
-<center><img src="../Lectures/figs/download_R.png" width = 80%></center>
+<center><img src="../figures/download_R.png" width = 80%></center>
 
 ## 2. Installing RStudio
 
@@ -39,7 +39,7 @@ When we work with `R`, we communicate via the command line. To help automate thi
 
 Download RStudio here: <https://rstudio.com/products/rstudio/download/>. You need the free RStudio desktop version.
 
-<center><img src="../../lectures/figs/download_RStudio.png" width = 80%></center>
+<center><img src="../figures/download_RStudio.png" width = 80%></center>
 
 ## 3. Setting up Directories
 
@@ -57,17 +57,17 @@ You could just throw everything related to the class into this folder. However, 
 
 Open `RStudio`, then create a new `.Rmd` file. To do this, click on `File` &rarr; `New File` &rarr; `R Markdown...`.
 
-<center><img src="../../lecturesfigs/create_rmd.png" width = 70%></center>
+<center><img src="../figures/create_rmd.png" width = 70%></center>
 
 ### Settings for `.Rmd` file
 You will then be asked to determine a bunch of settings for this `.Rmd` document. For example, you can choose whether you want to create a "Document", "Presentation", "Shiny", or "From Template" on the left. You can set the "Title:" "Author:" and "Date:" on the top-right. And you can choose the "Default Output Format:" to be either "HTML", "PDF", or "Word". You should **not change any of these settings**. Their defaults ("Document", "Untitled", "[Your name]", "[Today's Date]", and "HTML") are sufficient. Just click "OK".
 
-<center><img src="../../lectures/figs/create_rmd_2.png" width = 70%></center>
+<center><img src="../figures/create_rmd_2.png" width = 70%></center>
 
 ### Saving `.Rmd` file
 This will open a new `.Rmd` file! Now you should change the title of the file to "Problem Set 0" and the author to your name. You should then save the file in your `code` folder with the file name `[Last Name]_PS0.Rmd` by clicking `File` &rarr; `Save As...`.
 
-<center><img src="../../lectures/figs/rmd_ps0.png" width = 70%></center>
+<center><img src="../figures/rmd_ps0.png" width = 70%></center>
 
 ## 5. Modify and `knit`
 Now, **delete all of the default text** in your `.Rmd` file from line 12 down to the bottom. Then write the following on line 12:
@@ -77,9 +77,9 @@ Now, **delete all of the default text** in your `.Rmd` file from line 12 down to
 I can take notes by just typing normally.
 ```
 
-Now let's `knit` the file by clicking the `Knit` button on the top of the window. You should see a new window pop-up that shows the processed code! This `.html` document should also appear in your `code` folder with the same file name as your `.Rmd` file.
+Now let's `knit` the file by clicking the down arrow next to the `Knit` button on the top of the window and selecting `Knit to PDF`. If this didn't work, see Homework 1 for instructions. 
 
-<center><img src="../../lectures/figs/knit_rmd.png" width = 70%></center>
+<center><img src="../figures/knit_rmd.png" width = 70%></center>
 
 ### Inserting R Code
 The final part of the homework assignment is to insert a `chunk` of `R` code. On line 15 type the following:
@@ -90,19 +90,4 @@ The final part of the homework assignment is to insert a `chunk` of `R` code. On
 ```
 ````
 
-Then `knit` a final time and open the .html file that is created in your `code` folder. It should be called [Your Last Name]_PS0.html. You should open this in your internet browser (Safari, Google Chrome, FireFox, etc.), and then right-click anywhere on the opened file and click "Print...".
-
-
-<center><img src="../../lectures/figs/save_pdf_safari.png" width = 70%></center>
-
-
-Then choose "Save as PDF..."
-
-<center><img src="../../lectures/figs/save_pdf_safari_2.png" width = 70%></center>
-
-and save it as `[Your Last Name]_ps0.pdf`. 
-
-<center><img src="../../lectures/figs/save_pdf_safari_3.png" width = 70%></center>
-
-
-Finally, upload the PDF to Blackboard under the Problem Set 0 assignment!
+Then `knit` a final time and upload the PDF to Blackboard under the Problem Set 0 assignment!
