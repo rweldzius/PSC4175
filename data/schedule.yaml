@@ -10,7 +10,6 @@ lessons:
       assignment:
         name: "PS0"
         link: "psc4175_pset_0/"
-        due: 2025-09-07
 
       homework:
         link: "psc4175_hw_1/"
@@ -122,6 +121,10 @@ lessons:
     week: "06-multivariate2"
 
     materials:
+      assignment:
+        name: "PS2"
+        link: "psc4175_pset_2/"
+
       homework:
         link: "psc4175_hw_6/"
         extra: "Incorporate plotly into your data visualization"
@@ -141,11 +144,6 @@ lessons:
     week: "07-uncertainty1"
 
     materials:
-      assignment:
-        name: "PS2"
-        link: "psc4175_pset_2/"
-        due: 2025-10-12
-
       homework:
         link: "psc4175_hw_7/"
 
@@ -168,6 +166,10 @@ lessons:
     week: "08-uncertainty2"
 
     materials:
+      assignment:
+        name: "PS3"
+        link: "..psc4175_pset_3/"
+        
       homework:
         link: "psc4175_hw_8/"
 
@@ -212,12 +214,7 @@ lessons:
     date: 2025-11-03
     week: "10-regression2"
 
-    materials:
-      assignment:
-        name: "PS3"
-        link: "..psc4175_pset_3/"
-        due: 2025-11-09
-
+    materials:        
       homework:
         link: "psc4175_hw_10/"
 
@@ -240,6 +237,10 @@ lessons:
     week: "11-regression3"
 
     materials:
+      assignment:
+        name: "PS4"
+        link: "..psc4175_pset_4/"
+        
       homework:
         link: "psc4175_hw_11/"
         extra: "Test hypotheses including potential confounding variables"
@@ -308,9 +309,8 @@ lessons:
 
     materials:
       assignment:
-        name: "PS4"
-        link: "psc4175_pset_4/"
-        due: 2025-12-07
+        name: "PS5"
+        link: "psc4175_pset_5/"
       
       homework:
         link: "psc4175_hw_14/"
@@ -360,4 +360,4 @@ lessons:
 
   - title: "Final papers due"
     weeknum: --
-    date: 2025-12-19
+    date: 2025-12-16
