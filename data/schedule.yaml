@@ -74,7 +74,6 @@ lessons:
       assignment:
         name: "PS1"
         link: "psc4175_pset_1/"
-        due: 2025-09-21
 
       homework:
         link: "psc4175_hw_4/"
@@ -168,7 +167,7 @@ lessons:
     materials:
       assignment:
         name: "PS3"
-        link: "..psc4175_pset_3/"
+        link: "psc4175_pset_3/"
         
       homework:
         link: "psc4175_hw_8/"
@@ -239,7 +238,7 @@ lessons:
     materials:
       assignment:
         name: "PS4"
-        link: "..psc4175_pset_4/"
+        link: "psc4175_pset_4/"
         
       homework:
         link: "psc4175_hw_11/"
