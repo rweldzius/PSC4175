@@ -27,10 +27,10 @@ library(tidyverse)
 ```
 
 ## Load The Data
-Remember to load the data from  [GitHub]('https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/sc_debt.Rds) and save it to the `data` folder you created. You should then open it in `R` by assigning it to an object with the `<-` command.
+Remember to download the data from the [course webpage](https://rweldzius.github.io/PSC4175/downloads/) and save it to the `data` folder you created. You should then open it in `R` by assigning it to an object with the `<-` command. Below, I load the file directly from the Github Repository for the course, but (again) you should load it from your local system.
 
 ```{r}
-df<-read_rds("https://github.com/rweldzius/PSC4175_SUM2025/raw/main/Data/sc_debt.Rds") 
+df<-read_rds("https://github.com/rweldzius/PSC4175/raw/main/static/data/sc_debt.Rds") 
 names(df)
 ```
 
@@ -139,7 +139,7 @@ Here are (many of) the logical operators that we use in R:
 -   `&` AND
 -   `|` OR
 
-*Quick Exercise* Select colleges that are from Texas AND have the word "community" in their name (the name variable is `instnm`).
+**Quick Exercise 1** Select colleges that are from Texas AND have the word "community" in their name (the name variable is `instnm`).
 
 ```{r}
 # INSERT CODE HERE
@@ -187,7 +187,7 @@ df%>%
 
 
 
-*Quick Exercise* Use the same setup to select only character variables (`is.character`)
+**Quick Exercise 2** Use the same setup to select only character variables (`is.character`)
 
 ```{r}
 # INSERT CODE HERE
@@ -204,7 +204,7 @@ df%>%
   summarize(mean_debt=mean(grad_debt_mdn,na.rm=TRUE))
 ```
 
-*Quick Exercise* Summarize the average entering SAT scores in this dataset.
+**Quick Exercise 3** Summarize the average entering SAT scores in this dataset.
 
 ```{r}
 # INSERT CODE HERE
@@ -220,7 +220,7 @@ df%>%
   summarize(mean_adm_rate=mean(adm_rate,na.rm=TRUE))
 ```
 
-*Quick Exercise* Calculate average earnings for schools where SAT\>1200 & the admissions rate is between 10 and 20 percent. 
+**Quick Exercise 4** Calculate average earnings for schools where SAT\>1200 & the admissions rate is between 10 and 20 percent. 
 
 ```{r}
 # INSERT CODE HERE
@@ -237,7 +237,7 @@ df<-df%>%
 
 The `ifelse()` function is powerful. It allows us to create one value if a logical expression is `TRUE`, and another value if the logical expression is `FALSE`. The inputs are: `ifelse([LOGIC],[VALUE IF TRUE],[VALUE IF FALSE])`. In this example, the "logical expression" is `adm_rate <= 0.1`. For every row where this is `TRUE`, we get the value `1`. For every row where this is `FALSE`, we get the value `0`.
 
-*Quick Exercise* Create a new variable that's set to 1 if the college has more than 10,000 undergraduate students
+**Quick Exercise 5** Create a new variable that's set to 1 if the college has more than 10,000 undergraduate students
 
 ```{r}
 # INSERT CODE HERE
@@ -281,7 +281,7 @@ df %>%
   summarise(SATavg = mean(sat_avg,na.rm=T))
 ```
 
-*Quick Exercise* Do the same, but calculate the average SAT score for each state, using `group_by()`.
+**Quick Exercise 6** Do the same, but calculate the average SAT score for each state, using `group_by()`.
 
 ```{r}
 # INSERT CODE HERE
