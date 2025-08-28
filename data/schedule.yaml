@@ -34,16 +34,21 @@ lessons:
 
       video:
         - name: "PSC 4175 - Lecture 2 - Intro to R (part 1)"
-          url: "nBxddalwQyA"
+          url: "h8UJMBtPJGM"
 
         - name: "PSC 4175 - Lecture 2 - Intro to R (part 2)"
-          url: "2MFCLkZVoAA"
+          url: "AFMwQdMgcSM"
+          
+        - name: "PSC 4175 - Lecture 2 - Intro to R (part 3)"
+          url: "2sy8ZBOQhAU"
 
       slides:
         - name: "Lecture 2 - Introduction to R (part 1)"
           link: "2_Rintro_part1.html"
         - name: "Lecture 2 - Introduction to R (part 2)"
           link: "2_Rintro_part2.html"
+        - name: "Lecture 2 - Introduction to R (part 3)"
+          link: "2_Rintro_part3.html"  
 
   - title: "Data Wrangling"
     goal: "Replicability and tabular data"
@@ -57,7 +62,7 @@ lessons:
 
       video:
         - name: "PSC 4175 - Lecture 3 - Data Wrangling"
-          url: "Nka7Ma7vBFI"
+          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
 
       slides:
         - name: "Lecture 3 - Data Wrangling"
@@ -79,9 +84,9 @@ lessons:
 
       video:
         - name: "PSC 4175 - Lecture 4a - Data Visualization"
-          url: "-pBebtWPb2o"
+          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
         - name: "PSC 4175 - Lecture 4b - Univariate Analysis"
-          url: "3TnmHJ_rRak"
+          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
 
       slides:
         - name: "Lecture 4 - Data Visualization"
@@ -101,9 +106,9 @@ lessons:
 
       video:
         - name: "PSC 4175 - Lecture 5 - Multivariate Analysis, Part 1"
-          url: "_xTEKVbnDbw"
+          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
         - name: "PSC 4175 - Lecture 5 - Multivariate Analysis, Part 2"
-          url: "w807SBZbFP0"
+          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
 
       slides:
         - name: "Lecture 5 - Multivariate Analysis, Part 1"
@@ -145,7 +150,7 @@ lessons:
 
       video:
         - name: "PSC 4175 - Lecture 7 - Uncertainty & Bootstrapping"
-          url: "DtwDB2nv3BA"
+          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
 
       slides:
         - name: "Lecture 7 - Uncertainty & Bootstrapping"
@@ -171,9 +176,9 @@ lessons:
 
       video:
         - name: "PS 4175 - Lecture 8a - Confidence Statements"
-          url: "q02LciYcIGI"
+          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
         - name: "PSC 4175 - Lecture 8b - Confidence Statements"
-          url: "uDUPRnX-_ic"
+          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
 
       slides:
         - name: "Lecture 8a - Confidence Statements"
@@ -193,9 +198,9 @@ lessons:
 
       video:
         - name: "PSC 4175 - Lecture 9a - Regression 1"
-          url: "Y1XocVcgzq8"
+          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
         - name: "PSC 4175 - Lecture 9b - Regression 1"
-          url: "taIFftqpDIQ"
+          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
 
       slides:
         - name: "Lecture 9a - Regression Part 1"
@@ -215,9 +220,9 @@ lessons:
 
       video:
         - name: "PSC 4175 - Lecture 10a - Regression Part 2"
-          url: "wiCMAArQJbg"
+          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
         - name: "PSC 4175 - Lecture 10b - Regression Part 2"
-          url: "hGEonkyhad4"
+          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
 
       slides:
         - name: "Lecture 10a - Regression Part 2"
@@ -241,9 +246,9 @@ lessons:
 
       video:
         - name: "PSC 4175 - Lecture 11a - Regression Part 3"
-          url: "kODEpwWQj6s"
+          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
         - name: "PSC 4175 - Lecture 11b - Regression Part 3"
-          url: "CC8bhfn76Uo"
+          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
 
       slides:
         - name: "Lecture 11a - Regression Part 3"
@@ -263,9 +268,9 @@ lessons:
 
       video:
         - name: "PSC 4175 - Lecture 12a - Classification Part 1"
-          url: "zycMNBysKrw"
+          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
         - name: "PSC 4175 - Lecture 12b - Classification Part 1"
-          url: "JtJ3fkr4vJk"
+          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
 
       slides:
         - name: "Lecture 12a - Classification Part 1"
@@ -285,9 +290,9 @@ lessons:
 
       video:
         - name: "PSC 4175 - Lecture 13a - Classification Part 2"
-          url: "ojRYXQHhVeQ"
+          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
         - name: "PSC 4175 - Lecture 13b - Classification Part 2"
-          url: "woOrkpJkrDA"
+          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
 
       slides:
         - name: "Lecture 13a - Classification Part 2"
@@ -311,9 +316,9 @@ lessons:
 
       video:
         - name: "PSC 4175 - Lecture 14a - Clustering Part 1"
-          url: "2VME2P1GYQ8"
+          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
         - name: "PSC 4175 - Lecture 14b - Clustering Part 1"
-          url: "F_0CVi4mVzU"
+          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
 
       slides:
         - name: "Lecture 14a - Clustering Part 1"
