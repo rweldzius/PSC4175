@@ -1,10 +1,9 @@
 ---
 title: "Manipulating data in `R`"
 subtitle: "Homework 2"
-author: "Prof. Weldzius"
+author: "[Insert Name]"
 institute: "Villanova University"
-date: 2025-07-24
-Due_Date: "2026-06-02 by 11:59PM"
+date: 
 output: html_document
 ---
 
