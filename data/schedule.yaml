@@ -50,21 +50,21 @@ lessons:
         - name: "Lecture 2 - Introduction to R (part 3)"
           link: "2_Rintro_part3.html"  
 
-  - title: "Data visualization and univariate analysis"
-    goal: "Summaries of variables"
+  - title: "Data Visualization"
+    goal: "Visualize data"
     weeknum: 3
     date: 2025-09-08
     week: "03-data-visualization"
 
     materials:
       homework:
-        link: "psc4175_hw_4/"
+        link: "psc4175_hw_3/"
 
       video:
         - name: "PSC 4175 - Lecture 3 - Data Visualization (part 1)"
-          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
+          url: "Ol-uzcAbu-k"
         - name: "PSC 4175 - Lecture 3 - Data Visualization (part 2)"
-          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
+          url: "Jb4ZmNFwMkw"
           
       slides:
         - name: "Lecture 3 - Data Visualization"
@@ -80,6 +80,7 @@ lessons:
       assignment:
         name: "PS1"
         link: "psc4175_pset_1/"
+      
       homework:
         link: "psc4175_hw_4/"
 
