@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = TRUE,error=TRUE,warning = FALSE,message = FALSE)
 
 - Functions: `ggplot`, 
 
-- Applications: College data; NBA player data (sorry, Knicks)
+- Applications: College data
 
 ## Agenda
 
