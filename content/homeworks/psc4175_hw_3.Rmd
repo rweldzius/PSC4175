@@ -1,5 +1,5 @@
 ---
-title: "Visualization and Univariate Analysis"
+title: "Data Visualization"
 author: "<Your Name>"
 subtitle: Homework 3
 output:
