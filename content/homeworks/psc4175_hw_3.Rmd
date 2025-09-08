@@ -208,9 +208,14 @@ It's time to start thinking about your final project for this course! The projec
 Your first **Research Exercise** will be to provide me with two ideas for research questions. After each, please provide an explanation as to why you are interested in this topic and/or why you find it interesting (the "so what" question). 
 
 *Research Question 1*
+
 > Fill in question here.
+
 > Fill in explanation here.
 
+
 *Research Question 2*
+
 > Fill in question here.
+
 > Fill in explanation here.
