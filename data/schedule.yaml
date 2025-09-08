@@ -50,51 +50,48 @@ lessons:
         - name: "Lecture 2 - Introduction to R (part 3)"
           link: "2_Rintro_part3.html"  
 
-  - title: "Data Wrangling"
-    goal: "Replicability and tabular data"
+  - title: "Data visualization and univariate analysis"
+    goal: "Summaries of variables"
     weeknum: 3
     date: 2025-09-08
-    week: "03-data-wrangling"
+    week: "03-data-visualization"
 
     materials:
       homework:
-        link: "psc4175_hw_3/"
+        link: "psc4175_hw_4/"
 
       video:
-        - name: "PSC 4175 - Lecture 3 - Data Wrangling"
+        - name: "PSC 4175 - Lecture 3 - Data Visualization (part 1)"
           url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
-
+        - name: "PSC 4175 - Lecture 3 - Data Visualization (part 2)"
+          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
+          
       slides:
-        - name: "Lecture 3 - Data Wrangling"
-          link: "3_DataWrangling.html"
+        - name: "Lecture 3 - Data Visualization"
+          link: "3_DataViz.html"
 
-  - title: "Data visualization and univariate analysis"
-    goal: "Summaries of variables"
+  - title: "Data Wrangling"
+    goal: "Replicability and tabular data"
     weeknum: 4
     date: 2025-09-15
-    week: "04-data-visualization"
+    week: "04-data-wrangling"
 
     materials:
       assignment:
         name: "PS1"
         link: "psc4175_pset_1/"
-
       homework:
         link: "psc4175_hw_4/"
 
       video:
-        - name: "PSC 4175 - Lecture 4a - Data Visualization"
-          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
-        - name: "PSC 4175 - Lecture 4b - Univariate Analysis"
+        - name: "PSC 4175 - Lecture 4 - Data Wrangling"
           url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
 
       slides:
-        - name: "Lecture 4 - Data Visualization"
-          link: "4_DataViz.html"
-        - name: "Lecture 4 - Univariate Analysis"
-          link: "4_Univariate.html"
+        - name: "Lecture 4 - Data Wrangling"
+          link: "4_DataWrangling.html"
 
-  - title: "Multivariate 1"
+  - title: "Univariate and Multivariate Analysis"
     goal: "Conditional relationships"
     weeknum: 5
     date: 2025-09-22
