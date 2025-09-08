@@ -51,7 +51,7 @@ lessons:
           link: "2_Rintro_part3.html"  
 
   - title: "Data Visualization"
-    goal: "Visualize data"
+    goal: "Visualizing data"
     weeknum: 3
     date: 2025-09-08
     week: "03-data-visualization"
