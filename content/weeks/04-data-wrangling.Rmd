@@ -1,12 +1,12 @@
 ---
 title: "Data Wrangling"
-linktitle: "3: Data Wrangling"
-week_id: "03-data-wrangling"
+linktitle: "4: Data Wrangling"
+week_id: "04-data-wrangling"
 
 date: 2025-08-25
 menu:
   weeks:
     parent: Weeks
-    weight: 3
+    weight: 4
 type: weeks
 ---
