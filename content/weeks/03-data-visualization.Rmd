@@ -1,0 +1,12 @@
+---
+title: "Data Visualization"
+linktitle: "3: Data Visualization"
+week_id: "03-data-visualization"
+
+date: 2025-08-25
+menu:
+  weeks:
+    parent: Weeks
+    weight: 3
+type: weeks
+---
