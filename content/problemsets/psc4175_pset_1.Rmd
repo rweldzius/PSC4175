@@ -1,0 +1,249 @@
+---
+title: "Problem Set 1"
+author: '[YOUR NAME]'
+date: "Due Date: 2025-09-19 by 11:59PM"
+output:
+  pdf_document: default
+  html_document: default
+subtitle: Intro to `R`
+institute: Villanova University
+---
+
+```{r,include=F}
+knitr::opts_chunk$set(error=TRUE)
+```
+
+
+# Getting Set Up
+
+All of the following questions should be answered in this `.Rmd` file. There are code chunks with incomplete code that need to be filled in. 
+
+This problem set is worth 7 total points, plus 1 extra credit point. The point values for each question are indicated in brackets below. To receive full credit, you must have the correct code and answer. In addition, some questions ask you to provide a written response in addition to the code.
+
+You are free to rely on whatever resources you need to complete this problem set, including lecture notes, lecture presentations, Google, your classmates...you name it. However, the final submission must be complete by you. There are no group assignments. To submit, compile the completed problem set and upload the PDF file to Drobox on Friday by midnight. If you use AI for help, choose to save your output as a PDF and submit this with the problem set as well; you can also include the link to your ChatGPT conversation (double-check that it goes back to your specific conversation!). Also note that I will not respond to Campuswire messages after 4PM ET on Friday, so don't wait until the last minute to get started!
+
+**Good luck!**
+
+**If you collaborated with a colleague and/or used AI for any help on this problem set, document here.** Write the names of your classmates and/or upload a PDF of your AI prompt and output with your problem set:
+
+# Part 1: All about college 
+## [4.5 points possible; 0.5 extra credit points]
+
+## Question 0 [0 points]
+*Require `tidyverse` and load the `sc_debt.Rds` data by assigning it to an object named `df`.*
+```{r}
+require() # Load tidyverse
+df <- read_rds() # Load the dataset directly from github
+```
+
+
+## Question 1 [0.25 points]
+*Which school has the lowest admission rate (`adm_rate`) and which state is it in (`stabbr`)?*
+```{r}
+df %>% 
+  arrange() %>% # Arrange by the admission rate
+  select() # Select the school name, the admission rate, and the state
+```
+
+> Write answer here
+
+## Question 2 [0.25 points]
+*Which are the top 10 schools by average SAT score (`sat_avg`)?*
+```{r}
+df %>%
+  arrange() %>% # arrange by SAT scores in descending order
+  select() %>% # Select the school name and SAT score
+  print() # Print the first 12 rows (hint: there is a tie)
+```
+
+> Write answer here
+
+## Question 3 [0.25 points]
+*Create a new variable called `adm_rate_pct` which is the admissions rate multiplied by 100 to convert from a 0-to-1 decimal to a 0-to-100 percentage point.*
+
+```{r}
+df <- df %>% # Use the object assignment operator to overwrite the df object
+  mutate() # Create the new variable adm_rate_pct
+```
+
+
+## Question 4 [0.25 points]
+*Calculate the average SAT score and median earnings of recent graduates by state.*
+```{r}
+df %>%
+  group_by() %>% # Calculate state-by-state with group_by()
+  summarise(sat_avg = , # Summarise the average SAT
+            earn_avg = ) # Summarise the average earnings
+```
+
+## Extra Credit [0.5 points]
+*Plot the average SAT score (x-axis) against the median earnings of recent graduates (y-axis) by school, and add the line of best fit. What relationship do you observe? Why do you think this relationship exists?*
+```{r}
+# INSERT CODE HERE
+```
+
+> Write answer here
+
+## Question 5 [1.5 points]
+*Research Question: Do students who graduate from smaller schools (i.e., schools with smaller student bodies) make more money in their future careers? Before looking at the data, write out what you think the answer is, and explain why you think so.*
+
+> Write a few sentences here.
+
+*Based on this research question, what is the outcome / dependent / $Y$ variable and what is the explanatory / independent / $X$ variable? Create the scatterplot of the data based on this answer, along with a line of best fit. Is your answer to the research question supported?*
+
+```{r}
+df %>%
+  ggplot(aes(x = , # Put the explanatory variable on the x-axis
+             y = )) +  # Put the outcome variable on the y-axis
+  geom_point() + # Create a scatterplot
+  geom_smooth() + # Add line of best fit
+  labs(title = '', # give the plot meaningful labels to help the viewer understand it
+       x = '',
+       y = '')
+```
+
+> Write a few sentences here.
+
+## Question 6 [1 points]
+*Does this relationship change by whether the school is a research university? Using the filter() function, create two versions of the plot, one for research universities and the other for non-research universities.*
+
+```{r}
+df %>%
+  filter() %>% # Filter to non-research universities
+  ggplot(aes(x = , # Put the explanatory variable on the x-axis
+             y = )) +  # Put the outcome variable on the y-axis
+  geom_point() + # Create a scatterplot
+  geom_smooth() + # Add line of best fit
+  labs(title = '', # give the plot meaningful labels to help the viewer understand it
+       subtitle = '', 
+       x = '',
+       y = '')
+
+df %>%
+  filter() %>% # Filter to research universities
+  ggplot(aes(x = , # Put the explanatory variable on the x-axis
+             y = )) +  # Put the outcome variable on the y-axis
+  geom_point() + # Create a scatterplot
+  geom_smooth() + # Add line of best fit
+  labs(title = '', # give the plot meaningful labels to help the viewer understand it
+       subtitle = '', 
+       x = '',
+       y = '')
+```
+
+
+## Question 7 [1 point]
+*Instead of creating two separate plots, color the points by whether the school is a research university. To do this, you first need to modify the research_u variable to be categorical (it is currently stored as numeric). To do this, use the mutate command with `ifelse()` to create a new variable called `research_u_cat` which is either "Research" if `research_u` is equal to 1, and "Non-Research" otherwise.*
+```{r}
+df <- df %>%
+  mutate(research_u_cat = ifelse()) # Create a labeled version of the research_u variable
+
+df %>%
+  ggplot(aes(x = , # Put the explanatory variable on the x-axis
+             y = , # Put the outcome variable on the y-axis
+             color = )) + # Color the points by the new variable you created above
+  geom_point() + # Create a scatterplot
+  geom_smooth() + # Add line of best fit
+  labs(title = '', # give the plot meaningful labels to help the viewer understand it
+       x = '',
+       color = '',
+       y = '')
+```
+
+
+# Part 2: Learning about the 2020 elections from Michigan exit polling 
+## [2.5 points; +0.5 extra credit point available]
+
+For part 2 of this problem set, we will be using the `MI2020_ExitPoll.Rds` file from the course [github page](https://github.com/rweldzius/PSC4175/raw/main/data/MI2020_ExitPoll.Rds).
+
+## Question 8 [0 points]
+
+Require an additional package called `labelled` (remember to `install.packages("labelled")` if you don't have it yet) and load the `MI2020_ExitPoll.Rds` data to an object called `MI_raw`. (Tip: use the `read_rds()` function.)
+
+```{r}
+require()
+MI_raw <- read_rds('') 
+```
+
+*What is the unit of analysis in this dataset? How many variables does it have? How many observations?*
+
+> Write answer here
+
+## Question 9 [0.5 points]
+*This has too much information that we don't care about. Create a new object called `MI_clean` that contains only the following variables:*
+
+* AGE10
+* SEX
+* PARTYID
+* EDUC18
+* PRSMI20
+* QLT20
+* LGBT
+* BRNAGAIN
+* LATINOS
+* QRACEAI
+* WEIGHT
+
+*and then list which of these variables contain missing data recorded as `NA`. How many respondents were not asked certain questions?*
+```{r}
+MI_clean <- MI_raw %>% 
+  select() # Select the requested variables
+
+summary() # Identify which have missing data recorded as NA
+```
+
+> Write answer here
+
+## Question 10 [0.5 points]
+*Are there* **unit non-response** *data in the `PRSMI20` variable? If so, how are they recorded? What about the `PARTYID` variable? How many people refused to answer both of these questions?*
+
+```{r}
+MI_clean %>%
+  count() # Tip: use count() function to look at your variables.
+```
+
+> Write answer here.
+
+## Question 11 [0.5 points]
+*Let's create a new variable called `preschoice` that converts `PRSMI20` to a character. To do this, install the `labelled` package if you haven't already, then use the `to_character()` function from the `labelled` package. Now `count()` the number of respondents who reported voting for each candidate. How many respondents voted for candidate Trump in 2020? How many respondents refused to tell us who they voted for?*
+```{r}
+MI_clean <- MI_clean %>%
+  mutate(preschoice = ) # Convert to character
+
+MI_clean %>%
+  count()
+```
+
+> Write answer here
+
+
+## Question 12 [1 point]
+What proportion of women supported Trump?
+
+```{r}
+# Women Trump supporters
+MI_clean %>%
+  drop_na() %>% # Drop any missing values for preschoice
+  filter() %>% # Filter to only women
+  count() %>% # Count the number of women who supported each candidate
+  mutate(share = ) # Calculate the proportion of women who supported Trump
+
+# Alternative approach
+MI_clean %>%
+  drop_na() %>% # Drop any missing values for preschoice
+  mutate(trumpSupp = ifelse()) %>% # Create "dummy" variable for whether the person voted for Trump or not that is either 1 (they voted for Trump) or 0
+  group_by() %>% # Group by gender
+  summarise(share = mean(trumpSupp)) # Calculate proportion who supported Trump
+```
+
+> Write answer here.
+
+## Extra Credit [0.5 point]
+*Among women, which age group sees the highest support for Trump? To answer, you will need to calculate the proportion of women who supported Trump by age-group to determine which age-group had the highest Trump support among women. You will need to clean the AGE10 variable before completing this problem, just like we did with the PRSMI20 variable. Call the new variable "Age". HINT: to make your life easier (and not write a 10-level nested ifelse() function), try asking ChatGPT for help with this prompt: "I have a labelled variable in R that I want to convert to text. How can I do this?"*
+
+```{r}
+# Insert code here.
+```
+
+> Write answer here
+

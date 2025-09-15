@@ -1,7 +1,7 @@
 ---
 title: "Data Wrangling"
-subtitle: "Homework 3"
-author: "Your Name"
+subtitle: "Homework 4"
+author: "<Your Name>"
 institute: "Villanova University"
 output: html_document
 ---
@@ -117,11 +117,11 @@ So getting started we _always_ start our code by:
 library(tidyverse)
 ```
 
-2. Checking to sure that R is looking in right spot to find your data and code.  It typically makes sense to `setwd` to tell R where in your computer it should be looking for additional data (and code).
+2. Checking to sure that R is looking in right spot to find your data and code.  It typically makes sense to `setwd` to tell R where in your computer it should be looking for additional data (and code). Remember, your working directory (wd) will be different than mine!
 
 ```{r, eval=FALSE}
 getwd()
-setwd("~/Library/CloudStorage/Dropbox/Villanova/TEACHING/PSC4175 - Data Science/PSC4175/static/homeworks")
+setwd("~/Library/CloudStorage/Dropbox/Villanova/TEACHING/PSC4175 - Data Science/PSC4175/content/homeworks")
 ```
 
 3. Now get that data!  One method is to use the Graphical User Interface (GUI) to select menus that will find and read in the data of interest.  If you are getting data from some other format (e.g., data saved in a basic text format (comma or tab delimted) or in another statistical package (e.g., STATA or SAS)) we want to `Import Dataset`.  
@@ -140,15 +140,15 @@ A second way to access data is to use some functions directly in R.  This is wha
 A `tidyverse` function we will sometimes use is `read_rds` (Read R Data Structure).  This will load a single object into memory.  Here we are reading in a subset of the 2020 Michigan Exit Poll and naming it the tibble `mi_ep`. You should download this data and load it directly from your computer by removing the url link below and inserting your own file path. 
 
 ```{r}
-mi_ep <- read_rds("../data/MI2020_ExitPoll_small.rds")
+mi_ep <- read_rds("../../static/data/MI2020_ExitPoll_small.rds")
 ```
 
-The first part of the code is defining a new object called `mi_ep` (short for Michigan exit poll) and then assigning (`<-`) that object to be defined by the dataset being read in by the `read_rds` function. The filepath within `read_rds` starts with ".." which tells R to go back one folder from your current working directory and then find the folder `data`, and finally read in the `MI2020_ExitPoll_small.rds` file. If you haven't saved the `MI2020_ExitPoll_small.rds` to your `data` folder and set your working directory (as explained above) then this chunk of code won't work. Go back and make adjustments as needed. 
+The first part of the code is defining a new object called `mi_ep` (short for Michigan exit poll) and then assigning (`<-`) that object to be defined by the dataset being read in by the `read_rds` function. The filepath within `read_rds` starts with ".." which tells R to go back one folder from your current working directory. Here I have ".." twice which means go back **two** folders and then find the folder `static` and then the folder `data`, and finally read in the `MI2020_ExitPoll_small.rds` file. If you haven't saved the `MI2020_ExitPoll_small.rds` to your `data` folder and set your working directory (as explained above) then this chunk of code won't work. Go back and make adjustments as needed. 
 
 To highlight the syntax, consider what happens when you run the following code?
 
 ```{r, eval= FALSE}
-read_rds("../data/MI2020_ExitPoll_small.rds")
+read_rds("../../static/data/MI2020_ExitPoll_small.rds")
 ```
 
 If we read in data without assigning it to an object R will simply print the results to the console window.  Nothing will be saved and we cannot use the data in future analyses!  When reading in an R data object using `read_rds` we always need to define a new object associated with that file!
@@ -168,7 +168,7 @@ Note that when we are `load`ing an `.Rdata` file we **do not** need to assign it
 **Quick Exercise 2** Save the MI2020_ExitPoll.Rdata" file and load as I have done below. In my code, notice how I use "../" in the file path. Each time I use that, it means "go back one folder". Since I used it twice, the file path goes back two folders and then looks for the folder "static". See if you can make it work on your code! (You won't necessarily have a folder named "static"; this is to help me orgranize the GitHub repository and this webpage). Because we are loading several objects at once the name of the file will not be the same as the name of the objects being loaded.
 
 ```{r}
-load(file = "../data/MI2020_ExitPoll.Rdata") 
+load(file = "../../static/data/MI2020_ExitPoll.Rdata") 
 objects()
 ```
 

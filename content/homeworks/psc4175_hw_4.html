@@ -1,7 +1,7 @@
 ---
 title: "Data Wrangling"
-subtitle: "Homework 3"
-author: "Your Name"
+subtitle: "Homework 4"
+author: "<Your Name>"
 institute: "Villanova University"
 output: html_document
 ---
@@ -108,10 +108,10 @@ output: html_document
 </ol>
 <pre class="r"><code>library(tidyverse)</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li>Checking to sure that R is looking in right spot to find your data and code. It typically makes sense to <code>setwd</code> to tell R where in your computer it should be looking for additional data (and code).</li>
+<li>Checking to sure that R is looking in right spot to find your data and code. It typically makes sense to <code>setwd</code> to tell R where in your computer it should be looking for additional data (and code). Remember, your working directory (wd) will be different than mine!</li>
 </ol>
 <pre class="r"><code>getwd()
-setwd()</code></pre>
+setwd(&quot;~/Library/CloudStorage/Dropbox/Villanova/TEACHING/PSC4175 - Data Science/PSC4175/content/homeworks&quot;)</code></pre>
 <ol start="3" style="list-style-type: decimal">
 <li>Now get that data! One method is to use the Graphical User Interface (GUI) to select menus that will find and read in the data of interest. If you are getting data from some other format (e.g., data saved in a basic text format (comma or tab delimted) or in another statistical package (e.g., STATA or SAS)) we want to <code>Import Dataset</code>.</li>
 </ol>
@@ -126,10 +126,10 @@ setwd()</code></pre>
 - <code>read_rds</code>
 - <code>url</code></p>
 <p>A <code>tidyverse</code> function we will sometimes use is <code>read_rds</code> (Read R Data Structure). This will load a single object into memory. Here we are reading in a subset of the 2020 Michigan Exit Poll and naming it the tibble <code>mi_ep</code>. You should download this data and load it directly from your computer by removing the url link below and inserting your own file path.</p>
-<pre class="r"><code>mi_ep &lt;- read_rds(&quot;https://github.com/rweldzius/PSC4175/raw/main/static/data/MI2020_ExitPoll_small.rds&quot;)</code></pre>
-<p>The first part of the code is defining a new object called <code>mi_ep</code> (short for Michigan exit poll) and then assigning (<code>&lt;-</code>) that object to be defined by the dataset being read in by the <code>read_rds</code> function. The filepath within <code>read_rds</code> starts with “..” which tells R to go back one folder from your current working directory, then find the folder <code>data</code>, and finally read in the <code>MI2020_ExitPoll_small.rds</code> file. If you haven’t saved the <code>MI2020_ExitPoll_small.rds</code> to your <code>data</code> folder and set your working directory (as explained above) then this chunk of code won’t work. Go back and make adjustments as needed.</p>
+<pre class="r"><code>mi_ep &lt;- read_rds(&quot;../../static/data/MI2020_ExitPoll_small.rds&quot;)</code></pre>
+<p>The first part of the code is defining a new object called <code>mi_ep</code> (short for Michigan exit poll) and then assigning (<code>&lt;-</code>) that object to be defined by the dataset being read in by the <code>read_rds</code> function. The filepath within <code>read_rds</code> starts with “..” which tells R to go back one folder from your current working directory. Here I have “..” twice which means go back <strong>two</strong> folders and then find the folder <code>static</code> and then the folder <code>data</code>, and finally read in the <code>MI2020_ExitPoll_small.rds</code> file. If you haven’t saved the <code>MI2020_ExitPoll_small.rds</code> to your <code>data</code> folder and set your working directory (as explained above) then this chunk of code won’t work. Go back and make adjustments as needed.</p>
 <p>To highlight the syntax, consider what happens when you run the following code?</p>
-<pre class="r"><code>read_rds(&quot;https://github.com/rweldzius/PSC4175/raw/main/static/data/MI2020_ExitPoll_small.rds&quot;)</code></pre>
+<pre class="r"><code>read_rds(&quot;../../static/data/MI2020_ExitPoll_small.rds&quot;)</code></pre>
 <p>If we read in data without assigning it to an object R will simply print the results to the console window. Nothing will be saved and we cannot use the data in future analyses! When reading in an R data object using <code>read_rds</code> we always need to define a new object associated with that file!</p>
 <p>Before moving on, let’s clean up our Environment – always a good idea between lectures and assignments! – using either the broom icon in the Environment GUI to delete every object or the <code>rm</code> (remove) command to remove specific objects. Since we only have one object in our Environment so far we can use <code>rm</code> to remove it.</p>
 <pre class="r"><code>rm(mi_ep)</code></pre>
@@ -754,17 +754,6 @@ Recall that the <code>count</code> function produces a tibble that is sorted acc
 <pre><code>## # A tibble: 0 × 2
 ## # ℹ 2 variables: Quality &lt;chr&gt;, n &lt;int&gt;</code></pre>
 <p>This highlights the importance of knowing what your data looks like in terms of missing data and also why it can be important to use <code>select</code> to first remove the variables of most interest. You do not want to remove data because of missingness in variables that you do not care about! As we will see, some functions have a built-in parameter to deal with missing data (e.g., <code>mean</code>) while others do not so always know your data!</p>
-</div>
-<div id="your-final-research-project" class="section level1">
-<h1>Your final research project</h1>
-<p>It’s time to start thinking about your final project for this course! The project will be worth 20 points (write-up 15 points, presentation and comments 5 points), which means 20% of your final grade. You will need to come up with an interesting research question, find a dataset that will help you answer that question, and then åpply the tools from this course to that data. Students may work individually, or can work in groups of up to 3 students. I will include short assignments along the way so that you are incrementally working on and completing your project. My goal is for you all to get the full 20 points on this project!</p>
-<p>Your first <strong>Research Exercise</strong> will be to provide me with two ideas for research questions. After each, please provide an explanation as to why you are interested in this topic and/or why you find it interesting (the “so what” question).</p>
-<p><em>Research Question 1</em>
-&gt; Fill in question here.
-&gt; Fill in explanation here.</p>
-<p><em>Research Question 2</em>
-&gt; Fill in question here.
-&gt; Fill in explanation here.</p>
 </div>
 <div class="footnotes footnotes-end-of-document">
 <hr />
