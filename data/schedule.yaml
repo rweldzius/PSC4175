@@ -103,16 +103,16 @@ lessons:
         link: "psc4175_hw_5/"
 
       video:
-        - name: "PSC 4175 - Lecture 5 - Multivariate Analysis, Part 1"
-          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
-        - name: "PSC 4175 - Lecture 5 - Multivariate Analysis, Part 2"
-          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
+        - name: "PSC 4175 - Lecture 5.1 - Univariate Analysis"
+          url: "sngXK4zSy7Q"
+        - name: "PSC 4175 - Lecture 5.2 - Multivariate Analysis, Part 1"
+          url: "18TdJlNtUX4"
 
       slides:
-        - name: "Lecture 5 - Multivariate Analysis, Part 1"
+        - name: "Lecture 5.1 - Univariate Analysis"
+          link: "5_Uniivariate.html"
+        - name: "Lecture 5.2 - Multivariate Analysis, Part 1"
           link: "5_Multivariate1.html"
-        - name: "Lecture 5 - Multivariate Analysis, Part 2"
-          link: "5_Multivariate2.html"
 
   - title: "Multivariate 2"
     goal: "More conditional relationships"
