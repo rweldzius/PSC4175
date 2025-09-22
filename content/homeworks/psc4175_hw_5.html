@@ -1,0 +1,1155 @@
+---
+title: "Univariate Analysis and Conditional Relationships"
+subtitle: "Homework 5"
+author: "Your Name"
+institute: "Villanova University"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+
+
+<div id="agenda" class="section level1">
+<h1>Agenda</h1>
+<ul>
+<li><p>Basics of univariate analysis</p></li>
+<li><p>Conditional data: when a variable varies with respect to some other variable.</p></li>
+<li><p>How does the value of the outcome of interest vary <em>depending</em> on the value of another variable of interest?</p></li>
+<li><p>Typically: outcome of interest (dependent variable), Y-axis.</p></li>
+<li><p>Other variables possibly related to the outcome (independent variables): X-axis</p></li>
+</ul>
+<p>Our tools depend on the <strong>type of variables</strong> we are trying to graph.</p>
+</div>
+<div id="univariate-data-analysis" class="section level1">
+<h1>Univariate Data Analysis</h1>
+<p>Univariate is pretty much what it sounds like: one variable. When undertaking univariate data analysis, we need first and foremost to figure what type of variable it is that we’re working with. Once we do that, we can choose the appropriate use of the variable, either as an outcome or as a possible predictor.</p>
+<div id="motivating-question" class="section level2">
+<h2>Motivating Question</h2>
+<p>We’ll be working with data from every NBA player who was active during the 2018-19 season.</p>
+<p>Here’s the data:</p>
+<pre class="r"><code>require(tidyverse)
+nba&lt;-read_rds(&quot;https://github.com/rweldzius/PSC4175/raw/main/static/data/nba_players_2018.Rds&quot;)</code></pre>
+<p>This data contains the following variables:</p>
+</div>
+</div>
+<div id="codebook-for-nba-data" class="section level1">
+<h1>Codebook for NBA Data</h1>
+<table>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th align="right">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>namePlayer</td>
+<td align="right">Player name</td>
+</tr>
+<tr class="even">
+<td>idPlayer</td>
+<td align="right">Unique player id</td>
+</tr>
+<tr class="odd">
+<td>slugSeason</td>
+<td align="right">Season start and end</td>
+</tr>
+<tr class="even">
+<td>numberPlayerSeason</td>
+<td align="right">Which season for this player</td>
+</tr>
+<tr class="odd">
+<td>isRookie</td>
+<td align="right">Rookie season, true or false</td>
+</tr>
+<tr class="even">
+<td>slugTeam</td>
+<td align="right">Team short name</td>
+</tr>
+<tr class="odd">
+<td>idTeam</td>
+<td align="right">Unique team id</td>
+</tr>
+<tr class="even">
+<td>gp</td>
+<td align="right">Games Played</td>
+</tr>
+<tr class="odd">
+<td>gs</td>
+<td align="right">Games Started</td>
+</tr>
+<tr class="even">
+<td>fgm</td>
+<td align="right">Field goals made</td>
+</tr>
+<tr class="odd">
+<td>fga</td>
+<td align="right">Field goals attempted</td>
+</tr>
+<tr class="even">
+<td>pctFG</td>
+<td align="right">Percent of field goals made</td>
+</tr>
+<tr class="odd">
+<td>fg3m</td>
+<td align="right">3 point field goals made</td>
+</tr>
+<tr class="even">
+<td>fg3a</td>
+<td align="right">3 point field goals attempted</td>
+</tr>
+<tr class="odd">
+<td>pctFG3</td>
+<td align="right">Percent of 3 point field goals made</td>
+</tr>
+<tr class="even">
+<td>pctFT</td>
+<td align="right">Free Throw percentage</td>
+</tr>
+<tr class="odd">
+<td>fg2m</td>
+<td align="right">2 point field goals made</td>
+</tr>
+<tr class="even">
+<td>fg2a</td>
+<td align="right">2 point field goals attempted</td>
+</tr>
+<tr class="odd">
+<td>pctFG2</td>
+<td align="right">Percent of 2 point field goals made</td>
+</tr>
+<tr class="even">
+<td>agePlayer</td>
+<td align="right">Player age</td>
+</tr>
+<tr class="odd">
+<td>minutes</td>
+<td align="right">Minutes played</td>
+</tr>
+<tr class="even">
+<td>ftm</td>
+<td align="right">Free throws made</td>
+</tr>
+<tr class="odd">
+<td>fta</td>
+<td align="right">Free throws attempted</td>
+</tr>
+<tr class="even">
+<td>oreb</td>
+<td align="right">Offensive rebounds</td>
+</tr>
+<tr class="odd">
+<td>dreb</td>
+<td align="right">Defensive rebounds</td>
+</tr>
+<tr class="even">
+<td>treb</td>
+<td align="right">Total rebounds</td>
+</tr>
+<tr class="odd">
+<td>ast</td>
+<td align="right">Assists</td>
+</tr>
+<tr class="even">
+<td>blk</td>
+<td align="right">Blocks</td>
+</tr>
+<tr class="odd">
+<td>tov</td>
+<td align="right">Turnovers</td>
+</tr>
+<tr class="even">
+<td>pf</td>
+<td align="right">Personal fouls</td>
+</tr>
+<tr class="odd">
+<td>pts</td>
+<td align="right">Total points</td>
+</tr>
+<tr class="even">
+<td>urlNBAAPI</td>
+<td align="right">Source url</td>
+</tr>
+</tbody>
+</table>
+<p>We’re interested in the following questions:</p>
+<ul>
+<li>Do certain colleges produce players that have more field goals? What about free throw percentage above a certain level? Are certain colleges in the east or the west more likely to produce higher scorers? How does this vary as a player has more seasons?</li>
+</ul>
+<p>To answer these questions we need to look at the following variables:</p>
+<ul>
+<li>Field goals</li>
+<li>Free throw percentage above .25</li>
+<li>Colleges</li>
+<li>Player seasons</li>
+<li>Region</li>
+</ul>
+<p>We’re going to go through a pretty standard set of steps for each variable. First, examine some cases. Second, based on our examination, we’ll try either a plot or a table. Once we’ve seen the plot or the table, we’ll think a bit about ordering, and then choose an appropriate measure of central tendency, and maybe variation.</p>
+<div id="types-of-variables" class="section level2">
+<h2>Types of Variables</h2>
+<p>It’s really important to understand the types of variables you’re working with. Many times analysts are indifferent to this step particularly with larger datasets. This can lead to a great deal of confusion down the road. Below are the variable types we’ll be working with this semester and the definition of each.</p>
+<div id="continuous-variables" class="section level3">
+<h3>Continuous Variables</h3>
+<p>A continuous variable can theoretically be subdivided at any arbitrarily small measure and can still be identified. You may have encountered further subdivision of continuous variables into “interval” or “ratio” data in other classes. We RARELY use these distinctions in practice. The distinction between a continuous and a categorical variable is hugely consequential, but the distinction between interval and ratio is not really all that important in practice.</p>
+<p>The mean is the most widely used measure of central tendency for a continuous variable. If the distribution of the variable isn’t very symmetric or there are large outliers, then the median is a much better measure of central tendency.</p>
+</div>
+<div id="categorical-variables" class="section level3">
+<h3>Categorical Variables</h3>
+<p>A categorical variables divides the sample up into a set of mutually exclusive and exhaustive categories. Mutually exclusive means that each case can only be one, and exhaustive means that the categories cover every possible option. Categorical is sort of the “top” level classification for variables of this type. Within the broad classification of categorical there are multiple types of other variables.</p>
+<div id="categorical-ordered" class="section level4">
+<h4>Categorical: ordered</h4>
+<p>an ordered categorical variable has– you guessed it– some kind of sensible order that can be applied. For instance, the educational attainment of an individual: high school diploma, associates degree, bachelor’s degree, graduate degree– is an ordered categorical variable.</p>
+<p>Ordered categorical variables should be arranged in the order of the variable, with proportions or percentages associated with each order. The mode, or the category with the highest proportion, is a reasonable measure of central tendency, but with fewer than ten categories the analyst should generally just show the proportion in each category.</p>
+<div id="categorical-ordered-binary" class="section level5">
+<h5>Categorical: ordered, binary</h5>
+<p>An ordered binary variable has just two levels, but can be ordered. For instance, is a bird undertaking its first migration: yes or no? A “no” means that the bird has more than one.</p>
+<p>The mean of a binary variable is exactly the same thing as the proportion of the sample with that characteristic. So, the mean of a binary variable for “first migration” where 1=“yes” will give the proportion of birds migrating for the first time.</p>
+<p>An ordered binary variable coded as 0 or 1 can be summarized using the mean which is the same thing as the proportion of the sample with that characteristic.</p>
+</div>
+</div>
+<div id="categorical-unordered" class="section level4">
+<h4>Categorical: unordered</h4>
+<p>An unordered categorical variable has no sensible ordering that can be applied. Think about something like college major. There’s no “number” we might apply to philosophy that has any meaningful distance from a number we might apply to chemical engineering.</p>
+<p>Unlike an ordered variable, an unordered categorical variable should be ordered in terms of the proportions falling into each of the categories. As with an unordered variable, it’s best just to show the proportions in each category for variables with less than ten levels. The mode is a reasonable single variable summary of an unordered categorical variable.</p>
+<div id="categorical-unordered-binary" class="section level5">
+<h5>Categorical: unordered, binary</h5>
+<p>This kind of variable has no particular order, but can be just binary. A “1” means that the case has that characteristics, a “0” means the case does not have that characteristic. For instance, whether a tree is deciduous or not.</p>
+<p>An unordered binary variable coded as 0 or 1 can also be summarized by the mean, which is the same thing as the proportion of the sample with that characteristic.</p>
+</div>
+</div>
+</div>
+<div id="formats-for-categorical-variables" class="section level3">
+<h3>Formats for categorical variables</h3>
+<p>In R, categorical variables CAN be stored as text, numbers or even logicals. Don’t count on the data to help you out– you as the analyst need to figure this out.</p>
+</div>
+</div>
+<div id="factors" class="section level2">
+<h2>Factors</h2>
+<p>We probably need to talk about factors. <SIGH> In R, a factor is a way of storing categorical variables. The factor provides additional information, including an ordering of the variable and a number assigned to each “level” of the factor. A categorical variable is a general term that’s understood across statistics. A factor variable is a specific R term. Most of the time it’s best not to have a categorical variable structured as a factor unless you know you want it to be a factor. More on this later . . .</p>
+</div>
+<div id="the-process-trusttheprocess" class="section level2">
+<h2>The Process: #TrustTheProcess</h2>
+<p>I’m going to walk you through how an analyst might typically decide what type of variables they’re working with. It generally works like this:</p>
+<ol style="list-style-type: decimal">
+<li>Take a look at a few observations and form a guess as to what type of variable it is.</li>
+<li>Based on that guess, create an appropriate plot or table.</li>
+<li>If the plot or table looks as expected, calculate some summary measures. If not, go back to 1.</li>
+</ol>
+</div>
+<div id="glimpse-to-start-whats-in-here-anyway" class="section level2">
+<h2>“Glimpse” to start: what’s in here anyway?</h2>
+<p>The first thing we’re going to do with any dataset is just to take a quick look. We can call the data itself, but that will just show the first few cases and the first few variables. Far better is the glimpse command, which shows us all variables and the first few observations for all of the variables. Here’s a link to the codebook for this dataset:</p>
+<p>The six variables we’re going to think about are field goals, free throw percentage, seasons played, rookie season, college attended, and conference played in.</p>
+<pre class="r"><code>glimpse(nba)</code></pre>
+<pre><code>## Rows: 530
+## Columns: 37
+## $ namePlayer         &lt;chr&gt; &quot;LaMarcus Aldridge&quot;, &quot;Quincy Acy&quot;, &quot;Steven Adams&quot;, …
+## $ idPlayer           &lt;dbl&gt; 200746, 203112, 203500, 203518, 1628389, 1628959, 1…
+## $ slugSeason         &lt;chr&gt; &quot;2018-19&quot;, &quot;2018-19&quot;, &quot;2018-19&quot;, &quot;2018-19&quot;, &quot;2018-1…
+## $ numberPlayerSeason &lt;dbl&gt; 12, 6, 5, 2, 1, 0, 0, 0, 0, 0, 8, 5, 4, 3, 1, 1, 1,…
+## $ isRookie           &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE…
+## $ slugTeam           &lt;chr&gt; &quot;SAS&quot;, &quot;PHX&quot;, &quot;OKC&quot;, &quot;OKC&quot;, &quot;MIA&quot;, &quot;CHI&quot;, &quot;UTA&quot;, &quot;C…
+## $ idTeam             &lt;dbl&gt; 1610612759, 1610612756, 1610612760, 1610612760, 161…
+## $ gp                 &lt;dbl&gt; 81, 10, 80, 31, 82, 10, 38, 19, 34, 7, 81, 72, 43, …
+## $ gs                 &lt;dbl&gt; 81, 0, 80, 2, 28, 1, 2, 3, 1, 0, 81, 72, 40, 4, 80,…
+## $ fgm                &lt;dbl&gt; 684, 4, 481, 56, 280, 13, 67, 11, 38, 3, 257, 721, …
+## $ fga                &lt;dbl&gt; 1319, 18, 809, 157, 486, 39, 178, 36, 110, 10, 593,…
+## $ pctFG              &lt;dbl&gt; 0.519, 0.222, 0.595, 0.357, 0.576, 0.333, 0.376, 0.…
+## $ fg3m               &lt;dbl&gt; 10, 2, 0, 41, 3, 3, 32, 6, 25, 0, 96, 52, 9, 24, 6,…
+## $ fg3a               &lt;dbl&gt; 42, 15, 2, 127, 15, 12, 99, 23, 74, 4, 280, 203, 34…
+## $ pctFG3             &lt;dbl&gt; 0.2380952, 0.1333333, 0.0000000, 0.3228346, 0.20000…
+## $ pctFT              &lt;dbl&gt; 0.847, 0.700, 0.500, 0.923, 0.735, 0.667, 0.750, 1.…
+## $ fg2m               &lt;dbl&gt; 674, 2, 481, 15, 277, 10, 35, 5, 13, 3, 161, 669, 1…
+## $ fg2a               &lt;dbl&gt; 1277, 3, 807, 30, 471, 27, 79, 13, 36, 6, 313, 1044…
+## $ pctFG2             &lt;dbl&gt; 0.5277995, 0.6666667, 0.5960347, 0.5000000, 0.58811…
+## $ agePlayer          &lt;dbl&gt; 33, 28, 25, 25, 21, 21, 23, 22, 23, 26, 28, 24, 25,…
+## $ minutes            &lt;dbl&gt; 2687, 123, 2669, 588, 1913, 120, 416, 194, 428, 22,…
+## $ ftm                &lt;dbl&gt; 349, 7, 146, 12, 166, 8, 45, 4, 7, 1, 150, 500, 37,…
+## $ fta                &lt;dbl&gt; 412, 10, 292, 13, 226, 12, 60, 4, 9, 2, 173, 686, 6…
+## $ oreb               &lt;dbl&gt; 251, 3, 391, 5, 165, 11, 3, 3, 11, 1, 112, 159, 48,…
+## $ dreb               &lt;dbl&gt; 493, 22, 369, 43, 432, 15, 20, 16, 49, 3, 498, 739,…
+## $ treb               &lt;dbl&gt; 744, 25, 760, 48, 597, 26, 23, 19, 60, 4, 610, 898,…
+## $ ast                &lt;dbl&gt; 194, 8, 124, 20, 184, 13, 25, 5, 65, 6, 104, 424, 1…
+## $ stl                &lt;dbl&gt; 43, 1, 117, 17, 71, 1, 6, 1, 14, 2, 68, 92, 54, 22,…
+## $ blk                &lt;dbl&gt; 107, 4, 76, 6, 65, 0, 6, 4, 5, 0, 33, 110, 37, 13, …
+## $ tov                &lt;dbl&gt; 144, 4, 135, 14, 121, 8, 33, 6, 28, 2, 72, 268, 58,…
+## $ pf                 &lt;dbl&gt; 179, 24, 204, 53, 203, 7, 47, 13, 45, 4, 143, 232, …
+## $ pts                &lt;dbl&gt; 1727, 17, 1108, 165, 729, 37, 211, 32, 108, 7, 760,…
+## $ urlNBAAPI          &lt;chr&gt; &quot;https://stats.nba.com/stats/playercareerstats?Leag…
+## $ n                  &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+## $ org                &lt;fct&gt; Texas, NA, Other, FC Barcelona Basquet, Kentucky, N…
+## $ country            &lt;chr&gt; NA, NA, NA, &quot;Spain&quot;, NA, NA, NA, NA, NA, NA, NA, &quot;S…
+## $ idConference       &lt;int&gt; 2, 2, 2, 2, 1, 1, 2, 1, 1, 2, 2, 1, 2, 1, 1, 1, 1, …</code></pre>
+</div>
+<div id="continuous" class="section level2">
+<h2>Continuous</h2>
+<p>Let’s start by taking a look at field goals. It seems pretty likely that this is a continuous variable. Let’s take a look at the top 50 spots.</p>
+<pre class="r"><code>nba%&gt;% ## Start with the dataset
+  select(namePlayer,slugTeam,fgm)%&gt;% ## and then select a few variables
+  arrange(-fgm)%&gt;% ## arrange in reverse order of field goals
+  print(n=50) ## print out the top 50</code></pre>
+<pre><code>## # A tibble: 530 × 3
+##    namePlayer            slugTeam   fgm
+##    &lt;chr&gt;                 &lt;chr&gt;    &lt;dbl&gt;
+##  1 James Harden          HOU        843
+##  2 Bradley Beal          WAS        764
+##  3 Kemba Walker          CHA        731
+##  4 Giannis Antetokounmpo MIL        721
+##  5 Kevin Durant          GSW        721
+##  6 Paul George           OKC        707
+##  7 Nikola Vucevic        ORL        701
+##  8 LaMarcus Aldridge     SAS        684
+##  9 Damian Lillard        POR        681
+## 10 Karl-Anthony Towns    MIN        681
+## 11 Donovan Mitchell      UTA        661
+## 12 D&#39;Angelo Russell      BKN        659
+## 13 Klay Thompson         GSW        655
+## 14 Stephen Curry         GSW        632
+## 15 DeMar DeRozan         SAS        631
+## 16 Russell Westbrook     OKC        630
+## 17 Buddy Hield           SAC        623
+## 18 Blake Griffin         DET        619
+## 19 Nikola Jokic          DEN        616
+## 20 Tobias Harris         MIN        611
+## 21 Kyrie Irving          BOS        604
+## 22 Devin Booker          PHX        586
+## 23 Joel Embiid           PHI        580
+## 24 CJ McCollum           POR        571
+## 25 Julius Randle         NOP        571
+## 26 Andre Drummond        DET        561
+## 27 Kawhi Leonard         TOR        560
+## 28 LeBron James          LAL        558
+## 29 Jrue Holiday          NOP        547
+## 30 Montrezl Harrell      LAC        546
+## 31 Ben Simmons           PHI        540
+## 32 Anthony Davis         NOP        530
+## 33 Zach LaVine           CHI        530
+## 34 Jordan Clarkson       CLE        529
+## 35 Trae Young            ATL        525
+## 36 Bojan Bogdanovic      IND        522
+## 37 Pascal Siakam         TOR        519
+## 38 Collin Sexton         CLE        519
+## 39 Jamal Murray          DEN        513
+## 40 Deandre Ayton         PHX        509
+## 41 Luka Doncic           DAL        506
+## 42 Khris Middleton       MIL        506
+## 43 De&#39;Aaron Fox          SAC        505
+## 44 Andrew Wiggins        MIN        498
+## 45 Kyle Kuzma            LAL        496
+## 46 Mike Conley           MEM        490
+## 47 Lou Williams          LAC        484
+## 48 Steven Adams          OKC        481
+## 49 Rudy Gobert           UTA        476
+## 50 Clint Capela          HOU        474
+## # ℹ 480 more rows</code></pre>
+<p>So what I’m seeing here is that field goals aren’t “clumped” at certain levels. Let’s confirm that by looking at a kernel density plot.</p>
+<pre class="r"><code>nba%&gt;%
+  ggplot(aes(x=fgm))+
+  geom_density()</code></pre>
+<p><img src="/PSC4175/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>We can also use a histogram to figure out much the same thing.</p>
+<pre class="r"><code>nba%&gt;%
+  ggplot(aes(x=fgm))+
+  geom_histogram()</code></pre>
+<p><img src="/PSC4175/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Now, technically field goals don’t meet the definition I set out above as being a continuous variable because they aren’t divisible below a certain amount. Usually in practice though we just ignore this– this variable is “as good as” continuous, given that it varies smoothly over the range and isn’t confined to a relatively small set of possible values.</p>
+<p><strong>Quick Exercise 1</strong>: Do the same thing for field goal percentage and think about what kind of variable it is.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="measures-for-continuous-variables" class="section level2">
+<h2>Measures for Continuous Variables</h2>
+<p>The mean is used most of the time for continuous variables, but it’s VERY sensitive to outliers. The median (50th percentile) is usually better, but it can be difficult to explain to general audiences.</p>
+<pre class="r"><code>nba%&gt;%
+  summarize(mean_fgm=mean(fgm))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   mean_fgm
+##      &lt;dbl&gt;
+## 1     191.</code></pre>
+<pre class="r"><code>nba%&gt;%
+  summarize(median_fgm=median(fgm))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   median_fgm
+##        &lt;dbl&gt;
+## 1        157</code></pre>
+<p>In this case I’d really prefer the mean as a single measure of field goal production, but depending on the audience I still might just go ahead and use the median.</p>
+<p><strong>Quick Exercise 2</strong> What measure would you prefer for field goal percentage? Calculate that measure.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="categorical-ordered-1" class="section level2">
+<h2>Categorical: ordered</h2>
+<p>Let’s take a look at player seasons.</p>
+<pre class="r"><code>nba%&gt;%
+  select(namePlayer,numberPlayerSeason)%&gt;%
+  arrange(-numberPlayerSeason)%&gt;%
+  print(n=50)</code></pre>
+<pre><code>## # A tibble: 530 × 2
+##    namePlayer        numberPlayerSeason
+##    &lt;chr&gt;                          &lt;dbl&gt;
+##  1 Vince Carter                      20
+##  2 Dirk Nowitzki                     20
+##  3 Jamal Crawford                    18
+##  4 Tony Parker                       17
+##  5 Tyson Chandler                    17
+##  6 Pau Gasol                         17
+##  7 Nene                              16
+##  8 Carmelo Anthony                   15
+##  9 Udonis Haslem                     15
+## 10 LeBron James                      15
+## 11 Zaza Pachulia                     15
+## 12 Dwyane Wade                       15
+## 13 Kyle Korver                       15
+## 14 Luol Deng                         14
+## 15 Devin Harris                      14
+## 16 Dwight Howard                     14
+## 17 Andre Iguodala                    14
+## 18 JR Smith                          14
+## 19 Trevor Ariza                      14
+## 20 Andrew Bogut                      13
+## 21 Jose Calderon                     13
+## 22 Raymond Felton                    13
+## 23 Amir Johnson                      13
+## 24 Shaun Livingston                  13
+## 25 Chris Paul                        13
+## 26 Marvin Williams                   13
+## 27 Lou Williams                      13
+## 28 CJ Miles                          13
+## 29 LaMarcus Aldridge                 12
+## 30 J.J. Barea                        12
+## 31 Channing Frye                     12
+## 32 Rudy Gay                          12
+## 33 Kyle Lowry                        12
+## 34 Paul Millsap                      12
+## 35 JJ Redick                         12
+## 36 Rajon Rondo                       12
+## 37 Thabo Sefolosha                   12
+## 38 Marco Belinelli                   11
+## 39 Mike Conley                       11
+## 40 Kevin Durant                      11
+## 41 Jared Dudley                      11
+## 42 Marcin Gortat                     11
+## 43 Gerald Green                      11
+## 44 Al Horford                        11
+## 45 Joakim Noah                       11
+## 46 Thaddeus Young                    11
+## 47 Nick Young                        11
+## 48 Corey Brewer                      11
+## 49 D.J. Augustin                     10
+## 50 Jerryd Bayless                    10
+## # ℹ 480 more rows</code></pre>
+<p>Looks like it might be continuous? Let’s plot it:</p>
+<pre class="r"><code>nba%&gt;%
+  ggplot(aes(x=numberPlayerSeason))+
+  geom_histogram(binwidth = 1)</code></pre>
+<p><img src="/PSC4175/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>Nope. See how it falls into a small set of possible categories? This is an ordered categorical variable. That means we should calculate the proportions in each category</p>
+<pre class="r"><code>nba%&gt;%
+  group_by(numberPlayerSeason)%&gt;%
+  count(name=&quot;total_in_group&quot;)%&gt;%
+  ungroup()%&gt;%
+  mutate(proportion=total_in_group/sum(total_in_group))</code></pre>
+<pre><code>## # A tibble: 20 × 3
+##    numberPlayerSeason total_in_group proportion
+##                 &lt;dbl&gt;          &lt;int&gt;      &lt;dbl&gt;
+##  1                  0            105    0.198  
+##  2                  1             89    0.168  
+##  3                  2             56    0.106  
+##  4                  3             43    0.0811 
+##  5                  4             37    0.0698 
+##  6                  5             33    0.0623 
+##  7                  6             31    0.0585 
+##  8                  7             25    0.0472 
+##  9                  8             19    0.0358 
+## 10                  9             20    0.0377 
+## 11                 10             24    0.0453 
+## 12                 11             11    0.0208 
+## 13                 12              9    0.0170 
+## 14                 13              9    0.0170 
+## 15                 14              6    0.0113 
+## 16                 15              6    0.0113 
+## 17                 16              1    0.00189
+## 18                 17              3    0.00566
+## 19                 18              1    0.00189
+## 20                 20              2    0.00377</code></pre>
+<p>What does this tell us?</p>
+<p><strong>Quick Exercise 3</strong> Create a histogram for player age. What does that tell us about the NBA?</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="categorical-ordered-binary-1" class="section level2">
+<h2>Categorical: ordered, binary</h2>
+<p>Let’s take a look at the variable for Rookie season.</p>
+<pre class="r"><code>nba%&gt;%select(namePlayer,isRookie)</code></pre>
+<pre><code>## # A tibble: 530 × 2
+##    namePlayer             isRookie
+##    &lt;chr&gt;                  &lt;lgl&gt;   
+##  1 LaMarcus Aldridge      FALSE   
+##  2 Quincy Acy             FALSE   
+##  3 Steven Adams           FALSE   
+##  4 Alex Abrines           FALSE   
+##  5 Bam Adebayo            FALSE   
+##  6 Rawle Alkins           TRUE    
+##  7 Grayson Allen          TRUE    
+##  8 Deng Adel              TRUE    
+##  9 Jaylen Adams           TRUE    
+## 10 DeVaughn Akoon-Purcell TRUE    
+## # ℹ 520 more rows</code></pre>
+<p>Okay, so that’s set to a logical. In R, TRUE or FALSE are special values that indicate the result of a logical question. In this it’s whether or not the player is a rookie.</p>
+<p>Usually we want a binary variable to have at least one version that’s structured so that 1= TRUE and 2=FALSE. This makes data analysis much easier. Let’s do that with this variable.</p>
+<p>This code uses <code>ifelse</code> to create a new variable called <code>isRookiebin</code> that’s set to 1 if the <code>isRookie</code> variable is true, and 0 otherwise.</p>
+<pre class="r"><code>nba&lt;-nba%&gt;%
+  mutate(isRookie_bin=ifelse(isRookie==TRUE,1,0))</code></pre>
+<p>Now that it’s coded 0,1 we can calculate the mean, which is the same thing as the proportion of the players that are rookies.</p>
+<pre class="r"><code>nba%&gt;%summarize(mean=mean(isRookie_bin))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##    mean
+##   &lt;dbl&gt;
+## 1 0.198</code></pre>
+</div>
+<div id="categorical-unordered-1" class="section level2">
+<h2>Categorical: unordered</h2>
+<p>Let’s take a look at which college a player attended, which is a good example of an unordered categorical variable. The <code>org</code> variable tells us which organization the player was in before playing in the NBA.</p>
+<pre class="r"><code>nba%&gt;%
+  select(org)%&gt;%
+  glimpse()</code></pre>
+<pre><code>## Rows: 530
+## Columns: 1
+## $ org &lt;fct&gt; Texas, NA, Other, FC Barcelona Basquet, Kentucky, NA, Duke, NA, NA…</code></pre>
+<p>This look like team or college names, so this would be a categorical variable. Let’s take a look at the counts of players from different organizations:</p>
+<pre class="r"><code>nba%&gt;%
+  group_by(org)%&gt;%
+  count()%&gt;%
+  arrange(-n)%&gt;%
+  print(n=50)</code></pre>
+<pre><code>## # A tibble: 68 × 2
+## # Groups:   org [68]
+##    org                        n
+##    &lt;fct&gt;                  &lt;int&gt;
+##  1 &lt;NA&gt;                     157
+##  2 Other                     85
+##  3 Kentucky                  25
+##  4 Duke                      17
+##  5 California-Los Angeles    15
+##  6 Kansas                    11
+##  7 Arizona                   10
+##  8 Texas                     10
+##  9 North Carolina             9
+## 10 Michigan                   8
+## 11 Villanova                  7
+## 12 Indiana                    6
+## 13 Southern California        6
+## 14 Syracuse                   6
+## 15 California                 5
+## 16 Louisville                 5
+## 17 Ohio State                 5
+## 18 Wake Forest                5
+## 19 Colorado                   4
+## 20 Connecticut                4
+## 21 Creighton                  4
+## 22 FC Barcelona Basquet       4
+## 23 Florida                    4
+## 24 Georgia Tech               4
+## 25 Michigan State             4
+## 26 Oregon                     4
+## 27 Utah                       4
+## 28 Washington                 4
+## 29 Wisconsin                  4
+## 30 Boston College             3
+## 31 Florida State              3
+## 32 Georgetown                 3
+## 33 Gonzaga                    3
+## 34 Iowa State                 3
+## 35 Marquette                  3
+## 36 Maryland                   3
+## 37 Miami (FL)                 3
+## 38 North Carolina State       3
+## 39 Notre Dame                 3
+## 40 Oklahoma                   3
+## 41 Purdue                     3
+## 42 Southern Methodist         3
+## 43 Stanford                   3
+## 44 Tennessee                  3
+## 45 Virginia                   3
+## 46 Anadolu Efes S.K.          2
+## 47 Baylor                     2
+## 48 Butler                     2
+## 49 Cincinnati                 2
+## 50 Kansas State               2
+## # ℹ 18 more rows</code></pre>
+<p>Here we have a problem. If we’re interested just in colleges, we’re going to need to structure this a bit more. The code below filters out three categories that we don’t want: missing data, anything classified as others, and sports teams from other countries. The last is incomplete– I probably missed some! If I were doing this for real, I would use a list of colleges and only include those names.</p>
+<p>What I do below is to negate the <code>str_detect</code> variable by placing the <code>!</code> in front of it. This means I want all of the cases that don’t match the pattern the supplied. The pattern makes heavy use of the OR operator <code>|</code>. I’m saying I don’t want to include players whose organization included the letters <code>CB</code> r <code>KK</code> and so on (these are common prefixes for sports organizations in other countries, I definitely did not look that up on Wikipedia. Ok, I did.).</p>
+<pre class="r"><code>nba%&gt;%
+  filter(!is.na(org))%&gt;%
+  filter(!org==&quot;Other&quot;)%&gt;%
+  filter(!str_detect(org,&quot;CB|KK|rytas|FC|B.C.|S.K.|Madrid&quot;))%&gt;%
+  group_by(org)%&gt;%
+  count()%&gt;%
+  arrange(-n)%&gt;%
+  print(n=50)</code></pre>
+<pre><code>## # A tibble: 57 × 2
+## # Groups:   org [57]
+##    org                        n
+##    &lt;fct&gt;                  &lt;int&gt;
+##  1 Kentucky                  25
+##  2 Duke                      17
+##  3 California-Los Angeles    15
+##  4 Kansas                    11
+##  5 Arizona                   10
+##  6 Texas                     10
+##  7 North Carolina             9
+##  8 Michigan                   8
+##  9 Villanova                  7
+## 10 Indiana                    6
+## 11 Southern California        6
+## 12 Syracuse                   6
+## 13 California                 5
+## 14 Louisville                 5
+## 15 Ohio State                 5
+## 16 Wake Forest                5
+## 17 Colorado                   4
+## 18 Connecticut                4
+## 19 Creighton                  4
+## 20 Florida                    4
+## 21 Georgia Tech               4
+## 22 Michigan State             4
+## 23 Oregon                     4
+## 24 Utah                       4
+## 25 Washington                 4
+## 26 Wisconsin                  4
+## 27 Boston College             3
+## 28 Florida State              3
+## 29 Georgetown                 3
+## 30 Gonzaga                    3
+## 31 Iowa State                 3
+## 32 Marquette                  3
+## 33 Maryland                   3
+## 34 Miami (FL)                 3
+## 35 North Carolina State       3
+## 36 Notre Dame                 3
+## 37 Oklahoma                   3
+## 38 Purdue                     3
+## 39 Southern Methodist         3
+## 40 Stanford                   3
+## 41 Tennessee                  3
+## 42 Virginia                   3
+## 43 Baylor                     2
+## 44 Butler                     2
+## 45 Cincinnati                 2
+## 46 Kansas State               2
+## 47 Louisiana State            2
+## 48 Memphis                    2
+## 49 Missouri                   2
+## 50 Murray State               2
+## # ℹ 7 more rows</code></pre>
+<p>That looks better. Which are the most common colleges and universities that send players to the NBA?</p>
+<p><strong>Quick Exercise 4</strong> Arrange the number of players by team in descending order.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="categorical-unordered-binary-1" class="section level2">
+<h2>Categorical: unordered, binary</h2>
+<p>There are two conference in the NBA, eastern and western. Let’s take a look at the variable that indicates which conference the payer played in that season.</p>
+<pre class="r"><code>nba%&gt;%select(idConference)%&gt;%
+  glimpse()</code></pre>
+<pre><code>## Rows: 530
+## Columns: 1
+## $ idConference &lt;int&gt; 2, 2, 2, 2, 1, 1, 2, 1, 1, 2, 2, 1, 2, 1, 1, 1, 1, 2, 2, …</code></pre>
+<p>It looks like conference is structured as numeric, but a “1” or a “2”. Because it’s best to have binary variables structured as “has the characteristic” or “doesn’t have the characteristic” we’re going to create a variable for western conference that’s set to 1 if the player was playing in the western conference and 0 if the player was not (this is the same as playing in the eastern conference).</p>
+<pre class="r"><code>nba&lt;-nba%&gt;%
+  mutate(west_conference=ifelse(idConference==1,1,0))</code></pre>
+<p>Once we’ve done that, we can see how many players played in each conference.</p>
+<pre class="r"><code>nba%&gt;%
+  summarize(mean(west_conference))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   `mean(west_conference)`
+##                     &lt;dbl&gt;
+## 1                   0.508</code></pre>
+<p>Makes sense!</p>
+<p><strong>Quick Exercise 5</strong>:* create a variable for whether or not the player is from the USA. Calculate the proportion of players from the USA in the NBA. The coding on country is … decidedy US-centric, so you’ll need to think about this one a bit.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="analysis" class="section level2">
+<h2>Analysis</h2>
+<p>Ok, now that we know how this works, we can do some summary analysis. First of all, what does the total number of field goals made look like by college?</p>
+<p>We know that field goals are continuous (sort of) so let’s summarize them via the mean. We know that college is a categorical variable, so we’ll use that to group the data. This is one of our first examples of a conditiona mean, which we’ll use a lot.</p>
+</div>
+<div id="top-50-colleges-by-total-fg" class="section level2">
+<h2>Top 50 Colleges by Total FG</h2>
+<pre class="r"><code>nba%&gt;%
+  filter(!is.na(org))%&gt;%
+  filter(!org==&quot;Other&quot;)%&gt;%
+  filter(!str_detect(org,&quot;CB|KK|rytas|FC|B.C.|S.K.|Madrid&quot;))%&gt;%
+  group_by(org)%&gt;%
+  summarize(mean_fg=sum(fgm))%&gt;%
+  arrange(-mean_fg)%&gt;%
+  print(n=50)</code></pre>
+<pre><code>## # A tibble: 57 × 2
+##    org                    mean_fg
+##    &lt;fct&gt;                    &lt;dbl&gt;
+##  1 Kentucky                  6594
+##  2 Duke                      4623
+##  3 Texas                     3437
+##  4 California-Los Angeles    3382
+##  5 Kansas                    2765
+##  6 Arizona                   2101
+##  7 Oklahoma                  1767
+##  8 Southern California       1758
+##  9 Louisville                1679
+## 10 North Carolina            1659
+## 11 Indiana                   1522
+## 12 Ohio State                1486
+## 13 Michigan                  1392
+## 14 Wake Forest               1364
+## 15 Connecticut               1299
+## 16 Villanova                 1222
+## 17 Georgia Tech              1169
+## 18 Tennessee                 1095
+## 19 Stanford                   949
+## 20 Utah                       943
+## 21 Marquette                  873
+## 22 Gonzaga                    863
+## 23 Michigan State             820
+## 24 Colorado                   818
+## 25 Virginia                   816
+## 26 Maryland                   811
+## 27 Missouri                   756
+## 28 California                 734
+## 29 Florida State              733
+## 30 Georgetown                 717
+## 31 Memphis                    620
+## 32 Florida                    618
+## 33 North Carolina State       598
+## 34 Boston College             586
+## 35 Louisiana State            583
+## 36 Syracuse                   567
+## 37 Iowa State                 523
+## 38 Butler                     459
+## 39 Wisconsin                  456
+## 40 Creighton                  432
+## 41 Oregon                     352
+## 42 Texas A&amp;M                  322
+## 43 Baylor                     312
+## 44 Providence                 291
+## 45 Purdue                     275
+## 46 Notre Dame                 263
+## 47 Ulkerspor                  252
+## 48 Southern Methodist         246
+## 49 Oklahoma State             242
+## 50 West Virginia              236
+## # ℹ 7 more rows</code></pre>
+<p>Next, what about field goal percentage?</p>
+</div>
+<div id="top-50-colleges-by-average-field-goal-percent" class="section level2">
+<h2>Top 50 Colleges by Average Field Goal Percent</h2>
+<pre class="r"><code>nba%&gt;%
+  filter(!is.na(org))%&gt;%
+  filter(!org==&quot;Other&quot;)%&gt;%
+  filter(!str_detect(org,&quot;CB|KK|rytas|FC|B.C.|S.K.|Madrid&quot;))%&gt;%
+  group_by(org)%&gt;%
+  summarize(mean_ftp=mean(pctFT))%&gt;%
+  arrange(-mean_ftp)%&gt;%
+  print(n=50)</code></pre>
+<pre><code>## # A tibble: 57 × 2
+##    org                  mean_ftp
+##    &lt;fct&gt;                   &lt;dbl&gt;
+##  1 Tennessee               0.842
+##  2 Virginia                0.833
+##  3 Oklahoma                0.823
+##  4 North Carolina State    0.817
+##  5 West Virginia           0.804
+##  6 Ulkerspor               0.803
+##  7 Missouri                0.802
+##  8 Wake Forest             0.802
+##  9 Florida State           0.801
+## 10 Murray State            0.798
+## 11 Iowa State              0.795
+## 12 Notre Dame              0.792
+## 13 Memphis                 0.788
+## 14 Florida                 0.784
+## 15 Michigan                0.783
+## 16 Stanford                0.779
+## 17 Georgetown              0.775
+## 18 Marquette               0.774
+## 19 Utah                    0.770
+## 20 Kansas State            0.767
+## 21 Butler                  0.762
+## 22 Gonzaga                 0.761
+## 23 North Carolina          0.756
+## 24 Villanova               0.755
+## 25 Texas                   0.752
+## 26 Connecticut             0.748
+## 27 Providence              0.747
+## 28 Boston College          0.742
+## 29 Michigan State          0.730
+## 30 Kansas                  0.729
+## 31 Indiana                 0.729
+## 32 Duke                    0.728
+## 33 Baylor                  0.726
+## 34 Arizona                 0.721
+## 35 Pallacanestro Biella    0.718
+## 36 Wisconsin               0.712
+## 37 Kentucky                0.712
+## 38 Georgia Tech            0.712
+## 39 Louisiana State         0.709
+## 40 Creighton               0.698
+## 41 Maryland                0.695
+## 42 Vanderbilt              0.688
+## 43 Washington              0.680
+## 44 Louisville              0.679
+## 45 Ohio State              0.679
+## 46 California              0.675
+## 47 Southern Methodist      0.673
+## 48 Oregon                  0.662
+## 49 Texas A&amp;M               0.652
+## 50 Southern California     0.648
+## # ℹ 7 more rows</code></pre>
+<p><strong>Quick Exercise 6</strong> Calculate field goals made by player season.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<p><strong>Quick Exercise 7</strong> Calculate free throw percent made by player season.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+</div>
+<div id="conditional-relationships-the-gender-gap-in-electoral-politics" class="section level1">
+<h1>Conditional relationships: The “gender” gap in electoral politics</h1>
+<p>Conditional variation involves examining how the values of two or more variables are related to one another. Earlier we made these comparisons by creating different tibbles and then comparing across tibbles, but we can also make comparisons without creating multiple tibbles.</p>
+<p>So load in the Michigan 2020 Exit Poll Data.</p>
+<pre class="r"><code>library(tidyverse)
+library(scales)
+mi_ep &lt;- read_rds(&quot;https://github.com/rweldzius/PSC4175/raw/main/static/data/MI2020_ExitPoll_small.rds&quot;)
+MI_final_small &lt;- mi_ep %&gt;%
+  filter(preschoice==&quot;Donald Trump, the Republican&quot; | preschoice==&quot;Joe Biden, the Democrat&quot;) %&gt;%
+  mutate(BidenVoter=ifelse(preschoice==&quot;Joe Biden, the Democrat&quot;,1,0),
+         TrumpVoter=ifelse(BidenVoter==1,0,1),
+         AGE10=ifelse(AGE10==99,NA,AGE10))</code></pre>
+<p>We learned that if we <code>count</code> using multiple variables that R will count within values. Can we use this to analyze how this varies by groups? Let’s see!</p>
+<pre class="r"><code>MI_final_small %&gt;%
+  filter(AGE10==1) %&gt;%
+  count(preschoice,SEX) %&gt;%
+  mutate(PctSupport = n/sum(n),
+         PctSupport = round(PctSupport, digits=2))</code></pre>
+<pre><code>## # A tibble: 4 × 4
+##   preschoice                     SEX     n PctSupport
+##   &lt;chr&gt;                        &lt;dbl&gt; &lt;int&gt;      &lt;dbl&gt;
+## 1 Donald Trump, the Republican     1     7       0.22
+## 2 Donald Trump, the Republican     2     1       0.03
+## 3 Joe Biden, the Democrat          1     9       0.28
+## 4 Joe Biden, the Democrat          2    15       0.47</code></pre>
+<p>Here we have broken everything out by both <code>preschoice</code> and <code>SEX</code> but the <code>PctSupport</code> is not quite what we want because it is the fraction of responses (out of 1) that are in each row rather than the proportion of support for each candidate <strong>by</strong> sex.</p>
+<p>To correct this and to perform the functions within a value we need to use the <code>group_by</code> function.</p>
+<p>We can use the <code>group_by</code> command to organize our data a bit better. What <code>group_by</code> does is to run all subsequent code separately according to the defined group.</p>
+<p>So instead of running a count or summarize separately for both Males and Females as we did above, we can <code>group_by</code> the variable <code>SEX.chr</code> (or <code>FEMALE</code> or <code>SEX</code> – it makes no difference as they are all equivalent) and then preform the subsequent commands. So here we are going to filter to select those who are 24 and below and then we are going to count the number of Biden and Trump supporters within each value of <code>SEX.chr</code></p>
+<pre class="r"><code>MI_final_small %&gt;%
+  filter(AGE10==1) %&gt;%
+  group_by(SEX) %&gt;%
+  count(preschoice)</code></pre>
+<pre><code>## # A tibble: 4 × 3
+## # Groups:   SEX [2]
+##     SEX preschoice                       n
+##   &lt;dbl&gt; &lt;chr&gt;                        &lt;int&gt;
+## 1     1 Donald Trump, the Republican     7
+## 2     1 Joe Biden, the Democrat          9
+## 3     2 Donald Trump, the Republican     1
+## 4     2 Joe Biden, the Democrat         15</code></pre>
+<p>Note that any functions of the data are also now organized by that grouping, so if we were to manually compute the proportions using the mutation approach discussed above we would get:</p>
+<pre class="r"><code>MI_final_small %&gt;%
+  filter(AGE10==1) %&gt;%
+  group_by(SEX) %&gt;%
+  count(preschoice) %&gt;%
+  mutate(PctSupport = n/sum(n),
+         PctSupport = round(PctSupport, digits=2))</code></pre>
+<pre><code>## # A tibble: 4 × 4
+## # Groups:   SEX [2]
+##     SEX preschoice                       n PctSupport
+##   &lt;dbl&gt; &lt;chr&gt;                        &lt;int&gt;      &lt;dbl&gt;
+## 1     1 Donald Trump, the Republican     7       0.44
+## 2     1 Joe Biden, the Democrat          9       0.56
+## 3     2 Donald Trump, the Republican     1       0.06
+## 4     2 Joe Biden, the Democrat         15       0.94</code></pre>
+<p>So you can see that <code>PctSupport</code> sums to 2.0 because it sums to 1.0 within each value of the grouping variable <code>SEX</code>.</p>
+<p>If we wanted the fraction of voters who are in each unique category - so that the percentage of all the categories sum to 1.0 – we would want to <code>ungroup</code> before doing the mutation that calculates the percentage. So here we are doing the functions after the <code>group_by()</code> separately for each value of the grouping variables (here <code>SEX</code>) and then we are going to then undo that and return to the entire dataset.</p>
+<pre class="r"><code>MI_final_small %&gt;%
+  filter(AGE10==1) %&gt;%
+  group_by(SEX) %&gt;%
+  count(preschoice) %&gt;%
+  ungroup() %&gt;%
+  mutate(PctSupport = n/sum(n),
+         PctSupport = round(PctSupport, digits=2))</code></pre>
+<pre><code>## # A tibble: 4 × 4
+##     SEX preschoice                       n PctSupport
+##   &lt;dbl&gt; &lt;chr&gt;                        &lt;int&gt;      &lt;dbl&gt;
+## 1     1 Donald Trump, the Republican     7       0.22
+## 2     1 Joe Biden, the Democrat          9       0.28
+## 3     2 Donald Trump, the Republican     1       0.03
+## 4     2 Joe Biden, the Democrat         15       0.47</code></pre>
+<p>If we are just interested in the proportion and we do not care about the number of respondents in each value (although here it seems relevant!) we could also <code>group_by</code> and then <code>summarize</code> as follows:</p>
+<pre class="r"><code>MI_final_small %&gt;%
+  filter(AGE10==1) %&gt;%
+  group_by(SEX) %&gt;%
+  summarize(PctBiden = mean(BidenVoter),
+          PctTrump = mean(TrumpVoter)) %&gt;%
+  mutate(PctBiden = round(PctBiden, digits =2),
+         PctTrump = round(PctTrump, digits =2))</code></pre>
+<pre><code>## # A tibble: 2 × 3
+##     SEX PctBiden PctTrump
+##   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+## 1     1     0.56     0.44
+## 2     2     0.94     0.06</code></pre>
+<p>Because we have already filtered to focus only on Biden and Trump voters, we don’t actually need both since <code>PctBiden = 1 - PctTrump</code> and <code>PctTrump = 1 - PctBiden</code>.</p>
+<p>Note that we can have multiple groups. So if we want to group by age and by sex we can do the following…</p>
+<pre class="r"><code>MI_final_small %&gt;%
+  group_by(SEX, AGE10) %&gt;%
+  summarize(PctBiden = mean(BidenVoter)) %&gt;%
+  mutate(PctBiden = round(PctBiden, digits =2))</code></pre>
+<pre><code>## # A tibble: 22 × 3
+## # Groups:   SEX [2]
+##      SEX AGE10 PctBiden
+##    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+##  1     1     1     0.56
+##  2     1     2     0.58
+##  3     1     3     0.58
+##  4     1     4     0.76
+##  5     1     5     0.58
+##  6     1     6     0.42
+##  7     1     7     0.46
+##  8     1     8     0.56
+##  9     1     9     0.61
+## 10     1    10     0.57
+## # ℹ 12 more rows</code></pre>
+<p>We can also save it for later analysis and then filter or select the results. For example:</p>
+<pre class="r"><code>SexAge &lt;- MI_final_small %&gt;%
+  group_by(SEX, AGE10) %&gt;%
+  summarize(PctBiden = mean(BidenVoter)) %&gt;%
+  mutate(PctBiden = round(PctBiden, digits =2)) %&gt;%
+  drop_na()</code></pre>
+<p>So if we want to look at the Biden support by age among females (i.e., <code>SEX==2</code>) we can look at:</p>
+<pre class="r"><code>SexAge %&gt;%
+  filter(SEX == 2)</code></pre>
+<pre><code>## # A tibble: 10 × 3
+## # Groups:   SEX [1]
+##      SEX AGE10 PctBiden
+##    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+##  1     2     1     0.94
+##  2     2     2     0.93
+##  3     2     3     0.69
+##  4     2     4     0.71
+##  5     2     5     0.52
+##  6     2     6     0.6 
+##  7     2     7     0.63
+##  8     2     8     0.74
+##  9     2     9     0.69
+## 10     2    10     0.61</code></pre>
+<p><strong>Quick Exercise 8</strong> What is the Biden support by age among males?</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="dicrete-variable-by-discrete-variable-barplot" class="section level1">
+<h1>Dicrete Variable By Discrete Variable (Barplot)</h1>
+<p>If we are working with discrete/categorical/ordinal/data — i.e., variables that take on a finite (and small) number of unique values then we are interested in how to compare across bar graphs.</p>
+<p>Before we used <code>geom_bar</code> to plot the number of observations associated with each value of a variable. But we often want to know how the number of observations may vary according to a second variable. For example, we care not only about why voters reported that they supported Biden or Trump in 2020 but we are also interested in knowing whether Biden and Trump voters were voting for similar or different reasons. Did voters differ in terms of why they were voting for a candidate in addition to who they were voting for? If so, this may suggest something about what each set of voters were looking for in a candidate.</p>
+<p>Let’s first plot the barplot and then plot the barplot by presidential vote choice for the Michigan Exit Poll we were just analyzing.</p>
+<p>We are interested in the distribution of responses to the variable <code>Quality</code> and we only care about voters who voted for either Biden or Trump (<code>preschoice</code>) so let’s select those variables and <code>filter</code> using <code>preschoice</code> to select those respondents. We have an additional complication that the question was only asked of half of the respondents and some that were asked refused to answer. To remove these respondents we want to <code>drop_na</code> (note that this will drop every observation with a missing value – this is acceptable because we have used <code>select</code> to focus on the variables we are analyzing, but if we did not use <code>select</code> it would have dropped an observation with missing data in <strong>any</strong> variable. We could get around this using <code>drop_na(Quality)</code> if we wanted). A final complication is that some respondents did not answer the question they were asked so we have to use <code>filter</code> to remove respondents with missing observations.</p>
+<p>Now we include labels – note how we are suppressing the x-label because the value labels are self-explanatory in this instance and add the <code>geom_bar</code> as before.</p>
+<pre class="r"><code>mi_ep %&gt;% 
+    select(Quality,preschoice) %&gt;%
+    filter(preschoice == &quot;Joe Biden, the Democrat&quot; | preschoice == &quot;Donald Trump, the Republican&quot;) %&gt;%
+    drop_na() %&gt;%
+    filter(Quality != &quot;[DON&#39;T READ] Don’t know/refused&quot;) %&gt;%
+    ggplot(aes(x= Quality)) +     
+    labs(y = &quot;Number of Voters&quot;,
+         x = &quot;&quot;,
+         title = &quot;Michigan 2020 Exit Poll: Reasons for voting for a candidate&quot;) +
+    geom_bar(color=&quot;black&quot;) </code></pre>
+<p><img src="/PSC4175/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<p>Note that if we add <code>coord_flip</code> that we will flip the axes of the graph. (We could also have done this by changing <code>aes(y= Quality)</code>, but then we would also have to change the associated labels.)</p>
+<pre class="r"><code>mi_ep %&gt;% 
+    select(Quality,preschoice) %&gt;%
+    filter(preschoice == &quot;Joe Biden, the Democrat&quot; | preschoice == &quot;Donald Trump, the Republican&quot;) %&gt;%
+    drop_na() %&gt;%
+    filter(Quality != &quot;[DON&#39;T READ] Don’t know/refused&quot;) %&gt;%
+    ggplot(aes(x= Quality)) +     
+    labs(y = &quot;Number of Voters&quot;,
+         x = &quot;&quot;,
+         title = &quot;Michigan 2020 Exit Poll: Reasons for voting for a candidate&quot;) +
+    geom_bar(color=&quot;black&quot;) + 
+  coord_flip()</code></pre>
+<p><img src="/PSC4175/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<p>So enough review, lets add another dimension to the data. To show how the self-reported reasons for voting for a presidential candidate varied by vote choice we are going to use the <code>fill</code> of the graph to create different color bars depending on the value of the character or factor variable that is used to <code>fill</code>.</p>
+<p>So we are going to include as a <code>ggplot</code> aesthetic a character or factor variable as a <code>fill</code> (here <code>fill=preschoice</code>) and then we are going to also include <code>fill</code> in the <code>labs</code> function to make sure that we label the meaning of the values being plotted. The other change we have made is in <code>geom_bar</code> where we used <code>position=dodge</code> to make sure that the bars are plotted next to one-another rather than on top of one another.</p>
+<pre class="r"><code>mi_ep %&gt;% 
+    select(Quality,preschoice) %&gt;%
+    filter(preschoice == &quot;Joe Biden, the Democrat&quot; | preschoice == &quot;Donald Trump, the Republican&quot;) %&gt;%
+    drop_na() %&gt;%
+    filter(Quality != &quot;[DON&#39;T READ] Don’t know/refused&quot;) %&gt;%
+    ggplot(aes(x= Quality, fill = preschoice)) +     
+    labs(y = &quot;Number of Voters&quot;,
+         x = &quot;&quot;,
+         title = &quot;Michigan 2020 Exit Poll: Reasons for voting for a candidate&quot;,
+         fill = &quot;Self-Reported Vote&quot;) +
+    geom_bar(color=&quot;black&quot;, position=&quot;dodge&quot;) +
+    coord_flip()</code></pre>
+<p><img src="/PSC4175/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p>For fun, see what happens when you do not use <code>postion=dodge</code>. Also see what happens if you do not flip the coordinates using <code>coord_flip</code>.</p>
+<p>It is important to note that the <code>fill</code> variable has to be a character or a factor. If we want to graph self-reported vote by sex, for example, we need to redefine the variable for the purposes of <code>ggplot</code> as follows. Note that because we are not mutating it and we are only defining it to be a factor within the `<code>ggplot</code> object, this redefinition will not stick. Note also the problem caused by uninformative values in <code>SEX</code> – can you change it.</p>
+<pre class="r"><code>mi_ep %&gt;% 
+    filter(preschoice == &quot;Joe Biden, the Democrat&quot; | preschoice == &quot;Donald Trump, the Republican&quot;) %&gt;%
+    ggplot(aes(x= preschoice, fill = factor(SEX))) +     
+    labs(y = &quot;Number of Respondents&quot;,
+         x = &quot;&quot;,
+         title = &quot;Vote by Respondent Sex&quot;,
+         fill = &quot;Sex&quot;) +
+    geom_bar(color=&quot;black&quot;, position=&quot;dodge&quot;) +
+    coord_flip()</code></pre>
+<p><img src="/PSC4175/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p><strong>Quick Exercise 9</strong> The barplot we just produced does not satisfy our principles of visualization because the fill being used is uninterpretable to those unfamiliar with the dataset. Redo the code to use a <code>fill</code> variable that produces an informative label. Hint: don’t overthink.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="a-new-question" class="section level1">
+<h1>A new question</h1>
+<p>Suppose we were concerned with whether some polls might give different answers because of variation in who the poll is able to reach using that method. People who take polls via landline phones (do you even know what that is?) might differ from those who take surveys online. Or people contacted using randomly generated phone numbers (RDD) may differ from those contacted from a voter registration list that has had telephone numbers merged onto it.</p>
+<p>Polls were done using lots of different methods in 2020.</p>
+</div>
+<div id="loading-the-data" class="section level1">
+<h1>Loading the data</h1>
+<pre class="r"><code>require(tidyverse)
+Pres2020.PV &lt;- read_rds(file=&quot;https://github.com/rweldzius/PSC4175/raw/main/static/data/Pres2020_PV.Rds&quot;)
+Pres2020.PV &lt;- Pres2020.PV %&gt;%
+                mutate(Trump = Trump/100,
+                      Biden = Biden/100,
+                      margin = Biden - Trump)</code></pre>
+<pre class="r"><code>Pres2020.PV %&gt;%
+  count(Mode)</code></pre>
+<pre><code>## # A tibble: 9 × 2
+##   Mode                 n
+##   &lt;chr&gt;            &lt;int&gt;
+## 1 IVR                  1
+## 2 IVR/Online          47
+## 3 Live phone - RBS    13
+## 4 Live phone - RDD    51
+## 5 Online             366
+## 6 Online/Text          1
+## 7 Phone - unknown      1
+## 8 Phone/Online        19
+## 9 &lt;NA&gt;                29</code></pre>
+<p>This raises the question of – how do we visualization variation in a variable by another variable? More specifically, how can we visualize how the <code>margin</code> we get using one type of survey compares to the <code>margin</code> from another type of poll? (We cannot use a scatterplot because the data is from different observations (here polls).)</p>
+<p>We could do this using earlier methods by <code>select</code>ing polls with a specific interview method (“mode”) and then plotting the <code>margin</code> (or <code>Trump</code> or <code>Biden</code>), but that will produce a bunch of separate plots that may be hard to directly compare. (In addition to having more things to look at we would want to make sure that the scale of the x-axis and y-axis are similar.)</p>
+<p>We can plot another “layer” of data in `<code>ggplot</code> using the <code>fill</code> paramter. Previously we used it to make the graphs look nice by choosing a particular color. But if we set <code>fill</code> to be a variable in our <code>tibble</code> then <code>ggplot</code> will plot the data seperately for each unique value in the named variable.
+So if we want to plot the histogram of <code>margin</code> for two types of polls we can use the <code>fill</code> argument in <code>ggplot</code> to tell R to produce different fills depending on the value of that variable.</p>
+<pre class="r"><code>Pres2020.PV %&gt;% 
+  filter(Mode == &quot;IVR/Online&quot; | Mode == &quot;Live phone - RDD&quot;) %&gt;%
+    ggplot(aes(x= margin, fill = Mode)) +     
+  labs(y = &quot;Number of Polls&quot;,
+         x = &quot;Biden- Trump Margin&quot;,
+         title = &quot;Biden-Trump Margin for Two Types of Polls&quot;,
+        fill = &quot;Mode of Interview&quot;) +
+    geom_histogram(bins=10, color=&quot;black&quot;, position=&quot;dodge&quot;) + 
+    scale_x_continuous(breaks=seq(-.1,.2,by=.05),
+                     labels= scales::percent_format(accuracy = 1))</code></pre>
+<p><img src="/PSC4175/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
+<p><strong>Quick Exercise 10</strong> Try running the code without the <code>filter</code>. What do you observe? How useful is this? Why or why not?</p>
+<pre class="r"><code># INSERT CODE</code></pre>
+<p>While informative, it can be hard to compare the distribution of more than two categories using such methods. To compare the variation across more types of surveys we need to use a different visualization that summarizes the variation in the variable of interest a bit more. One common visualization is the <code>boxplot</code> which reports the mean, 25th percentile (i.e., the value of the data if we sort the data from lowest to highest and take the value of the observation that is 25% of the way through), the 75th percentile, the range of values, and notable outliers.</p>
+<p>Let’s see what the <code>boxplot</code> of survey mode looks like after we first drop surveys that were conducted using modes that were hardly used (or missing).</p>
+<pre class="r"><code>Pres2020.PV %&gt;% 
+  filter(Mode != &quot;IVR&quot; &amp; Mode != &quot;Online/Text&quot; &amp; Mode != &quot;Phone - unknown&quot; &amp; Mode != &quot;NA&quot;) %&gt;%
+  ggplot(aes(x = Mode, y = margin)) + 
+    labs(x = &quot;Mode of Survey Interview&quot;,
+         y = &quot;Biden- Trump Margin&quot;,
+         title = &quot;2020 Popular Vote Margin by Type of Poll&quot;) +
+    geom_boxplot(fill = &quot;slateblue&quot;) +
+    scale_y_continuous(breaks=seq(-.1,.2,by=.05),
+                     labels= scales::percent_format(accuracy = 1))</code></pre>
+<p><img src="/PSC4175/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
+<p>We can also flip the graph if we think it makes more sense to display it in a different orientation using <code>coord_flip</code>. (We could, of course, also redefine the x and y variables in the `<code>ggplot</code> object, but it is useful to have a command to do this to help you determine which orientiation is most useful).</p>
+<pre class="r"><code>Pres2020.PV %&gt;% 
+  filter(Mode != &quot;IVR&quot; &amp; Mode != &quot;Online/Text&quot; &amp; Mode != &quot;Phone - unknown&quot; &amp; Mode != &quot;NA&quot;) %&gt;%
+  ggplot(aes(x = Mode, y = margin)) + 
+    labs(x = &quot;Mode of Survey Interview&quot;,
+         y = &quot;Biden- Trump Margin&quot;,
+         title = &quot;2020 Popular Vote Margin by Type of Poll&quot;) +
+    geom_boxplot(fill = &quot;slateblue&quot;) +
+    scale_y_continuous(breaks=seq(-.1,.2,by=.05),
+                     labels= scales::percent_format(accuracy = 1)) +
+    coord_flip()</code></pre>
+<p><img src="/PSC4175/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
+<p>A downside of the boxplot is that it can be hard to tell how the data varies within each box. Is it equally spread out? How much data are contained in the lines (which are simply 1.5 times the height of the box)? To get a better handle on this we can use a “violin” plot that dispenses with a standard box and instead tries to plot the distribution of data within each category.</p>
+<pre class="r"><code>Pres2020.PV %&gt;% 
+  filter(Mode != &quot;IVR&quot; &amp; Mode != &quot;Online/Text&quot; &amp; Mode != &quot;Phone - unknown&quot; &amp; Mode != &quot;NA&quot;) %&gt;%
+  ggplot(aes(x=Mode, y=margin)) + 
+    xlab(&quot;Mode&quot;) + 
+    ylab(&quot;Biden- Trump Margin&quot;) +
+    geom_violin(fill=&quot;slateblue&quot;)</code></pre>
+<p><img src="/PSC4175/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-49-1.png" width="672" /></p>
+<p>It is also hard to know <strong>how much</strong> data is being plotted. If some modes have 1000 polls and others have only 5 that seems relevant.</p>
+<p><strong>Quick Exercise 11</strong> We have looked at the difference in <code>margin</code>. How about differences in the percent who report supporting <code>Biden</code> and <code>Trump</code>? What do you observe. Does this suggest that the different ways of contacting respondents may matter in terms of who responds? Is there something else that may explain the differences (i.e., what are we assuming when making this comparison)?</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<p><strong>Quick Exercise 12</strong> Some claims have been made that polls that used multiple ways of contacting respondents were better than polls that used just one. Can you evaluate whether there were differences in so-called “mixed-mode” surveys compared to single-mode surveys? (This requires you to define a new variable based on <code>Mode</code> indicating whether survey is mixed-mode or not.)</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="continuous-variable-by-continuous-variable-scatterplot" class="section level1">
+<h1>Continuous Variable By Continuous Variable (Scatterplot)</h1>
+<p>When we have two continuous variables we use a scatterplot to visualize the relationship. A scatterplot is simply a graph of every point in (x,y) where x is the value associated with the x-variable and y is the value associated with the y-variable. For example, we may want to see how support for Trump and Biden within a poll varies. So each observation is a poll of the national popular vote and we are going to plot the percentage of respondents in each poll supporting Biden against the percentage who support Trump.</p>
+<p>To include two variables we are going to change our aesthetic to define both an x variable and a y variable – here <code>aes(x = Biden, y = Trump)</code> and we are going to label and scale the axes appropriately.</p>
+<pre class="r"><code>Pres2020.PV %&gt;%
+  ggplot(aes(x = Biden, y = Trump)) + 
+  labs(title=&quot;Biden and Trump Support in 2020 National Popular Vote&quot;,
+       y = &quot;Trump Support&quot;,
+       x = &quot;Biden Support&quot;) + 
+  geom_point(color=&quot;purple&quot;) + 
+    scale_y_continuous(breaks=seq(0,1,by=.05),
+                     labels= scales::percent_format(accuracy = 1)) +
+  scale_x_continuous(breaks=seq(0,1,by=.05),
+                     labels= scales::percent_format(accuracy = 1))</code></pre>
+<p><img src="/PSC4175/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-52-1.png" width="672" /></p>
+<p>The results are intriguing! First the data seems like it falls along a grid. This is because of how poll results are reported in terms of percentage points and it highlights that even continuous variables may be reported in discrete values. This is consequential because it is hard to know how many polls are associated with each point on the graph. How many polls are at the point (Biden 50%, Trump 45%)? This matters for trying to determine what the relationship might be. Second, it is clear that there are some questions that need to be asked – why doesn’t <code>Biden + Trump = 100\%</code>?</p>
+<p>To try to display how many observations are located at each point we have two tools at our disposal. First, we can alter the “alpha transparency” by setting <code>alpha-.5</code> in the <code>geom_point</code> call. By setting a low level of transparency, this means that the point will become less transparent as more points occur at the same coordinate. Thus, a faint point indicates that only a single poll (observation) is located at a coordinate whereas a solid point indicates that there are many polls. When we apply this to the scatterplot you can immediately see that most of the polls are located in the neighborhood of Biden 50%, Trump 42%.</p>
+<pre class="r"><code>Pres2020.PV %&gt;%
+  ggplot(aes(x = Biden, y = Trump)) + 
+  labs(title=&quot;Biden and Trump Support in 2020 National Popular Vote&quot;,
+       y = &quot;Trump Support&quot;,
+       x = &quot;Biden Support&quot;) + 
+  geom_point(color=&quot;purple&quot;,alpha = .3) + 
+    scale_y_continuous(breaks=seq(0,1,by=.05),
+                     labels= scales::percent_format(accuracy = 1)) +
+  scale_x_continuous(breaks=seq(0,1,by=.05),
+                     labels= scales::percent_format(accuracy = 1))</code></pre>
+<p><img src="/PSC4175/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-53-1.png" width="672" /></p>
+<p>However, the grid-like nature of the plot is still somewhat hard to interpret as it can be hard to discern variations in color gradient. Another tool is to add a tiny bit of randomness to the x and y values associated with each plot. Instead of values being constrained to vary by a full percentage point, for example, the jitter allows it to vary by less. To do so we replace <code>geom_point</code> with <code>geom_jitter</code>.</p>
+<pre class="r"><code>Pres2020.PV %&gt;%
+  ggplot(aes(x = Biden, y = Trump)) + 
+  labs(title=&quot;Biden and Trump Support in 2020 National Popular Vote&quot;,
+       y = &quot;Trump Support&quot;,
+       x = &quot;Biden Support&quot;) + 
+  geom_jitter(color=&quot;purple&quot;,alpha = .5) + 
+    scale_y_continuous(breaks=seq(0,1,by=.05),
+                     labels= scales::percent_format(accuracy = 1)) +
+  scale_x_continuous(breaks=seq(0,1,by=.05),
+                     labels= scales::percent_format(accuracy = 1)) </code></pre>
+<p><img src="/PSC4175/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-54-1.png" width="672" /></p>
+<p>Note how much the visualization changes. Whereas before the eye was focused on – and arguably distracted by – the grid-like orientation imposed by the measurement, once we jitter the points we are immediately made aware of the relationship between the two variables. While we are indeed slightly changing our data by adding random noise, the payoff is that the visualization arguably better highlights the nature of the relationship. Insofar the goal of visualization is communication, this trade-off seems worthwhile in this instance. But here again is where data science is sometimes art as much as science. The decision of which visualization to use depends on what you think most effectively communicates the nature of the relationship to the reader.</p>
+<p>We can also look at the accuracy of a poll as a function of the sample size. This is also a relationship between two continuous variables – hence a scatterplot! Are polls with more respondents more accurate? There is one poll with nearly 80,000 respondents that we will filter out to me able to show a reasonable scale. Note that we are going to use <code>labels = scales::comma</code> when plotting the x-axis to report numbers with commas for readability.</p>
+<pre class="r"><code>Pres2020.PV %&gt;%
+  filter(SampleSize &lt; 50000) %&gt;%
+  mutate(TrumpError = Trump - RepCertVote/100,
+         BidenError = Biden - DemCertVote/100) %&gt;%
+  ggplot(aes(x = SampleSize, y = TrumpError)) + 
+  labs(title=&quot;Trump Polling Error in 2020 National Popular Vote as a function of Sample Size&quot;,
+       y = &quot;Error: Trump Poll - Trump Certified Vote&quot;,
+       x = &quot;Sample Size in Poll&quot;) + 
+  geom_jitter(color=&quot;purple&quot;,alpha = .5) +
+  scale_y_continuous(breaks=seq(-.2,1,by=.05),
+                     labels= scales::percent_format(accuracy = 1)) +
+  scale_x_continuous(breaks=seq(0,30000,by=5000),
+                     labels= scales::comma) </code></pre>
+<p><img src="/PSC4175/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-55-1.png" width="672" /></p>
+<p>In sum, we have tested Trump’s theory that the MSM was biased against him. We found that polls that underpredicted Trump <strong>also</strong> underpredicted Biden. This is not what we would expect if the polls favored one candidate over another.</p>
+<pre class="r"><code>Pres2020.PV %&gt;%
+  ggplot(aes(x = Biden, y = Trump)) + 
+  labs(title=&quot;Biden and Trump Support in 2020 National Popular Vote&quot;,
+       y = &quot;Trump Support&quot;,
+       x = &quot;Biden Support&quot;) + 
+  geom_jitter(color=&quot;purple&quot;,alpha = .5) + 
+    scale_y_continuous(breaks=seq(0,1,by=.05),
+                     labels= scales::percent_format(accuracy = 1)) +
+  scale_x_continuous(breaks=seq(0,1,by=.05),
+                     labels= scales::percent_format(accuracy = 1)) </code></pre>
+<p><img src="/PSC4175/homeworks/psc4175_hw_5_files/figure-html/unnamed-chunk-56-1.png" width="672" /></p>
+<p>What is an alternative explanation for these patterns? Why would polls underpredict <em>both</em> Trump and Biden?</p>
+<p>Perhaps they were fielded earlier in the year, when more people were interested in third party candidates, or hadn’t made up their mind. We’ll turn to testing this theory next time!</p>
+</div>
