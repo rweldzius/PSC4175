@@ -121,20 +121,20 @@ lessons:
     week: "06-multivariate2"
 
     materials:
-      assignment:
-        name: "PS2"
-        link: "psc4175_pset_2/"
-
       homework:
         link: "psc4175_hw_6/"
 
       video:
-        - name: "PSC 4175 - Lecture 6 - Multivariate Analysis, Part 3"
-          url: "P7RsKcUHW6I"
+        - name: "PSC 4175 - Lecture 6 - Multivariate Analysis, Part 2a"
+          url: "CdpDVBWCgr4"
+        - name: "PSC 4175 - Lecture 6 - Multivariate Analysis, Part 2b"
+          url: "8Xqdc6rtLV0"  
 
       slides:
-        - name: "Lecture 6 - Multivariate Analysis, Part 3"
-          link: "6_Multivariate3.html"
+        - name: "Lecture 6 - Multivariate Analysis, Part 2a"
+          link: "6_Multivariate2a.html"
+        - name: "Lecture 6 - Multivariate Analysis, Part 2b"
+          link: "6_Multivariate2b.html"  
 
   - title: "Uncertainty 1"
     goal: "Uncertainty and bootstrapping"
@@ -143,6 +143,10 @@ lessons:
     week: "07-uncertainty1"
 
     materials:
+      assignment:
+        name: "PS2"
+        link: "psc4175_pset_2/"
+        
       homework:
         link: "psc4175_hw_7/"
 
