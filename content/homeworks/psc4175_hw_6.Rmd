@@ -520,3 +520,40 @@ Pres2020.StatePolls %>%
        title="Number of Polls in States \n in the Last 3 Days of 2020")
 ```
 
+**Research Exercise** It's time to work with your own data! In the following not-so-quick exercise, I want you to upload the data you retrieved for your final research project, do any data wrangling that needs to be done, provide univariate plots of two variables of interest, calculate a conditional relationship, then create a multivariate plot. The hardest part will be preparing the data, choosing which variables you want to analyze, and choosing the types of plots based on the type of variables. 
+
+1. Upload your data. Describe for me what this data is about. 
+
+```{r}
+# INSERT CODE HERE
+```
+
+Write answer here.
+
+2. Data wrangling (if needed). If you need to do any wrangling of your data, do it here. If not, leave blank.
+
+```{r}
+# INSERT CODE HERE
+```
+
+Describe what you did here.
+
+3. Univariate plot of two key variables (preferably an outcome variable Y and an explanatory variable X).
+
+```{r}
+# INSERT CODE HERE
+```
+
+Describe what you see. Do you need to make any adjustments to the variables based on their distributions?
+
+4. Conditional relationships. Create a cross-tab of the data like you did last time. This will involve using `count`, `mutate`, and/or `group_by`
+
+```{r}
+# INSERT CODE HERE
+```
+
+5. Create a multivariate plot of your two variables. 
+
+```{r}
+# INSERT CODE HERE
+```
