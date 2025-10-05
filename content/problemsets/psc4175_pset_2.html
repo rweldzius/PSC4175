@@ -1,0 +1,268 @@
+---
+title: "Problem Set 2"
+author: '[YOUR NAME]'
+date: "Due Date: 2025-08-10 by 11:59PM"
+output:
+  pdf_document: default
+  html_document: default
+subtitle: Univariate and Multivariate Analysis
+institute: Villanova University
+type: homeworks
+---
+
+
+
+<div id="getting-set-up" class="section level1">
+<h1>Getting Set Up</h1>
+<p>Open <code>RStudio</code> and create a new RMarkDown file (<code>.Rmd</code>) by going to <code>File -&gt; New File -&gt; R Markdown...</code>.
+Accept defaults and save this file as <code>[LAST NAME]_ps1.Rmd</code> to your <code>code</code> folder.</p>
+<p>Copy and paste the contents of this <code>.Rmd</code> file into your <code>[LAST NAME]_ps1.Rmd</code> file. Then change the <code>author: [Your Name]</code> to your name.</p>
+<p>All of the following questions should be answered in this <code>.Rmd</code> file. There are code chunks with incomplete code that need to be filled in.</p>
+<p>This problem set is worth 22 total points, plus 2.5 extra credit points. The point values for each question are indicated in brackets below. To receive full credit, you must have the correct code. In addition, some questions ask you to provide a written response in addition to the code.</p>
+<p>You are free to rely on whatever resources you need to complete this problem set, including lecture notes, lecture presentations, Google, your classmates…you name it. However, the final submission must be complete by you. There are no group assignments. To submit, compile the completed problem set and upload the PDF file to Drobox on Friday by midnight. If you use AI for help, choose to save your output as a PDF and submit this with the problem set as well. Also note that I will not respond to Campuswire messages after 2PM ET on Friday, so don’t wait until the last minute to get started!</p>
+<p><strong>Good luck!</strong></p>
+<p><strong>If you collaborated with a colleague and/or used AI for any help on this problem set, document here.</strong> Write the names of your classmates and/or upload a PDF of your AI prompt and output with your problem set:</p>
+</div>
+<div id="part-1-nba-jam-boom-shakalaka" class="section level1">
+<h1>Part 1: NBA Jam, “Boom-shakalaka!”</h1>
+<div id="points-0.5-extra-credit-point-available" class="section level2">
+<h2>[2.5 points; +0.5 extra credit point available]</h2>
+</div>
+<div id="question-0-0-points" class="section level2">
+<h2>Question 0 (0 points)</h2>
+<p><em>Require <code>tidyverse</code> and load the <a href="&#39;https://github.com/rweldzius/PSC4175/raw/main/static/data/nba_players_2018.Rds&#39;"><code>nba_players_2018.Rds</code></a> data to an object called <code>nba</code>.</em></p>
+<pre class="r"><code>require()</code></pre>
+<pre><code>## Loading required package:</code></pre>
+<pre class="r"><code>nba &lt;- read_rds()</code></pre>
+<pre><code>## Error in read_rds(): could not find function &quot;read_rds&quot;</code></pre>
+</div>
+<div id="question-1-0.5-points" class="section level2">
+<h2>Question 1 [0.5 points]</h2>
+<p><em>Plot the distribution of field goals attempted by all NBA players in the 2018-2019 season. Explain why you chose the visualization that you did. Then add a vertical line indicating the mean and median number of points in the data. Color the median line blue and the mean line red. Why is the median lower than the mean?</em></p>
+<pre class="r"><code>nba %&gt;%
+  ggplot() + # Put the fga variable on the x-axis of a ggplot.
+   geom_...() + # Choose the appropriate geom function to visualize.
+  labs() + # Add labels
+      geom_vline() + # Median vertical line (blue)
+      geom_vline() # Mean vertical line (red)</code></pre>
+<pre><code>## Error in nba %&gt;% ggplot(): could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<p>Write answer here.</p>
+</blockquote>
+</div>
+<div id="question-2-0.5-points" class="section level2">
+<h2>Question 2 [0.5 points]</h2>
+<p><em>Now examine the <code>country</code> variable. Visualize this variable using the appropriate <code>geom_...</code>, and justify your reason for choosing it. Tweak the plot to put the country labels on the y-axis, ordered by frequency. Which country are most NBA players from? What is weird about your answer, and what might explain it? </em></p>
+<pre class="r"><code>nba %&gt;%
+  count() %&gt;% # count the number of players by country
+  ggplot() + # place the country on the y-axis, reordered by the number of players. Put the number of players on the x-axis
+  geom_...() + # Choose the best geom
+  labs() # Add labels</code></pre>
+<pre><code>## Error in nba %&gt;% count() %&gt;% ggplot(): could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-3-1.5-points" class="section level2">
+<h2>Question 3 [1.5 points]</h2>
+<p><em>Let’s pretend we are consulting for an NBA organization. The owner and GM tell us they are interested in the relationship between the player’s age (<code>agePlayer</code>) and the amount of points they score (<code>pts</code>). Please answer the following research question and provide a theory supporting your answer: “Do older NBA players score more points than younger players?”</em></p>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+<p><em>Based on your answer above, what is the outcome / dependent / <span class="math inline">\(Y\)</span> variable and what is the explanatory / independent / <span class="math inline">\(X\)</span> variable? Why?</em></p>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+<p><em>Create a univariate visualization of both the <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> variables. Choose the best <code>geom_...()</code> based on the variable type, and make sure to label your plots!</em></p>
+<pre class="r"><code># X variable
+nba %&gt;%
+  ggplot() + # Put the X variable on the x-axis
+  geom_...() +  # Choose the best geom given the variable type (make sure to look at it if you aren&#39;t sure)
+  labs()     # Add labels</code></pre>
+<pre><code>## Error in nba %&gt;% ggplot(): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Y variable
+nba %&gt;%
+  ggplot(...) + # Put the Y variable on the x-axis
+  geom_...() +  # Choose the best geom given the variable type (make sure to look at it if you aren&#39;t sure)
+  labs(...)     # Add labels</code></pre>
+<pre><code>## Error in nba %&gt;% ggplot(...): could not find function &quot;%&gt;%&quot;</code></pre>
+</div>
+<div id="question-4-0.5-points" class="section level2">
+<h2>Question 4 [0.5 points]</h2>
+<p><em>Now analyze the data by creating a multivariate visualization that shows the relationship between age and points. Add a STRAIGHT line of best fit with <code>geom_smooth()</code>.</em></p>
+<pre class="r"><code>nba %&gt;%
+  ggplot() + # Put the X variable on the x-axis, and the Y variable on the y-axis
+  geom_...() +  # Choose the best geom given both variable types
+  geom_smooth() + # Add a STRAIGHT line of best fit
+  labs()     # Add labels</code></pre>
+<pre><code>## Error in nba %&gt;% ggplot(): could not find function &quot;%&gt;%&quot;</code></pre>
+<p><em>Based on your analysis, does the data support or reject your hypothesis from Question 3?</em></p>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="extra-credit-1-0.5-point" class="section level2">
+<h2>Extra Credit 1 [0.5 point]</h2>
+<p><em>Let’s look for evidence of a “curvelinear” relationship between player age and points scored. To do so, first calculate the average points scored by age. Then plot this relationship using a multivariate visualization. Add a line of best fit with <code>geom_smooth()</code> but DON’T use <code>method = "lm"</code>. What do you conclude? Why?</em></p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+</div>
+<div id="part-2-2020-presidential-election-5-points-0.5-extra-credit" class="section level1">
+<h1>Part 2: 2020 Presidential Election (5 points; +0.5 extra credit)</h1>
+<div id="question-5-0-points" class="section level2">
+<h2>Question 5 (0 points)</h2>
+<p><em>Require <code>tidyverse</code> and load the <a href="https://github.com/rweldzius/PSC4175_SUM2025/raw/main/data/Pres2020_PV.Rds&#39;"><code>Pres2020_PV.Rds</code></a> data to an object called <code>pres</code>.</em></p>
+<pre class="r"><code>require()</code></pre>
+<pre><code>## Loading required package:</code></pre>
+<pre class="r"><code>pres &lt;- read_rds()</code></pre>
+<pre><code>## Error in read_rds(): could not find function &quot;read_rds&quot;</code></pre>
+</div>
+<div id="question-6-1-point" class="section level2">
+<h2>Question 6 [1 point]</h2>
+<p><em>Consider the following hypothesis: “Most Americans don’t pay very much attention to politics, and don’t know who they will vote for until very close to the election. Therefore polling predictions should be more accurate closer to the election.” Based on this hypothesis and theoretical intuition, which variable is the <span class="math inline">\(X\)</span> variable and which is the <span class="math inline">\(Y\)</span> variable(s)?</em></p>
+<blockquote>
+<ul>
+<li>Write answer here</li>
+</ul>
+</blockquote>
+<p><em>Now let’s first look at each variable by itself using univariate visualization. First, plot the total number of polls per start date in the data. NB: you will have convert <code>StartDate</code> to a <code>date</code> class with <code>as.Date()</code>. If you need help, see <a href="https://www.r-bloggers.com/2013/08/date-formats-in-r/">this post</a>. Do you observe a pattern in the number of polls over time? Why do you think this is?</em></p>
+<pre class="r"><code>pres %&gt;%
+  mutate(StartDate = as.Date(StartDate,&#39;%m/%d/%Y&#39;)) %&gt;% # Convert to date
+  ggplot(aes(x = StartDate)) + # Visualize the variable using univariate principles
+  geom_...() + # Choose the correct `geom`
+  labs() # Make sure it is clearly labeled</code></pre>
+<pre><code>## Error in pres %&gt;% mutate(StartDate = as.Date(StartDate, &quot;%m/%d/%Y&quot;)) %&gt;% : could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<ul>
+<li>Write answer here</li>
+</ul>
+</blockquote>
+</div>
+<div id="question-7-1-point" class="section level2">
+<h2>Question 7 [1 point]</h2>
+<p><em>Next, let’s look at the other variables. Calculate the</em> <strong>prediction error</strong> <em>for Biden (call this variable <code>demErr</code>) and Trump (call this variable <code>repErr</code>) such that positive values mean that the poll</em> <strong>overestimated</strong> <em>the candidate’s popular vote share (<code>DemCertVote</code> for Biden and <code>RepCertVote</code> for Trump).</em></p>
+<pre class="r"><code>pres &lt;- pres %&gt;%
+  mutate() # Create the two new variables </code></pre>
+<pre><code>## Error in pres %&gt;% mutate(): could not find function &quot;%&gt;%&quot;</code></pre>
+<p><em>Plot the Biden and Trump prediction errors on a single plot using <code>geom_bar()</code>, with red indicating Trump and blue indicating Biden (make sure to set alpha to some value less than 1 to increase the transparency!). Add vertical lines for the average prediction error for both candidates (colored appropriately) as well as a vertical line indicating no prediction error.</em></p>
+<pre class="r"><code>pres %&gt;%
+  ggplot() + # Instantiate an EMPTY ggplot object
+  geom_bar(aes(...), # Put the first variable in the first `geom_bar()`
+           ...) + # Set the color and opacity
+  geom_bar(aes(...), # Put the second variable in the second `geom_bar()`
+           ...) + # Set the color and opacity
+  labs(...) + # Make sure it is clearly labeled
+  geom_vline(...) + # Put a black vertical line at 0
+  geom_vline() + # Put a dashed blue vertical line at the Democrat prediction error
+  geom_vline() + # Put a dashed red vertical line at the Republican prediction error</code></pre>
+<pre><code>## Error in parse(text = input): &lt;text&gt;:11:0: unexpected end of input
+## 9:   geom_vline() + # Put a dashed blue vertical line at the Democrat prediction error
+## 10:   geom_vline() + # Put a dashed red vertical line at the Republican prediction error
+##    ^</code></pre>
+<p><em>Do you observe a systematic bias toward one candidate or the other?</em></p>
+<blockquote>
+<ul>
+<li>Write answer here</li>
+</ul>
+</blockquote>
+</div>
+<div id="question-8-1-point" class="section level2">
+<h2>Question 8 [1 point]</h2>
+<p><em>Plot the average prediction error for Trump (red) and Biden (blue) by start date using <code>geom_point()</code> and add two curvey lines of best fit using <code>geom_smooth()</code>. Make sure that the curvey line for Trump is also red, and the curvey line for Biden is also blue!</em></p>
+<pre class="r"><code>pres %&gt;%
+  mutate(...) %&gt;% # Convert to date
+  group_by(...) %&gt;% # Calculate the average error for Biden and Trump by date
+  summarise(...,
+            ...) %&gt;%
+  ggplot() + # Instantiate an empty ggplot
+  geom_point(aes(x = ...,y = ...), # Put the first variable in the first `geom_point()`
+           ...) + # Set the color
+  geom_point(aes(x = ...,y = ...), # Put the second variable in the second `geom_point()`
+           ...) + # Set the color
+  geom_smooth(aes(x = ...,y = ...), # Put the first variable in the first geom_smooth()
+              ...) + # Set the color
+  geom_smooth(aes(x = ...,y = ...), # Put the second variable in the second geom_smooth()
+              ...) + # Set the color
+  labs(...) + # Make sure it is clearly labeled
+  geom_hline(...) # Add a horizontal dashed line at 0</code></pre>
+<pre><code>## Error in pres %&gt;% mutate(...) %&gt;% group_by(...) %&gt;% summarise(..., ...) %&gt;% : could not find function &quot;%&gt;%&quot;</code></pre>
+<p><em>What pattern do you observe over time, if any? Does this support the hypothesis presented in Question 1 above?</em></p>
+<blockquote>
+<ul>
+<li>Write answer here</li>
+</ul>
+</blockquote>
+</div>
+<div id="question-9-1-point" class="section level2">
+<h2>Question 9 [1 point]</h2>
+<p><em>Can we do better by aggregating state-level polls? Load the [Pres2020_StatePolls.Rds] to an object called <code>state</code>. First, create two new variables <code>demErr</code> and <code>repErr</code> just as you did in Question 2. Then recreate the same overtime plot comparing Biden and Trump prediction errors as you did in Question 3. What do you observe?</em></p>
+<pre class="r"><code>state &lt;- read_rds(...) # Read in the data</code></pre>
+<pre><code>## Error in read_rds(...): could not find function &quot;read_rds&quot;</code></pre>
+<pre class="r"><code>state &lt;- state %&gt;%
+  mutate(...) # Create the two new variables for Democrat and Republican prediction errors</code></pre>
+<pre><code>## Error in state %&gt;% mutate(...): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code>state %&gt;%
+  mutate(...) %&gt;% # Convert to date
+  group_by(...) %&gt;% # Calculate the average error for Biden and Trump by date
+  summarise(...,
+            ...) %&gt;%
+  ggplot() + # Instantiate an empty ggplot
+  geom_point(aes(x = ...,y = ...), # Put the first variable in the first `geom_point()`
+           ...) + # Set the color
+  geom_point(aes(x = ...,y = ...), # Put the second variable in the second `geom_point()`
+           ...) + # Set the color
+  geom_smooth(aes(x = ...,y = ...), # Put the first variable in the first geom_smooth()
+              ...) + # Set the color
+  geom_smooth(aes(x = ...,y = ...), # Put the second variable in the second geom_smooth()
+              ...) + # Set the color
+  labs(...) + # Make sure it is clearly labeled
+  geom_hline(...) # Add a horizontal dashed line at 0</code></pre>
+<pre><code>## Error in state %&gt;% mutate(...) %&gt;% group_by(...) %&gt;% summarise(..., ...) %&gt;% : could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<ul>
+<li>Write answer here</li>
+</ul>
+</blockquote>
+</div>
+<div id="question-10-1-point" class="section level2">
+<h2>Question 10 [1 point]</h2>
+<p><em>One other explanation for inaccurate state polls is that some states do not have many polls run. Calculate the anti-Trump/pro-Biden bias for each state by subtracting the <code>repErr</code> from the <code>demErr</code> (call this new variable <code>bidenBias</code>). Then calculate the average bias by state AND calculate the number of polls in that state. Finally, plot the relationship between the number of polls and the extent of bias. Does the data support the theory that states with more polls were predicted more accurately?</em></p>
+<pre class="r"><code>state &lt;- state %&gt;%
+  mutate(...) # Create the bidenBias variable here</code></pre>
+<pre><code>## Error in state %&gt;% mutate(...): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code>state %&gt;%
+  group_by(...) %&gt;%
+  summarise(...,   # Calculate the average bidenBias by state
+            ...) %&gt;% # Calculate the number of polls by state
+  ungroup() %&gt;%
+  ggplot(aes(x = ...,      # Put the correct variable on the x-axis
+             y = ...)) +   # Put the correct variable on the y-axis
+  geom_...() + # Choose the correct geom
+  geom_...(...) + # Add a straight line of best fit
+  labs(...) # Give it some good labels</code></pre>
+<pre><code>## Error in state %&gt;% group_by(...) %&gt;% summarise(..., ...) %&gt;% ungroup() %&gt;% : could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<ul>
+<li>Write answer here</li>
+</ul>
+</blockquote>
+</div>
+<div id="extra-credit-2-0.5-points" class="section level2">
+<h2>Extra Credit 2 [0.5 points]</h2>
+<p><em>Do polls that underestimate Trump’s support overestimate Biden’s support? Investigate this question using both the national data (<code>pres</code>) and the state data (<code>state</code>). Use a scatterplot to test, combined with a (straight) line of best fit. Then, calculate the proportion of polls that (1) underestimate both Trump and Biden, (2) underestimate Trump and overestimate Biden, (3) overestimate Trump and underestimate Biden, (4) overestimate both candidates. In these analyses, define “overestimate” as prediction errors greater than or equal to zero, whereas “underestimate” should be prediction errors less than zero. What do you conclude? Is there any evidence of an anti-Trump bias in national polling? What about state polling?</em></p>
+<pre class="r"><code># National scatterplot
+# INSERT CODE HERE
+
+# National proportions: 4 different types of polls
+# INSERT CODE HERE
+
+# State scatterplot
+# INSERT CODE HERE
+
+# State proportions: 4 different types of polls
+# INSERT CODE HERE</code></pre>
+</div>
+</div>

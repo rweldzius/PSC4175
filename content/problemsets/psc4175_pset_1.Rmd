@@ -7,6 +7,7 @@ output:
   html_document: default
 subtitle: Intro to `R`
 institute: Villanova University
+type: homeworks
 ---
 
 ```{r,include=F}

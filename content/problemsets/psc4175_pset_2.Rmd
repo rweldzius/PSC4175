@@ -1,0 +1,276 @@
+---
+title: "Problem Set 2"
+author: '[YOUR NAME]'
+date: "Due Date: 2025-08-10 by 11:59PM"
+output:
+  pdf_document: default
+  html_document: default
+subtitle: Univariate and Multivariate Analysis
+institute: Villanova University
+type: homeworks
+---
+
+```{r,include=F}
+knitr::opts_chunk$set(error=TRUE)
+```
+
+
+# Getting Set Up
+
+Open `RStudio` and create a new RMarkDown file (`.Rmd`) by going to `File -> New File -> R Markdown...`.
+Accept defaults and save this file as `[LAST NAME]_ps1.Rmd` to your `code` folder.
+
+Copy and paste the contents of this `.Rmd` file into your `[LAST NAME]_ps1.Rmd` file. Then change the `author: [Your Name]` to your name.
+
+All of the following questions should be answered in this `.Rmd` file. There are code chunks with incomplete code that need to be filled in. 
+
+This problem set is worth 22 total points, plus 2.5 extra credit points. The point values for each question are indicated in brackets below. To receive full credit, you must have the correct code. In addition, some questions ask you to provide a written response in addition to the code.
+
+You are free to rely on whatever resources you need to complete this problem set, including lecture notes, lecture presentations, Google, your classmates...you name it. However, the final submission must be complete by you. There are no group assignments. To submit, compile the completed problem set and upload the PDF file to Drobox on Friday by midnight. If you use AI for help, choose to save your output as a PDF and submit this with the problem set as well. Also note that I will not respond to Campuswire messages after 2PM ET on Friday, so don't wait until the last minute to get started!
+
+**Good luck!**
+
+**If you collaborated with a colleague and/or used AI for any help on this problem set, document here.** Write the names of your classmates and/or upload a PDF of your AI prompt and output with your problem set:
+
+
+# Part 1: NBA Jam, "Boom-shakalaka!"
+## [2.5 points; +0.5 extra credit point available]
+
+## Question 0 (0 points)
+*Require `tidyverse` and load the [`nba_players_2018.Rds`]('https://github.com/rweldzius/PSC4175/raw/main/static/data/nba_players_2018.Rds') data to an object called `nba`.*
+
+```{r}
+require()
+nba <- read_rds()
+```
+
+## Question 1 [0.5 points]
+*Plot the distribution of field goals attempted by all NBA players in the 2018-2019 season. Explain why you chose the visualization that you did. Then add a vertical line indicating the mean and median number of points in the data. Color the median line blue and the mean line red. Why is the median lower than the mean?*
+
+```{r}
+nba %>%
+  ggplot() + # Put the fga variable on the x-axis of a ggplot.
+   geom_...() + # Choose the appropriate geom function to visualize.
+  labs() + # Add labels
+      geom_vline() + # Median vertical line (blue)
+      geom_vline() # Mean vertical line (red)
+```
+
+> Write answer here.
+
+## Question 2 [0.5 points]
+*Now examine the `country` variable. Visualize this variable using the appropriate `geom_...`, and justify your reason for choosing it. Tweak the plot to put the country labels on the y-axis, ordered by frequency. Which country are most NBA players from? What is weird about your answer, and what might explain it? *
+
+```{r}
+nba %>%
+  count() %>% # count the number of players by country
+  ggplot() + # place the country on the y-axis, reordered by the number of players. Put the number of players on the x-axis
+  geom_...() + # Choose the best geom
+  labs() # Add labels
+```
+
+> Write answer here
+
+## Question 3 [1.5 points]
+*Let's pretend we are consulting for an NBA organization. The owner and GM tell us they are interested in the relationship between the player's age (`agePlayer`) and the amount of points they score (`pts`). Please answer the following research question and provide a theory supporting your answer: "Do older NBA players score more points than younger players?"*
+
+> Write answer here
+
+*Based on your answer above, what is the outcome / dependent / $Y$ variable and what is the explanatory / independent / $X$ variable? Why?*
+
+> Write answer here
+
+*Create a univariate visualization of both the $X$ and $Y$ variables. Choose the best `geom_...()` based on the variable type, and make sure to label your plots!*
+
+```{r}
+# X variable
+nba %>%
+  ggplot() + # Put the X variable on the x-axis
+  geom_...() +  # Choose the best geom given the variable type (make sure to look at it if you aren't sure)
+  labs()     # Add labels
+
+# Y variable
+nba %>%
+  ggplot(...) + # Put the Y variable on the x-axis
+  geom_...() +  # Choose the best geom given the variable type (make sure to look at it if you aren't sure)
+  labs(...)     # Add labels
+```
+
+## Question 4 [0.5 points]
+*Now analyze the data by creating a multivariate visualization that shows the relationship between age and points. Add a STRAIGHT line of best fit with `geom_smooth()`.*
+
+```{r}
+nba %>%
+  ggplot() + # Put the X variable on the x-axis, and the Y variable on the y-axis
+  geom_...() +  # Choose the best geom given both variable types
+  geom_smooth() + # Add a STRAIGHT line of best fit
+  labs()     # Add labels
+```
+
+*Based on your analysis, does the data support or reject your hypothesis from Question 3?*
+
+> Write answer here
+
+## Extra Credit 1 [0.5 point]
+*Let's look for evidence of a "curvelinear" relationship between player age and points scored. To do so, first calculate the average points scored by age. Then plot this relationship using a multivariate visualization. Add a line of best fit with `geom_smooth()` but DON'T use `method = "lm"`. What do you conclude? Why?*
+
+```{r}
+# INSERT CODE HERE
+```
+
+> Write answer here
+
+
+# Part 2: 2020 Presidential Election (5 points; +0.5 extra credit)
+
+## Question 5 (0 points)
+*Require `tidyverse` and load the [`Pres2020_PV.Rds`](https://github.com/rweldzius/PSC4175_SUM2025/raw/main/data/Pres2020_PV.Rds') data to an object called `pres`.*
+
+```{r}
+require()
+pres <- read_rds()
+```
+
+## Question 6 [1 point]
+*Consider the following hypothesis: "Most Americans don't pay very much attention to politics, and don't know who they will vote for until very close to the election. Therefore polling predictions should be more accurate closer to the election." Based on this hypothesis and theoretical intuition, which variable is the $X$ variable and which is the $Y$ variable(s)?*
+
+>- Write answer here
+
+*Now let's first look at each variable by itself using univariate visualization. First, plot the total number of polls per start date in the data. NB: you will have convert `StartDate` to a `date` class with `as.Date()`. If you need help, see [this post](https://www.r-bloggers.com/2013/08/date-formats-in-r/). Do you observe a pattern in the number of polls over time? Why do you think this is?*
+
+```{r}
+pres %>%
+  mutate(StartDate = as.Date(StartDate,'%m/%d/%Y')) %>% # Convert to date
+  ggplot(aes(x = StartDate)) + # Visualize the variable using univariate principles
+  geom_...() + # Choose the correct `geom`
+  labs() # Make sure it is clearly labeled
+```
+
+>- Write answer here
+
+
+## Question 7 [1 point]
+*Next, let's look at the other variables. Calculate the* **prediction error** *for Biden (call this variable `demErr`) and Trump (call this variable `repErr`) such that positive values mean that the poll* **overestimated** *the candidate's popular vote share (`DemCertVote` for Biden and `RepCertVote` for Trump).*
+
+```{r}
+pres <- pres %>%
+  mutate() # Create the two new variables 
+```
+
+
+*Plot the Biden and Trump prediction errors on a single plot using `geom_bar()`, with red indicating Trump and blue indicating Biden (make sure to set alpha to some value less than 1 to increase the transparency!). Add vertical lines for the average prediction error for both candidates (colored appropriately) as well as a vertical line indicating no prediction error.*
+
+
+```{r}
+pres %>%
+  ggplot() + # Instantiate an EMPTY ggplot object
+  geom_bar(aes(...), # Put the first variable in the first `geom_bar()`
+           ...) + # Set the color and opacity
+  geom_bar(aes(...), # Put the second variable in the second `geom_bar()`
+           ...) + # Set the color and opacity
+  labs(...) + # Make sure it is clearly labeled
+  geom_vline(...) + # Put a black vertical line at 0
+  geom_vline() + # Put a dashed blue vertical line at the Democrat prediction error
+  geom_vline() + # Put a dashed red vertical line at the Republican prediction error
+```
+
+*Do you observe a systematic bias toward one candidate or the other?*
+
+>- Write answer here
+
+## Question 8 [1 point]
+*Plot the average prediction error for Trump (red) and Biden (blue) by start date using `geom_point()` and add two curvey lines of best fit using `geom_smooth()`. Make sure that the curvey line for Trump is also red, and the curvey line for Biden is also blue!*
+
+
+```{r}
+pres %>%
+  mutate(...) %>% # Convert to date
+  group_by(...) %>% # Calculate the average error for Biden and Trump by date
+  summarise(...,
+            ...) %>%
+  ggplot() + # Instantiate an empty ggplot
+  geom_point(aes(x = ...,y = ...), # Put the first variable in the first `geom_point()`
+           ...) + # Set the color
+  geom_point(aes(x = ...,y = ...), # Put the second variable in the second `geom_point()`
+           ...) + # Set the color
+  geom_smooth(aes(x = ...,y = ...), # Put the first variable in the first geom_smooth()
+              ...) + # Set the color
+  geom_smooth(aes(x = ...,y = ...), # Put the second variable in the second geom_smooth()
+              ...) + # Set the color
+  labs(...) + # Make sure it is clearly labeled
+  geom_hline(...) # Add a horizontal dashed line at 0
+```
+
+*What pattern do you observe over time, if any? Does this support the hypothesis presented in Question 1 above?*
+
+>- Write answer here
+
+## Question 9 [1 point]
+*Can we do better by aggregating state-level polls? Load the [Pres2020_StatePolls.Rds] to an object called `state`. First, create two new variables `demErr` and `repErr` just as you did in Question 2. Then recreate the same overtime plot comparing Biden and Trump prediction errors as you did in Question 3. What do you observe?*
+
+```{r}
+state <- read_rds(...) # Read in the data
+
+state <- state %>%
+  mutate(...) # Create the two new variables for Democrat and Republican prediction errors
+
+state %>%
+  mutate(...) %>% # Convert to date
+  group_by(...) %>% # Calculate the average error for Biden and Trump by date
+  summarise(...,
+            ...) %>%
+  ggplot() + # Instantiate an empty ggplot
+  geom_point(aes(x = ...,y = ...), # Put the first variable in the first `geom_point()`
+           ...) + # Set the color
+  geom_point(aes(x = ...,y = ...), # Put the second variable in the second `geom_point()`
+           ...) + # Set the color
+  geom_smooth(aes(x = ...,y = ...), # Put the first variable in the first geom_smooth()
+              ...) + # Set the color
+  geom_smooth(aes(x = ...,y = ...), # Put the second variable in the second geom_smooth()
+              ...) + # Set the color
+  labs(...) + # Make sure it is clearly labeled
+  geom_hline(...) # Add a horizontal dashed line at 0
+```
+
+>- Write answer here
+
+## Question 10 [1 point]
+*One other explanation for inaccurate state polls is that some states do not have many polls run. Calculate the anti-Trump/pro-Biden bias for each state by subtracting the `repErr` from the `demErr` (call this new variable `bidenBias`). Then calculate the average bias by state AND calculate the number of polls in that state. Finally, plot the relationship between the number of polls and the extent of bias. Does the data support the theory that states with more polls were predicted more accurately?*
+
+```{r}
+state <- state %>%
+  mutate(...) # Create the bidenBias variable here
+
+
+state %>%
+  group_by(...) %>%
+  summarise(...,   # Calculate the average bidenBias by state
+            ...) %>% # Calculate the number of polls by state
+  ungroup() %>%
+  ggplot(aes(x = ...,      # Put the correct variable on the x-axis
+             y = ...)) +   # Put the correct variable on the y-axis
+  geom_...() + # Choose the correct geom
+  geom_...(...) + # Add a straight line of best fit
+  labs(...) # Give it some good labels
+```
+
+>- Write answer here
+
+## Extra Credit 2 [0.5 points]
+*Do polls that underestimate Trump's support overestimate Biden's support? Investigate this question using both the national data (`pres`) and the state data (`state`). Use a scatterplot to test, combined with a (straight) line of best fit. Then, calculate the proportion of polls that (1) underestimate both Trump and Biden, (2) underestimate Trump and overestimate Biden, (3) overestimate Trump and underestimate Biden, (4) overestimate both candidates. In these analyses, define "overestimate" as prediction errors greater than or equal to zero, whereas "underestimate" should be prediction errors less than zero. What do you conclude? Is there any evidence of an anti-Trump bias in national polling? What about state polling?*
+```{r}
+# National scatterplot
+# INSERT CODE HERE
+
+# National proportions: 4 different types of polls
+# INSERT CODE HERE
+
+# State scatterplot
+# INSERT CODE HERE
+
+# State proportions: 4 different types of polls
+# INSERT CODE HERE
+```
+
+
+
