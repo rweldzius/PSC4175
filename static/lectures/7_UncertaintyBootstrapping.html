@@ -109,7 +109,7 @@ class: center, middle, inverse, title-slide
 
 ``` r
 require(tidyverse)
-nba &lt;- read_rds('../Data/nba_players_2018.Rds')
+nba &lt;- read_rds('https://github.com/rweldzius/PSC4175/raw/main/static/data/nba_players_2018.Rds') # Make sure you change this to your local file!
 glimpse(nba %&gt;% select(tov,isRookie))
 ```
 
