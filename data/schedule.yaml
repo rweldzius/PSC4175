@@ -169,18 +169,14 @@ lessons:
     week: "08-uncertainty2"
 
     materials:
-      assignment:
-        name: "PS3"
-        link: "psc4175_pset_3/"
- 
       homework:
         link: "psc4175_hw_8/"
 
       video:
         - name: "PS 4175 - Lecture 8a - Confidence Statements"
-          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
+          url: "Uj25S9pCc7g"
         - name: "PSC 4175 - Lecture 8b - Confidence Statements"
-          url: "xvFZjo5PgG0?si=Ycel-nBf6xvcZ1rk"
+          url: "8IXcqXnHtjc"
 
       slides:
         - name: "Lecture 8a - Confidence Statements"
@@ -195,6 +191,10 @@ lessons:
     week: "09-regression1"
 
     materials:
+      assignment:
+        name: "PS3"
+        link: "psc4175_pset_3/"
+        
       homework:
         link: "psc4175_hw_9/"
 
