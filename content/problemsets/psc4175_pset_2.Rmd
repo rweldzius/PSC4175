@@ -18,9 +18,9 @@ knitr::opts_chunk$set(error=TRUE)
 # Getting Set Up
 
 Open `RStudio` and create a new RMarkDown file (`.Rmd`) by going to `File -> New File -> R Markdown...`.
-Accept defaults and save this file as `[LAST NAME]_ps1.Rmd` to your `code` folder.
+Accept defaults and save this file as `[LAST NAME]_ps2.Rmd` to your `code` folder.
 
-Copy and paste the contents of this `.Rmd` file into your `[LAST NAME]_ps1.Rmd` file. Then change the `author: [Your Name]` to your name.
+Copy and paste the contents of this `.Rmd` file into your `[LAST NAME]_ps2.Rmd` file. Then change the `author: [Your Name]` to your name.
 
 All of the following questions should be answered in this `.Rmd` file. There are code chunks with incomplete code that need to be filled in. 
 
