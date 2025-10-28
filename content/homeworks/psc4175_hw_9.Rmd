@@ -16,13 +16,13 @@ So far, we've been using just the simple mean to make predictions. Going forward
 
 As an example, consider the following plot of weekly spending on entertainment (movies, video games, streaming, etc) as a function of hourly wages.
 
-![](../Lectures/figs/condmean.png)
+![](https://github.com/rweldzius/PSC4175/raw/main/content/figures/condmean.png)
 
 If we're asked to summarize the relationship between wages and spending, we could use conditional means. That's what the blue line above does: for each of the four quartiles of hourly wages, it provides the average spending on entertainment. We could expand this logic and include both more levels of hourly wages and other variables with which to calculate the mean-- for example, hourly wages and level of education. The problem is that this approach gives us lots of numbers back.
 
 The graphic below fits a line (in red) to the data:
 
-![](../Lectures/figs/condmean_reg.png)
+![](https://github.com/rweldzius/PSC4175/raw/main/content/figures/condmean.png)
 
 The line has the general function y=12+(2\*x). We're saying that if hourly wages were 0, the person would be predicted to spend 12 on entertainment (who knows where they got it). As hourly wages go up, the line predicts that weekly spending goes up \$2 for every \$1 increase in hourly wages. The line we fit to this data summarizes the relationship using just two numbers: the intercept (value of the y when x=0) and slope-- the amount that y increases as a function of x. We call the slope the *coefficient* on x.
 
