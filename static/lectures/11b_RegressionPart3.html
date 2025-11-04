@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Regression</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Prof. Weldzius" />
+    <script src="libs/header-attrs-2.29/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/lexis.css" type="text/css" />
+    <link rel="stylesheet" href="css/lexis-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Regression
+]
+.subtitle[
+## Part 3b
+]
+.author[
+### Prof. Weldzius
+]
+.institute[
+### Villanova University
+]
+
+---
+
+
+&lt;style type="text/css"&gt;
+.small .remark-code { /*Change made here*/
+  font-size: 85% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+&lt;/style&gt;
+
+
+
+# Agenda
+
+1. Categorical Predictors
+
+---
+
+# Recap of Movie Analysis
+
+
+``` r
+require(tidyverse)
+mv &lt;- read_rds('../data/mv.Rds') %&gt;%
+  mutate(gross_log = log(gross),
+         budget_log = log(budget))
+```
+
+- .blue[Theory]: the more a movie costs, the more it should make
+
+- `\(X\)`: log(budget)
+
+- `\(Y\)`: log(gross)
+
+---
+
+# Categorical Data
+
+--
+
+- Thus far, only using continuous variables
+
+--
+
+- But we can do regression with categorical data too!
+
+--
+
+- The Bechdel Test: 3 questions of a movie
+
+--
+
+  1. Does it have two women in it?
+  2. Who talk to each other?
+  3. About something other than a man?
+  
+
+``` r
+mv %&gt;%
+  count(bechdel_score)
+```
+
+```
+## # A tibble: 5 × 2
+##   bechdel_score     n
+##           &lt;dbl&gt; &lt;int&gt;
+## 1             0   251
+## 2             1   895
+## 3             2   366
+## 4             3  1999
+## 5            NA  4162
+```
+
+---
+
+# Research Question
+
+--
+
+- .blue[Do movies that pass the Bechdel Test make more money?]
+
+--
+
+  - .blue[Theory:] Women are ~50% of the population. Movies that pass the test are more appealing to women.
+  
+--
+
+  - .blue[Hypothesis:] Movies that pass the test make more money.
+  
+--
+
+- .red[Wrangling:] Let's turn the `bechdel_score` variable into a binary
+
+
+``` r
+mv &lt;- mv %&gt;%
+  mutate(bechdel_bin = ifelse(bechdel_score == 3,1,0)) %&gt;%
+  mutate(bechdel_factor=recode_factor(bechdel_bin,
+                                      `1`="Pass",
+                                      `0`="Fail",
+                                      ))
+```
+
+---
+
+# Regression
+
+--
+
+- We can add the binary factor to our regression
+
+
+``` r
+summary(lm(gross_log ~ bechdel_factor,mv))
+```
+
+```
+## 
+## Call:
+## lm(formula = gross_log ~ bechdel_factor, data = mv)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -9.4532 -0.9132  0.3820  1.3392  4.2510 
+## 
+## Coefficients:
+##                    Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)        17.73998    0.05278 336.105  &lt; 2e-16 ***
+## bechdel_factorFail  0.23349    0.08213   2.843  0.00451 ** 
+## ---
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.98 on 2395 degrees of freedom
+##   (5276 observations deleted due to missingness)
+## Multiple R-squared:  0.003363,	Adjusted R-squared:  0.002947 
+## F-statistic: 8.082 on 1 and 2395 DF,  p-value: 0.004507
+```
+
+---
+
+# Regression
+
+- Coefficient is positive
+
+--
+
+- What is the interpretation?
+
+--
+
+  - Movies that fail make more money...
+  
+--
+
+  - ...than what?
+  
+--
+
+  - Movies that pass the Bechdel Test
+  
+--
+
+- Categorical variables are **always interpreted in relation to the hold-out category**!
+
+---
+
+# Regression
+
+- Movies that fail the test make more money!?
+
+--
+
+- **REMEMBER**: Correlation `\(\neq\)` causation
+
+--
+
+  - What might explain this pattern?
+  
+--
+
+  - Budgets in a sexist Hollywood!
+  
+--
+
+  - Movies that fail the test get larger budgets
+  
+--
+
+  - Budgets are positively associated with gross
+  
+--
+
+- So we want to "control" for budget by adding it to our regression
+
+
+``` r
+mBechCtrl &lt;- lm(gross_log ~ budget_log + bechdel_factor,mv)
+```
+
+---
+
+# Regression
+
+
+``` r
+summary(mBechCtrl)
+```
+
+```
+## 
+## Call:
+## lm(formula = gross_log ~ budget_log + bechdel_factor, data = mv)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -8.6325 -0.5305  0.1287  0.6792  7.9370 
+## 
+## Coefficients:
+##                    Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)         2.30814    0.34497   6.691 2.85e-11 ***
+## budget_log          0.92089    0.01993  46.199  &lt; 2e-16 ***
+## bechdel_factorFail -0.18795    0.05254  -3.577 0.000356 ***
+## ---
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.166 on 2055 degrees of freedom
+##   (5615 observations deleted due to missingness)
+## Multiple R-squared:  0.5106,	Adjusted R-squared:  0.5101 
+## F-statistic:  1072 on 2 and 2055 DF,  p-value: &lt; 2.2e-16
+```
+
+---
+
+# Regression
+
+- Our hypothesis is supported!
+
+--
+
+- What about non-binary categorical variables?
+
+
+``` r
+mv %&gt;%
+  count(rating)
+```
+
+```
+## # A tibble: 13 × 2
+##    rating        n
+##    &lt;chr&gt;     &lt;int&gt;
+##  1 Approved      1
+##  2 G           153
+##  3 NC-17        23
+##  4 Not Rated   283
+##  5 PG         1254
+##  6 PG-13      2114
+##  7 R          3698
+##  8 TV-14         1
+##  9 TV-MA         9
+## 10 TV-PG         5
+## 11 Unrated      52
+## 12 X             3
+## 13 &lt;NA&gt;         77
+```
+
+---
+
+# Categorical
+
+- Let's first remove rarely-occurring ratings
+
+
+``` r
+mvAnalysis &lt;- mv %&gt;%
+  filter(!rating %in% c('Approved','TV-14','TV-MA','TV-PG','X'))
+```
+
+---
+
+# Categorical
+
+
+``` r
+summary(lm(gross_log ~ rating,mvAnalysis))
+```
+
+```
+## 
+## Call:
+## lm(formula = gross_log ~ rating, data = mvAnalysis)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -9.1487 -0.9872  0.2300  1.3192  5.5249 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      19.1299     0.2560  74.727  &lt; 2e-16 ***
+## ratingNC-17      -2.7709     0.6880  -4.028 5.74e-05 ***
+## ratingNot Rated  -4.2052     0.2898 -14.511  &lt; 2e-16 ***
+## ratingPG         -0.5539     0.2708  -2.045 0.040924 *  
+## ratingPG-13      -0.9188     0.2611  -3.519 0.000439 ***
+## ratingR          -2.4344     0.2599  -9.367  &lt; 2e-16 ***
+## ratingUnrated    -5.8053     0.4608 -12.599  &lt; 2e-16 ***
+## ---
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.916 on 3954 degrees of freedom
+##   (3693 observations deleted due to missingness)
+## Multiple R-squared:  0.2274,	Adjusted R-squared:  0.2262 
+## F-statistic: 193.9 on 6 and 3954 DF,  p-value: &lt; 2.2e-16
+```
+
+---
+
+# Categorical
+
+- Everything makes less money than the hold-out category!
+
+--
+
+  - "G"-rated movies are powered by children
+  
+--
+
+- What if we wanted to compare to a different reference category?
+
+
+``` r
+mvAnalysis &lt;- mvAnalysis %&gt;%
+  mutate(rating = factor(rating,
+                         levels = c('R','PG-13','PG','G','Not Rated')))
+
+mRating2 &lt;- lm(gross_log ~ rating,mvAnalysis)
+```
+
+---
+
+# Categorical
+
+
+``` r
+summary(mRating2)
+```
+
+```
+## 
+## Call:
+## lm(formula = gross_log ~ rating, data = mvAnalysis)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -9.1487 -0.9801  0.2305  1.3185  5.5249 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)     16.69544    0.04491 371.793   &lt;2e-16 ***
+## ratingPG-13      1.51563    0.06839  22.162   &lt;2e-16 ***
+## ratingPG         1.88057    0.09925  18.948   &lt;2e-16 ***
+## ratingG          2.43445    0.26005   9.362   &lt;2e-16 ***
+## ratingNot Rated -1.77073    0.14310 -12.374   &lt;2e-16 ***
+## ---
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.917 on 3922 degrees of freedom
+##   (3727 observations deleted due to missingness)
+## Multiple R-squared:  0.2108,	Adjusted R-squared:   0.21 
+## F-statistic: 261.9 on 4 and 3922 DF,  p-value: &lt; 2.2e-16
+```
+
+---
+
+# Cross Validation
+
+- This is why `sample_n()` is useful
+
+
+``` r
+set.seed(123)
+rmseRes_rating &lt;- NULL
+for(i in 1:100) {
+  train &lt;- mvAnalysis %&gt;%
+    group_by(rating) %&gt;%
+    sample_n(size = round(n()*.8),replace = F)
+  test &lt;- mvAnalysis %&gt;% anti_join(train)
+  
+  m &lt;- lm(gross_log ~ rating,train)
+  rmseRes_rating &lt;- test %&gt;%
+    mutate(preds = predict(m,newdata = test)) %&gt;%
+    summarise(rmse = sqrt(mean((gross_log - preds)^2,na.rm=T))) %&gt;%
+    bind_rows(rmseRes_rating)
+}
+*rmseRes_rating %&gt;% summarise(rmse = mean(rmse))
+```
+
+```
+## # A tibble: 1 × 1
+##    rmse
+##   &lt;dbl&gt;
+## 1  1.92
+```
+
+---
+
+# Categorical Analysis Practice
+
+- Change the hold-out category to `Not Rated`, run the regression, and cross-validate the results. 
+
+
+``` r
+# INSERT CODE HERE
+```
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="libs/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+  "highlightStyle": "github",
+  "highlightLines": true,
+  "countIncrementalSlides": false,
+  "slideNumberFormat": "%current%",
+  "ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
