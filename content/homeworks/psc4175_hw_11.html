@@ -17,7 +17,7 @@ testing the predictions against the testing data. We’ll include additional con
 library(plotly)
 library(scales)</code></pre>
 <p>And the same dataset, which includes data on movies released since 1980.</p>
-<pre class="r"><code>mv&lt;-readRDS(&quot;https://github.com/rweldzius/PSC4175/raw/main/static/data/mv.Rds&quot;)%&gt;%
+<pre class="r"><code>mv&lt;-readRDS(url(&quot;https://github.com/rweldzius/PSC4175/raw/main/static/data/mv.Rds&quot;)) %&gt;%
   filter(!is.na(budget))%&gt;%
   mutate(log_gross=log(gross),
          log_budget = log(budget))%&gt;%
@@ -26,7 +26,6 @@ library(scales)</code></pre>
                                       `1`=&quot;Pass&quot;,
                                       `0`=&quot;Fail&quot;,
                                       ))</code></pre>
-<pre><code>## Error in gzfile(file, &quot;rb&quot;): cannot open the connection</code></pre>
 </div>
 <div id="a-brief-digression-the-bechdel-test" class="section level2">
 <h2>A Brief Digression: The Bechdel Test</h2>
@@ -43,7 +42,13 @@ library(scales)</code></pre>
 <pre class="r"><code>mv%&gt;%
   group_by(bechdel_bin)%&gt;%
   count()</code></pre>
-<pre><code>## Error: object &#39;mv&#39; not found</code></pre>
+<pre><code>## # A tibble: 3 × 2
+## # Groups:   bechdel_bin [3]
+##   bechdel_bin     n
+##         &lt;dbl&gt; &lt;int&gt;
+## 1           0   873
+## 2           1  1186
+## 3          NA  1132</code></pre>
 <p>A majority, but 873 (873!!) movies did not have two female characters that spoke to each other about anything other than a man.</p>
 <p>Let’s see if the contention of movie execs about earning power holds up.</p>
 <pre class="r"><code>mv%&gt;%
@@ -58,7 +63,7 @@ library(scales)</code></pre>
   scale_fill_discrete(name=&quot;Passed Bechdel Test&quot;)+
   theme_minimal()+
   theme(legend.position = &quot;bottom&quot;)</code></pre>
-<pre><code>## Error: object &#39;mv&#39; not found</code></pre>
+<p><img src="/PSC4175/homeworks/psc4175_hw_11_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>Nope. At every budget level, movies that pass the Bechdel test make more money, not less.</p>
 </div>
 <div id="regression-with-a-binary-variable" class="section level2">
@@ -69,15 +74,40 @@ library(scales)</code></pre>
   summarize(count=n())%&gt;%
   mutate(`Proportion`=count/sum(count))%&gt;%
   arrange(-Proportion)</code></pre>
-<pre><code>## Error: object &#39;mv&#39; not found</code></pre>
+<pre><code>## # A tibble: 3 × 3
+##   bechdel_bin count Proportion
+##         &lt;dbl&gt; &lt;int&gt;      &lt;dbl&gt;
+## 1           1  1186      0.372
+## 2          NA  1132      0.355
+## 3           0   873      0.274</code></pre>
 </div>
 <div id="regression" class="section level2">
 <h2>Regression</h2>
 <p>Next, I add the variable <code>bechdel_factor</code> to the formula. Recall from the previous lecture that we ended with a multiple regression model in which we predicted gross by the budget and the IMDB score.</p>
-<pre class="r"><code>mBech &lt;- lm(log_gross ~ log_budget + score + bechdel_factor,mv)</code></pre>
-<pre><code>## Error in eval(mf, parent.frame()): object &#39;mv&#39; not found</code></pre>
-<pre class="r"><code>summary(mBech)</code></pre>
-<pre><code>## Error: object &#39;mBech&#39; not found</code></pre>
+<pre class="r"><code>mBech &lt;- lm(log_gross ~ log_budget + score + bechdel_factor,mv)
+summary(mBech)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = log_gross ~ log_budget + score + bechdel_factor, 
+##     data = mv)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -8.6909 -0.4825  0.1423  0.6341  8.0510 
+## 
+## Coefficients:
+##                    Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)         0.47383    0.39162   1.210    0.226    
+## log_budget          0.92779    0.01955  47.464  &lt; 2e-16 ***
+## score               0.26226    0.02827   9.278  &lt; 2e-16 ***
+## bechdel_factorFail -0.21934    0.05160  -4.251 2.23e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.143 on 2054 degrees of freedom
+##   (1133 observations deleted due to missingness)
+## Multiple R-squared:  0.5303,	Adjusted R-squared:  0.5296 
+## F-statistic: 772.9 on 3 and 2054 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>The variable <code>bechdel_factor</code> is now added to our formula. Note that, because it is a binary categorical variable, we only have one value for it. This is because the regression is comparing a movie that fails the Bechdel test to one that passes it. Thus we can think of the coefficient -0.219 as the difference between a movie that passes and fails the test – i.e., movies that fail the test gross less than those that pass it. Note that this relationship holds even AFTER controlling for budget and IMDB score.</p>
 </div>
 <div id="calculating-model-fit-with-rmse" class="section level2">
@@ -89,23 +119,19 @@ library(scales)</code></pre>
 4. Square the errors
 5. Take the average of the squared errors
 6. Take the square root of this average</p>
-<pre class="r"><code>e &lt;- resid(mBech)</code></pre>
-<pre><code>## Error: object &#39;mBech&#39; not found</code></pre>
-<pre class="r"><code>se &lt;- e^2</code></pre>
-<pre><code>## Error: object &#39;e&#39; not found</code></pre>
-<pre class="r"><code>mse &lt;- mean(se)</code></pre>
-<pre><code>## Error: object &#39;se&#39; not found</code></pre>
-<pre class="r"><code>rmse &lt;- sqrt(mse)</code></pre>
-<pre><code>## Error: object &#39;mse&#39; not found</code></pre>
-<pre class="r"><code>rmse</code></pre>
-<pre><code>## Error: object &#39;rmse&#39; not found</code></pre>
+<pre class="r"><code>e &lt;- resid(mBech)
+se &lt;- e^2
+mse &lt;- mean(se)
+rmse &lt;- sqrt(mse)
+rmse</code></pre>
+<pre><code>## [1] 1.141396</code></pre>
 <p>But we don’t want to calculate this on the full data. Instead, we rely on cross validation to get a more accurate measure of our model’s fit. Also! Remember that we are interested in comparing how good our model performs with different combinations of predictors. Does the Bechdel data actually help us?</p>
 <pre class="r"><code>set.seed(123)
 mvAnalysis &lt;- mv %&gt;%
   select(bechdel_factor,score,log_budget,log_gross) %&gt;%
-  drop_na()</code></pre>
-<pre><code>## Error: object &#39;mv&#39; not found</code></pre>
-<pre class="r"><code>cvRes &lt;- NULL
+  drop_na()
+
+cvRes &lt;- NULL
 
 for(i in 1:100) {
   inds &lt;- sample(1:nrow(mvAnalysis),size = round(nrow(mvAnalysis)*.75),replace = F) # Set training to 75% of the data
@@ -128,27 +154,28 @@ for(i in 1:100) {
     mutate(cvIndex = i) %&gt;%
     bind_rows(cvRes)
   
-}</code></pre>
-<pre><code>## Error: object &#39;mvAnalysis&#39; not found</code></pre>
-<pre class="r"><code>cvRes %&gt;%
+}
+
+cvRes %&gt;%
   select(-cvIndex) %&gt;%
   summarise_all(mean) %&gt;%
   gather(model,rmse) %&gt;%
   ggplot(aes(x = rmse,y = reorder(model,rmse))) + 
   geom_bar(stat = &#39;identity&#39;)</code></pre>
-<pre><code>## Error in UseMethod(&quot;select&quot;): no applicable method for &#39;select&#39; applied to an object of class &quot;NULL&quot;</code></pre>
+<p><img src="/PSC4175/homeworks/psc4175_hw_11_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <pre class="r"><code>cvRes %&gt;%
   select(-cvIndex) %&gt;%
   gather(model,rmse) %&gt;%
   ggplot(aes(x = rmse,fill = model)) + 
   geom_density(alpha = .3)</code></pre>
-<pre><code>## Error in UseMethod(&quot;select&quot;): no applicable method for &#39;select&#39; applied to an object of class &quot;NULL&quot;</code></pre>
+<p><img src="/PSC4175/homeworks/psc4175_hw_11_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
 <pre class="r"><code>cvRes %&gt;%
   summarise(diff12 = round(mean(rmse1 &gt; rmse2),3),
             diff13 = round(mean(rmse1 &gt; rmse3),3),
             diff23 = round(mean(rmse2 &gt; rmse3),3)) %&gt;%
   as.data.frame()</code></pre>
-<pre><code>## Error in UseMethod(&quot;summarise&quot;): no applicable method for &#39;summarise&#39; applied to an object of class &quot;NULL&quot;</code></pre>
+<pre><code>##   diff12 diff13 diff23
+## 1      1      1   0.87</code></pre>
 <p>So we improve the model fit by adding the Bechdel test scores. We are 99.9% certain that model 2 is an improvement over model 1, 99.9% sure that model 3 is an improvement over model 1, and 87% sure that model 3 is an improvement over model 2.</p>
 </div>
 <div id="regression-with-a-categorical-variable" class="section level2">
@@ -158,23 +185,83 @@ for(i in 1:100) {
 <pre class="r"><code>mv%&gt;%
   group_by(rating)%&gt;%
   count()</code></pre>
-<pre><code>## Error: object &#39;mv&#39; not found</code></pre>
+<pre><code>## # A tibble: 9 × 2
+## # Groups:   rating [9]
+##   rating        n
+##   &lt;chr&gt;     &lt;int&gt;
+## 1 G            54
+## 2 NC-17         6
+## 3 Not Rated    37
+## 4 PG          434
+## 5 PG-13      1249
+## 6 R          1392
+## 7 TV-MA         2
+## 8 Unrated       7
+## 9 &lt;NA&gt;         10</code></pre>
 </div>
 <div id="regressing-model-test" class="section level2">
 <h2>Regressing + Model Test</h2>
 <p>Let’s analyze!</p>
 <pre class="r"><code>summary(m2 &lt;- lm(log_gross ~ log_budget + score + rating,mv))</code></pre>
-<pre><code>## Error in eval(mf, parent.frame()): object &#39;mv&#39; not found</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = log_gross ~ log_budget + score + rating, data = mv)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -7.1259 -0.5786  0.1573  0.7163  8.0714 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      1.62557    0.39228   4.144 3.50e-05 ***
+## log_budget       0.85421    0.01842  46.373  &lt; 2e-16 ***
+## score            0.33985    0.02256  15.064  &lt; 2e-16 ***
+## ratingNC-17     -1.18817    0.51972  -2.286  0.02231 *  
+## ratingNot Rated -2.33824    0.26865  -8.704  &lt; 2e-16 ***
+## ratingPG        -0.24143    0.17397  -1.388  0.16530    
+## ratingPG-13     -0.43612    0.16768  -2.601  0.00934 ** 
+## ratingR         -0.93461    0.16874  -5.539 3.30e-08 ***
+## ratingTV-MA     -2.26996    0.86839  -2.614  0.00899 ** 
+## ratingUnrated   -2.36506    0.48738  -4.853 1.28e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.205 on 3164 degrees of freedom
+##   (17 observations deleted due to missingness)
+## Multiple R-squared:  0.5352,	Adjusted R-squared:  0.5339 
+## F-statistic: 404.8 on 9 and 3164 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>How to interpret this output? Again, we want to be aware of which category is not being included, which is the <em>reference</em> to the rest of the rating categories. As you can see, this is the “G” movie rating (i.e., general audiences). As we can see, G-rated movies earn more than EVERY OTHER TYPE OF MOVIE.</p>
 <p>Note that we might want to drop certain rarely occurring categories. For example, we know from above that there are only 6 NC-17 movies, 2 TV-MA movies, and 7 Unrated movies. Furthermore, we can change the reference category to something different with the <code>factor()</code> command. Let’s do this now:</p>
 <pre class="r"><code>mvAnalysis &lt;- mv %&gt;%
   select(log_gross,log_budget,score,rating) %&gt;%
   filter(!rating %in% c(&#39;NC-17&#39;,&#39;TV-MA&#39;,&#39;Unrated&#39;)) %&gt;%
   drop_na() %&gt;%
-  mutate(rating = factor(rating,levels = c(&#39;R&#39;,&#39;PC-13&#39;,&#39;PG&#39;,&#39;G&#39;,&#39;Not Rated&#39;)))</code></pre>
-<pre><code>## Error: object &#39;mv&#39; not found</code></pre>
-<pre class="r"><code>summary(m3 &lt;- lm(log_gross ~ log_budget + score + rating,mvAnalysis))</code></pre>
-<pre><code>## Error in eval(mf, parent.frame()): object &#39;mvAnalysis&#39; not found</code></pre>
+  mutate(rating = factor(rating,levels = c(&#39;R&#39;,&#39;PC-13&#39;,&#39;PG&#39;,&#39;G&#39;,&#39;Not Rated&#39;)))
+
+summary(m3 &lt;- lm(log_gross ~ log_budget + score + rating,mvAnalysis))</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = log_gross ~ log_budget + score + rating, data = mvAnalysis)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -6.8665 -0.6266  0.1777  0.7816  7.9003 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      0.99416    0.46538   2.136   0.0328 *  
+## log_budget       0.82891    0.02495  33.220  &lt; 2e-16 ***
+## score            0.35852    0.03220  11.136  &lt; 2e-16 ***
+## ratingPG         0.72476    0.07763   9.336  &lt; 2e-16 ***
+## ratingG          0.96838    0.18522   5.228  1.9e-07 ***
+## ratingNot Rated -1.44571    0.23159  -6.242  5.3e-10 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.317 on 1904 degrees of freedom
+##   (1249 observations deleted due to missingness)
+## Multiple R-squared:  0.5032,	Adjusted R-squared:  0.5018 
+## F-statistic: 385.6 on 5 and 1904 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>As we can see, every type of movie earns <strong>more</strong> than rated-R movies with the exception of Not Rated movies, which earn less.</p>
 <p>Let’s evaluate RMSE again via cross validation.</p>
 <pre class="r"><code>cvRes2 &lt;- NULL
@@ -200,26 +287,29 @@ for(i in 1:100) {
     mutate(cvIndex = i) %&gt;%
     bind_rows(cvRes2)
   
-}</code></pre>
-<pre><code>## Error: object &#39;mvAnalysis&#39; not found</code></pre>
-<pre class="r"><code>cvRes2 %&gt;%
+}
+
+cvRes2 %&gt;%
   select(-cvIndex) %&gt;%
   summarise_all(mean) %&gt;%
   gather(model,rmse) %&gt;%
   ggplot(aes(x = rmse,y = reorder(model,rmse))) + 
   geom_bar(stat = &#39;identity&#39;)</code></pre>
-<pre><code>## Error in UseMethod(&quot;select&quot;): no applicable method for &#39;select&#39; applied to an object of class &quot;NULL&quot;</code></pre>
+<p><img src="/PSC4175/homeworks/psc4175_hw_11_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <pre class="r"><code>cvRes2 %&gt;%
   select(-cvIndex) %&gt;%
   gather(model,rmse) %&gt;%
   ggplot(aes(x = rmse,fill = model)) + 
   geom_density(alpha = .3)</code></pre>
-<pre><code>## Error in UseMethod(&quot;select&quot;): no applicable method for &#39;select&#39; applied to an object of class &quot;NULL&quot;</code></pre>
+<p><img src="/PSC4175/homeworks/psc4175_hw_11_files/figure-html/unnamed-chunk-12-2.png" width="672" /></p>
 <pre class="r"><code>cvRes2 %&gt;%
   summarise(diff12 = mean(rmse1 &gt; rmse2),
             diff13 = mean(rmse1 &gt; rmse3),
             diff23 = mean(rmse2 &gt; rmse3))</code></pre>
-<pre><code>## Error in UseMethod(&quot;summarise&quot;): no applicable method for &#39;summarise&#39; applied to an object of class &quot;NULL&quot;</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   diff12 diff13 diff23
+##    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1      1   0.07   0.01</code></pre>
 <p>We are now finding that adding the rating <em>reduces</em> the fit of our model, as evidence by a higher RMSE! Why might this be the case?</p>
 </div>
 <div id="last-note" class="section level2">

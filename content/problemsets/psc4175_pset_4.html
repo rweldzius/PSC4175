@@ -1,0 +1,159 @@
+---
+title: "Problem Set 4"
+author: '[YOUR NAME]'
+date: "Due Date: 2025-11-14"
+output:
+  html_document: default
+  pdf_document: default
+subtitle: Regression Analysis
+institute: Villanova University
+type: homeworks
+---
+
+
+
+<div id="getting-set-up" class="section level2">
+<h2>Getting Set Up</h2>
+<p>Open <code>RStudio</code> and create a new RMarkDown file (<code>.Rmd</code>) by going to <code>File -&gt; New File -&gt; R Markdown...</code>.
+Accept defaults and save this file as <code>[LAST NAME]_ps4.Rmd</code> to your <code>code</code> folder.</p>
+<p>Copy and paste the contents of this <code>.Rmd</code> file into your <code>[LAST NAME]_ps4.Rmd</code> file. Then change the <code>author: [Your Name]</code> to your name.</p>
+<p>All of the following questions should be answered in this <code>.Rmd</code> file. There are code chunks with incomplete code that need to be filled in. To submit, compile (i.e., <code>knit as pdf</code>) the completed problem set and upload the PDF file to Blackboard on Friday by midnight. Be sure to check your knitted PDF for mistakes before submitting!</p>
+<p>This problem set is worth 7 total points, plus 2 extra credit points. The point values for each question are indicated in brackets below. To receive full credit, you must have the correct code. In addition, some questions ask you to provide a written response in addition to the code.</p>
+<p>You will be deducted 1 point for each day late the problem set is submitted, and 1 point for failing to submit in the correct format (i.e., not knitting as a PDF).</p>
+<p>You are free to rely on whatever resources you need to complete this problem set, including lecture notes, lecture presentations, Google, your classmates…you name it. However, the final submission must be complete by you. There are no group assignments. To submit, compile the completed problem set and upload the PDF file to Blackboard on Friday by midnight. If you use AI for help, choose to save your output as a PDF and submit this with the problem set as well. Also note that I will not respond to Campuswire messages after 2PM ET on Friday, so don’t wait until the last minute to get started!</p>
+<p><strong>Good luck!</strong></p>
+<p><strong>If you collaborated with a colleague and/or used AI for any help on this problem set, document here.</strong> Write the names of your classmates and/or upload a PDF of your AI prompt and output with your problem set:</p>
+</div>
+<div id="question-0" class="section level2">
+<h2>Question 0</h2>
+<p>Require <code>tidyverse</code> and load the <a href="https://github.com/rweldzius/PSC4175/raw/main/static/data/mv.Rds&#39;"><code>mv.Rds</code></a> data to an object called <code>movies</code>.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>
+<div id="question-1-1-point" class="section level2">
+<h2>Question 1 [1 point]</h2>
+<p>In this problem set, we will answer the following research question: “Do movies that have a higher Bechdel Score (<code>bechdel_score</code>) make more money (<code>gross</code>)?” First, write out a <strong>theory</strong> that answers this question and transform it into a <strong>hypothesis</strong>. To learn more about the Bechdel Score, please read <a href="https://en.wikipedia.org/wiki/Bechdel_test">this Wikipedia entry</a>.</p>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-2-1.5-points" class="section level2">
+<h2>Question 2 [1.5 points]</h2>
+<p>Based on your theory, which variable is the <span class="math inline">\(X\)</span> variable (i.e., the independent variable or the predictor)? Which variable is the <span class="math inline">\(Y\)</span> variable (i.e., the dependent variable or the outcome)? Use <strong>univariate</strong> visualization to create two plots, one for each variable. Do you need to apply a log-transformation to either of these variables? Why? Then create a multivariate visualization of these two variables, making sure to put the independent variable on the x-axis and the dependent variable on the y-axis. Make sure to log the data if you determined this was necessary in the previous question! Does the visualization support your hypothesis?</p>
+<pre class="r"><code># Univariate visualization of predictor / X variable
+movies %&gt;%
+  ggplot() + # Put the predictor on the x-axis
+  geom_...() + # Choose the appropriate geom...()
+  labs(title = &#39;&#39;, # Make sure to give the plot intuitive labels!
+       x = &#39;&#39;,
+       y = &#39;&#39;)</code></pre>
+<pre><code>## Error in movies %&gt;% ggplot(): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Univariate visualization of outcome / Y variable
+movies %&gt;%
+  ggplot() + # Put the outcome on the x-axis
+  geom_...() + # Choose the appropriate geom...()
+  labs(title = &#39;&#39;, # Make sure to give the plot intuitive labels!
+       x = &#39;&#39;,
+       y = &#39;&#39;)</code></pre>
+<pre><code>## Error in movies %&gt;% ggplot(): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Multivariate visualization
+movies %&gt;%
+  drop_na() %&gt;% # Dropping missing observations from the variables
+  mutate() %&gt;% # Do you need to mutate anything?
+  ggplot() + # Put the predictor on the x-axis and the outcome on the y-axis
+  geom_...() + # Choose the appropriate geom...()
+  labs(title = &#39;&#39;, # Make sure to give the plot intuitive labels!
+       x = &#39;&#39;,
+       y = &#39;&#39;)</code></pre>
+<pre><code>## Error in movies %&gt;% drop_na() %&gt;% mutate() %&gt;% ggplot(): could not find function &quot;%&gt;%&quot;</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-3-2-points" class="section level2">
+<h2>Question 3 [2 points]</h2>
+<p>Now estimate the regression using the <code>lm()</code> function. Describe the output of the model in English, talking about the intercept, the slope, and the statistical significance.</p>
+<pre class="r"><code># Data wrangling
+movies_analysis &lt;- movies %&gt;%
+  mutate() %&gt;% # Do you need to mutate anything?
+  drop_na() # Dropping missing observations from the variables</code></pre>
+<pre><code>## Error in movies %&gt;% mutate() %&gt;% drop_na(): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code>model_gross_bechdel_score &lt;- lm(formula = , # Write the regression formula here
+                                data = ) # Put the data here</code></pre>
+<pre><code>## Error in terms.formula(formula, data = data): argument is not a valid model</code></pre>
+<pre class="r"><code>summary(model_gross_bechdel_score) # Interpret the regression output. Check here for help: https://learneconomicsonline.com/blog/archives/1095</code></pre>
+<pre><code>## Error: object &#39;model_gross_bechdel_score&#39; not found</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="question-4-2.5-points" class="section level2">
+<h2>Question 4 [2.5 points]</h2>
+<p>Now calculate the model’s prediction errors and create both a univariate and multivariate visualization of them. Based on these analyses, would you say that your model does a good job predicting how much money a movie makes? <strong>Make sure to reference both the univariate and multivariate visualization of the errors!</strong> Use the prediction errors to calculate the RMSE in the full data. Then calculate the RMSE using 100-fold cross validation with an 80-20 split and take the average of the 100 estimates.</p>
+<pre class="r"><code>movies_analysis &lt;- movies_analysis %&gt;%
+  mutate() %&gt;% # Create new variable of predicted values from the model
+  mutate() # Calculate the errors</code></pre>
+<pre><code>## Error in movies_analysis %&gt;% mutate() %&gt;% mutate(): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Univariate visualization of the errors
+movies_analysis %&gt;%
+  ggplot() + # Put errors on the x-axis
+  geom_...() + # Choose the apppropriate geom...()
+  labs(title = &#39;&#39;, # Make sure to give the plot intuitive labels!
+       x = &#39;&#39;,
+       y = &#39;&#39;)</code></pre>
+<pre><code>## Error in movies_analysis %&gt;% ggplot(): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># Multivariate
+movies_analysis %&gt;%
+  ggplot() + # Put errors on the y-axis and the predictor on the x-axis
+  geom_...() + # Choose the apppropriate geom...()
+  geom_hline() + # Add a horizontal dashed line at zero
+  labs(title = &#39;&#39;, # Make sure to give the plot intuitive labels!
+       x = &#39;&#39;,
+       y = &#39;&#39;)</code></pre>
+<pre><code>## Error in movies_analysis %&gt;% ggplot(): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># RMSE Calculations
+# RMSE Full Data
+movies_analysis %&gt;%
+  mutate() %&gt;% # Calculate the squared errors (SE)
+  summarise() %&gt;% # Calculate the mean of the squared errors (MSE)
+  mutate() # Calculate the square root of the mean of the squared errors (RMSE)</code></pre>
+<pre><code>## Error in movies_analysis %&gt;% mutate() %&gt;% summarise() %&gt;% mutate(): could not find function &quot;%&gt;%&quot;</code></pre>
+<pre class="r"><code># RMSE 100-fold CV
+set.seed(123) # Set seed for consistency!
+cvRes &lt;- NULL # Instantiate an empty object to store data from the loop
+for(i in 1:100) { # Loop 100 times
+  inds &lt;- sample() # Create a list of random row numbers from 80% of the data, without replacement
+  
+  train &lt;- movies_analysis %&gt;% slice() # Create the training dataset based on these rows
+  test &lt;- movies_analysis %&gt;% slice() # Create the test dataset based on all other rows
+  
+  m &lt;- lm(formula = ,
+          data = ) # Calculate your regression on the training data
+  
+  test$preds &lt;- predict(,
+                        newdata = ) # Apply your model to the test data
+  
+  e &lt;-  # Calculate the errors
+  se &lt;-  # Calculate the squared errors
+  mse &lt;- mean() # Calcualte the mean of the squared errors 
+  rmse &lt;- sqrt()# Calculate the RMSE
+  cvRes &lt;- c() # Save the RMSE to a list of numbers
+} </code></pre>
+<pre><code>## Error in sample(): argument &quot;x&quot; is missing, with no default</code></pre>
+<pre class="r"><code>mean(cvRes)</code></pre>
+<pre><code>## Warning in mean.default(cvRes): argument is not numeric or logical: returning
+## NA</code></pre>
+<pre><code>## [1] NA</code></pre>
+<pre class="r"><code>mean(cvRes &lt; 1.98)</code></pre>
+<pre><code>## [1] NaN</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+</div>
+<div id="extra-credit-1-point" class="section level2">
+<h2>Extra Credit [1 point]</h2>
+<p>Taking a step back, do you trust these results? What concerns might you have about the model? Can you propose a “control” to add that would speak to your concerns? Run the regression with this control and re-interpret the results.</p>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+</div>

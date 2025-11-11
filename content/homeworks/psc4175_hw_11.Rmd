@@ -26,7 +26,7 @@ library(scales)
 And the same dataset, which includes data on movies released since 1980. 
 
 ```{r}
-mv<-readRDS("https://github.com/rweldzius/PSC4175/raw/main/static/data/mv.Rds")%>%
+mv<-readRDS(url("https://github.com/rweldzius/PSC4175/raw/main/static/data/mv.Rds")) %>%
   filter(!is.na(budget))%>%
   mutate(log_gross=log(gross),
          log_budget = log(budget))%>%
