@@ -1,0 +1,388 @@
+---
+title: "Classification"
+subtitle: "Part 1a"
+author: "Prof. Ryan Weldzius"
+institute: "Villanova University"
+# date: "Slides Updated: `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    # self_contained: true
+    chakra: libs/remark-latest.min.js
+    lib_dir: libs
+    css:
+      - default
+      - css/lexis.css
+      - css/lexis-fonts.css
+    #seal: false
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+
+---
+
+```{css,echo = F}
+.small .remark-code { /*Change made here*/
+  font-size: 85% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+```
+
+```{r,include=F}
+options(width=60)
+knitr::opts_chunk$set(fig.align='center',fig.width=9,fig.height=5,message=F,warning=F)
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$size != "normalsize", paste0("\n \\", options$size,"\n\n", x, "\n\n \\normalsize"), x)
+})
+```
+
+# Agenda
+
+1. Classification
+
+2. Fortnite gaming (i.e., Prof's desperate attempt to be relevant)
+
+```{r,message=F,warning=F}
+require(tidyverse)
+fn <- read_rds('../Data/fn_cleaned_final.rds')
+```
+
+
+---
+
+# Definitions
+
+- *Classification:* predicting the **class** of given data points via **predictive modeling**
+
+--
+
+  - *Class*: AKA targets, labels, or **categories**
+  
+--
+
+  - *Predictive Modeling*: Approximate mapping function $f: X \rightarrow Y$
+  
+--
+
+  - $X$: predictor variables
+  
+  - $Y$: outcome variable
+  
+  - $f$: ??
+  
+---
+
+# Mapping Functions
+
+- We have already used mapping functions!
+
+--
+
+- Linear Regression
+
+--
+
+  - $f$: $Y = \alpha + \beta X + \varepsilon$
+  
+--
+
+- Underlying idea: $X$ contain information about $Y$
+
+---
+
+# It is in the $Y$
+
+- If $Y$ is continuous, we use OLS (ordinary least squares) regression
+
+--
+
+- If $Y$ is **binary**, we use "logistic" regression (AKA "logit")
+
+--
+
+  - As always, this is a **deep** area of study for those interested
+  
+--
+
+- Today, using OLS for binary $Y$
+
+--
+
+  - Next few classes: replacing OLS regression with logit
+  
+
+---
+
+# Fortnite
+
+<center><img src="https://cdn2.unrealengine.com/blade-2560x1440-2560x1440-d4e556fb8166.jpg" width="80%"></center>
+
+---
+
+# Fortnite
+
+- Goal is to win (i.e., be the last player alive)
+
+--
+
+- Professional e-sports teams want to maximize this probability
+
+--
+
+- .blue[Research Question]: How can we increase the number of victories?
+
+--
+
+- **NB**: we are moving out of the **.blue[Research]** camp now, and into the **.red[Prediction]** world
+
+--
+
+  - We don't care so much about *why* a relationship exists, we just want to get accurate predictions
+
+--
+
+  - Theory can still help us, but want to start with the data to get our thinking started
+
+---
+
+# The Data
+
+```{r, message=FALSE}
+glimpse(fn)
+```
+
+---
+
+# The Data
+
+- Start with the basics:
+
+--
+
+  1. What is the unit of analysis?
+  
+  2. Which variables are we interested in?
+
+
+---
+
+# Prediction
+
+$$Y = \alpha + \beta_1 X_1 + \beta_2 X_2 + \dots + \varepsilon$$
+
+--
+
+- $Y$: victory (`won`)
+
+--
+
+- $X$: ??
+
+--
+
+  - In prediction, we don't care about **theory** or **research questions**
+
+  - Just want to maximize **accuracy**...which $X$'s are the "best"?
+  
+  - But theory can still help us make sensible choices about which $X$'s to use
+  
+--
+
+- Look at univariate & conditional relationships
+
+---
+
+# The Data
+
+- Outcome $Y$: `won`
+
+```{r,message=F,warning=F}
+require(scales)
+fn %>%
+  summarise(`Win %` = percent(mean(won)))
+```
+
+--
+
+- Multivariate analysis?
+
+---
+
+# Which $X$?
+
+```{r}
+fn %>%
+  group_by(mental_state) %>%
+  summarise(pr_win = mean(won))
+```
+
+---
+
+# Which $X$?
+
+```{r}
+fn %>%
+  group_by(gameIdSession) %>%
+  summarise(pr_win = mean(won))
+```
+
+---
+
+# Which $X$?
+
+```{r}
+fn %>%
+  group_by(gameIdSession) %>%
+  summarise(pr_win = mean(won)) %>%
+  ggplot(aes(x = gameIdSession,y = pr_win)) + 
+  geom_point()
+```
+
+---
+
+# Which $X$?
+
+```{r}
+fn %>%
+  ggplot(aes(x = hits,y = won)) + 
+  geom_point()
+```
+
+---
+
+# Which $X$?
+
+```{r}
+fn %>%
+  ggplot(aes(x = hits,y = won)) + 
+  geom_jitter()
+```
+
+---
+
+# Heatmaps
+
+- Look at 3-dimensions of data
+
+--
+
+  - Done this before by tweaking `fill`, `color`, or `size`
+  
+--
+
+- `geom_tile()`: create a heatmap
+
+```{r}
+p <- fn %>%
+  mutate(accuracy_decile = ntile(hits,n=10)) %>% # Bin hits by decile (10%)
+  group_by(accuracy_decile,mental_state) %>% # Calculate average winning by mental state and accuracy
+  summarise(pr_win = mean(won),
+            .groups = 'drop') %>%
+  ggplot(aes(x = factor(mental_state),
+             y = factor(accuracy_decile), # Both x and y-axes are factors
+             fill = pr_win)) + # Fill by third dimension
+  geom_tile() + # Creates rectangles
+  scale_fill_gradient(limits = c(0,1)) # Set fill color (can do much more here)
+```
+
+---
+
+# Heatmaps
+
+```{r}
+p
+```
+
+---
+
+# Simplest Predictions
+
+- Remember: regression is just fancier conditional means
+
+```{r}
+fn <- fn %>%
+  mutate(hits_decile = ntile(hits,n=10)) %>% # Bin hits by decile (10%)
+  group_by(hits_decile,mental_state) %>% # Calculate average winning by mental state and accuracy
+  mutate(prob_win = mean(won)) %>% # use mutate() instead of summarise() to avoid collapsing the data
+  mutate(pred_win = ifelse(prob_win > .5,1,0)) %>% # If the probability is greater than 50-50, predict a win
+  ungroup()
+```
+
+---
+
+# Simplest Predictions
+
+- Conditional means
+
+```{r}
+fn %>%
+  group_by(won,pred_win) %>%
+  summarise(nGames=n(),.groups = 'drop')
+```
+
+--
+
+- How good is this? Think about the underlying goal...we want a model that accurately predicts whether a game is won or not
+
+- The `won` column is the **truth**...it tells us whether the game was won or not
+
+- The `pred_win` column is our **prediction**
+
+---
+
+# Accuracy
+
+- What is "accuracy"?
+
+--
+
+  - Proportion "correct" predictions
+  
+--
+
+- For a binary outcome, "accuracy" has two dimensions
+
+--
+
+  - Proportion of correct `1`s: **Sensitivity**
+  
+  - Proportion of correct `0`s: **Specificity**
+  
+---
+
+# Accuracy
+
+```{r}
+(sumTab <- fn %>%
+  group_by(won) %>%
+  mutate(total_games = n()) %>%
+  group_by(won,pred_win,total_games) %>%
+  summarise(nGames=n(),.groups = 'drop') %>%
+  mutate(prop = nGames / total_games))
+```
+
+--
+
+- Overall accuracy: (`r (sumTab %>% filter(won == 0 & pred_win == 0) %>% pull(nGames))`+`r (sumTab %>% filter(won == 1 & pred_win == 1) %>% pull(nGames))`) / (`r (sumTab %>% filter(won == 0 & pred_win == 0) %>% pull(total_games))`+`r (sumTab %>% filter(won == 1 & pred_win == 1) %>% pull(total_games))`) = `r percent(((sumTab %>% filter(won == 0 & pred_win == 0) %>% pull(nGames)) + (sumTab %>% filter(won == 1 & pred_win == 1) %>% pull(nGames))) / ((sumTab %>% filter(won == 0 & pred_win == 0) %>% pull(total_games)) + (sumTab %>% filter(won == 1 & pred_win == 1) %>% pull(total_games))))`
+
+- But we are doing **great** at predicting losses (`r percent(sumTab %>% filter(won == 0 & pred_win == 0) %>% pull(prop))`)...
+
+- ...and **terribly** at predicting wins (`r percent(sumTab %>% filter(won == 1 & pred_win == 1) %>% pull(prop))`)
+
+
+---
+
+# Conclusion
+
+- `Classification` is just a type of prediction
+
+- `Accuracy` measures the proportion of "correct" predictions
+
+
+  
+
