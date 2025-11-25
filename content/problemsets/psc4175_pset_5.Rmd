@@ -315,3 +315,13 @@ toplot <- data.frame(vimp = ..., # Get variable importance values from model_rf
 ```
 
 > Write response her
+
+## Question 9 [+1 point extra credit]
+
+For extra credit, we will use k-means clustering to see whether Fortnite players fall into different “play style” groups. Start by creating a new dataset with these variables: `accuracy`, `head_shots`, `eliminations`, `distance_traveled`, `materials_gathered`, and `won.` Remove any rows with missing values. Next, standardize the five play-style variables (everything except won) so they each have mean 0 and standard deviation 1. Then run a k-means model with 3 clusters using the standardized play-style variables. Add the cluster assignments back to your dataset using the `augment()` function from the `broom` package. Make at least one scatterplot showing the clusters (for example, plot accuracy vs. eliminations, with points colored by cluster). Finally, calculate the mean win rate and the number of players in each cluster. Write a few sentences describing what the clusters seem to represent (e.g., aggressive players, defensive players, etc.) and which group is most likely to win.
+
+```{r}
+# INSERT CODE HERE
+```
+
+> Write your answer here.
